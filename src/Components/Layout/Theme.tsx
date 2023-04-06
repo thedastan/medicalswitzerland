@@ -10,6 +10,7 @@ export const theme = extendTheme({
     middleGray: "#C7C4C4",
     red: "#E11F26",
     secondaryLittleGray: "#141414",
+    thirdlittleGray: "#171717",
   },
   fonts: {
     inter: "Inter, sans-serif",

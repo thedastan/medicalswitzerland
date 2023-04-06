@@ -8,9 +8,11 @@ import {} from "react-router";
 // Local dependencies
 import { theme } from "./Components/Layout/Theme";
 import { setUpStore } from "./Redux/Store/Store";
+import { BrowserRouter } from "react-router-dom";
+
+/* Local dependencies */
 import App from "./App";
 import "./index.scss";
-import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
