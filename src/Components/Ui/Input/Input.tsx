@@ -7,18 +7,18 @@ type InputTypeTextTransform = "uppercase" | "lowercase" | "capitalize";
 
 interface IInputProps {
   color?: string;
-  fontSize?: string;
   display?: string;
+  disabled?: boolean;
   rounded?: string;
-  onChange: (value?: string) => void;
+  onChange: (value?: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   width?: string;
   weight?: string;
   height?: string;
-  paddingY?: string;
-  paddingX?: string;
   fontFamily?: string;
   placeholder?: string;
+  name?: string;
+  marginBottom?: string;
 }
 
 interface CustomInputProps extends IInputProps {
@@ -30,12 +30,10 @@ export default function MyInput(props: CustomInputProps) {
   const {
     color,
     display,
+    disabled,
     fontFamily,
-    fontSize,
     height,
     onChange,
-    paddingX,
-    paddingY,
     placeholder,
     rounded,
     textTransform,
@@ -43,25 +41,33 @@ export default function MyInput(props: CustomInputProps) {
     typeColor,
     weight,
     width,
+    name,
+    marginBottom,
   } = props;
 
   return (
     <Input
+      type="text"
       maxW={width ? width : "313px"}
-      h={height}
-      py={paddingY}
-      px={paddingX}
+      h={height ? height : "19px"}
+      px="0px"
       textTransform={textTransform}
       value={value}
-      bg={typeColor}
+      bg={typeColor ? typeColor : "black"}
       fontWeight={weight}
-      fontSize={fontSize}
+      fontSize="14px"
       rounded={rounded}
-      onChange={(e) => onChange(e.target.value)}
-      textColor={color}
+      onChange={(e) => onChange(e)}
+      textColor={color ? color : "white"}
       display={display}
       fontFamily={fontFamily}
       placeholder={placeholder}
+      name={name}
+      mb={marginBottom}
+      borderColor="transparent"
+      focusBorderColor="black"
+      py="10px"
+      disabled={disabled}
     />
   );
 }

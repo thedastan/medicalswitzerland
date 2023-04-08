@@ -140,8 +140,8 @@ export default function Interface({ children }: IInterfaceProps) {
             </Box>
           )}
         </Box>
-        <Box>{children}</Box>
       </Box>
+      <Box pb="70px">{children}</Box>
       <Box
         position="absolute"
         bg="black"

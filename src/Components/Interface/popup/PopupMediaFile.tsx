@@ -27,7 +27,6 @@ export default function PopupMediaFile({
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [accept, setAccept] = useState<string>();
   const [openPopup, setOpenPopup] = useState(false);
-  const [value, setValue] = useState<string>();
 
   const listProfile = [
     {

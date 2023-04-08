@@ -1,7 +1,7 @@
 // External dependencies
 import { Button } from "@chakra-ui/react";
 
-type ButtonTypeColor = "darkGrey" | "littleBlack";
+type ButtonTypeColor = "darkGrey" | "littleBlack" | "lightGray";
 
 type ButtonTypeTextTransform = "uppercase" | "lowercase" | "capitalize";
 
@@ -19,6 +19,10 @@ interface IButtonProps {
   paddingY?: string;
   paddingX?: string;
   fontFamily?: string;
+  marginLeft?: string;
+  marginRight?: string;
+  marginBottom?: string;
+  marginTop?: string;
 }
 
 interface CustomButtonProps extends IButtonProps {
@@ -43,6 +47,10 @@ export default function MyButton(props: CustomButtonProps) {
     weight,
     fontSize,
     fontFamily,
+    marginLeft,
+    marginRight,
+    marginBottom,
+    marginTop,
   } = props;
 
   return (
@@ -62,6 +70,10 @@ export default function MyButton(props: CustomButtonProps) {
       fontWeight={weight ? weight : "700"}
       fontFamily={fontFamily ? fontFamily : "Inter"}
       colorScheme="none"
+      ml={marginLeft}
+      mr={marginRight}
+      mb={marginBottom}
+      mt={marginTop}
     >
       {children ? children : title}
     </Button>
