@@ -119,7 +119,12 @@ export default function Notfall() {
           {dots}
         </Box>
         {listImage.map((el) => (
-          <Card el={el} deleteImg={deleteImg} handleId={deletedImage} />
+          <Card
+            key={el.id}
+            el={el}
+            deleteImg={deleteImg}
+            handleId={deletedImage}
+          />
         ))}
 
         {!disabled && (

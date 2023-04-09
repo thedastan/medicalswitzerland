@@ -5,6 +5,7 @@ import { useState } from "react";
 /* Local dependencies */
 import SvgAkte from "../../../assets/svg/SvgAkte";
 import SvgPhone from "../../../assets/svg/SvgPhone";
+import Registration from "../../Registration/Registration";
 
 enum TabTypes {
   NOTFALL = "NOTFALL",
@@ -24,7 +25,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
 
   return (
     <Box>
-      <Box maxW="900px" display="flex" mb="24px">
+      <Box maxW="900px" mx="auto" display="flex" mb="24px">
         <Button
           bg="littleBlack"
           w="50%"
@@ -62,9 +63,10 @@ export default function Tabs({ akte, notfall }: ITabs) {
           </Text>
         </Button>
       </Box>
-      <Box maxW="900px" px="16px">
+      <Box maxW="900px" mx="auto" px="16px">
         {isNotfall ? notfall : akte}
       </Box>
+      {/* <Registration /> */}
     </Box>
   );
 }

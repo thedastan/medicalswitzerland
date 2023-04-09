@@ -143,7 +143,7 @@ export default function Interface({ children }: IInterfaceProps) {
       </Box>
       <Box pb="70px">{children}</Box>
       <Box
-        position="absolute"
+        position="fixed"
         bg="black"
         display="flex"
         justifyContent="space-between"

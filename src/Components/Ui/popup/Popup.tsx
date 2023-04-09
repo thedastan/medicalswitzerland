@@ -1,12 +1,12 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* Local dependencies */
-import "./style.scss";
 import SvgClose from "../../../assets/svg/SvgClose";
-import { useState } from "react";
+import "./style.scss";
 
 interface IPopupProps {
   endpoind?: string;
@@ -22,8 +22,6 @@ export default function Popup({
   value,
 }: IPopupProps) {
   const [success, setSuccess] = useState(false);
-
-  console.log(success);
 
   return (
     <AnimatePresence>
