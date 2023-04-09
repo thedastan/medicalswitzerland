@@ -1,0 +1,11 @@
+.custom-dots-class li button:before {
+    width: 7px;
+    height: 7px;
+    background: #CDCDCD;
+}
+
+.custom-dots-class li.slick-active button:before {
+    width: 7px;
+    height: 7px;
+    background: #1099E5;
+}
