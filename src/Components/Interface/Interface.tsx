@@ -67,19 +67,21 @@ export default function Interface({ children }: IInterfaceProps) {
     },
     {
       content: (
-        <Box
-          display="flex"
-          flexDir="column"
-          justifyContent="center"
-          alignItems="center"
-          pb="8px"
-          pt="14px"
-        >
-          <SvgMore />
-          <Text color="white" pt="6px">
-            More
-          </Text>
-        </Box>
+        <a href="https://www.medicalswitzerland.ch/" target="_blank">
+          <Box
+            display="flex"
+            flexDir="column"
+            justifyContent="center"
+            alignItems="center"
+            pb="8px"
+            pt="14px"
+          >
+            <SvgMore />
+            <Text color="white" pt="6px">
+              More
+            </Text>
+          </Box>
+        </a>
       ),
     },
   ];

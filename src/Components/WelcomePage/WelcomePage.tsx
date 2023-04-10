@@ -12,14 +12,14 @@ export default function WelcomePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 2000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDisplay("none");
-    }, 2100);
+    }, 3100);
     return () => clearTimeout(timer);
   });
 
@@ -35,7 +35,13 @@ export default function WelcomePage() {
       display={display}
       className={`welcome-container ${isVisible ? "visible" : ""}`}
     >
-      <Box minH="100%" display="flex" flexDir="column" justifyContent="center">
+      <Box
+        className="welcome-message"
+        minH="100%"
+        display="flex"
+        flexDir="column"
+        justifyContent="center"
+      >
         <Text color="#C7C4C4" textAlign="center" fontSize="22px" mb="24px">
           medical
           <span style={{ color: "#E11F26" }}>switzerland</span>
