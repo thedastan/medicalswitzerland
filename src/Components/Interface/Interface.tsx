@@ -13,10 +13,14 @@ import PopupMediaFile from "./popup/PopupMediaFile";
 import Registration from "../Registration/Registration";
 import SvgDefaultAvatar from "../../assets/svg/SvgDefaultAvatar";
 import PopupFiles from "./popup/PopupFiles";
-import API from "../../Api";
+import API, { API_ADDRESS } from "../../Api";
 
 import { useAppSelector } from "../../Hooks/Hooks";
-import { useActionsUser } from "../../Hooks/useActions";
+import {
+  useActionsAuth,
+  useActionsForModal,
+  useActionsUser,
+} from "../../Hooks/useActions";
 import { dataURLtoFile, getAccessToken, onChangeImage } from "../Helpers";
 import SvgAdded from "../../assets/svg/SvgAdded";
 
@@ -26,37 +30,37 @@ interface IInterfaceProps {
 
 export default function Interface({ children }: IInterfaceProps) {
   const { ActionGetUser, ActionPutUser } = useActionsUser();
+  const { ActionActiveSubtrac, ActionActiveProfile, ActionActiveModalMedia } =
+    useActionsForModal();
+  const { ActiveModalRegistration } = useActionsAuth();
   const { bearbeiten, user } = useAppSelector((state) => state.userReducer);
+  const { modal } = useAppSelector((state) => state.authReducer);
 
   const { id } = useParams<string>();
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
-  const [modal, setModal] = useState(false);
   const [popup, setPopup] = useState(false);
-  const [activeAuth, setActiveAuth] = useState(false);
-  const [profile, setProfile] = useState(false);
-  const [subtract, setSubtract] = useState(false);
   const [imageFile, setImageFile] = useState("");
   const [cropData, setCropData] = useState("");
 
   const handleActiveAuth = () => {
     if (user.is_first_time && !getAccessToken()) {
-      setActiveAuth(true);
+      ActiveModalRegistration(true);
     } else {
-      setActiveAuth(false);
+      ActiveModalRegistration(false);
       setPopup(true);
-      setModal(false);
-      setSubtract(true);
-      setProfile(false);
+      ActionActiveModalMedia(false);
+      ActionActiveSubtrac(true);
+      ActionActiveProfile(false);
     }
   };
 
   const handleActiveAuthAvatart = () => {
     if (user.is_first_time && !getAccessToken()) {
-      setActiveAuth(true);
+      ActiveModalRegistration(true);
     } else {
-      setActiveAuth(false);
+      ActiveModalRegistration(false);
       ref.current?.click();
     }
   };
@@ -77,12 +81,11 @@ export default function Interface({ children }: IInterfaceProps) {
 
     await API.post("users/upload/", formData)
       .then(({ data }) => {
-        alert("Success");
         if (data) {
           ActionPutUser({
             allergies: user.allergies,
             allergies_text: user.allergies_text,
-            avatar: data?.path || user.avatar,
+            avatar: data?.path.slice(6) || user.avatar,
             birth_date: user.birth_date,
             card_id: user.card_id,
             contact: user.contact || "",
@@ -97,7 +100,6 @@ export default function Interface({ children }: IInterfaceProps) {
             full_name: user.full_name,
             why_diagnose: user.why_diagnose,
           });
-          alert("AVATAR 1");
         }
       })
       .catch((e) => {
@@ -124,9 +126,9 @@ export default function Interface({ children }: IInterfaceProps) {
           pb="8px"
           pt="14px"
           onClick={() => {
-            setModal(true);
-            setProfile(true);
-            setSubtract(false);
+            ActionActiveModalMedia(true);
+            ActionActiveProfile(true);
+            ActionActiveSubtrac(false);
           }}
         >
           <SvgProfile />
@@ -181,6 +183,13 @@ export default function Interface({ children }: IInterfaceProps) {
 
   return (
     <Box minH="100vh" w="100%" position="relative">
+      <input
+        style={{ display: "none" }}
+        ref={ref}
+        type="file"
+        accept="image/png,image/jpeg"
+        onChange={(e) => onChangeImage(e, setImageFile)}
+      />
       <Box pt="40px" px="16px">
         <Box mx="auto" maxW="361px" minH="274px" bg="white" pt="90px">
           {user?.avatar ? (
@@ -196,12 +205,13 @@ export default function Interface({ children }: IInterfaceProps) {
               </Text>
               <Box pos="relative" w="95px" h="95px" mx="auto">
                 <Image
-                  src={user.avatar}
+                  src={`${API_ADDRESS?.substring(0, 34)}${user.avatar.slice(
+                    1
+                  )}`}
                   alt="avatar"
                   w="95px"
                   h="95px"
                   mx="auto"
-                  bg="blue.400"
                   rounded="50%"
                 />
                 {!bearbeiten && (
@@ -209,6 +219,7 @@ export default function Interface({ children }: IInterfaceProps) {
                     pos="absolute"
                     top="8px"
                     right="-11px"
+                    cursor="pointer"
                     onClick={handleActiveAuthAvatart}
                   >
                     <SvgAdded />
@@ -245,13 +256,6 @@ export default function Interface({ children }: IInterfaceProps) {
                 >
                   Edit profile image
                 </Button>
-                <input
-                  style={{ display: "none" }}
-                  ref={ref}
-                  type="file"
-                  accept="image/png,image/jpeg"
-                  onChange={(e) => onChangeImage(e, setImageFile)}
-                />
               </Box>
             </Box>
           )}
@@ -276,20 +280,9 @@ export default function Interface({ children }: IInterfaceProps) {
           <div key={index}>{el.content}</div>
         ))}
       </Box>
-      {popup && (
-        <PopupFiles
-          modal={popup}
-          setModal={setPopup}
-          setModalSecondary={setModal}
-        />
-      )}
-      <PopupMediaFile
-        modal={modal}
-        setModal={setModal}
-        profile={profile}
-        subtract={subtract}
-      />
-      {activeAuth && <Registration setModal={setActiveAuth} />}
+      {popup && <PopupFiles modal={popup} setModal={setPopup} />}
+      <PopupMediaFile />
+      {modal && <Registration />}
       {imageFile && (
         <Box pos="fixed" top="0" left="0" right="0" bottom="0" bg="black">
           {imageFile && (

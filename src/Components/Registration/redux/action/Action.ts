@@ -36,6 +36,8 @@ export const LoginPost = (id: any, data: any) => {
         data
       );
 
+      ActiveModalRegistration(false);
+
       dispatch({ type: AuthTypes.LOGIN_USER, payload: true });
       dispatch({ type: AuthTypes.LOGIN_USER_LOADING, payload: false });
     } catch (e) {
@@ -43,4 +45,8 @@ export const LoginPost = (id: any, data: any) => {
       dispatch({ type: AuthTypes.LOGIN_USER_ERROR, payload: e });
     }
   };
+};
+
+export const ActiveModalRegistration = (payload: boolean): ActionTypesAuth => {
+  return { type: AuthTypes.REGISTRATION_MODAL, payload };
 };

@@ -27,18 +27,14 @@ interface Inputs {
   password?: string;
 }
 
-interface IAuthProps {
-  setModal: (value: boolean) => void;
-}
-
-export default function Registration({ setModal }: IAuthProps) {
+export default function Registration() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const { AuthPost, LoginPost } = useActionsAuth();
+  const { AuthPost, LoginPost, ActiveModalRegistration } = useActionsAuth();
   const { loading, loginLoder } = useAppSelector((state) => state.authReducer);
   const { user } = useAppSelector((state) => state.userReducer);
 
@@ -88,22 +84,18 @@ export default function Registration({ setModal }: IAuthProps) {
   const userId = user?.card_id;
 
   const handleAuthPost = () => {
-    // AuthPost({
-    //   email: dataPost.email,
-    //   password: dataPost.password,
-    // });
     axios
       .post(`${API_ADDRESS}users/auth/`, {
         email: dataPost.email,
         password: dataPost.password,
       })
       .then((response) => {
-        alert("Success");
         localStorage.setItem("accessToken", response.data.access);
         localStorage.setItem("refreshToken", response.data.refresh);
+        ActiveModalRegistration(false);
       })
-      .catch(() => {
-        alert("Error");
+      .catch((e) => {
+        alert("Ошибка!!! Проверте имя или пароль");
       });
   };
 
@@ -150,7 +142,7 @@ export default function Registration({ setModal }: IAuthProps) {
         }}
         className={`modal-backdrop`}
         key={1}
-        onClick={() => setModal(false)}
+        onClick={() => ActiveModalRegistration(false)}
       />
       <motion.div
         initial={{ scale: 0 }}
@@ -162,7 +154,7 @@ export default function Registration({ setModal }: IAuthProps) {
         }}
         className="modal--content"
         key={2}
-        onClick={() => setModal(false)}
+        onClick={() => ActiveModalRegistration(false)}
       >
         <motion.div
           initial={{ x: 100, opacity: 0 }}
@@ -186,7 +178,7 @@ export default function Registration({ setModal }: IAuthProps) {
               pr="25px"
               pt="4px"
               cursor="pointer"
-              onClick={() => setModal(false)}
+              onClick={() => ActiveModalRegistration(false)}
             >
               <SvgClose />
             </Box>

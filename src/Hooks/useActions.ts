@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import ActionsAuth from "../Components/Registration/redux/action/Index";
 import ActionsUser from "../Components/Interface/redux/action/Index";
 import ActionsFile from "../Components/Interface/redux-image/action/Index";
+import ActionsModal from "../Components/Interface/popup/redux-for-modal/action/Index";
 
 export const useActionsUser = () => {
   const dispatch = useDispatch();
@@ -20,4 +21,9 @@ export const useActionsAuth = () => {
 export const useActionsFile = () => {
   const dispatch = useDispatch();
   return bindActionCreators(ActionsFile, dispatch);
+};
+
+export const useActionsForModal = () => {
+  const dispatch = useDispatch();
+  return bindActionCreators(ActionsModal, dispatch);
 };

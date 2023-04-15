@@ -6,6 +6,8 @@ export enum AuthTypes {
   LOGIN_USER = "LOGIN_USER",
   LOGIN_USER_ERROR = "LOGIN_USER_ERROR",
   LOGIN_USER_LOADING = "LOGIN_USER_LOADING",
+
+  REGISTRATION_MODAL = "REGISTRATION_MODAL",
 }
 
 export interface IAuthState {
@@ -15,6 +17,8 @@ export interface IAuthState {
 
   loginLoder: boolean;
   loginError: string | unknown;
+
+  modal: boolean;
 }
 
 export interface IAuthPostData {
@@ -51,10 +55,16 @@ interface IActionLoginLoading {
   payload: boolean;
 }
 
+interface IActionActiveRegistratiomModal {
+  type: AuthTypes.REGISTRATION_MODAL;
+  payload: boolean;
+}
+
 export type ActionTypesAuth =
   | IActionAuthError
   | IActionAuthLoading
   | IActionAuthSucces
   | IActionLoginError
   | IActionLoginLoading
-  | IActionLoginSuccess;
+  | IActionLoginSuccess
+  | IActionActiveRegistratiomModal;
