@@ -3,6 +3,7 @@ import { extendTheme } from "@chakra-ui/react";
 
 export const theme = extendTheme({
   colors: {
+    colorForActiveInput: "#323232",
     darkGrey: "#131518",
     gray: "#595959",
     littleBlack: "#070707",

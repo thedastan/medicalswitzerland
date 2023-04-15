@@ -1,7 +1,7 @@
 // External dependencies
 import { Button } from "@chakra-ui/react";
 
-type ButtonTypeColor = "darkGrey" | "littleBlack" | "lightGray";
+type ButtonTypeColor = "darkGrey" | "littleBlack" | "lightGray" | "white";
 
 type ButtonTypeTextTransform = "uppercase" | "lowercase" | "capitalize";
 

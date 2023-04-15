@@ -1,0 +1,129 @@
+/* External dependencies */
+import { Dispatch } from "redux";
+import axios from "axios";
+
+/* Local dependencies */
+import API, { API_ADDRESS } from "../../../../Api";
+import {
+  ActionsGroup,
+  IGroupsTypes,
+  IInfoList,
+  InterfaceImageTypes,
+} from "../types/Types";
+
+interface IPropsActionAll {
+  title: string;
+  isAkte: boolean;
+}
+
+export const ActionAllGroups = () => {
+  return async (dispatch: Dispatch<ActionsGroup>) => {
+    try {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
+      const response = await API.get(`groups/`);
+      const data = response.data;
+
+      dispatch({ type: InterfaceImageTypes.USER_ALL_FILES, payload: data });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    } catch (e) {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+    }
+  };
+};
+
+export const ActionAllGroupsForCardId = (id?: string) => {
+  return async (dispatch: Dispatch<ActionsGroup>) => {
+    try {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
+      const response = await axios.get(`${API_ADDRESS}groups/?card_id=${id}`);
+      const data = response.data;
+
+      dispatch({ type: InterfaceImageTypes.USER_ALL_FILES, payload: data });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    } catch (e) {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+    }
+  };
+};
+
+export const ActionGroupsInfo = (id?: string) => {
+  return async (dispatch: Dispatch<ActionsGroup>) => {
+    try {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
+      const response = await axios.get(`${API_ADDRESS}/groups/${id}/info`);
+      const data = response.data;
+
+      dispatch({ type: InterfaceImageTypes.USER_FILES_INFO, payload: data });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    } catch (e) {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    }
+  };
+};
+
+export const ActionGroups = (id?: string) => {
+  return async (dispatch: Dispatch<ActionsGroup>) => {
+    try {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
+      const response = await axios.get(`${API_ADDRESS}/groups/${id}`);
+      const data = response.data;
+
+      dispatch({ type: InterfaceImageTypes.USER_FILES, payload: data });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    } catch (e) {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    }
+  };
+};
+
+export const ActionGroup = (id?: string, idInfo?: string) => {
+  return async (dispatch: Dispatch<ActionsGroup>) => {
+    try {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
+      const response = await axios.get(
+        `${API_ADDRESS}/groups/${id}/info/${idInfo}`
+      );
+      const data = response.data;
+
+      dispatch({ type: InterfaceImageTypes.USER_FILE, payload: data });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    } catch (e) {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    }
+  };
+};
+
+export const ActionAllGroupsPut = (id: string, dataPost: IGroupsTypes) => {
+  return async (dispatch: Dispatch<ActionsGroup>) => {
+    try {
+      const response = await API.put(`groups/${id}`, dataPost);
+      const data = response.data;
+
+      dispatch({ type: InterfaceImageTypes.USER_FILE, payload: data });
+    } catch (e) {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+    }
+  };
+};
+
+export const ActionGroupPut = (
+  id: string,
+  idInfo: string,
+  dataPost: IInfoList
+) => {
+  return async (dispatch: Dispatch<ActionsGroup>) => {
+    try {
+      const response = await API.put(`groups/${id}/info/${idInfo}`, dataPost);
+      const data = response.data;
+
+      dispatch({ type: InterfaceImageTypes.USER_FILE, payload: data });
+    } catch (e) {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+    }
+  };
+};

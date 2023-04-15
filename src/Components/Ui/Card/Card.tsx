@@ -1,25 +1,28 @@
 // External dependencies
 import { Box, Image, Text } from "@chakra-ui/react";
+
 import SvgRedBasket from "../../../assets/svg/SvgRedBasket";
+import Exemple from "../../../assets/Image/Exemple.png";
+import { IGroupsTypes } from "../../Interface/redux-image/types/Types";
 
 interface IElement {
-  id: number;
-  image?: string;
-  file?: File;
-  title: string;
+  id?: string;
+  file_url?: string;
+  text: string;
 }
 
 interface ICardProps {
   el: IElement;
   deleteImg: boolean;
-  handleId: (id: number) => void;
+  handleId: (value: IGroupsTypes, id?: string) => void;
+  object: IGroupsTypes;
 }
 
-export default function Card({ el, deleteImg, handleId }: ICardProps) {
+export default function Card({ el, deleteImg, handleId, object }: ICardProps) {
   return (
     <Box maxW="372px" h="auto" mb="53px" mx="auto">
       <Box position="relative">
-        <Image src={el.image} alt="exemple" w="100%" h="auto" mb="13px" />
+        <Image src={Exemple} alt="exemple" w="100%" h="auto" mb="13px" />
         {deleteImg && (
           <Box
             w="20px"
@@ -29,14 +32,14 @@ export default function Card({ el, deleteImg, handleId }: ICardProps) {
             right="11px"
             display="flex"
             justifyContent="end"
-            onClick={() => handleId(el.id)}
+            onClick={() => handleId(object, el.id)}
           >
             <SvgRedBasket />
           </Box>
         )}
       </Box>
       <Text fontSize="12px" fontWeight="200" fontFamily="inter" color="white">
-        {el.title}
+        {el.text}
       </Text>
     </Box>
   );

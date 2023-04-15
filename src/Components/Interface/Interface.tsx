@@ -1,24 +1,117 @@
 /* External dependencies */
 import { Box, Button, Image, Text } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router";
+import { Cropper, ReactCropperElement } from "react-cropper";
+import "cropperjs/dist/cropper.css";
 
 /* Local dependencies */
-import Avatar from "../../assets/Image/Avatar.png";
 import SvgProfile from "../../assets/svg/SvgProfile";
 import SvgSubtract from "../../assets/svg/SvgSubtract";
 import SvgMore from "../../assets/svg/SvgMore";
 import PopupMediaFile from "./popup/PopupMediaFile";
+import Registration from "../Registration/Registration";
 import SvgDefaultAvatar from "../../assets/svg/SvgDefaultAvatar";
+import PopupFiles from "./popup/PopupFiles";
+import API from "../../Api";
+
+import { useAppSelector } from "../../Hooks/Hooks";
+import { useActionsUser } from "../../Hooks/useActions";
+import { dataURLtoFile, getAccessToken, onChangeImage } from "../Helpers";
+import SvgAdded from "../../assets/svg/SvgAdded";
 
 interface IInterfaceProps {
   children: JSX.Element;
 }
 
 export default function Interface({ children }: IInterfaceProps) {
+  const { ActionGetUser, ActionPutUser } = useActionsUser();
+  const { bearbeiten, user } = useAppSelector((state) => state.userReducer);
+
+  const { id } = useParams<string>();
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const cropperRef = createRef<ReactCropperElement>();
+
   const [modal, setModal] = useState(false);
+  const [popup, setPopup] = useState(false);
+  const [activeAuth, setActiveAuth] = useState(false);
   const [profile, setProfile] = useState(false);
   const [subtract, setSubtract] = useState(false);
+  const [imageFile, setImageFile] = useState("");
+  const [cropData, setCropData] = useState("");
+
+  const handleActiveAuth = () => {
+    if (user.is_first_time && !getAccessToken()) {
+      setActiveAuth(true);
+    } else {
+      setActiveAuth(false);
+      setPopup(true);
+      setModal(false);
+      setSubtract(true);
+      setProfile(false);
+    }
+  };
+
+  const handleActiveAuthAvatart = () => {
+    if (user.is_first_time && !getAccessToken()) {
+      setActiveAuth(true);
+    } else {
+      setActiveAuth(false);
+      ref.current?.click();
+    }
+  };
+
+  const getCropData = async () => {
+    if (typeof cropperRef.current?.cropper !== "undefined") {
+      setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+    }
+  };
+
+  const handlePostFiles = async () => {
+    const image =
+      cropData &&
+      dataURLtoFile(cropData, `${Math.floor(Math.random() * 100000)}.png`);
+
+    const formData = new FormData();
+    formData.append("file", image);
+
+    await API.post("users/upload/", formData)
+      .then(({ data }) => {
+        alert("Success");
+        if (data) {
+          ActionPutUser({
+            allergies: user.allergies,
+            allergies_text: user.allergies_text,
+            avatar: data?.path || user.avatar,
+            birth_date: user.birth_date,
+            card_id: user.card_id,
+            contact: user.contact || "",
+            email: user.email,
+            emergency_contact: user.emergency_contact || "",
+            location: user.location || "",
+            medications: user.medications,
+            operation: user.operation,
+            particularities: user.particularities,
+            profession: user.profession,
+            username: user.username,
+            full_name: user.full_name,
+            why_diagnose: user.why_diagnose,
+          });
+          alert("AVATAR 1");
+        }
+      })
+      .catch((e) => {
+        alert("Error");
+      });
+  };
+
+  const distributionFunction = async () => {
+    if (!cropData) {
+      await getCropData();
+    } else {
+      handlePostFiles();
+    }
+  };
 
   const listNavigation = [
     {
@@ -52,11 +145,7 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           pb="8px"
           pt="14px"
-          onClick={() => {
-            setModal(true);
-            setSubtract(true);
-            setProfile(false);
-          }}
+          onClick={handleActiveAuth}
         >
           <SvgSubtract />
           <Text color="white" pt="6px">
@@ -86,11 +175,15 @@ export default function Interface({ children }: IInterfaceProps) {
     },
   ];
 
+  useEffect(() => {
+    ActionGetUser(id);
+  }, []);
+
   return (
     <Box minH="100vh" w="100%" position="relative">
       <Box pt="40px" px="16px">
-        <Box mx="auto" maxW="361px" minH="274px" bg="white" pt="80px">
-          {Avatar ? (
+        <Box mx="auto" maxW="361px" minH="274px" bg="white" pt="90px">
+          {user?.avatar ? (
             <>
               <Text
                 color="#C7C4C4"
@@ -101,7 +194,27 @@ export default function Interface({ children }: IInterfaceProps) {
                 medical
                 <span style={{ color: "#E11F26" }}>switzerland</span>
               </Text>
-              <Image src={Avatar} w="95px" h="95px" mx="auto" />
+              <Box pos="relative" w="95px" h="95px" mx="auto">
+                <Image
+                  src={user.avatar}
+                  alt="avatar"
+                  w="95px"
+                  h="95px"
+                  mx="auto"
+                  bg="blue.400"
+                  rounded="50%"
+                />
+                {!bearbeiten && (
+                  <Box
+                    pos="absolute"
+                    top="8px"
+                    right="-11px"
+                    onClick={handleActiveAuthAvatart}
+                  >
+                    <SvgAdded />
+                  </Box>
+                )}
+              </Box>
             </>
           ) : (
             <Box>
@@ -128,7 +241,7 @@ export default function Interface({ children }: IInterfaceProps) {
                   color="white"
                   fontWeight="200"
                   position="static"
-                  onClick={() => ref.current?.click()}
+                  onClick={handleActiveAuthAvatart}
                 >
                   Edit profile image
                 </Button>
@@ -137,6 +250,7 @@ export default function Interface({ children }: IInterfaceProps) {
                   ref={ref}
                   type="file"
                   accept="image/png,image/jpeg"
+                  onChange={(e) => onChangeImage(e, setImageFile)}
                 />
               </Box>
             </Box>
@@ -162,12 +276,81 @@ export default function Interface({ children }: IInterfaceProps) {
           <div key={index}>{el.content}</div>
         ))}
       </Box>
+      {popup && (
+        <PopupFiles
+          modal={popup}
+          setModal={setPopup}
+          setModalSecondary={setModal}
+        />
+      )}
       <PopupMediaFile
         modal={modal}
         setModal={setModal}
         profile={profile}
         subtract={subtract}
       />
+      {activeAuth && <Registration setModal={setActiveAuth} />}
+      {imageFile && (
+        <Box pos="fixed" top="0" left="0" right="0" bottom="0" bg="black">
+          {imageFile && (
+            <Box
+              display="flex"
+              minH="100vh"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Box>
+                {cropData ? (
+                  <Image src={cropData} />
+                ) : (
+                  <Cropper
+                    ref={cropperRef}
+                    src={imageFile}
+                    minCropBoxHeight={10}
+                    minCropBoxWidth={10}
+                    responsive={true}
+                  />
+                )}
+
+                <Box
+                  display="flex"
+                  w="100%"
+                  justifyContent="space-evenly"
+                  mt="50px"
+                >
+                  <Button
+                    textColor="white"
+                    bg="#ff3a22"
+                    fontSize="10px"
+                    fontWeight="500"
+                    w="80px"
+                    h="30px"
+                    textTransform="uppercase"
+                    onClick={() => {
+                      setImageFile("");
+                      setCropData("");
+                    }}
+                  >
+                    Cencel
+                  </Button>
+                  <Button
+                    textColor="white"
+                    bg="whatsapp.500"
+                    fontSize="10px"
+                    fontWeight="500"
+                    w="80px"
+                    h="30px"
+                    textTransform="uppercase"
+                    onClick={distributionFunction}
+                  >
+                    {!cropData ? "Crop Avatart" : "Save Avatar"}
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          )}
+        </Box>
+      )}
     </Box>
   );
 }
