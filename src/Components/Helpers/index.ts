@@ -28,3 +28,7 @@ export function dataURLtoFile(dataurl: any, filename: string) {
 
   return new File([u8arr], filename, { type: mime });
 }
+
+export const getAccessToken = () => {
+  return localStorage.getItem("accessToken" as any);
+};

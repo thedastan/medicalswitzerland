@@ -1,21 +1,35 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/layout";
 import { Textarea } from "@chakra-ui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useParams } from "react-router";
+import Slider from "react-slick";
 
 /* Local dependencies */
 import Card from "../../Components/Ui/Card/Card";
 import Exemple from "../../assets/Image/Exemple.png";
 import MyButton from "../../Components/Ui/Button/Button";
-import Slider from "react-slick";
+import API from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
 
+import { useActionsFile, useActionsUser } from "../../Hooks/useActions";
+import { useAppSelector } from "../../Hooks/Hooks";
+import { IInterfaceUser } from "../../Components/Interface/redux/types/Types";
+import { IGroupsTypes } from "../../Components/Interface/redux-image/types/Types";
+
 export default function Akte() {
-  const [disabled, setDisabled] = useState(true);
+  const { ActionGetUser, ActionPutUser, ActionBearbeiten } = useActionsUser();
+  const { ActionAllGroups } = useActionsFile();
+  const { allGroups } = useAppSelector((state) => state.filesReducer);
+  const { bearbeiten, loading, user } = useAppSelector(
+    (state) => state.userReducer
+  );
+
+  const { id } = useParams<string>();
   const [deleteImg, setDeleteImg] = useState(false);
-  const [dataPost, setDataPost] = useState({});
+  const [dataPost, setDataPost] = useState<IInterfaceUser>({});
 
   const settings = {
     dots: true,
@@ -31,46 +45,80 @@ export default function Akte() {
     {
       item: "OPERATIONEN",
       name: "operationen",
-      value: "",
+      value: user.operation,
     },
     {
       item: "ALLERGIE",
-      name: "allergie",
-      value: "",
+      name: "allergies",
+      value: user.allergies,
     },
     {
       item: "MEDIKAMENTE",
       name: "medikamente",
-      value: "",
+      value: user.medications,
     },
     {
       item: "NEDENDIAGNOSEN",
       name: "nedendiagnose",
-      value: "",
+      value: user.why_diagnose,
     },
     {
       item: "BERUF",
       name: "beruf",
-      value: "",
+      value: user.profession,
     },
     {
       item: "LOCATION",
       name: "location",
-      value: "",
+      value: user.contact,
     },
-  ];
-
-  const listImage = [
-    { id: 1, title: "Text about  picture 1", image: Exemple },
-    { id: 2, title: "Text about  picture 2", image: Exemple },
   ];
 
   const inputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
 
-  function deletedImage(id: number) {
-    console.log(id);
+  function deletedImage(data?: IGroupsTypes, idInfo?: string) {
+    API.delete(`groups/${data?.id}/info/${idInfo}/`)
+      .then(() => {
+        alert("Success");
+        ActionAllGroups();
+      })
+      .catch(() => {
+        alert("Error");
+      });
+  }
+
+  function handleClickPut() {
+    ActionPutUser({
+      allergies: dataPost.allergies || user.allergies,
+      allergies_text: dataPost.allergies_text || user.allergies_text,
+      avatar: dataPost.avatar || user.avatar || "",
+      birth_date: dataPost.birth_date || user.birth_date || null,
+      card_id: user.card_id || id,
+      contact: dataPost.contact || user.contact,
+      email: dataPost.email || user.email,
+      emergency_contact: dataPost.emergency_contact || user.emergency_contact,
+      medications: dataPost.medications || user.medications,
+      operation: dataPost.operation || user.operation,
+      particularities: dataPost.particularities || user.particularities,
+      profession: dataPost.profession || user.profession,
+      username: dataPost.username || user.username,
+      why_diagnose: dataPost.why_diagnose || user.why_diagnose,
+      location: user.location ? user.location : "",
+    });
+  }
+
+  useEffect(() => {
+    ActionGetUser(id);
+  }, []);
+
+  useEffect(() => {
+    ActionAllGroups();
+  }, []);
+
+  if (loading) {
+    <Box>Loadig...</Box>;
   }
 
   return (
@@ -90,10 +138,10 @@ export default function Akte() {
       </Text>
 
       <Text mb="28px" color="white" textAlign="center">
-        Tom Hardy
+        {user.username}
       </Text>
       <Text color="white" textAlign="center" mb="33px">
-        08-10-1988
+        {user.birth_date}
       </Text>
 
       <Box
@@ -107,7 +155,7 @@ export default function Akte() {
           typeColor="darkGrey"
           fontFamily="commissioner"
           marginRight="30px"
-          onClick={() => setDisabled(!disabled)}
+          onClick={() => ActionBearbeiten(!bearbeiten)}
         >
           Bearbeiten
         </MyButton>
@@ -140,35 +188,51 @@ export default function Akte() {
               color="white"
               fontSize="14px"
               borderColor="black"
-              disabled={disabled}
+              defaultValue={el.value ? el.value : ""}
+              disabled={bearbeiten}
               textAlign="center"
+              bg={!bearbeiten ? "colorForActiveInput" : "black"}
             />
           </Box>
         ))}
 
-        {!disabled ? (
-          listImage.map((el) => (
-            <Card
-              key={el.id}
-              el={el}
-              deleteImg={deleteImg}
-              handleId={deletedImage}
-            />
-          ))
+        {!bearbeiten ? (
+          allGroups
+            .filter((elem) => elem.is_akte === true)
+            .map((el) => (
+              <Box>
+                {el?.info_list.map((item, index) => (
+                  <Card
+                    key={index}
+                    el={item}
+                    deleteImg={deleteImg}
+                    handleId={deletedImage}
+                    object={el}
+                  />
+                ))}
+              </Box>
+            ))
         ) : (
           <Slider {...settings}>
-            {listImage.map((el) => (
-              <Card
-                key={el.id}
-                el={el}
-                deleteImg={deleteImg}
-                handleId={deletedImage}
-              />
-            ))}
+            {allGroups
+              .filter((elem) => elem.is_akte === true)
+              .map((el) => (
+                <Box>
+                  {el?.info_list.map((item, index) => (
+                    <Card
+                      key={index}
+                      el={item}
+                      deleteImg={deleteImg}
+                      handleId={deletedImage}
+                      object={el}
+                    />
+                  ))}
+                </Box>
+              ))}
           </Slider>
         )}
 
-        {!disabled && (
+        {!bearbeiten && (
           <MyButton
             typeColor="lightGray"
             width="100%"
@@ -178,6 +242,7 @@ export default function Akte() {
             fontSize="10px"
             marginBottom="21px"
             marginTop="70px"
+            onClick={handleClickPut}
           >
             SPEICHERN & VERLASSEN
           </MyButton>

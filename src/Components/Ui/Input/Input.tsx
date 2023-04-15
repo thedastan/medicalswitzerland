@@ -1,13 +1,14 @@
 // External dependencies
 import { Input } from "@chakra-ui/react";
 
-type InputTypeColor = "secondaryLittleGray";
+type InputTypeColor = "secondaryLittleGray" | "colorForActiveInput" | "black";
 
 type InputTypeTextTransform = "uppercase" | "lowercase" | "capitalize";
 
 interface IInputProps {
   color?: string;
   display?: string;
+  defaultValue?: string | undefined;
   disabled?: boolean;
   rounded?: string;
   onChange: (value?: React.ChangeEvent<HTMLInputElement>) => void;
@@ -30,6 +31,7 @@ export default function MyInput(props: CustomInputProps) {
   const {
     color,
     display,
+    defaultValue,
     disabled,
     fontFamily,
     height,
@@ -48,12 +50,13 @@ export default function MyInput(props: CustomInputProps) {
   return (
     <Input
       type="text"
-      maxW={width ? width : "313px"}
+      maxW={width ? width : "100%"}
       h={height ? height : "19px"}
       px="0px"
       textTransform={textTransform}
+      defaultValue={defaultValue}
       value={value}
-      bg={typeColor ? typeColor : "black"}
+      bg={typeColor}
       fontWeight={weight}
       fontSize="14px"
       rounded={rounded}
@@ -66,7 +69,6 @@ export default function MyInput(props: CustomInputProps) {
       mb={marginBottom}
       borderColor="transparent"
       focusBorderColor="black"
-      py="10px"
       disabled={disabled}
     />
   );
