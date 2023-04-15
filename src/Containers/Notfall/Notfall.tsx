@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Box, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Spinner, Text } from "@chakra-ui/react";
 import { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
@@ -11,17 +11,31 @@ import MyInput from "../../Components/Ui/Input/Input";
 import SvgDot from "../../assets/svg/SvgDot";
 import API, { API_ADDRESS } from "../../Api";
 
-import { useAppSelector } from "../../Hooks/Hooks";
-import { useActionsFile, useActionsUser } from "../../Hooks/useActions";
+import Registration from "../../Components/Registration/Registration";
 import { IInterfaceUser } from "../../Components/Interface/redux/types/Types";
 import { IGroupsTypes } from "../../Components/Interface/redux-image/types/Types";
+import { ActionFilesId } from "../../Components/Interface/popup/redux-for-modal/action/Action";
 import { getAccessToken } from "../../Components/Helpers";
-import Registration from "../../Components/Registration/Registration";
+import {
+  useActionsAuth,
+  useActionsFile,
+  useActionsForModal,
+  useActionsUser,
+} from "../../Hooks/useActions";
+import { useAppSelector } from "../../Hooks/Hooks";
 
 export default function Notfall() {
+  const {
+    ActionFilesId,
+    ActionActiveModalMedia,
+    ActionActiveSubtrac,
+    ActionActiveProfile,
+  } = useActionsForModal();
   const { ActionGetUser, ActionPutUser, ActionBearbeiten } = useActionsUser();
   const { ActionAllGroups, ActionAllGroupsForCardId } = useActionsFile();
+  const { ActiveModalRegistration } = useActionsAuth();
   const { allGroups } = useAppSelector((state) => state.filesReducer);
+  const { modal } = useAppSelector((state) => state.authReducer);
   const { error, loading, user, bearbeiten } = useAppSelector(
     (state) => state.userReducer
   );
@@ -30,7 +44,6 @@ export default function Notfall() {
   const [deleteImg, setDeleteImg] = useState(false);
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
   const [validToken, setValidToken] = useState<boolean>();
-  const [activeAuth, setActiveAuth] = useState(false);
 
   const dots = [];
 
@@ -78,11 +91,10 @@ export default function Notfall() {
   function deletedImage(data?: IGroupsTypes, idInfo?: string) {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
       .then(() => {
-        alert("Success");
         ActionGetUser(id);
       })
-      .catch(() => {
-        alert("Error");
+      .catch((e) => {
+        alert(`${e} Error`);
       });
   }
 
@@ -90,7 +102,7 @@ export default function Notfall() {
     ActionPutUser({
       allergies: dataPost.allergies || user.allergies,
       allergies_text: dataPost.allergies_text || user.allergies_text,
-      avatar: dataPost.avatar || user.avatar || "",
+      avatar: dataPost.avatar || user.avatar?.slice(6) || "",
       birth_date: dataPost.birth_date || user.birth_date || null,
       card_id: user.card_id || id,
       contact: dataPost.contact || user.contact || "",
@@ -112,9 +124,16 @@ export default function Notfall() {
     if (!validToken) {
       ActionBearbeiten(!bearbeiten);
     } else {
-      setActiveAuth(true);
+      ActiveModalRegistration(true);
     }
   }
+
+  const handleClick = (id: string) => {
+    ActionActiveModalMedia(true);
+    ActionActiveProfile(false);
+    ActionActiveSubtrac(true);
+    ActionFilesId(id);
+  };
 
   useEffect(() => {
     ActionGetUser(id);
@@ -194,7 +213,9 @@ export default function Notfall() {
             w="32px"
             ml="auto"
             onClick={() =>
-              validToken ? setActiveAuth(true) : setDeleteImg(!deleteImg)
+              validToken
+                ? ActiveModalRegistration(true)
+                : setDeleteImg(!deleteImg)
             }
           >
             {dots}
@@ -204,9 +225,30 @@ export default function Notfall() {
           .filter((elem) => elem.is_akte === false)
           .map((el) => (
             <Box key={el.id}>
-              <Text color="White" fontFamily="inter" fontSize="18px" mb="20px">
-                {el.title}
-              </Text>
+              <Box display="flex" justifyContent="space-between">
+                <Text
+                  color="White"
+                  fontFamily="inter"
+                  fontSize="18px"
+                  mb="20px"
+                >
+                  {el.title}
+                </Text>
+                {deleteImg && (
+                  <Button
+                    color="black"
+                    fontSize="10px"
+                    fontWeight="700"
+                    fontFamily="inter"
+                    bg="white"
+                    w="102px"
+                    h="26px"
+                    onClick={() => handleClick(el.id)}
+                  >
+                    Added image
+                  </Button>
+                )}
+              </Box>
               {el?.info_list.map((item, index) => (
                 <Card
                   key={index}
@@ -220,7 +262,7 @@ export default function Notfall() {
           ))}
       </Box>
 
-      {activeAuth && (
+      {modal && (
         <Box
           pos="fixed"
           top="0"
@@ -230,7 +272,7 @@ export default function Notfall() {
           display="flex"
           alignItems="center"
         >
-          <Registration setModal={setActiveAuth} />
+          <Registration />
         </Box>
       )}
     </Fragment>

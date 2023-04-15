@@ -4,6 +4,8 @@ import { Box, Image, Text } from "@chakra-ui/react";
 import SvgRedBasket from "../../../assets/svg/SvgRedBasket";
 import Exemple from "../../../assets/Image/Exemple.png";
 import { IGroupsTypes } from "../../Interface/redux-image/types/Types";
+import { API_ADDRESS } from "../../../Api";
+import SvgPdf from "../../../assets/svg/SvgPdf";
 
 interface IElement {
   id?: string;
@@ -20,9 +22,30 @@ interface ICardProps {
 
 export default function Card({ el, deleteImg, handleId, object }: ICardProps) {
   return (
-    <Box maxW="372px" h="auto" mb="53px" mx="auto">
+    <Box maxW="372px" h="100%" mb="53px" mx="auto">
       <Box position="relative">
-        <Image src={Exemple} alt="exemple" w="100%" h="auto" mb="13px" />
+        {el.file_url?.slice(-3) === "png" ? (
+          <Image
+            src={`${API_ADDRESS?.substring(0, 33)}${el.file_url}`}
+            alt="exemple"
+            w="100%"
+            h="237px"
+            mb="13px"
+          />
+        ) : (
+          <a href={`${API_ADDRESS?.substring(0, 33)}${el.file_url}`}>
+            <Box
+              w="100%"
+              h="237px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <SvgPdf />
+            </Box>
+          </a>
+        )}
+
         {deleteImg && (
           <Box
             w="20px"

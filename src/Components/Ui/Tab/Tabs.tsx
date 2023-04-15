@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import SvgAkte from "../../../assets/svg/SvgAkte";
 import SvgPhone from "../../../assets/svg/SvgPhone";
 import Registration from "../../Registration/Registration";
-import { useActionsUser } from "../../../Hooks/useActions";
+import {
+  useActionsAuth,
+  useActionsForModal,
+  useActionsUser,
+} from "../../../Hooks/useActions";
 import { useAppSelector } from "../../../Hooks/Hooks";
 import { getAccessToken } from "../../Helpers";
 import axios from "axios";
@@ -24,14 +28,31 @@ interface ITabs {
 
 export default function Tabs({ akte, notfall }: ITabs) {
   const { ActionGetUser } = useActionsUser();
+  const { ActionActiveIsAkte } = useActionsForModal();
+  const { ActiveModalRegistration } = useActionsAuth();
   const { user } = useAppSelector((state) => state.userReducer);
+  const { modal } = useAppSelector((state) => state.authReducer);
 
-  const [activeAuth, setActiveAuth] = useState(false);
   const [isActive, setActive] = useState(TabTypes.NOTFALL);
   const [validToken, setValidToken] = useState<boolean>();
 
   const isNotfall = isActive === TabTypes.NOTFALL;
   const isAkte = isActive === TabTypes.AKTE;
+
+  const handleActiveAuth = () => {
+    if (user.is_first_time || !validToken) {
+      ActiveModalRegistration(true);
+    } else {
+      setActive(TabTypes.AKTE);
+      ActiveModalRegistration(false);
+      ActionActiveIsAkte(true);
+    }
+  };
+
+  const handleClickNotfall = () => {
+    setActive(TabTypes.NOTFALL);
+    ActionActiveIsAkte(false);
+  };
 
   useEffect(() => {
     ActionGetUser(window.location.pathname.slice(6));
@@ -48,15 +69,6 @@ export default function Tabs({ akte, notfall }: ITabs) {
       });
   }, []);
 
-  const handleActiveAuth = () => {
-    if (user.is_first_time || !validToken) {
-      setActiveAuth(true);
-    } else {
-      setActive(TabTypes.AKTE);
-      setActiveAuth(false);
-    }
-  };
-
   return (
     <Box>
       <Box maxW="900px" mx="auto" display="flex" mb="24px">
@@ -70,7 +82,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           rounded="0px"
           pt="5px"
           boxShadow={"inset 0px 2px 2px rgba(31, 31, 31, 0.44)"}
-          onClick={() => setActive(TabTypes.NOTFALL)}
+          onClick={handleClickNotfall}
           borderBottom={isNotfall ? "0.5px solid white" : "0.5px solid black"}
         >
           <SvgPhone />
@@ -100,7 +112,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
       <Box maxW="900px" mx="auto" px="16px">
         {isNotfall ? notfall : akte}
       </Box>
-      {activeAuth && <Registration setModal={setActiveAuth} />}
+      {modal && <Registration />}
     </Box>
   );
 }

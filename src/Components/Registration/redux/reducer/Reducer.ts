@@ -7,6 +7,7 @@ const initalStateAuth: IAuthState = {
   loading: false,
   loginError: "",
   loginLoder: false,
+  modal: false,
 };
 
 export const authReducer = (
@@ -28,6 +29,9 @@ export const authReducer = (
 
     case AuthTypes.LOGIN_USER_ERROR:
       return { ...state, loginLoder: false, loginError: action.payload };
+
+    case AuthTypes.REGISTRATION_MODAL:
+      return { ...state, modal: action.payload };
 
     default:
       return state;

@@ -1,7 +1,7 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/layout";
 import { motion, AnimatePresence } from "framer-motion";
-import { createRef, useEffect, useRef, useState } from "react";
+import { createRef, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
 import { Button, Image, Input } from "@chakra-ui/react";
 import "cropperjs/dist/cropper.css";
@@ -18,35 +18,26 @@ import "./style.css";
 
 import { dataURLtoFile, onChangeImage } from "../../Helpers";
 import { useAppSelector } from "../../../Hooks/Hooks";
-import { useActionsUser } from "../../../Hooks/useActions";
+import { useActionsFile, useActionsForModal } from "../../../Hooks/useActions";
 
-interface IModalProps {
-  modal: boolean;
-  setModal: (value: boolean) => void;
-  profile: boolean;
-  subtract: boolean;
-}
-
-export default function PopupMediaFile({
-  modal,
-  setModal,
-  profile,
-  subtract,
-}: IModalProps) {
-  const {} = useActionsUser();
-  const { filesId } = useAppSelector((state) => state.idReducer);
+export default function PopupMediaFile() {
+  const { ActionActiveModalMedia } = useActionsForModal();
+  const { ActionAllGroups } = useActionsFile();
+  const { filesId, activeMediaModal, profile, subtract } = useAppSelector(
+    (state) => state.idReducer
+  );
   const { user } = useAppSelector((state) => state.userReducer);
 
   const imageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const fileRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
-  const [accept, setAccept] = useState<string>();
+  const [accept, setAccept] = useState("");
+  const [cropData, setCropData] = useState("");
+  const [imageFile, setImageFile] = useState("");
   const [openPopup, setOpenPopup] = useState(false);
-  const [imageFile, setImageFile] = useState<string>("");
   const [filePdf, setFilePdf] = useState<any>();
   const [pdfIncludes, setPdfIncludes] = useState(false);
-  const [cropData, setCropData] = useState("");
   const [text, setText] = useState("");
 
   const listProfile = [
@@ -92,18 +83,28 @@ export default function PopupMediaFile({
     formData.append("file", image);
     await API.post("users/upload/", formData)
       .then(({ data }) => {
-        alert("Success");
         if (data) {
           API.post(`groups/${filesId}/info/`, {
             text: text,
             file_url: data.path,
           });
-          alert("AVATAR 1");
+          ActionAllGroups();
+          setCropData("");
+          setImageFile("");
+          setText("");
+          ActionActiveModalMedia(false);
         }
       })
       .catch((e) => {
-        alert("Error");
+        alert(`${e} Error`);
       });
+  };
+
+  const handleCencelCrop = () => {
+    setCropData("");
+    setImageFile("");
+    setText("");
+    ActionActiveModalMedia(false);
   };
 
   const distributionFunction = async () => {
@@ -114,9 +115,13 @@ export default function PopupMediaFile({
     }
   };
 
+  const handleCloseModal = () => {
+    ActionActiveModalMedia(false);
+  };
+
   return (
     <AnimatePresence>
-      {modal && (
+      {activeMediaModal && (
         <>
           <motion.div
             key={1}
@@ -128,7 +133,7 @@ export default function PopupMediaFile({
               },
             }}
             className={`modal-backdrop`}
-            onClick={() => setModal(false)}
+            onClick={handleCloseModal}
           />
           <motion.div
             key={2}
@@ -140,7 +145,7 @@ export default function PopupMediaFile({
               },
             }}
             className="modal-content-wrapper"
-            onClick={() => setModal(false)}
+            onClick={handleCloseModal}
           >
             <motion.div
               key={3}
@@ -259,15 +264,17 @@ export default function PopupMediaFile({
               justifyContent="center"
               alignItems="center"
             >
-              <Box>
+              <Box px="20px">
                 {cropData ? (
-                  <Box>
-                    <Image src={cropData} />
+                  <Box w="100%">
+                    <Image src={cropData} w="100%" h="237px" mb="10px" />
                     <Input
                       value={text}
                       onChange={(e) => setText(e.target.value)}
                       bg="white"
-                      fontSize="16px"
+                      color="#323232"
+                      fontSize="14px"
+                      placeholder="Beschreibung..."
                     />
                   </Box>
                 ) : (
@@ -280,38 +287,37 @@ export default function PopupMediaFile({
                   />
                 )}
                 <Box
+                  maxW="500px"
                   display="flex"
-                  w="100%"
-                  justifyContent="space-evenly"
-                  mt="50px"
+                  justifyContent="space-between"
+                  mx="auto"
+                  gap="10px"
+                  mt="20px"
                 >
                   <Button
                     textColor="white"
                     bg="#ff3a22"
                     fontSize="10px"
-                    fontWeight="500"
-                    w="80px"
-                    h="30px"
+                    fontWeight="700"
+                    w="40vw"
+                    h="35px"
                     textTransform="uppercase"
-                    onClick={() => {
-                      setImageFile("");
-                      setCropData("");
-                    }}
+                    onClick={handleCencelCrop}
                   >
                     Cencel
                   </Button>
                   <Button
-                    textColor="white"
-                    bg="whatsapp.500"
+                    textColor="black"
+                    bg="white"
                     fontSize="10px"
-                    fontWeight="500"
-                    w="80px"
-                    h="30px"
+                    fontWeight="700"
+                    w="40vw"
+                    h="35px"
                     textTransform="uppercase"
                     onClick={distributionFunction}
-                    disabled={text.length > 0 ? false : true}
+                    disabled={text?.length > 0 ? false : true}
                   >
-                    {!cropData ? "Crop Image" : "Save Files"}
+                    {!cropData ? "Crop Image" : "Save"}
                   </Button>
                 </Box>
               </Box>
@@ -351,9 +357,7 @@ export default function PopupMediaFile({
               w="80px"
               h="30px"
               textTransform="uppercase"
-              onClick={() => {
-                setModal(false);
-              }}
+              onClick={handleCloseModal}
             >
               Cencel
             </Button>
