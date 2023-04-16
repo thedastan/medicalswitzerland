@@ -4,16 +4,13 @@ import axios from "axios";
 
 /* Local dependencies */
 import API, { API_ADDRESS } from "../../../../Api";
-import {
-  ActionsGroup,
-  IGroupsTypes,
-  IInfoList,
-  InterfaceImageTypes,
-} from "../types/Types";
+import { ActionsGroup, IInfoList, InterfaceImageTypes } from "../types/Types";
 
-interface IPropsActionAll {
+interface IGroupType {
+  id: string;
   title: string;
-  isAkte: boolean;
+  info_list: string[] | number[];
+  is_akte: boolean;
 }
 
 export const ActionAllGroups = () => {
@@ -68,7 +65,23 @@ export const ActionGroups = (id?: string) => {
   return async (dispatch: Dispatch<ActionsGroup>) => {
     try {
       dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
-      const response = await axios.get(`${API_ADDRESS}/groups/${id}`);
+      const response = await axios.get(`${API_ADDRESS}groups/${id}/`);
+      const data = response.data;
+
+      dispatch({ type: InterfaceImageTypes.USER_FILES, payload: data });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    } catch (e) {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    }
+  };
+};
+
+export const ActionGroupsForAkte = (id?: string) => {
+  return async (dispatch: Dispatch<ActionsGroup>) => {
+    try {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
+      const response = await API.get(`groups/${id}/`);
       const data = response.data;
 
       dispatch({ type: InterfaceImageTypes.USER_FILES, payload: data });
@@ -85,7 +98,7 @@ export const ActionGroup = (id?: string, idInfo?: string) => {
     try {
       dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
       const response = await axios.get(
-        `${API_ADDRESS}/groups/${id}/info/${idInfo}`
+        `${API_ADDRESS}groups/${id}/info/${idInfo}/`
       );
       const data = response.data;
 
@@ -98,10 +111,10 @@ export const ActionGroup = (id?: string, idInfo?: string) => {
   };
 };
 
-export const ActionAllGroupsPut = (id: string, dataPost: IGroupsTypes) => {
+export const ActionAllGroupsPut = (id: string, dataPost: IGroupType) => {
   return async (dispatch: Dispatch<ActionsGroup>) => {
     try {
-      const response = await API.put(`groups/${id}`, dataPost);
+      const response = await API.put(`groups/${id}/`, dataPost);
       const data = response.data;
 
       dispatch({ type: InterfaceImageTypes.USER_FILE, payload: data });
@@ -118,7 +131,7 @@ export const ActionGroupPut = (
 ) => {
   return async (dispatch: Dispatch<ActionsGroup>) => {
     try {
-      const response = await API.put(`groups/${id}/info/${idInfo}`, dataPost);
+      const response = await API.put(`groups/${id}/info/${idInfo}/`, dataPost);
       const data = response.data;
 
       dispatch({ type: InterfaceImageTypes.USER_FILE, payload: data });

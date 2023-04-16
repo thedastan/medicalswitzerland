@@ -8,7 +8,7 @@ export enum InterfaceImageTypes {
 }
 
 export interface IInfoList {
-  id?: string;
+  id: string;
   text: string;
   file_url: string;
 }

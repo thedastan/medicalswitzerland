@@ -1,4 +1,5 @@
 /* External dependencies */
+import axios from "axios";
 import { Box, Button, Image, Text } from "@chakra-ui/react";
 import { createRef, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
@@ -8,12 +9,14 @@ import "cropperjs/dist/cropper.css";
 /* Local dependencies */
 import SvgProfile from "../../assets/svg/SvgProfile";
 import SvgSubtract from "../../assets/svg/SvgSubtract";
-import SvgMore from "../../assets/svg/SvgMore";
 import PopupMediaFile from "./popup/PopupMediaFile";
 import Registration from "../Registration/Registration";
+import SVgContact from "../../assets/svg/SvgContact";
+import SvgAdded from "../../assets/svg/SvgAdded";
 import SvgDefaultAvatar from "../../assets/svg/SvgDefaultAvatar";
 import PopupFiles from "./popup/PopupFiles";
 import API, { API_ADDRESS } from "../../Api";
+import PopupMore from "./popup/PopupMore";
 
 import { useAppSelector } from "../../Hooks/Hooks";
 import {
@@ -22,7 +25,6 @@ import {
   useActionsUser,
 } from "../../Hooks/useActions";
 import { dataURLtoFile, getAccessToken, onChangeImage } from "../Helpers";
-import SvgAdded from "../../assets/svg/SvgAdded";
 
 interface IInterfaceProps {
   children: JSX.Element;
@@ -41,11 +43,13 @@ export default function Interface({ children }: IInterfaceProps) {
   const cropperRef = createRef<ReactCropperElement>();
 
   const [popup, setPopup] = useState(false);
+  const [popupMore, setPopupMore] = useState(false);
   const [imageFile, setImageFile] = useState("");
   const [cropData, setCropData] = useState("");
+  const [validToken, setValidToken] = useState<boolean>();
 
   const handleActiveAuth = () => {
-    if (user.is_first_time && !getAccessToken()) {
+    if (user.is_first_time && !validToken) {
       ActiveModalRegistration(true);
     } else {
       ActiveModalRegistration(false);
@@ -53,6 +57,14 @@ export default function Interface({ children }: IInterfaceProps) {
       ActionActiveModalMedia(false);
       ActionActiveSubtrac(true);
       ActionActiveProfile(false);
+    }
+  };
+
+  const handleClickModalMore = () => {
+    if (!validToken) {
+      setPopupMore(true);
+    } else {
+      ActiveModalRegistration(true);
     }
   };
 
@@ -125,6 +137,7 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           pb="8px"
           pt="14px"
+          cursor="pointer"
           onClick={() => {
             ActionActiveModalMedia(true);
             ActionActiveProfile(true);
@@ -147,6 +160,7 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           pb="8px"
           pt="14px"
+          cursor="pointer"
           onClick={handleActiveAuth}
         >
           <SvgSubtract />
@@ -158,27 +172,38 @@ export default function Interface({ children }: IInterfaceProps) {
     },
     {
       content: (
-        <a href="https://www.medicalswitzerland.ch/" target="_blank">
-          <Box
-            display="flex"
-            flexDir="column"
-            justifyContent="center"
-            alignItems="center"
-            pb="8px"
-            pt="14px"
-          >
-            <SvgMore />
-            <Text color="white" pt="6px">
-              More
-            </Text>
-          </Box>
-        </a>
+        <Box
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+          alignItems="center"
+          pb="8px"
+          pt="14px"
+          cursor="pointer"
+          onClick={handleClickModalMore}
+        >
+          <SVgContact />
+          <Text color="white" pt="6px">
+            Contact
+          </Text>
+        </Box>
       ),
     },
   ];
 
   useEffect(() => {
     ActionGetUser(id);
+  }, []);
+
+  useEffect(() => {
+    axios
+      .post(`${API_ADDRESS}users/auth/verify/`, { token: getAccessToken() })
+      .then(() => {
+        setValidToken(false);
+      })
+      .catch((e) => {
+        setValidToken(true);
+      });
   }, []);
 
   return (
@@ -205,7 +230,7 @@ export default function Interface({ children }: IInterfaceProps) {
               </Text>
               <Box pos="relative" w="95px" h="95px" mx="auto">
                 <Image
-                  src={`${API_ADDRESS?.substring(0, 34)}${user.avatar.slice(
+                  src={`${API_ADDRESS?.substring(0, 35)}${user.avatar.slice(
                     1
                   )}`}
                   alt="avatar"
@@ -238,24 +263,17 @@ export default function Interface({ children }: IInterfaceProps) {
                 medical
                 <span style={{ color: "#E11F26" }}>switzerland</span>
               </Text>
-              <Box w="95px" h="95px" mx="auto" mb="10px">
+              <Box w="95px" h="95px" mx="auto" mb="10px" pos="relative">
                 <SvgDefaultAvatar />
-              </Box>
-              <Box display="flex" justifyContent="center">
-                <Button
-                  bg="secondaryLittleGray"
-                  fontSize="10px"
-                  h="23px"
-                  w="163px"
-                  rounded="3px"
-                  fontFamily="inter"
-                  color="white"
-                  fontWeight="200"
-                  position="static"
+                <Box
+                  pos="absolute"
+                  top="8px"
+                  right="-11px"
+                  cursor="pointer"
                   onClick={handleActiveAuthAvatart}
                 >
-                  Edit profile image
-                </Button>
+                  <SvgAdded />
+                </Box>
               </Box>
             </Box>
           )}
@@ -282,6 +300,7 @@ export default function Interface({ children }: IInterfaceProps) {
       </Box>
       {popup && <PopupFiles modal={popup} setModal={setPopup} />}
       <PopupMediaFile />
+      {popupMore && <PopupMore setModal={setPopupMore} />}
       {modal && <Registration />}
       {imageFile && (
         <Box pos="fixed" top="0" left="0" right="0" bottom="0" bg="black">

@@ -1,14 +1,14 @@
 // External dependencies
+import { EditIcon } from "@chakra-ui/icons";
 import { Box, Image, Text } from "@chakra-ui/react";
 
 import SvgRedBasket from "../../../assets/svg/SvgRedBasket";
-import Exemple from "../../../assets/Image/Exemple.png";
+import SvgPdf from "../../../assets/svg/SvgPdf";
 import { IGroupsTypes } from "../../Interface/redux-image/types/Types";
 import { API_ADDRESS } from "../../../Api";
-import SvgPdf from "../../../assets/svg/SvgPdf";
 
 interface IElement {
-  id?: string;
+  id: string;
   file_url?: string;
   text: string;
 }
@@ -16,24 +16,34 @@ interface IElement {
 interface ICardProps {
   el: IElement;
   deleteImg: boolean;
-  handleId: (value: IGroupsTypes, id?: string) => void;
+  handleIdForDelete: (value: IGroupsTypes, id: string) => void;
+  handleIdForChange: (value: IGroupsTypes, id: string) => void;
   object: IGroupsTypes;
 }
 
-export default function Card({ el, deleteImg, handleId, object }: ICardProps) {
+export default function Card({
+  el,
+  deleteImg,
+  handleIdForDelete,
+  handleIdForChange,
+  object,
+}: ICardProps) {
   return (
     <Box maxW="372px" h="100%" mb="53px" mx="auto">
       <Box position="relative">
         {el.file_url?.slice(-3) === "png" ? (
           <Image
-            src={`${API_ADDRESS?.substring(0, 33)}${el.file_url}`}
+            src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
             alt="exemple"
             w="100%"
             h="237px"
             mb="13px"
           />
         ) : (
-          <a href={`${API_ADDRESS?.substring(0, 33)}${el.file_url}`}>
+          <a
+            href={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
+            target="_blank"
+          >
             <Box
               w="100%"
               h="237px"
@@ -55,9 +65,27 @@ export default function Card({ el, deleteImg, handleId, object }: ICardProps) {
             right="11px"
             display="flex"
             justifyContent="end"
-            onClick={() => handleId(object, el.id)}
+            onClick={() => handleIdForDelete(object, el.id)}
           >
             <SvgRedBasket />
+          </Box>
+        )}
+
+        {deleteImg && (
+          <Box
+            rounded="3px"
+            bg="black"
+            w="26px"
+            h="26px"
+            pos="absolute"
+            top="23px"
+            right="40px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            onClick={() => handleIdForChange(object, el.id)}
+          >
+            <EditIcon color="white" />
           </Box>
         )}
       </Box>

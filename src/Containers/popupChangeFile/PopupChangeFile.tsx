@@ -1,70 +1,46 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/layout";
 import { motion, AnimatePresence } from "framer-motion";
-import { createRef, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
 import { Button, Image, Input } from "@chakra-ui/react";
 import "cropperjs/dist/cropper.css";
 
-/* Local dependencies */
-import SvgPhoneCall from "../../../assets/svg/SvgPhoneCall";
-import SvgMail from "../../../assets/svg/SvgMail";
-import SvgLocation from "../../../assets/svg/SvgLocation";
-import SvgBasket from "../../../assets/svg/SvgBasket";
-import SvgPdf from "../../../assets/svg/SvgPdf";
-import Popup from "../../Ui/popup/Popup";
-import API from "../../../Api";
-import "./style.css";
+import { useActionsFile, useActionsUser } from "../../Hooks/useActions";
+import { useAppSelector } from "../../Hooks/Hooks";
+import { dataURLtoFile, onChangeImage } from "../../Components/Helpers";
+import API, { API_ADDRESS } from "../../Api";
+import SvgPdf from "../../assets/svg/SvgPdf";
 
-import { dataURLtoFile, onChangeImage } from "../../Helpers";
-import { useAppSelector } from "../../../Hooks/Hooks";
-import {
-  useActionsFile,
-  useActionsForModal,
-  useActionsUser,
-} from "../../../Hooks/useActions";
+interface IPopupChangeProps {
+  idFile: string;
+  setModal: (value: boolean) => void;
+  setDeleteCenceled: (value: boolean) => void;
+  modal: boolean;
+}
 
-export default function PopupMediaFile() {
-  const { ActionBearbeiten } = useActionsUser();
-  const { ActionActiveModalMedia } = useActionsForModal();
-  const { ActionAllGroups } = useActionsFile();
-  const { filesId, activeMediaModal, profile, subtract } = useAppSelector(
-    (state) => state.idReducer
-  );
-  const { user } = useAppSelector((state) => state.userReducer);
+export default function PopupChangeFile({
+  idFile,
+  modal,
+  setModal,
+  setDeleteCenceled,
+}: IPopupChangeProps) {
+  const { ActionAllGroups, ActionGroupPut, ActionGroups, ActionGroupsForAkte } =
+    useActionsFile();
+  const { group } = useAppSelector((state) => state.filesReducer);
 
   const imageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const fileRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
+  const [changeFile, setChangeFile] = useState(false);
   const [accept, setAccept] = useState("");
   const [cropData, setCropData] = useState("");
-
   const [imageFile, setImageFile] = useState("");
 
-  const [openPopup, setOpenPopup] = useState(false);
   const [filePdf, setFilePdf] = useState<any>();
   const [pdfIncludes, setPdfIncludes] = useState(false);
   const [text, setText] = useState("");
-
-  const listProfile = [
-    {
-      svg: <SvgPhoneCall />,
-      item: user.contact || " ",
-    },
-    {
-      svg: <SvgMail />,
-      item: user.email || " ",
-    },
-    {
-      svg: <SvgLocation />,
-      item: user.location || " ",
-    },
-    {
-      svg: <SvgBasket />,
-      item: "Delete profile",
-    },
-  ];
 
   const getCropData = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
@@ -82,55 +58,89 @@ export default function PopupMediaFile() {
     }
   };
 
-  const handlePostFiles = async () => {
+  const handlePutFiles = async () => {
     const image = cropData
       ? dataURLtoFile(cropData, `${Math.floor(Math.random() * 100000)}.png`)
       : filePdf;
-    const formData = new FormData();
-    formData.append("file", image);
-    await API.post("users/upload/", formData)
-      .then(({ data }) => {
-        if (data) {
-          API.post(`groups/${filesId}/info/`, {
-            text: text,
-            file_url: data.path,
-          });
-          ActionAllGroups();
-          setCropData("");
-          setImageFile("");
-          setText("");
-          ActionActiveModalMedia(false);
-          ActionBearbeiten(false);
-        }
-      })
-      .catch((e) => {
-        alert(`${e} Error`);
+    if (cropData) {
+      const formData = new FormData();
+      formData.append("file", image);
+      await API.post("users/upload/", formData)
+        .then(({ data }) => {
+          if (data) {
+            ActionGroupPut(idFile, group.id, {
+              file_url: data.path || group.file_url,
+              text: text || group.text,
+              id: group.id,
+            });
+            ActionAllGroups();
+            setCropData("");
+            setImageFile("");
+            setText("");
+            setModal(false);
+            setDeleteCenceled(false);
+          }
+        })
+        .catch((e) => {
+          alert(`${e} Error`);
+        });
+    } else {
+      ActionGroupPut(idFile, group.id, {
+        file_url: group.file_url,
+        text: text || group.text,
+        id: group.id,
       });
+      setDeleteCenceled(false);
+    }
+  };
+
+  const handlePutFile = () => {
+    ActionGroupPut(idFile, group.id, {
+      file_url: group.file_url,
+      text: text || group.text,
+      id: group.id,
+    });
+    ActionAllGroups();
+    setCropData("");
+    setImageFile("");
+    setText("");
+    setModal(false);
+    setDeleteCenceled(false);
   };
 
   const handleCencelCrop = () => {
     setCropData("");
     setImageFile("");
     setText("");
-    ActionActiveModalMedia(false);
+    setModal(false);
+    setChangeFile(false);
   };
 
   const distributionFunction = async () => {
     if (!cropData) {
       await getCropData();
     } else {
-      handlePostFiles();
+      handlePutFiles();
+      setChangeFile(false);
     }
   };
 
   const handleCloseModal = () => {
-    ActionActiveModalMedia(false);
-    ActionBearbeiten(false);
+    setModal(false);
+    setChangeFile(false);
+    setDeleteCenceled(false);
   };
+
+  useEffect(() => {
+    if (idFile) {
+      ActionGroups(idFile);
+      ActionGroupsForAkte(idFile);
+    }
+  }, [idFile]);
 
   return (
     <AnimatePresence>
-      {activeMediaModal && (
+      {modal && (
         <>
           <motion.div
             key={1}
@@ -170,8 +180,80 @@ export default function PopupMediaFile() {
               onClick={(e) => e.stopPropagation()}
               className="modal-content"
             >
-              {subtract && (
-                <Box zIndex="8">
+              {!changeFile ? (
+                <Box
+                  bg="thirdlittleGray"
+                  rounded="12px"
+                  zIndex="5"
+                  py="30px"
+                  mr="auto"
+                >
+                  <Box maxW="372px" mx="auto">
+                    <Image
+                      src={`${API_ADDRESS?.substring(0, 34)}${group.file_url}`}
+                      maxW="372px"
+                      mx="auto"
+                      mb="20px"
+                    />
+                    <Input
+                      defaultValue={group.text}
+                      onChange={(e) => setText(e.target.value)}
+                      bg="white"
+                      color="#323232"
+                      fontSize="14px"
+                      placeholder="Beschreibung..."
+                      mb="20px"
+                      maxW="372px"
+                    />
+                    <Button
+                      textColor="white"
+                      bg="whatsapp.500"
+                      fontSize="10px"
+                      fontWeight="700"
+                      w="100%"
+                      h="35px"
+                      textTransform="uppercase"
+                      onClick={handlePutFile}
+                    >
+                      Save file !
+                    </Button>
+                    <Box
+                      maxW="500px"
+                      display="flex"
+                      justifyContent="space-between"
+                      mx="auto"
+                      gap="10px"
+                      mt="20px"
+                    >
+                      <Button
+                        textColor="white"
+                        bg="#ff3a22"
+                        fontSize="10px"
+                        fontWeight="700"
+                        w="40vw"
+                        h="35px"
+                        textTransform="uppercase"
+                        onClick={handleCloseModal}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        textColor="black"
+                        bg="white"
+                        fontSize="10px"
+                        fontWeight="700"
+                        w="40vw"
+                        h="35px"
+                        textTransform="uppercase"
+                        onClick={() => setChangeFile(!changeFile)}
+                      >
+                        Change image
+                      </Button>
+                    </Box>
+                  </Box>
+                </Box>
+              ) : (
+                <Box>
                   <Text
                     cursor="pointer"
                     color="#0F6FFF"
@@ -217,53 +299,10 @@ export default function PopupMediaFile() {
                   </Text>
                 </Box>
               )}
-              {profile && (
-                <Box zIndex="8">
-                  {listProfile.map((el, index) => (
-                    <Box
-                      key={index}
-                      display="flex"
-                      alignItems="center"
-                      bg="thirdlittleGray"
-                      textAlign="center"
-                      roundedTop={index === 0 ? "12px" : "0"}
-                      roundedBottom={
-                        listProfile.length - 1 === index ? "12px" : "0"
-                      }
-                      onClick={() => setOpenPopup(true)}
-                    >
-                      <Box pl={index > 1 ? "12px" : "10px"}>{el.svg}</Box>
-                      <Box
-                        w="90%"
-                        mx="auto"
-                        h="50px"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderBottom={
-                          listProfile.length - 1 !== index
-                            ? "1px solid black"
-                            : "0px"
-                        }
-                      >
-                        <Text
-                          color="white"
-                          fontWeight="300"
-                          fontSize="13px"
-                          fontFamily="inter"
-                        >
-                          {el.item}
-                        </Text>
-                      </Box>
-                    </Box>
-                  ))}
-                </Box>
-              )}
             </motion.div>
           </motion.div>
         </>
       )}
-      <Popup modal={openPopup} setModal={setOpenPopup} />
       {imageFile && (
         <Box
           pos="fixed"
@@ -272,7 +311,7 @@ export default function PopupMediaFile() {
           right="0"
           bottom="0"
           bg="black"
-          zIndex="8"
+          zIndex="7"
         >
           {imageFile && (
             <Box
@@ -286,7 +325,7 @@ export default function PopupMediaFile() {
                   <Box w="100%">
                     <Image src={cropData} w="100%" h="237px" mb="10px" />
                     <Input
-                      value={text}
+                      defaultValue={group.text}
                       onChange={(e) => setText(e.target.value)}
                       bg="white"
                       color="#323232"
@@ -351,7 +390,7 @@ export default function PopupMediaFile() {
           right="0"
           bottom="0"
           bg="black"
-          zIndex="8"
+          zIndex="7"
         >
           <Box>
             <Box
@@ -366,7 +405,7 @@ export default function PopupMediaFile() {
             </Box>
             <Box mx="auto" maxW="372px">
               <Input
-                value={text}
+                defaultValue={group.text}
                 onChange={(e) => setText(e.target.value)}
                 bg="white"
                 fontSize="16px"
@@ -394,7 +433,7 @@ export default function PopupMediaFile() {
               w="80px"
               h="30px"
               textTransform="uppercase"
-              onClick={handlePostFiles}
+              onClick={handlePutFiles}
             >
               Save Files
             </Button>
