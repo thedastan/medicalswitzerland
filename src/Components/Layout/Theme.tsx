@@ -16,6 +16,7 @@ export const theme = extendTheme({
   fonts: {
     inter: "Inter, sans-serif",
     commissioner: "Commissioner, sans-serif",
+    badScript: "Bad Script, cursive",
   },
   fontSizes: {
     xs: "10px",

@@ -17,7 +17,7 @@ interface IPopupFilesProps {
   modal: boolean;
 }
 
-export default function PopupFiles({ modal, setModal }: IPopupFilesProps) {
+export default function PopupFiles({ setModal }: IPopupFilesProps) {
   const dispatch = useAppDispatch();
   const { ActionActiveModalMedia } = useActionsForModal();
   const { isAkte } = useAppSelector((state) => state.idReducer);
@@ -45,7 +45,6 @@ export default function PopupFiles({ modal, setModal }: IPopupFilesProps) {
   };
 
   return (
-    <>
       <AnimatePresence>
         <motion.div
           key={1}
@@ -155,6 +154,5 @@ export default function PopupFiles({ modal, setModal }: IPopupFilesProps) {
           </motion.div>
         </motion.div>
       </AnimatePresence>
-    </>
   );
 }

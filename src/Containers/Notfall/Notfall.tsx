@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Box, Button, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
 import { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
@@ -13,8 +13,7 @@ import API, { API_ADDRESS } from "../../Api";
 
 import Registration from "../../Components/Registration/Registration";
 import { IInterfaceUser } from "../../Components/Interface/redux/types/Types";
-import { IGroupsTypes } from "../../Components/Interface/redux-image/types/Types";
-import { ActionFilesId } from "../../Components/Interface/popup/redux-for-modal/action/Action";
+import { IInfoList } from "../../Components/Interface/redux-image/types/Types";
 import { getAccessToken } from "../../Components/Helpers";
 import {
   useActionsAuth,
@@ -23,6 +22,14 @@ import {
   useActionsUser,
 } from "../../Hooks/useActions";
 import { useAppSelector } from "../../Hooks/Hooks";
+import PopupChangeFile from "../popupChangeFile/PopupChangeFile";
+
+interface IGroupsTypes {
+  id: string;
+  title?: string;
+  info_list?: IInfoList[];
+  is_akte?: boolean;
+}
 
 export default function Notfall() {
   const {
@@ -32,18 +39,31 @@ export default function Notfall() {
     ActionActiveProfile,
   } = useActionsForModal();
   const { ActionGetUser, ActionPutUser, ActionBearbeiten } = useActionsUser();
-  const { ActionAllGroups, ActionAllGroupsForCardId } = useActionsFile();
+  const {
+    ActionAllGroups,
+    ActionAllGroupsForCardId,
+    ActionAllGroupsPut,
+    ActionGroups,
+    ActionGroup,
+  } = useActionsFile();
   const { ActiveModalRegistration } = useActionsAuth();
-  const { allGroups } = useAppSelector((state) => state.filesReducer);
+  const { allGroups, groups } = useAppSelector((state) => state.filesReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
   const { error, loading, user, bearbeiten } = useAppSelector(
     (state) => state.userReducer
   );
 
   const { id } = useParams<string>();
-  const [deleteImg, setDeleteImg] = useState(false);
+  const [idFile, setIdFile] = useState("");
+  const [idFiles, setIdFiles] = useState("");
+
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
+  const [dataPutFiles, setDataPutFiles] = useState<IGroupsTypes>({ id: "" });
+  const [modalChange, setModalChange] = useState(false);
+
+  const [deleteImg, setDeleteImg] = useState(false);
   const [validToken, setValidToken] = useState<boolean>();
+  const [disabledFiles, setDisabledFiles] = useState(false);
 
   const dots = [];
 
@@ -88,6 +108,10 @@ export default function Notfall() {
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
 
+  const inputChangeForFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDataPutFiles({ ...dataPutFiles, [e.target.name]: e.target.value });
+  };
+
   function deletedImage(data?: IGroupsTypes, idInfo?: string) {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
       .then(() => {
@@ -118,6 +142,31 @@ export default function Notfall() {
       location: user.location ? user.location : "",
     });
     ActionBearbeiten(true);
+  }
+
+  function handleClickPutFiles(id: string) {
+    if (groups.id) {
+      ActionAllGroupsPut(idFiles, {
+        id: id,
+        title: dataPutFiles.title || groups.title,
+        info_list: groups?.info_list.map((el) => el.id),
+        is_akte: false,
+      });
+      setDisabledFiles(false);
+    }
+    getIdForFiles(id);
+    setDisabledFiles(!disabledFiles);
+  }
+
+  function getIdForFiles(id: string) {
+    ActionGroups(id);
+    setIdFiles(id);
+  }
+
+  function getIdForFile(data: IGroupsTypes, id: string) {
+    ActionGroup(data.id, id);
+    setModalChange(true);
+    setIdFile(data.id);
   }
 
   function handleBearbeitenValid() {
@@ -225,36 +274,75 @@ export default function Notfall() {
           .filter((elem) => elem.is_akte === false)
           .map((el) => (
             <Box key={el.id}>
-              <Box display="flex" justifyContent="space-between">
-                <Text
-                  color="White"
-                  fontFamily="inter"
+              <Box
+                display="flex"
+                flexDir="column"
+                justifyContent="space-between"
+                mb="10px"
+              >
+                <Input
+                  w="100%"
                   fontSize="18px"
+                  fontFamily="inter"
                   mb="20px"
-                >
-                  {el.title}
-                </Text>
-                {deleteImg && (
-                  <Button
-                    color="black"
-                    fontSize="10px"
-                    fontWeight="700"
-                    fontFamily="inter"
-                    bg="white"
-                    w="102px"
-                    h="26px"
-                    onClick={() => handleClick(el.id)}
-                  >
-                    Added image
-                  </Button>
-                )}
+                  defaultValue={el.title}
+                  outline="black"
+                  rounded="0px"
+                  h="27px"
+                  color="white"
+                  pl="0"
+                  borderColor="black"
+                  name="title"
+                  disabled={!disabledFiles || idFiles !== el.id}
+                  bg={
+                    disabledFiles && idFiles === el.id
+                      ? "colorForActiveInput"
+                      : "black"
+                  }
+                  onChange={(e) => inputChangeForFiles(e)}
+                />
+                <Box display="flex" justifyContent="space-between">
+                  {deleteImg && (
+                    <Button
+                      color="black"
+                      fontSize="10px"
+                      fontWeight="700"
+                      fontFamily="inter"
+                      bg="white"
+                      w="102px"
+                      h="26px"
+                      onClick={() => {
+                        handleClickPutFiles(el.id);
+                      }}
+                    >
+                      {disabledFiles && el.id === idFiles
+                        ? "Save change"
+                        : "Change info"}
+                    </Button>
+                  )}
+                  {deleteImg && (
+                    <Button
+                      color="black"
+                      fontSize="10px"
+                      fontWeight="700"
+                      fontFamily="inter"
+                      bg="white"
+                      w="102px"
+                      h="26px"
+                      onClick={() => handleClick(el.id)}
+                    >
+                      Added image
+                    </Button>
+                  )}
+                </Box>
               </Box>
               {el?.info_list.map((item, index) => (
                 <Card
                   key={index}
                   el={item}
                   deleteImg={deleteImg}
-                  handleId={deletedImage}
+                  handleIdForDelete={deletedImage}
+                  handleIdForChange={getIdForFile}
                   object={el}
                 />
               ))}
@@ -275,6 +363,15 @@ export default function Notfall() {
           <Registration />
         </Box>
       )}
+
+      <Box display="flex" justifyContent="center">
+        <PopupChangeFile
+          idFile={idFile}
+          modal={modalChange}
+          setModal={setModalChange}
+          setDeleteCenceled={setDeleteImg}
+        />
+      </Box>
     </Fragment>
   );
 }

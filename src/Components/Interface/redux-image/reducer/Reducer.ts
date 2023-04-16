@@ -8,6 +8,7 @@ const initalStateImages: IGroupsStateTypes = {
   allGroups: [],
   error: "",
   group: {
+    id: "",
     file_url: "",
     text: "",
   },

@@ -1,5 +1,5 @@
-import * as ActiomsModal from "./Action";
+import * as ActionsModal from "./Action";
 
 export default {
-  ...ActiomsModal,
+  ...ActionsModal,
 };
