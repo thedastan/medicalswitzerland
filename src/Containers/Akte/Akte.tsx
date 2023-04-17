@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/layout";
-import { Button, Input, Textarea } from "@chakra-ui/react";
+import { Button, Input, Spinner, Textarea } from "@chakra-ui/react";
 import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Slider from "react-slick";
@@ -49,7 +49,7 @@ export default function Akte() {
     ActionGroup,
   } = useActionsFile();
   const { allGroups, groups } = useAppSelector((state) => state.filesReducer);
-  const { bearbeiten, loading, user } = useAppSelector(
+  const { bearbeiten, loading, user, error } = useAppSelector(
     (state) => state.userReducer
   );
 
@@ -99,18 +99,18 @@ export default function Akte() {
     },
     {
       item: "NEDENDIAGNOSEN",
-      name: "nedendiagnose",
+      name: "why_diagnose",
       value: user.why_diagnose,
     },
     {
       item: "BERUF",
-      name: "beruf",
+      name: "profession",
       value: user.profession,
     },
     {
       item: "LOCATION",
       name: "location",
-      value: user.contact,
+      value: user.location,
     },
   ];
 
@@ -195,7 +195,24 @@ export default function Akte() {
   }, []);
 
   if (loading) {
-    <Box>Loadig...</Box>;
+    return (
+      <Box textColor="white" display="flex" justifyContent="center">
+        <Spinner />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box
+        textColor="white"
+        textAlign="center"
+        display="flex"
+        justifyContent="center"
+      >
+        Error <Text pl="5px">{`${error}`}</Text>
+      </Box>
+    );
   }
 
   return (
@@ -215,7 +232,7 @@ export default function Akte() {
       </Text>
 
       <Text mb="28px" color="white" textAlign="center">
-        {user.username}
+        {user.full_name}
       </Text>
       <Text color="white" textAlign="center" mb="33px">
         {user.birth_date}
@@ -240,7 +257,7 @@ export default function Akte() {
           {!bearbeiten ? "SAVE" : "Bearbeiten"}
         </MyButton>
       </Box>
-      <Box>
+      <Box px="12px">
         {listInput.map((el, index) => (
           <Box
             key={index}

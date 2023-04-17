@@ -12,14 +12,14 @@ export default function WelcomePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 3000);
+    }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDisplay("none");
-    }, 3100);
+    }, 2550);
     return () => clearTimeout(timer);
   });
 
@@ -42,7 +42,7 @@ export default function WelcomePage() {
         flexDir="column"
         justifyContent="center"
       >
-        <Text color="#C7C4C4" textAlign="center" fontSize="22px" mb="24px">
+        <Text color="#C7C4C4" textAlign="center" fontSize="31.5px" mb="10px">
           medical
           <span style={{ color: "#E11F26" }}>switzerland</span>
         </Text>

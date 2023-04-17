@@ -109,7 +109,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           </Text>
         </Button>
       </Box>
-      <Box maxW="900px" mx="auto" px="16px">
+      <Box maxW="900px" mx="auto">
         {isNotfall ? notfall : akte}
       </Box>
       {modal && <Registration />}

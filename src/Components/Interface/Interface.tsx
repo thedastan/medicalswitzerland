@@ -31,7 +31,7 @@ interface IInterfaceProps {
 }
 
 export default function Interface({ children }: IInterfaceProps) {
-  const { ActionGetUser, ActionPutUser } = useActionsUser();
+  const { ActionGetUser, ActionPutUser, ActionBearbeiten } = useActionsUser();
   const { ActionActiveSubtrac, ActionActiveProfile, ActionActiveModalMedia } =
     useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
@@ -112,6 +112,10 @@ export default function Interface({ children }: IInterfaceProps) {
             full_name: user.full_name,
             why_diagnose: user.why_diagnose,
           });
+          setImageFile("");
+          setCropData("");
+          ActionGetUser(id);
+          ActionBearbeiten(false);
         }
       })
       .catch((e) => {
@@ -135,9 +139,12 @@ export default function Interface({ children }: IInterfaceProps) {
           flexDir="column"
           justifyContent="center"
           alignItems="center"
-          pb="8px"
-          pt="14px"
+          fontFamily="inter"
+          mb="8px"
+          mt="14px"
           cursor="pointer"
+          fontSize="10px"
+          fontWeight="300"
           onClick={() => {
             ActionActiveModalMedia(true);
             ActionActiveProfile(true);
@@ -158,14 +165,17 @@ export default function Interface({ children }: IInterfaceProps) {
           flexDir="column"
           justifyContent="center"
           alignItems="center"
-          pb="8px"
-          pt="14px"
+          fontFamily="inter"
+          mb="8px"
+          mt="14px"
           cursor="pointer"
+          fontSize="10"
+          fontWeight="300"
           onClick={handleActiveAuth}
         >
           <SvgSubtract />
           <Text color="white" pt="6px">
-            Hinzufugen
+            Hinzufügen
           </Text>
         </Box>
       ),
@@ -177,15 +187,16 @@ export default function Interface({ children }: IInterfaceProps) {
           flexDir="column"
           justifyContent="center"
           alignItems="center"
-          pb="8px"
-          pt="14px"
+          fontFamily="inter"
+          mb="8px"
+          mt="14px"
           cursor="pointer"
+          fontSize="10"
+          fontWeight="300"
           onClick={handleClickModalMore}
         >
           <SVgContact />
-          <Text color="white" pt="6px">
-            Contact
-          </Text>
+          <Text color="white">Contact</Text>
         </Box>
       ),
     },
@@ -216,7 +227,7 @@ export default function Interface({ children }: IInterfaceProps) {
         onChange={(e) => onChangeImage(e, setImageFile)}
       />
       <Box pt="40px" px="16px">
-        <Box mx="auto" maxW="361px" minH="274px" bg="white" pt="90px">
+        <Box mx="auto" maxW="361px" minH="274px" bg="white" pt="80px">
           {user?.avatar ? (
             <>
               <Text
@@ -228,14 +239,14 @@ export default function Interface({ children }: IInterfaceProps) {
                 medical
                 <span style={{ color: "#E11F26" }}>switzerland</span>
               </Text>
-              <Box pos="relative" w="95px" h="95px" mx="auto">
+              <Box pos="relative" w="100px" h="100px" mx="auto">
                 <Image
                   src={`${API_ADDRESS?.substring(0, 35)}${user.avatar.slice(
                     1
                   )}`}
                   alt="avatar"
-                  w="95px"
-                  h="95px"
+                  w="100px"
+                  h="100px"
                   mx="auto"
                   rounded="50%"
                 />
@@ -263,7 +274,7 @@ export default function Interface({ children }: IInterfaceProps) {
                 medical
                 <span style={{ color: "#E11F26" }}>switzerland</span>
               </Text>
-              <Box w="95px" h="95px" mx="auto" mb="10px" pos="relative">
+              <Box w="100px" h="100px" mx="auto" mb="10px" pos="relative">
                 <SvgDefaultAvatar />
                 <Box
                   pos="absolute"
@@ -289,6 +300,7 @@ export default function Interface({ children }: IInterfaceProps) {
         boxShadow="2px 4px 4px 2px #FFFFFF"
         mb="auto"
         w="100%"
+        h="59px"
         bottom="0"
         left="0"
         right="0"

@@ -12,11 +12,11 @@ export enum AuthTypes {
 
 export interface IAuthState {
   authorized: boolean;
-  error: string | unknown;
+  error: string | any | null;
   loading: boolean;
 
   loginLoder: boolean;
-  loginError: string | unknown;
+  loginError: string | any | null;
 
   modal: boolean;
 }

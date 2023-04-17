@@ -28,7 +28,7 @@ export interface IInterfaceUser {
 
 export interface IInterfaceUserState {
   user: IInterfaceUser;
-  error: string | unknown;
+  error: string | any | null;
   loading: boolean;
   bearbeiten: boolean;
 }

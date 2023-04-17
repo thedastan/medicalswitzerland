@@ -26,7 +26,7 @@ export interface IGroupsStateTypes {
   groupsInfo: IInfoList[];
   group: IInfoList;
   loading: boolean;
-  error: string | unknown;
+  error: string | any | null;
 }
 
 interface IGetActionAllGroups {
