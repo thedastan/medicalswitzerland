@@ -80,7 +80,6 @@ export default function Registration() {
     keys: string
   ) => {
     setDataPost({ ...dataPost, [`${keys}`]: e.target.value });
-    ActionGetUser(window.location.pathname.slice(6));
   };
 
   const userId = user?.card_id;
@@ -126,8 +125,15 @@ export default function Registration() {
       profession: "",
       card_id: user.card_id,
       location: "",
-      full_name: "Adam",
+      full_name: "",
     });
+    ActionGetUser(window.location.pathname.slice(6));
+    ActiveModalRegistration(false);
+  };
+
+  const changeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDataPost({ ...dataPost, confirm: e.target.value });
+    ActionGetUser(window.location.pathname.slice(6));
   };
 
   useEffect(() => {
@@ -135,6 +141,12 @@ export default function Registration() {
       setValidate({ ...validate, confirm: false });
     }
   }, [validate.confirm]);
+
+  useEffect(() => {
+    if (user.is_first_time) {
+      ActionGetUser();
+    }
+  }, []);
 
   return (
     <AnimatePresence>
@@ -241,12 +253,7 @@ export default function Registration() {
                             validate.confirm ? "1px solid red" : "1px solid"
                           }
                           value={dataPost.confirm}
-                          onChange={(e) =>
-                            setDataPost({
-                              ...dataPost,
-                              confirm: e.target.value,
-                            })
-                          }
+                          onChange={(e) => changeConfirmPassword(e)}
                         />
                       </Box>
                       <Button
@@ -318,7 +325,7 @@ export default function Registration() {
                       mx="auto"
                       onClick={handleAuthPost}
                     >
-                      Save
+                      Login
                     </Button>
                   </Box>
                 )}

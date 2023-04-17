@@ -34,7 +34,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
   const { modal } = useAppSelector((state) => state.authReducer);
 
   const [isActive, setActive] = useState(TabTypes.NOTFALL);
-  const [validToken, setValidToken] = useState<boolean>();
+  const [validToken, setValidToken] = useState<boolean>(true);
 
   const isNotfall = isActive === TabTypes.NOTFALL;
   const isAkte = isActive === TabTypes.AKTE;
@@ -67,7 +67,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
       .catch((e) => {
         setValidToken(false);
       });
-  }, []);
+  }, [modal]);
 
   return (
     <Box>

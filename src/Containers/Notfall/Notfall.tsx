@@ -1,6 +1,6 @@
 /* External dependencies */
 import axios from "axios";
-import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Input, Spinner, Text, Textarea } from "@chakra-ui/react";
 import { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Slider from "react-slick";
@@ -13,6 +13,7 @@ import SvgDot from "../../assets/svg/SvgDot";
 import API, { API_ADDRESS } from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "./style.css";
 
 import Registration from "../../Components/Registration/Registration";
 import { IInterfaceUser } from "../../Components/Interface/redux/types/Types";
@@ -78,40 +79,11 @@ export default function Notfall() {
     dots.push(<SvgDot key={i} />);
   }
 
-  const listInput = [
-    {
-      item: "NAME",
-      name: "full_name",
-      value: user.full_name,
-    },
-    {
-      item: "BILDUNTERSCHRIFT VERFASSEN",
-      name: "medications",
-      value: user.medications,
-    },
-    {
-      item: "GEBURTSDATUM",
-      name: "birth_date",
-      value: user.birth_date,
-    },
-    {
-      item: "ALLERGIE",
-      name: "allergies_text",
-      value: user.allergies_text,
-    },
-    {
-      item: "NOTFALLKONTAKT",
-      name: "emergency_contact",
-      value: user.emergency_contact,
-    },
-    {
-      item: "BESONDERHEITEN",
-      name: "particularities",
-      value: user.particularities,
-    },
-  ];
-
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDataPost({ ...dataPost, [e.target.name]: e.target.value });
+  };
+
+  const inputChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
 
@@ -123,7 +95,7 @@ export default function Notfall() {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
       .then(() => {
         ActionGetUser(id);
-        ActionAllGroups();
+        // ActionAllGroups();
       })
       .catch((e) => {
         alert(`${e} Error`);
@@ -192,19 +164,51 @@ export default function Notfall() {
     ActionFilesId(id);
   };
 
+  const listInput = [
+    {
+      item: "NAME",
+      name: "full_name",
+      value: user.full_name,
+    },
+    {
+      item: "BILDUNTERSCHRIFT VERFASSEN",
+      name: "medications",
+      value: user.medications,
+    },
+    {
+      item: "GEBURTSDATUM",
+      name: "birth_date",
+      value: user.birth_date,
+    },
+    {
+      item: "NOTFALLKONTAKT",
+      name: "emergency_contact",
+      value: user.emergency_contact,
+    },
+    {
+      item: "BESONDERHEITEN",
+      name: "particularities",
+      value: user.particularities,
+    },
+  ];
+
   useEffect(() => {
     ActionGetUser(id);
   }, []);
 
   useEffect(() => {
-    ActionAllGroups();
+    if (!validToken) {
+      ActionAllGroups();
+    } else {
+      ActionAllGroupsForCardId(window.location.pathname.slice(6));
+    }
   }, []);
 
   useEffect(() => {
     axios
       .post(`${API_ADDRESS}users/auth/verify/`, { token: getAccessToken() })
       .then(() => {
-        ActionAllGroups();
+        // ActionAllGroups();
         setValidToken(false);
       })
       .catch((e) => {
@@ -284,6 +288,31 @@ export default function Notfall() {
               />
             </Box>
           ))}
+          <Text
+            color="gray"
+            fontSize="10px"
+            fontWeight="700"
+            fontFamily="inter"
+            mb="3px"
+            textAlign="start"
+          >
+            ALLERGIE
+          </Text>
+          <Textarea
+            name="allergies_text"
+            onChange={(e) => inputChangeTextArea(e)}
+            rounded="0px"
+            outline="black"
+            resize="none"
+            color="white"
+            fontSize="14px"
+            borderColor="black"
+            defaultValue={user.allergies_text ? user.allergies_text : ""}
+            disabled={bearbeiten}
+            textAlign="start"
+            pl="0"
+            bg={!bearbeiten ? "colorForActiveInput" : "black"}
+          />
         </Box>
         <Box px="10px">
           {allGroups && (
@@ -372,18 +401,20 @@ export default function Notfall() {
                         )}
                       </Box>
                     </Box>
-                    <Slider {...settings}>
-                      {el?.info_list.map((item, index) => (
-                        <Card
-                          key={index}
-                          el={item}
-                          deleteImg={deleteImg}
-                          handleIdForDelete={deletedImage}
-                          handleIdForChange={getIdForFile}
-                          object={el}
-                        />
-                      ))}
-                    </Slider>
+                    <Box mb="53px">
+                      <Slider {...settings}>
+                        {el?.info_list.map((item, index) => (
+                          <Card
+                            key={index}
+                            el={item}
+                            deleteImg={deleteImg}
+                            handleIdForDelete={deletedImage}
+                            handleIdForChange={getIdForFile}
+                            object={el}
+                          />
+                        ))}
+                      </Slider>
+                    </Box>
                   </Box>
                 ))}
             </Box>

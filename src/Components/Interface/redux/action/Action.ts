@@ -14,7 +14,7 @@ export const ActionGetUser = (id?: string) => {
   return async (dispatch: Dispatch<ActionTypesUser>) => {
     try {
       dispatch({ type: InterfaceUserTypes.USER_LOADER, payload: true });
-      const response = await axios.post(`${API_ADDRESS}users/${id}`);
+      const response = await axios.get(`${API_ADDRESS}users/${id}/`);
       const data = response.data;
 
       response.status === 200 ||

@@ -233,7 +233,8 @@ export default function Interface({ children }: IInterfaceProps) {
               <Text
                 color="#C7C4C4"
                 textAlign="center"
-                fontSize="22px"
+                fontSize="30px"
+                h="30px"
                 mb="20px"
               >
                 medical
@@ -266,7 +267,8 @@ export default function Interface({ children }: IInterfaceProps) {
               <Text
                 color="#C7C4C4"
                 textAlign="center"
-                fontSize="22px"
+                fontSize="30px"
+                h="30px"
                 mb="20px"
               >
                 medical
