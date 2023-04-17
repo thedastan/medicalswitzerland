@@ -48,7 +48,11 @@ export default function Akte() {
     ActionGroupsForAkte,
     ActionGroup,
   } = useActionsFile();
-  const { allGroups, groups } = useAppSelector((state) => state.filesReducer);
+  const {
+    allGroups,
+    groups,
+    loading: loader,
+  } = useAppSelector((state) => state.filesReducer);
   const { bearbeiten, loading, user, error } = useAppSelector(
     (state) => state.userReducer
   );
@@ -126,6 +130,7 @@ export default function Akte() {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
       .then(() => {
         ActionGetUser(id);
+        ActionAllGroups();
       })
       .catch((e) => {
         alert(`${e} Error`);
@@ -308,11 +313,11 @@ export default function Akte() {
           </Box>
         )}
 
-        {!bearbeiten ? (
-          allGroups
+        <Box display="flex" flexDir="column-reverse">
+          {allGroups
             .filter((elem) => elem.is_akte === true)
             .map((el) => (
-              <Box>
+              <Box key={el.id}>
                 <Box
                   display="flex"
                   flexDir="column"
@@ -375,102 +380,21 @@ export default function Akte() {
                     )}
                   </Box>
                 </Box>
-                {el?.info_list.map((item, index) => (
-                  <Card
-                    key={index}
-                    el={item}
-                    deleteImg={deleteImg}
-                    handleIdForDelete={deletedImage}
-                    handleIdForChange={getIdForFile}
-                    object={el}
-                  />
-                ))}
-              </Box>
-            ))
-        ) : (
-          <>
-            {allGroups
-              .filter((elem) => elem.is_akte === true)
-              .map((el) => (
-                <Box key={el.id}>
-                  <Box
-                    display="flex"
-                    flexDir="column"
-                    justifyContent="space-between"
-                    mb="10px"
-                  >
-                    <Input
-                      w="100%"
-                      fontSize="18px"
-                      fontFamily="inter"
-                      mb="20px"
-                      defaultValue={el.title}
-                      outline="black"
-                      rounded="0px"
-                      h="27px"
-                      color="white"
-                      pl="0"
-                      borderColor="black"
-                      name="title"
-                      disabled={!disabledFiles || idFiles !== el.id}
-                      bg={
-                        disabledFiles && idFiles === el.id
-                          ? "colorForActiveInput"
-                          : "black"
-                      }
-                      onChange={(e) => inputChangeForFiles(e)}
+                <Slider {...settings}>
+                  {el?.info_list.map((item, index) => (
+                    <Card
+                      key={index}
+                      el={item}
+                      deleteImg={deleteImg}
+                      handleIdForDelete={deletedImage}
+                      handleIdForChange={getIdForFile}
+                      object={el}
                     />
-                    <Box display="flex" justifyContent="space-between">
-                      {deleteImg && (
-                        <Button
-                          color="black"
-                          fontSize="10px"
-                          fontWeight="700"
-                          fontFamily="inter"
-                          bg="white"
-                          w="102px"
-                          h="26px"
-                          onClick={() => {
-                            handleClickPutFiles(el.id);
-                          }}
-                        >
-                          {disabledFiles && el.id === idFiles
-                            ? "Save change"
-                            : "Change info"}
-                        </Button>
-                      )}
-                      {deleteImg && (
-                        <Button
-                          color="black"
-                          fontSize="10px"
-                          fontWeight="700"
-                          fontFamily="inter"
-                          bg="white"
-                          w="102px"
-                          h="26px"
-                          onClick={() => handleClick(el.id)}
-                        >
-                          Added image
-                        </Button>
-                      )}
-                    </Box>
-                  </Box>
-                  <Slider {...settings}>
-                    {el?.info_list.map((item, index) => (
-                      <Card
-                        key={index}
-                        el={item}
-                        deleteImg={deleteImg}
-                        handleIdForDelete={deletedImage}
-                        handleIdForChange={getIdForFile}
-                        object={el}
-                      />
-                    ))}
-                  </Slider>
-                </Box>
-              ))}
-          </>
-        )}
+                  ))}
+                </Slider>
+              </Box>
+            ))}
+        </Box>
       </Box>
       <Box display="flex" justifyContent="center">
         <PopupChangeFile

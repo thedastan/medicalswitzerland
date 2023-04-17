@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { createRef, useEffect, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
-import { Button, Image, Input } from "@chakra-ui/react";
+import { Button, Image, Input, Spinner } from "@chakra-ui/react";
 import "cropperjs/dist/cropper.css";
 
 import { useActionsFile, useActionsUser } from "../../Hooks/useActions";
@@ -37,10 +37,11 @@ export default function PopupChangeFile({
   const [accept, setAccept] = useState("");
   const [cropData, setCropData] = useState("");
   const [imageFile, setImageFile] = useState("");
+  const [text, setText] = useState("");
 
   const [filePdf, setFilePdf] = useState<any>();
   const [pdfIncludes, setPdfIncludes] = useState(false);
-  const [text, setText] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const getCropData = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
@@ -65,6 +66,8 @@ export default function PopupChangeFile({
     if (cropData) {
       const formData = new FormData();
       formData.append("file", image);
+
+      setLoader(true);
       await API.post("users/upload/", formData)
         .then(({ data }) => {
           if (data) {
@@ -78,11 +81,17 @@ export default function PopupChangeFile({
             setImageFile("");
             setText("");
             setModal(false);
+            setChangeFile(false);
             setDeleteCenceled(false);
+            setLoader(false);
           }
         })
         .catch((e) => {
           alert(`${e} Error`);
+          setLoader(false);
+          setText("");
+          ActionAllGroups();
+          setChangeFile(false);
         });
     } else {
       ActionGroupPut(idFile, group.id, {
@@ -90,7 +99,10 @@ export default function PopupChangeFile({
         text: text || group.text,
         id: group.id,
       });
+      ActionAllGroups();
       setDeleteCenceled(false);
+      setChangeFile(false);
+      setText("");
     }
   };
 
@@ -121,7 +133,6 @@ export default function PopupChangeFile({
       await getCropData();
     } else {
       handlePutFiles();
-      setChangeFile(false);
     }
   };
 
@@ -129,6 +140,7 @@ export default function PopupChangeFile({
     setModal(false);
     setChangeFile(false);
     setDeleteCenceled(false);
+    setText("");
   };
 
   useEffect(() => {
@@ -137,6 +149,38 @@ export default function PopupChangeFile({
       ActionGroupsForAkte(idFile);
     }
   }, [idFile]);
+
+  if (loader) {
+    return (
+      <Box
+        minH="100vh"
+        bg="rgba(0, 0, 0, 0.6)"
+        pos="fixed"
+        top="0"
+        bottom="0"
+        left="0"
+        right="0"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Box
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+          alignItems="center"
+          bg="black"
+          pb="30px"
+          rounded="20px"
+        >
+          <Text mb="10px" color="white" pt="30px" px="20px">
+            File is change...
+          </Text>
+          <Spinner color="white" />
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <AnimatePresence>
@@ -196,7 +240,7 @@ export default function PopupChangeFile({
                       mb="20px"
                     />
                     <Input
-                      defaultValue={group.text}
+                      value={text || group.text}
                       onChange={(e) => setText(e.target.value)}
                       bg="white"
                       color="#323232"
@@ -325,7 +369,7 @@ export default function PopupChangeFile({
                   <Box w="100%">
                     <Image src={cropData} w="100%" h="237px" mb="10px" />
                     <Input
-                      defaultValue={group.text}
+                      value={text || group.text}
                       onChange={(e) => setText(e.target.value)}
                       bg="white"
                       color="#323232"
@@ -339,7 +383,6 @@ export default function PopupChangeFile({
                     src={imageFile}
                     minCropBoxHeight={10}
                     minCropBoxWidth={10}
-                    responsive={true}
                   />
                 )}
                 <Box
@@ -435,7 +478,7 @@ export default function PopupChangeFile({
               textTransform="uppercase"
               onClick={handlePutFiles}
             >
-              Save Files
+              Save File
             </Button>
           </Box>
         </Box>

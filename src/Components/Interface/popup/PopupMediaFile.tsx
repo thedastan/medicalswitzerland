@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { createRef, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
-import { Button, Image, Input } from "@chakra-ui/react";
+import { Button, Image, Input, Spinner } from "@chakra-ui/react";
 import "cropperjs/dist/cropper.css";
 
 /* Local dependencies */
@@ -18,11 +18,7 @@ import "./style.css";
 
 import { dataURLtoFile, onChangeImage } from "../../Helpers";
 import { useAppSelector } from "../../../Hooks/Hooks";
-import {
-  useActionsFile,
-  useActionsForModal,
-  useActionsUser,
-} from "../../../Hooks/useActions";
+import { useActionsFile, useActionsForModal } from "../../../Hooks/useActions";
 
 export default function PopupMediaFile() {
   const { ActionActiveModalMedia } = useActionsForModal();
@@ -38,7 +34,7 @@ export default function PopupMediaFile() {
 
   const [accept, setAccept] = useState("");
   const [cropData, setCropData] = useState("");
-
+  const [loader, setLoader] = useState(false);
   const [imageFile, setImageFile] = useState("");
 
   const [openPopup, setOpenPopup] = useState(false);
@@ -73,6 +69,7 @@ export default function PopupMediaFile() {
       : filePdf;
     const formData = new FormData();
     formData.append("file", image);
+    setLoader(true);
     await API.post("users/upload/", formData)
       .then(({ data }) => {
         if (data) {
@@ -81,14 +78,17 @@ export default function PopupMediaFile() {
             file_url: data.path,
           });
           ActionAllGroups();
-          setCropData("");
           setImageFile("");
-          setText("");
+          setCropData("");
           ActionActiveModalMedia(false);
+          setLoader(false);
+          setPdfIncludes(false);
+          setText("");
         }
       })
       .catch((e) => {
         alert(`${e} Error`);
+        setLoader(false);
       });
   };
 
@@ -109,6 +109,8 @@ export default function PopupMediaFile() {
 
   const handleCloseModal = () => {
     ActionActiveModalMedia(false);
+    setPdfIncludes(false);
+    setText("");
   };
 
   const listProfile = [
@@ -130,6 +132,38 @@ export default function PopupMediaFile() {
       onClick: handleClickForDeleteProfile,
     },
   ];
+
+  if (loader) {
+    return (
+      <Box
+        minH="100vh"
+        bg="rgba(0, 0, 0, 0.6)"
+        pos="fixed"
+        top="0"
+        bottom="0"
+        left="0"
+        right="0"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Box
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+          alignItems="center"
+          bg="black"
+          pb="30px"
+          rounded="20px"
+        >
+          <Text mb="10px" color="white" pt="30px" px="20px">
+            File is uploading...
+          </Text>
+          <Spinner color="white" />
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <AnimatePresence>
@@ -303,7 +337,6 @@ export default function PopupMediaFile() {
                     src={imageFile}
                     minCropBoxHeight={10}
                     minCropBoxWidth={10}
-                    responsive={true}
                   />
                 )}
                 <Box
