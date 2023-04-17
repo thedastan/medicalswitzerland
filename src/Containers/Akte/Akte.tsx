@@ -380,18 +380,20 @@ export default function Akte() {
                     )}
                   </Box>
                 </Box>
-                <Slider {...settings}>
-                  {el?.info_list.map((item, index) => (
-                    <Card
-                      key={index}
-                      el={item}
-                      deleteImg={deleteImg}
-                      handleIdForDelete={deletedImage}
-                      handleIdForChange={getIdForFile}
-                      object={el}
-                    />
-                  ))}
-                </Slider>
+                <Box mb="53px">
+                  <Slider {...settings}>
+                    {el?.info_list.map((item, index) => (
+                      <Card
+                        key={index}
+                        el={item}
+                        deleteImg={deleteImg}
+                        handleIdForDelete={deletedImage}
+                        handleIdForChange={getIdForFile}
+                        object={el}
+                      />
+                    ))}
+                  </Slider>
+                </Box>
               </Box>
             ))}
         </Box>

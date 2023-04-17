@@ -29,7 +29,7 @@ export default function Card({
   object,
 }: ICardProps) {
   return (
-    <Box maxW="372px" h="100%" mb="53px" mx="auto">
+    <Box maxW="372px" h="100%" mx="auto">
       <Box position="relative">
         {el.file_url?.slice(-3) === "png" ? (
           <Image
