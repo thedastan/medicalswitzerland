@@ -11,7 +11,7 @@ import SvgClose from "../../assets/svg/SvgClose";
 import "./style.scss";
 
 import { useAppSelector } from "../../Hooks/Hooks";
-import { useActionsAuth } from "../../Hooks/useActions";
+import { useActionsAuth, useActionsUser } from "../../Hooks/useActions";
 import { getAccessToken } from "../Helpers";
 import axios from "axios";
 import API, { API_ADDRESS } from "../../Api";
@@ -34,7 +34,8 @@ export default function Registration() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const { AuthPost, LoginPost, ActiveModalRegistration } = useActionsAuth();
+  const { LoginPost, ActiveModalRegistration } = useActionsAuth();
+  const { ActionGetUser } = useActionsUser();
   const { loading, loginLoder } = useAppSelector((state) => state.authReducer);
   const { user } = useAppSelector((state) => state.userReducer);
 
@@ -79,24 +80,29 @@ export default function Registration() {
     keys: string
   ) => {
     setDataPost({ ...dataPost, [`${keys}`]: e.target.value });
+    ActionGetUser(window.location.pathname.slice(6));
   };
 
   const userId = user?.card_id;
 
   const handleAuthPost = () => {
-    axios
-      .post(`${API_ADDRESS}users/auth/`, {
-        email: dataPost.email,
-        password: dataPost.password,
-      })
-      .then((response) => {
-        localStorage.setItem("accessToken", response.data.access);
-        localStorage.setItem("refreshToken", response.data.refresh);
-        ActiveModalRegistration(false);
-      })
-      .catch((e) => {
-        alert("Ошибка!!! Проверте имя или пароль");
-      });
+    if (user.email) {
+      axios
+        .post(`${API_ADDRESS}users/auth/`, {
+          email: user.email,
+          password: dataPost.password,
+        })
+        .then((response) => {
+          localStorage.setItem("accessToken", response.data.access);
+          localStorage.setItem("refreshToken", response.data.refresh);
+          ActiveModalRegistration(false);
+        })
+        .catch((e) => {
+          alert("Ошибка!!! Проверте имя или пароль");
+        });
+    } else {
+      alert("No no");
+    }
   };
 
   const handleLoginUser = () => {
@@ -276,7 +282,7 @@ export default function Registration() {
                 ) : (
                   <Box mb="3px" w="215px" mx="auto">
                     <Input
-                      placeholder="Enter new email"
+                      placeholder="Enter password"
                       fontSize="10px"
                       fontWeight="200"
                       textColor="#3C3C3C"
@@ -285,21 +291,7 @@ export default function Registration() {
                       bg="#D9D9D9"
                       textAlign="center"
                       border="1px solid"
-                      mb="10px"
-                      onChange={(e) =>
-                        setDataPost({ ...dataPost, email: e.target.value })
-                      }
-                    />
-                    <Input
-                      placeholder="Enter new password"
-                      fontSize="10px"
-                      fontWeight="200"
-                      textColor="#3C3C3C"
-                      rounded="0px"
-                      h="35px"
-                      bg="#D9D9D9"
-                      textAlign="center"
-                      border="1px solid"
+                      type="password"
                       onChange={(e) =>
                         setDataPost({ ...dataPost, password: e.target.value })
                       }

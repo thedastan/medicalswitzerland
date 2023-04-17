@@ -250,17 +250,15 @@ export default function Interface({ children }: IInterfaceProps) {
                   mx="auto"
                   rounded="50%"
                 />
-                {!bearbeiten && (
-                  <Box
-                    pos="absolute"
-                    top="8px"
-                    right="-11px"
-                    cursor="pointer"
-                    onClick={handleActiveAuthAvatart}
-                  >
-                    <SvgAdded />
-                  </Box>
-                )}
+                <Box
+                  pos="absolute"
+                  top="10px"
+                  right="-9px"
+                  cursor="pointer"
+                  onClick={handleActiveAuthAvatart}
+                >
+                  <SvgAdded />
+                </Box>
               </Box>
             </>
           ) : (
@@ -278,8 +276,8 @@ export default function Interface({ children }: IInterfaceProps) {
                 <SvgDefaultAvatar />
                 <Box
                   pos="absolute"
-                  top="8px"
-                  right="-11px"
+                  top="10px"
+                  right="-9px"
                   cursor="pointer"
                   onClick={handleActiveAuthAvatart}
                 >
@@ -332,7 +330,6 @@ export default function Interface({ children }: IInterfaceProps) {
                     src={imageFile}
                     minCropBoxHeight={10}
                     minCropBoxWidth={10}
-                    responsive={true}
                   />
                 )}
 

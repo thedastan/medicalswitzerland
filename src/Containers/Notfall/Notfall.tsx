@@ -1,8 +1,9 @@
 /* External dependencies */
+import axios from "axios";
 import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router";
-import axios from "axios";
+import Slider from "react-slick";
 
 /* Local dependencies */
 import Card from "../../Components/Ui/Card/Card";
@@ -10,6 +11,8 @@ import MyButton from "../../Components/Ui/Button/Button";
 import MyInput from "../../Components/Ui/Input/Input";
 import SvgDot from "../../assets/svg/SvgDot";
 import API, { API_ADDRESS } from "../../Api";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import Registration from "../../Components/Registration/Registration";
 import { IInterfaceUser } from "../../Components/Interface/redux/types/Types";
@@ -47,7 +50,11 @@ export default function Notfall() {
     ActionGroup,
   } = useActionsFile();
   const { ActiveModalRegistration } = useActionsAuth();
-  const { allGroups, groups } = useAppSelector((state) => state.filesReducer);
+  const {
+    allGroups,
+    groups,
+    loading: loader,
+  } = useAppSelector((state) => state.filesReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
   const { error, loading, user, bearbeiten } = useAppSelector(
     (state) => state.userReducer
@@ -116,6 +123,7 @@ export default function Notfall() {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
       .then(() => {
         ActionGetUser(id);
+        ActionAllGroups();
       })
       .catch((e) => {
         alert(`${e} Error`);
@@ -205,6 +213,16 @@ export default function Notfall() {
       });
   }, []);
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    // dotsClass: "slick-dots custom-dots-class",
+  };
+
   if (loading) {
     return (
       <Box textColor="white" display="flex" justifyContent="center">
@@ -286,84 +304,94 @@ export default function Notfall() {
               {dots}
             </Box>
           )}
-          {allGroups
-            .filter((elem) => elem.is_akte === false)
-            .map((el) => (
-              <Box key={el.id}>
-                <Box
-                  display="flex"
-                  flexDir="column"
-                  justifyContent="space-between"
-                  mb="10px"
-                >
-                  <Input
-                    w="100%"
-                    fontSize="18px"
-                    fontFamily="inter"
-                    mb="20px"
-                    defaultValue={el.title}
-                    outline="black"
-                    rounded="0px"
-                    h="27px"
-                    color="white"
-                    pl="0"
-                    borderColor="black"
-                    name="title"
-                    disabled={!disabledFiles || idFiles !== el.id}
-                    bg={
-                      disabledFiles && idFiles === el.id
-                        ? "colorForActiveInput"
-                        : "black"
-                    }
-                    onChange={(e) => inputChangeForFiles(e)}
-                  />
-                  <Box display="flex" justifyContent="space-between">
-                    {deleteImg && (
-                      <Button
-                        color="black"
-                        fontSize="10px"
-                        fontWeight="700"
+          {!loader ? (
+            <Box display="flex" flexDir="column-reverse">
+              {allGroups
+                .filter((elem) => elem.is_akte === false)
+                .map((el) => (
+                  <Box key={el.id}>
+                    <Box
+                      display="flex"
+                      flexDir="column"
+                      justifyContent="space-between"
+                      mb="10px"
+                    >
+                      <Input
+                        w="100%"
+                        fontSize="18px"
                         fontFamily="inter"
-                        bg="white"
-                        w="102px"
-                        h="26px"
-                        onClick={() => {
-                          handleClickPutFiles(el.id);
-                        }}
-                      >
-                        {disabledFiles && el.id === idFiles
-                          ? "Save change"
-                          : "Change info"}
-                      </Button>
-                    )}
-                    {deleteImg && (
-                      <Button
-                        color="black"
-                        fontSize="10px"
-                        fontWeight="700"
-                        fontFamily="inter"
-                        bg="white"
-                        w="102px"
-                        h="26px"
-                        onClick={() => handleClick(el.id)}
-                      >
-                        Added image
-                      </Button>
-                    )}
+                        mb="20px"
+                        defaultValue={el.title}
+                        outline="black"
+                        rounded="0px"
+                        h="27px"
+                        color="white"
+                        pl="0"
+                        borderColor="black"
+                        name="title"
+                        disabled={!disabledFiles || idFiles !== el.id}
+                        bg={
+                          disabledFiles && idFiles === el.id
+                            ? "colorForActiveInput"
+                            : "black"
+                        }
+                        onChange={(e) => inputChangeForFiles(e)}
+                      />
+                      <Box display="flex" justifyContent="space-between">
+                        {deleteImg && (
+                          <Button
+                            color="black"
+                            fontSize="10px"
+                            fontWeight="700"
+                            fontFamily="inter"
+                            bg="white"
+                            w="102px"
+                            h="26px"
+                            onClick={() => {
+                              handleClickPutFiles(el.id);
+                            }}
+                          >
+                            {disabledFiles && el.id === idFiles
+                              ? "Save change"
+                              : "Change info"}
+                          </Button>
+                        )}
+                        {deleteImg && (
+                          <Button
+                            color="black"
+                            fontSize="10px"
+                            fontWeight="700"
+                            fontFamily="inter"
+                            bg="white"
+                            w="102px"
+                            h="26px"
+                            onClick={() => handleClick(el.id)}
+                          >
+                            Added image
+                          </Button>
+                        )}
+                      </Box>
+                    </Box>
+                    <Slider {...settings}>
+                      {el?.info_list.map((item, index) => (
+                        <Card
+                          key={index}
+                          el={item}
+                          deleteImg={deleteImg}
+                          handleIdForDelete={deletedImage}
+                          handleIdForChange={getIdForFile}
+                          object={el}
+                        />
+                      ))}
+                    </Slider>
                   </Box>
-                </Box>
-                {el?.info_list.map((item, index) => (
-                  <Card
-                    key={index}
-                    el={item}
-                    deleteImg={deleteImg}
-                    handleIdForDelete={deletedImage}
-                    handleIdForChange={getIdForFile}
-                    object={el}
-                  />
                 ))}
-              </Box>
-            ))}
+            </Box>
+          ) : (
+            <Box textColor="white" display="flex" justifyContent="center">
+              <Spinner />
+            </Box>
+          )}
         </Box>
       </Box>
 

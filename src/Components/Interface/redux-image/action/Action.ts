@@ -140,3 +140,16 @@ export const ActionGroupPut = (
     }
   };
 };
+
+// export const ActionGroupPost = (id?: string, dataPost?: IInfoList) => {
+//   return async (dispatch:Dispatch<ActionsGroup>) =>{
+//     try {
+//       const response = await API.post(`groups/${id}/`, dataPost);
+//       const data = response.data;
+
+//       dispatch({ type: InterfaceImageTypes.USER_FILE, payload: data });
+//     } catch (e) {
+//       dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+//     }
+//   }
+// };
