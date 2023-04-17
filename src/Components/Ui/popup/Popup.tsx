@@ -62,13 +62,13 @@ export default function Popup({
               onClick={(e) => e.stopPropagation()}
               className="modal--content__wrapper"
             >
-              <Box bg="thirdlittleGray" h="166px" rounded="12px">
+              <Box bg="thirdlittleGray" h="166px" rounded="12px" zIndex="10">
                 <Box
                   w="17px"
                   h="17px"
                   ml="auto"
-                  pr="25px"
-                  pt="4px"
+                  pr="22px"
+                  pt="6px"
                   mb="20px"
                   onClick={() => {
                     setModal(false);
@@ -95,7 +95,7 @@ export default function Popup({
                       textAlign="center"
                       color="white"
                     >
-                      Do you want to delete your medicalswitzerland {value} ?
+                      Do you want to delete your medicalswitzerland Profil ?
                     </Text>
                     <Box>
                       <Button
@@ -109,7 +109,7 @@ export default function Popup({
                         _focus={{ bg: "#202020" }}
                         onClick={() => setSuccess(true)}
                       >
-                        Yes
+                        YES
                       </Button>
                       <Button
                         bg="#121212"
@@ -122,7 +122,7 @@ export default function Popup({
                         _focus={{ bg: "#202020" }}
                         onClick={() => setModal(false)}
                       >
-                        No
+                        NO
                       </Button>
                     </Box>
                   </>
@@ -135,7 +135,7 @@ export default function Popup({
                     color="white"
                     onClick={() => setSuccess(!success)}
                   >
-                    Your {value} has been successfully deleted
+                    Your profil has been successfully deleted
                   </Text>
                 )}
               </Box>

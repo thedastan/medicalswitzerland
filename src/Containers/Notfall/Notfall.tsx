@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Box, Button, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
@@ -84,8 +84,8 @@ export default function Notfall() {
     },
     {
       item: "GEBURTSDATUM",
-      name: "profession",
-      value: user.profession,
+      name: "birth_date",
+      value: user.birth_date,
     },
     {
       item: "ALLERGIE",
@@ -94,8 +94,8 @@ export default function Notfall() {
     },
     {
       item: "NOTFALLKONTAKT",
-      name: "contact",
-      value: user.contact,
+      name: "emergency_contact",
+      value: user.emergency_contact,
     },
     {
       item: "BESONDERHEITEN",
@@ -206,11 +206,24 @@ export default function Notfall() {
   }, []);
 
   if (loading) {
-    return <Box textColor="white">Loading...</Box>;
+    return (
+      <Box textColor="white" display="flex" justifyContent="center">
+        <Spinner />
+      </Box>
+    );
   }
 
   if (error) {
-    return <Box textColor="white">Warring!!!</Box>;
+    return (
+      <Box
+        textColor="white"
+        textAlign="center"
+        display="flex"
+        justifyContent="center"
+      >
+        Error <Text pl="5px">{`${error}`}</Text>
+      </Box>
+    );
   }
 
   return (
@@ -229,125 +242,129 @@ export default function Notfall() {
         </MyButton>
       </Box>
       <Box>
-        {listInput?.map((el, index) => (
-          <Box key={index}>
-            <Text
-              color="gray"
-              fontSize="10px"
-              fontWeight="700"
-              fontFamily="inter"
-              mb="3px"
-            >
-              {el.item}
-            </Text>
-            <MyInput
-              onChange={(e) => e && inputChange(e)}
-              name={el.name}
-              marginBottom="19px"
-              rounded="0px"
-              color="white"
-              defaultValue={el.value ? el.value : ""}
-              disabled={bearbeiten}
-              typeColor={!bearbeiten ? "colorForActiveInput" : "black"}
-            />
-          </Box>
-        ))}
-        {allGroups && (
-          <Box
-            display="flex"
-            mb="11px"
-            mt="46px"
-            py="10px"
-            gap="2px"
-            w="32px"
-            ml="auto"
-            onClick={() =>
-              validToken
-                ? ActiveModalRegistration(true)
-                : setDeleteImg(!deleteImg)
-            }
-          >
-            {dots}
-          </Box>
-        )}
-        {allGroups
-          .filter((elem) => elem.is_akte === false)
-          .map((el) => (
-            <Box key={el.id}>
-              <Box
-                display="flex"
-                flexDir="column"
-                justifyContent="space-between"
-                mb="10px"
+        <Box px="41px">
+          {listInput?.map((el, index) => (
+            <Box key={index}>
+              <Text
+                color="gray"
+                fontSize="10px"
+                fontWeight="700"
+                fontFamily="inter"
+                mb="3px"
               >
-                <Input
-                  w="100%"
-                  fontSize="18px"
-                  fontFamily="inter"
-                  mb="20px"
-                  defaultValue={el.title}
-                  outline="black"
-                  rounded="0px"
-                  h="27px"
-                  color="white"
-                  pl="0"
-                  borderColor="black"
-                  name="title"
-                  disabled={!disabledFiles || idFiles !== el.id}
-                  bg={
-                    disabledFiles && idFiles === el.id
-                      ? "colorForActiveInput"
-                      : "black"
-                  }
-                  onChange={(e) => inputChangeForFiles(e)}
-                />
-                <Box display="flex" justifyContent="space-between">
-                  {deleteImg && (
-                    <Button
-                      color="black"
-                      fontSize="10px"
-                      fontWeight="700"
-                      fontFamily="inter"
-                      bg="white"
-                      w="102px"
-                      h="26px"
-                      onClick={() => {
-                        handleClickPutFiles(el.id);
-                      }}
-                    >
-                      {disabledFiles && el.id === idFiles
-                        ? "Save change"
-                        : "Change info"}
-                    </Button>
-                  )}
-                  {deleteImg && (
-                    <Button
-                      color="black"
-                      fontSize="10px"
-                      fontWeight="700"
-                      fontFamily="inter"
-                      bg="white"
-                      w="102px"
-                      h="26px"
-                      onClick={() => handleClick(el.id)}
-                    >
-                      Added image
-                    </Button>
-                  )}
-                </Box>
-              </Box>
-              {el?.info_list.map((item, index) => (
-                <Card
-                  key={index}
-                  el={item}
-                  deleteImg={deleteImg}
-                  handleIdForDelete={deletedImage}
-                  handleIdForChange={getIdForFile}
-                  object={el}
-                />
-              ))}
+                {el.item}
+              </Text>
+              <MyInput
+                onChange={(e) => e && inputChange(e)}
+                name={el.name}
+                marginBottom="19px"
+                rounded="0px"
+                color="white"
+                defaultValue={el.value ? el.value : ""}
+                disabled={bearbeiten}
+                typeColor={!bearbeiten ? "colorForActiveInput" : "black"}
+              />
             </Box>
           ))}
+        </Box>
+        <Box px="10px">
+          {allGroups && (
+            <Box
+              display="flex"
+              mb="11px"
+              mt="46px"
+              py="10px"
+              gap="2px"
+              w="32px"
+              ml="auto"
+              onClick={() =>
+                validToken
+                  ? ActiveModalRegistration(true)
+                  : setDeleteImg(!deleteImg)
+              }
+            >
+              {dots}
+            </Box>
+          )}
+          {allGroups
+            .filter((elem) => elem.is_akte === false)
+            .map((el) => (
+              <Box key={el.id}>
+                <Box
+                  display="flex"
+                  flexDir="column"
+                  justifyContent="space-between"
+                  mb="10px"
+                >
+                  <Input
+                    w="100%"
+                    fontSize="18px"
+                    fontFamily="inter"
+                    mb="20px"
+                    defaultValue={el.title}
+                    outline="black"
+                    rounded="0px"
+                    h="27px"
+                    color="white"
+                    pl="0"
+                    borderColor="black"
+                    name="title"
+                    disabled={!disabledFiles || idFiles !== el.id}
+                    bg={
+                      disabledFiles && idFiles === el.id
+                        ? "colorForActiveInput"
+                        : "black"
+                    }
+                    onChange={(e) => inputChangeForFiles(e)}
+                  />
+                  <Box display="flex" justifyContent="space-between">
+                    {deleteImg && (
+                      <Button
+                        color="black"
+                        fontSize="10px"
+                        fontWeight="700"
+                        fontFamily="inter"
+                        bg="white"
+                        w="102px"
+                        h="26px"
+                        onClick={() => {
+                          handleClickPutFiles(el.id);
+                        }}
+                      >
+                        {disabledFiles && el.id === idFiles
+                          ? "Save change"
+                          : "Change info"}
+                      </Button>
+                    )}
+                    {deleteImg && (
+                      <Button
+                        color="black"
+                        fontSize="10px"
+                        fontWeight="700"
+                        fontFamily="inter"
+                        bg="white"
+                        w="102px"
+                        h="26px"
+                        onClick={() => handleClick(el.id)}
+                      >
+                        Added image
+                      </Button>
+                    )}
+                  </Box>
+                </Box>
+                {el?.info_list.map((item, index) => (
+                  <Card
+                    key={index}
+                    el={item}
+                    deleteImg={deleteImg}
+                    handleIdForDelete={deletedImage}
+                    handleIdForChange={getIdForFile}
+                    object={el}
+                  />
+                ))}
+              </Box>
+            ))}
+        </Box>
       </Box>
 
       {modal && (

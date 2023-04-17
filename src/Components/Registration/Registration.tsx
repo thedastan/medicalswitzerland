@@ -170,7 +170,7 @@ export default function Registration() {
           className="modal--content__wrapper"
           key={3}
         >
-          <Box bg="thirdlittleGray" h="266px" rounded="12px">
+          <Box bg="thirdlittleGray" h="266px" rounded="12px" zIndex="6">
             <Box
               w="17px"
               h="17px"

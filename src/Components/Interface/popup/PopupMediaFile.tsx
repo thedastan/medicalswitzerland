@@ -25,7 +25,6 @@ import {
 } from "../../../Hooks/useActions";
 
 export default function PopupMediaFile() {
-  const { ActionBearbeiten } = useActionsUser();
   const { ActionActiveModalMedia } = useActionsForModal();
   const { ActionAllGroups } = useActionsFile();
   const { filesId, activeMediaModal, profile, subtract } = useAppSelector(
@@ -47,24 +46,10 @@ export default function PopupMediaFile() {
   const [pdfIncludes, setPdfIncludes] = useState(false);
   const [text, setText] = useState("");
 
-  const listProfile = [
-    {
-      svg: <SvgPhoneCall />,
-      item: user.contact || " ",
-    },
-    {
-      svg: <SvgMail />,
-      item: user.email || " ",
-    },
-    {
-      svg: <SvgLocation />,
-      item: user.location || " ",
-    },
-    {
-      svg: <SvgBasket />,
-      item: "Delete profile",
-    },
-  ];
+  const handleClickForDeleteProfile = () => {
+    setOpenPopup(true);
+    ActionActiveModalMedia(false);
+  };
 
   const getCropData = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
@@ -100,7 +85,6 @@ export default function PopupMediaFile() {
           setImageFile("");
           setText("");
           ActionActiveModalMedia(false);
-          ActionBearbeiten(false);
         }
       })
       .catch((e) => {
@@ -125,8 +109,27 @@ export default function PopupMediaFile() {
 
   const handleCloseModal = () => {
     ActionActiveModalMedia(false);
-    ActionBearbeiten(false);
   };
+
+  const listProfile = [
+    {
+      svg: <SvgPhoneCall />,
+      item: user.contact || " ",
+    },
+    {
+      svg: <SvgMail />,
+      item: user.email || " ",
+    },
+    {
+      svg: <SvgLocation />,
+      item: user.location || " ",
+    },
+    {
+      svg: <SvgBasket />,
+      item: "Delete profile",
+      onClick: handleClickForDeleteProfile,
+    },
+  ];
 
   return (
     <AnimatePresence>
@@ -171,7 +174,7 @@ export default function PopupMediaFile() {
               className="modal-content"
             >
               {subtract && (
-                <Box zIndex="8">
+                <Box zIndex="6">
                   <Text
                     cursor="pointer"
                     color="#0F6FFF"
@@ -218,7 +221,7 @@ export default function PopupMediaFile() {
                 </Box>
               )}
               {profile && (
-                <Box zIndex="8">
+                <Box zIndex="6">
                   {listProfile.map((el, index) => (
                     <Box
                       key={index}
@@ -230,7 +233,7 @@ export default function PopupMediaFile() {
                       roundedBottom={
                         listProfile.length - 1 === index ? "12px" : "0"
                       }
-                      onClick={() => setOpenPopup(true)}
+                      onClick={el.onClick}
                     >
                       <Box pl={index > 1 ? "12px" : "10px"}>{el.svg}</Box>
                       <Box
@@ -342,7 +345,6 @@ export default function PopupMediaFile() {
           )}
         </Box>
       )}
-
       {pdfIncludes && (
         <Box
           pos="fixed"
