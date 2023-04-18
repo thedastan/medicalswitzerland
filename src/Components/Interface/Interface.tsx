@@ -31,12 +31,15 @@ interface IInterfaceProps {
 }
 
 export default function Interface({ children }: IInterfaceProps) {
-  const { ActionGetUser, ActionPutUser, ActionBearbeiten } = useActionsUser();
+  const { ActionGetUser, ActionPutUser } = useActionsUser();
   const { ActionActiveSubtrac, ActionActiveProfile, ActionActiveModalMedia } =
     useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
   const { user } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
+  const { subtract, more, profile } = useAppSelector(
+    (state) => state.idReducer
+  );
 
   const { id } = useParams<string>();
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -46,19 +49,23 @@ export default function Interface({ children }: IInterfaceProps) {
   const [popupMore, setPopupMore] = useState(false);
   const [imageFile, setImageFile] = useState("");
   const [cropData, setCropData] = useState("");
-  const [validToken, setValidToken] = useState<boolean>();
+  const [validToken, setValidToken] = useState<boolean>(false);
 
   const handleActiveAuth = () => {
-    if ((user.is_first_time && !validToken) || !validToken) {
-      ActiveModalRegistration(true);
+    if (validToken) {
+      alert(validToken);
+      // getAccessToken();
+      // setPopup(true);
+      // ActiveModalRegistration(false);
+      // ActionActiveModalMedia(false);
+      // ActionActiveProfile(false);
+      // ActionActiveSubtrac(true);
     } else {
-      setPopup(true);
-      ActiveModalRegistration(false);
-      ActionActiveModalMedia(false);
-      ActionActiveSubtrac(true);
-      ActionActiveProfile(false);
+      ActiveModalRegistration(true);
     }
   };
+
+  console.log(validToken);
 
   const handleClickModalMore = () => {
     if (!validToken) {
@@ -94,7 +101,7 @@ export default function Interface({ children }: IInterfaceProps) {
     await API.post("users/upload/", formData)
       .then(({ data }) => {
         if (data) {
-          ActionPutUser({
+          ActionPutUser(window.location.pathname.slice(6), {
             allergies: user.allergies,
             allergies_text: user.allergies_text,
             avatar: data?.path.slice(6) || user.avatar,
@@ -115,7 +122,6 @@ export default function Interface({ children }: IInterfaceProps) {
           setImageFile("");
           setCropData("");
           ActionGetUser(id);
-          ActionBearbeiten(false);
         }
       })
       .catch((e) => {
@@ -201,10 +207,9 @@ export default function Interface({ children }: IInterfaceProps) {
       ),
     },
   ];
-
   useEffect(() => {
     ActionGetUser(id);
-  }, []);
+  }, [subtract, profile, more]);
 
   useEffect(() => {
     axios
@@ -318,36 +323,49 @@ export default function Interface({ children }: IInterfaceProps) {
         <Box pos="fixed" top="0" left="0" right="0" bottom="0" bg="black">
           {imageFile && (
             <Box
+              maxW="372px"
+              mx="auto"
               display="flex"
               minH="100vh"
               justifyContent="center"
               alignItems="center"
+              px="13px"
             >
               <Box>
                 {cropData ? (
                   <Image src={cropData} />
                 ) : (
-                  <Cropper
-                    ref={cropperRef}
-                    src={imageFile}
-                    minCropBoxHeight={10}
-                    minCropBoxWidth={10}
-                  />
+                  <Box h="300px" pos="relative" maxW="372px">
+                    <Cropper
+                      ref={cropperRef}
+                      src={imageFile}
+                      minCropBoxHeight={10}
+                      minCropBoxWidth={10}
+                      zoomOnTouch={false}
+                      zoomOnWheel={false}
+                      zoomable={false}
+                      minCanvasWidth={102}
+                      minCanvasHeight={87}
+                      style={{ width: "100%", height: "237px" }}
+                    />
+                  </Box>
                 )}
-
                 <Box
+                  maxW="500px"
                   display="flex"
-                  w="100%"
-                  justifyContent="space-evenly"
-                  mt="50px"
+                  justifyContent="space-between"
+                  mx="auto"
+                  gap="2px"
+                  mt="20px"
                 >
                   <Button
                     textColor="white"
                     bg="#ff3a22"
                     fontSize="10px"
                     fontWeight="500"
-                    w="80px"
-                    h="30px"
+                    w="50%"
+                    h="36px"
+                    rounded="0"
                     textTransform="uppercase"
                     onClick={() => {
                       setImageFile("");
@@ -357,12 +375,13 @@ export default function Interface({ children }: IInterfaceProps) {
                     Cencel
                   </Button>
                   <Button
-                    textColor="white"
-                    bg="whatsapp.500"
+                    textColor="black"
+                    bg="white"
                     fontSize="10px"
                     fontWeight="500"
-                    w="80px"
-                    h="30px"
+                    w="50%"
+                    h="36px"
+                    rounded="0"
                     textTransform="uppercase"
                     onClick={distributionFunction}
                   >

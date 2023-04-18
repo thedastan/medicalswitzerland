@@ -104,7 +104,7 @@ export default function Notfall() {
   }
 
   function handleClickPut() {
-    ActionPutUser({
+    ActionPutUser(window.location.pathname.slice(6), {
       allergies: dataPost.allergies || user.allergies,
       allergies_text: dataPost.allergies_text || user.allergies_text,
       avatar: dataPost.avatar || user.avatar?.slice(6) || "",
@@ -120,7 +120,7 @@ export default function Notfall() {
       profession: dataPost.profession || user.profession,
       full_name: dataPost.full_name || user.full_name,
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
-      location: user.location ? user.location : "",
+      location: "",
     });
     ActionBearbeiten(true);
   }
@@ -316,7 +316,7 @@ export default function Notfall() {
           />
         </Box>
         <Box px="10px">
-          {allGroups && (
+          {allGroups.filter((el) => el.is_akte === false).length && (
             <Button
               display="flex"
               mb="11px"
@@ -437,7 +437,6 @@ export default function Notfall() {
           )}
         </Box>
       </Box>
-
       {modal && (
         <Box
           pos="fixed"
@@ -451,7 +450,6 @@ export default function Notfall() {
           <Registration />
         </Box>
       )}
-
       <Box display="flex" justifyContent="center">
         <PopupChangeFile
           idFile={idFile}
