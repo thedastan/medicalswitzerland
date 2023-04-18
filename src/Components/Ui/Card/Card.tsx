@@ -58,13 +58,16 @@ export default function Card({
 
         {deleteImg && (
           <Box
-            w="20px"
-            h="26px"
+            rounded="50%"
+            bg="black"
+            w="30px"
+            h="30px"
             pos="absolute"
             top="23px"
             right="11px"
             display="flex"
-            justifyContent="end"
+            justifyContent="center"
+            alignItems="center"
             onClick={() => handleIdForDelete(object, el.id)}
           >
             <SvgRedBasket />
@@ -73,13 +76,13 @@ export default function Card({
 
         {deleteImg && (
           <Box
-            rounded="3px"
+            rounded="50%"
             bg="black"
-            w="26px"
-            h="26px"
+            w="30px"
+            h="30px"
             pos="absolute"
             top="23px"
-            right="40px"
+            left="11px"
             display="flex"
             justifyContent="center"
             alignItems="center"

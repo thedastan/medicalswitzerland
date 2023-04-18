@@ -17,10 +17,12 @@ import API from "../../../Api";
 import "./style.css";
 
 import { dataURLtoFile, onChangeImage } from "../../Helpers";
-import { useAppSelector } from "../../../Hooks/Hooks";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/Hooks";
 import { useActionsFile, useActionsForModal } from "../../../Hooks/useActions";
+import { InterfaceImageTypes } from "../redux-image/types/Types";
 
 export default function PopupMediaFile() {
+  const dispatch = useAppDispatch();
   const { ActionActiveModalMedia } = useActionsForModal();
   const { ActionAllGroups } = useActionsFile();
   const { filesId, activeMediaModal, profile, subtract } = useAppSelector(
@@ -42,7 +44,7 @@ export default function PopupMediaFile() {
   const [pdfIncludes, setPdfIncludes] = useState(false);
   const [text, setText] = useState("");
 
-  const handleClickForDeleteProfile = () => {
+  const handleClickForDeleteProfile = async () => {
     setOpenPopup(true);
     ActionActiveModalMedia(false);
   };
@@ -70,20 +72,40 @@ export default function PopupMediaFile() {
     const formData = new FormData();
     formData.append("file", image);
     setLoader(true);
+    dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
     await API.post("users/upload/", formData)
       .then(({ data }) => {
         if (data) {
           API.post(`groups/${filesId}/info/`, {
             text: text,
             file_url: data.path,
-          });
-          ActionAllGroups();
-          setImageFile("");
-          setCropData("");
-          ActionActiveModalMedia(false);
-          setLoader(false);
-          setPdfIncludes(false);
-          setText("");
+          })
+            .then(() => {
+              dispatch({
+                type: InterfaceImageTypes.USER_FILES_LOADER,
+                payload: false,
+              });
+              ActionAllGroups();
+              setImageFile("");
+              setCropData("");
+              ActionActiveModalMedia(false);
+              setLoader(false);
+              setPdfIncludes(false);
+              setText("");
+            })
+            .catch(() => {
+              dispatch({
+                type: InterfaceImageTypes.USER_FILES_LOADER,
+                payload: false,
+              });
+              ActionAllGroups();
+              setImageFile("");
+              setCropData("");
+              ActionActiveModalMedia(false);
+              setLoader(false);
+              setPdfIncludes(false);
+              setText("");
+            });
         }
       })
       .catch((e) => {
@@ -323,37 +345,50 @@ export default function PopupMediaFile() {
                   <Box w="100%">
                     <Image src={cropData} w="100%" h="237px" mb="10px" />
                     <Input
-                      value={text}
+                      defaultValue={text}
                       onChange={(e) => setText(e.target.value)}
                       bg="white"
                       color="#323232"
-                      fontSize="14px"
+                      fontSize="10px"
                       placeholder="Beschreibung..."
+                      rounded="0px"
+                      fontWeight="300"
+                      fontFamily="inter"
+                      h="37px"
                     />
                   </Box>
                 ) : (
-                  <Cropper
-                    ref={cropperRef}
-                    src={imageFile}
-                    minCropBoxHeight={10}
-                    minCropBoxWidth={10}
-                  />
+                  <Box h="300px" pos="relative" maxW="372px">
+                    <Cropper
+                      ref={cropperRef}
+                      src={imageFile}
+                      minCropBoxHeight={10}
+                      minCropBoxWidth={10}
+                      zoomOnTouch={false}
+                      zoomOnWheel={false}
+                      zoomable={false}
+                      minCanvasWidth={102}
+                      minCanvasHeight={87}
+                      style={{ width: "100%", height: "237px" }}
+                    />
+                  </Box>
                 )}
                 <Box
                   maxW="500px"
                   display="flex"
                   justifyContent="space-between"
                   mx="auto"
-                  gap="10px"
+                  gap="2px"
                   mt="20px"
                 >
                   <Button
                     textColor="white"
                     bg="#ff3a22"
                     fontSize="10px"
-                    fontWeight="700"
-                    w="40vw"
-                    h="35px"
+                    fontWeight="500"
+                    w="50%"
+                    h="36px"
+                    rounded="0"
                     textTransform="uppercase"
                     onClick={handleCencelCrop}
                   >
@@ -363,9 +398,10 @@ export default function PopupMediaFile() {
                     textColor="black"
                     bg="white"
                     fontSize="10px"
-                    fontWeight="700"
-                    w="40vw"
-                    h="35px"
+                    fontWeight="500"
+                    w="50%"
+                    h="36px"
+                    rounded="0"
                     textTransform="uppercase"
                     onClick={distributionFunction}
                     disabled={text?.length > 0 ? false : true}

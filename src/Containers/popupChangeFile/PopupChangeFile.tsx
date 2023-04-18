@@ -11,11 +11,14 @@ import { useAppSelector } from "../../Hooks/Hooks";
 import { dataURLtoFile, onChangeImage } from "../../Components/Helpers";
 import API, { API_ADDRESS } from "../../Api";
 import SvgPdf from "../../assets/svg/SvgPdf";
+import SvgClose from "../../assets/svg/SvgClose";
+import SvgPdfWhite from "../../assets/svg/SvgPdfWhite";
+import SvgPhotosWhite from "../../assets/svg/SvgPhotoWhite";
 
 interface IPopupChangeProps {
   idFile: string;
   setModal: (value: boolean) => void;
-  setDeleteCenceled: (value: boolean) => void;
+  // setDeleteCenceled: (value: boolean) => void;
   modal: boolean;
 }
 
@@ -23,8 +26,8 @@ export default function PopupChangeFile({
   idFile,
   modal,
   setModal,
-  setDeleteCenceled,
-}: IPopupChangeProps) {
+}: // setDeleteCenceled,
+IPopupChangeProps) {
   const { ActionAllGroups, ActionGroupPut, ActionGroups, ActionGroupsForAkte } =
     useActionsFile();
   const { group } = useAppSelector((state) => state.filesReducer);
@@ -33,7 +36,6 @@ export default function PopupChangeFile({
   const fileRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
-  const [changeFile, setChangeFile] = useState(false);
   const [accept, setAccept] = useState("");
   const [cropData, setCropData] = useState("");
   const [imageFile, setImageFile] = useState("");
@@ -63,9 +65,9 @@ export default function PopupChangeFile({
     const image = cropData
       ? dataURLtoFile(cropData, `${Math.floor(Math.random() * 100000)}.png`)
       : filePdf;
-    if (cropData) {
+    if (cropData || filePdf) {
       const formData = new FormData();
-      formData.append("file", image);
+      formData.append("file", filePdf);
 
       setLoader(true);
       await API.post("users/upload/", formData)
@@ -81,9 +83,9 @@ export default function PopupChangeFile({
             setImageFile("");
             setText("");
             setModal(false);
-            setChangeFile(false);
-            setDeleteCenceled(false);
+            // setDeleteCenceled(false);
             setLoader(false);
+            setPdfIncludes(false);
           }
         })
         .catch((e) => {
@@ -91,7 +93,7 @@ export default function PopupChangeFile({
           setLoader(false);
           setText("");
           ActionAllGroups();
-          setChangeFile(false);
+          setPdfIncludes(false);
         });
     } else {
       ActionGroupPut(idFile, group.id, {
@@ -100,8 +102,7 @@ export default function PopupChangeFile({
         id: group.id,
       });
       ActionAllGroups();
-      setDeleteCenceled(false);
-      setChangeFile(false);
+      // setDeleteCenceled(false);
       setText("");
     }
   };
@@ -117,7 +118,8 @@ export default function PopupChangeFile({
     setImageFile("");
     setText("");
     setModal(false);
-    setDeleteCenceled(false);
+    // setDeleteCenceled(false);
+    setPdfIncludes(false);
   };
 
   const handleCencelCrop = () => {
@@ -125,7 +127,6 @@ export default function PopupChangeFile({
     setImageFile("");
     setText("");
     setModal(false);
-    setChangeFile(false);
   };
 
   const distributionFunction = async () => {
@@ -138,8 +139,8 @@ export default function PopupChangeFile({
 
   const handleCloseModal = () => {
     setModal(false);
-    setChangeFile(false);
-    setDeleteCenceled(false);
+    // setDeleteCenceled(false);
+    setPdfIncludes(false);
     setText("");
   };
 
@@ -224,95 +225,113 @@ export default function PopupChangeFile({
               onClick={(e) => e.stopPropagation()}
               className="modal-content"
             >
-              {!changeFile ? (
+              <Box bg="#202020" rounded="12px" zIndex="5" mr="auto" px="13px">
                 <Box
-                  bg="thirdlittleGray"
-                  rounded="12px"
-                  zIndex="5"
-                  py="30px"
-                  mr="auto"
+                  w="20px"
+                  h="20px"
+                  ml="auto"
+                  pt="9px"
+                  mb="9px"
+                  onClick={handleCloseModal}
                 >
-                  <Box maxW="372px" mx="auto">
-                    <Image
-                      src={`${API_ADDRESS?.substring(0, 34)}${group.file_url}`}
-                      maxW="372px"
-                      mx="auto"
-                      mb="20px"
-                    />
-                    <Input
-                      value={text || group.text}
-                      onChange={(e) => setText(e.target.value)}
-                      bg="white"
-                      color="#323232"
-                      fontSize="14px"
-                      placeholder="Beschreibung..."
-                      mb="20px"
-                      maxW="372px"
-                    />
+                  <SvgClose />
+                </Box>
+                <Box maxW="372px" mx="auto">
+                  <Box
+                    maxW="500px"
+                    display="flex"
+                    justifyContent="space-between"
+                    mx="auto"
+                    gap="2px"
+                    mt="20px"
+                    mb="10px"
+                  >
                     <Button
                       textColor="white"
-                      bg="whatsapp.500"
-                      fontSize="10px"
-                      fontWeight="700"
-                      w="100%"
-                      h="35px"
-                      textTransform="uppercase"
-                      onClick={handlePutFile}
-                    >
-                      Save file !
-                    </Button>
-                    <Box
-                      maxW="500px"
+                      bg="#1A1A1A"
+                      fontSize="8px"
+                      fontWeight="300"
+                      fontFamily="inter"
                       display="flex"
-                      justifyContent="space-between"
-                      mx="auto"
-                      gap="10px"
-                      mt="20px"
+                      flexDir="column"
+                      w="50%"
+                      h="37px"
+                      textTransform="uppercase"
+                      rounded="0px"
+                      onClick={() => fileRef.current?.click()}
                     >
-                      <Button
-                        textColor="white"
-                        bg="#ff3a22"
-                        fontSize="10px"
-                        fontWeight="700"
-                        w="40vw"
-                        h="35px"
-                        textTransform="uppercase"
-                        onClick={handleCloseModal}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        textColor="black"
-                        bg="white"
-                        fontSize="10px"
-                        fontWeight="700"
-                        w="40vw"
-                        h="35px"
-                        textTransform="uppercase"
-                        onClick={() => setChangeFile(!changeFile)}
-                      >
-                        Change image
-                      </Button>
-                    </Box>
+                      <SvgPdfWhite />
+                      <Text mt="5px">PDF</Text>
+                    </Button>
+                    <Button
+                      textColor="white"
+                      bg="#1A1A1A"
+                      fontSize="8px"
+                      fontWeight="300"
+                      fontFamily="inter"
+                      display="flex"
+                      flexDir="column"
+                      w="50%"
+                      h="37px"
+                      textTransform="uppercase"
+                      rounded="0px"
+                      onClick={() => {
+                        setAccept("image/png, image/gif, image/jpeg");
+                        imageRef.current?.click();
+                      }}
+                    >
+                      <SvgPhotosWhite />
+                      <Text mt="5px">Photo</Text>
+                    </Button>
                   </Box>
-                </Box>
-              ) : (
-                <Box>
-                  <Text
-                    cursor="pointer"
-                    color="#0F6FFF"
-                    py="10px"
-                    bg="thirdlittleGray"
-                    textAlign="center"
-                    roundedTop="7px"
-                    onClick={() => {
-                      setAccept("image/png, image/gif, image/jpeg");
-                      imageRef.current?.click();
-                    }}
-                    fontFamily="inter"
+                  {group.file_url.slice(-3) === "png" ? (
+                    <Image
+                      src={`${API_ADDRESS?.substring(0, 34)}${group.file_url}`}
+                      w="100%"
+                      h="237px"
+                      mx="auto"
+                      mb="4px"
+                    />
+                  ) : (
+                    <Box
+                      w="100%"
+                      h="237px"
+                      mx="auto"
+                      mb="4px"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <SvgPdf />
+                    </Box>
+                  )}
+                  <Input
+                    value={text || group.text}
+                    onChange={(e) => setText(e.target.value)}
+                    bg="white"
+                    mx="auto"
+                    color="#323232"
+                    fontSize="14px"
+                    placeholder="Beschreibung..."
+                    mb="6px"
+                    maxW="372px"
+                    h="36px"
+                    rounded="0px"
+                  />
+                  <Button
+                    textColor="black"
+                    bg="#F90707"
+                    fontSize="10px"
+                    fontWeight="500"
+                    rounded="0px"
+                    w="100%"
+                    h="37px"
+                    textTransform="uppercase"
+                    mb="20px"
+                    onClick={handlePutFile}
                   >
-                    Photo
-                  </Text>
+                    DONE
+                  </Button>
                   <input
                     type="file"
                     style={{ display: "none" }}
@@ -327,22 +346,8 @@ export default function PopupChangeFile({
                     ref={fileRef}
                     onChange={(e) => handleFile(e)}
                   />
-                  <Text
-                    cursor="pointer"
-                    color="#0F6FFF"
-                    py="10px"
-                    bg="thirdlittleGray"
-                    textAlign="center"
-                    roundedBottom="7px"
-                    onClick={() => {
-                      fileRef.current?.click();
-                    }}
-                    fontFamily="inter"
-                  >
-                    PDF file
-                  </Text>
                 </Box>
-              )}
+              </Box>
             </motion.div>
           </motion.div>
         </>
@@ -369,37 +374,50 @@ export default function PopupChangeFile({
                   <Box w="100%">
                     <Image src={cropData} w="100%" h="237px" mb="10px" />
                     <Input
-                      value={text || group.text}
+                      defaultValue={text || group.text}
                       onChange={(e) => setText(e.target.value)}
                       bg="white"
                       color="#323232"
-                      fontSize="14px"
+                      fontSize="10px"
                       placeholder="Beschreibung..."
+                      rounded="0px"
+                      fontWeight="300"
+                      fontFamily="inter"
+                      h="37px"
                     />
                   </Box>
                 ) : (
-                  <Cropper
-                    ref={cropperRef}
-                    src={imageFile}
-                    minCropBoxHeight={10}
-                    minCropBoxWidth={10}
-                  />
+                  <Box h="300px" pos="relative" maxW="372px">
+                    <Cropper
+                      ref={cropperRef}
+                      src={imageFile}
+                      minCropBoxHeight={10}
+                      minCropBoxWidth={10}
+                      zoomOnTouch={false}
+                      zoomOnWheel={false}
+                      zoomable={false}
+                      minCanvasWidth={102}
+                      minCanvasHeight={87}
+                      style={{ width: "100%", height: "237px" }}
+                    />
+                  </Box>
                 )}
                 <Box
                   maxW="500px"
                   display="flex"
                   justifyContent="space-between"
                   mx="auto"
-                  gap="10px"
+                  gap="2px"
                   mt="20px"
                 >
                   <Button
                     textColor="white"
                     bg="#ff3a22"
                     fontSize="10px"
-                    fontWeight="700"
-                    w="40vw"
-                    h="35px"
+                    fontWeight="500"
+                    w="50%"
+                    h="36px"
+                    rounded="0"
                     textTransform="uppercase"
                     onClick={handleCencelCrop}
                   >
@@ -409,9 +427,10 @@ export default function PopupChangeFile({
                     textColor="black"
                     bg="white"
                     fontSize="10px"
-                    fontWeight="700"
-                    w="40vw"
-                    h="35px"
+                    fontWeight="500"
+                    w="50%"
+                    h="36px"
+                    rounded="0"
                     textTransform="uppercase"
                     onClick={distributionFunction}
                     disabled={text?.length > 0 ? false : true}
@@ -434,52 +453,72 @@ export default function PopupChangeFile({
           bottom="0"
           bg="black"
           zIndex="7"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
         >
-          <Box>
+          <Box w="100%" mx="auto" px="13px">
+            <Box maxW="385px" mx="auto">
+              <Box
+                bg="#1A1A1A"
+                maxW="372px"
+                mx="auto"
+                h="237px"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mb="5px"
+              >
+                <SvgPdf />
+              </Box>
+              <Box>
+                <Input
+                  defaultValue={group.text}
+                  onChange={(e) => setText(e.target.value)}
+                  bg="white"
+                  h="36px"
+                  rounded="0px"
+                  fontFamily="inter"
+                  fontWeight="500"
+                  fontSize="12px"
+                />
+              </Box>
+            </Box>
             <Box
-              mx="auto"
-              maxW="372px"
-              h="237px"
               display="flex"
-              justifyContent="center"
-              alignItems="center"
+              gap="2px"
+              justifyContent="space-between"
+              mt="30px"
+              maxW="385px"
+              mx="auto"
             >
-              <SvgPdf />
-            </Box>
-            <Box mx="auto" maxW="372px">
-              <Input
-                defaultValue={group.text}
-                onChange={(e) => setText(e.target.value)}
+              <Button
+                textColor="white"
+                bg="#F90707"
+                fontSize="10px"
+                fontWeight="300"
+                w="50%"
+                h="36px"
+                rounded="0"
+                textTransform="uppercase"
+                onClick={handleCloseModal}
+              >
+                Cencel
+              </Button>
+              <Button
+                textColor="black"
                 bg="white"
-                fontSize="16px"
-              />
+                fontSize="10px"
+                fontWeight="300"
+                w="50%"
+                h="36px"
+                rounded="0"
+                textTransform="uppercase"
+                onClick={handlePutFiles}
+              >
+                Save
+              </Button>
             </Box>
-          </Box>
-          <Box display="flex" w="100%" justifyContent="space-evenly" mt="50px">
-            <Button
-              textColor="white"
-              bg="#ff3a22"
-              fontSize="10px"
-              fontWeight="500"
-              w="80px"
-              h="30px"
-              textTransform="uppercase"
-              onClick={handleCloseModal}
-            >
-              Cencel
-            </Button>
-            <Button
-              textColor="white"
-              bg="whatsapp.500"
-              fontSize="10px"
-              fontWeight="500"
-              w="80px"
-              h="30px"
-              textTransform="uppercase"
-              onClick={handlePutFiles}
-            >
-              Save File
-            </Button>
           </Box>
         </Box>
       )}
