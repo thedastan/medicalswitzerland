@@ -52,23 +52,19 @@ export default function Interface({ children }: IInterfaceProps) {
   const [validToken, setValidToken] = useState<boolean>(false);
 
   const handleActiveAuth = () => {
-    if (validToken) {
-      alert(validToken);
-      // getAccessToken();
-      // setPopup(true);
-      // ActiveModalRegistration(false);
-      // ActionActiveModalMedia(false);
-      // ActionActiveProfile(false);
-      // ActionActiveSubtrac(true);
+    if (user.is_first_time && getAccessToken()) {
+      setPopup(true);
+      ActiveModalRegistration(false);
+      ActionActiveModalMedia(false);
+      ActionActiveProfile(false);
+      ActionActiveSubtrac(true);
     } else {
       ActiveModalRegistration(true);
     }
   };
 
-  console.log(validToken);
-
   const handleClickModalMore = () => {
-    if (!validToken) {
+    if (validToken) {
       setPopupMore(true);
     } else {
       ActiveModalRegistration(true);
@@ -207,6 +203,7 @@ export default function Interface({ children }: IInterfaceProps) {
       ),
     },
   ];
+
   useEffect(() => {
     ActionGetUser(id);
   }, [subtract, profile, more]);
