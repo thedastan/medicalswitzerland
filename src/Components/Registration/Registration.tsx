@@ -95,6 +95,7 @@ export default function Registration() {
           localStorage.setItem("accessToken", response.data.access);
           localStorage.setItem("refreshToken", response.data.refresh);
           ActiveModalRegistration(false);
+          ActionGetUser(window.location.pathname.slice(6));
         })
         .catch((e) => {
           alert("Ошибка!!! Проверте имя или пароль");
@@ -141,12 +142,6 @@ export default function Registration() {
       setValidate({ ...validate, confirm: false });
     }
   }, [validate.confirm]);
-
-  useEffect(() => {
-    if (user.is_first_time) {
-      ActionGetUser();
-    }
-  }, []);
 
   return (
     <AnimatePresence>

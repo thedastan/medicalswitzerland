@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 /* Local dependencies */
 import SvgClose from "../../../assets/svg/SvgClose";
+import { useActionsUser } from "../../../Hooks/useActions";
+import API from "../../../Api";
 import "./style.scss";
 
 interface IPopupProps {
@@ -21,7 +23,22 @@ export default function Popup({
   setModal,
   value,
 }: IPopupProps) {
+  const { ActionGetUser } = useActionsUser();
   const [success, setSuccess] = useState(false);
+
+  const destroyUser = async () => {
+    try {
+      const response = await API.delete("/users/destroy/");
+
+      ActionGetUser(window.location.pathname.slice(6));
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("accessToken");
+      window.location.reload();
+      setSuccess(true);
+    } catch (e) {
+      setSuccess(false);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -107,7 +124,7 @@ export default function Popup({
                         fontSize="10px"
                         color="white"
                         _focus={{ bg: "#202020" }}
-                        onClick={() => setSuccess(true)}
+                        onClick={destroyUser}
                       >
                         YES
                       </Button>

@@ -35,7 +35,7 @@ export default function Interface({ children }: IInterfaceProps) {
   const { ActionActiveSubtrac, ActionActiveProfile, ActionActiveModalMedia } =
     useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
-  const { bearbeiten, user } = useAppSelector((state) => state.userReducer);
+  const { user } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
 
   const { id } = useParams<string>();
@@ -49,11 +49,11 @@ export default function Interface({ children }: IInterfaceProps) {
   const [validToken, setValidToken] = useState<boolean>();
 
   const handleActiveAuth = () => {
-    if (user.is_first_time && !validToken) {
+    if ((user.is_first_time && !validToken) || !validToken) {
       ActiveModalRegistration(true);
     } else {
-      ActiveModalRegistration(false);
       setPopup(true);
+      ActiveModalRegistration(false);
       ActionActiveModalMedia(false);
       ActionActiveSubtrac(true);
       ActionActiveProfile(false);
@@ -69,7 +69,7 @@ export default function Interface({ children }: IInterfaceProps) {
   };
 
   const handleActiveAuthAvatart = () => {
-    if (user.is_first_time && !getAccessToken()) {
+    if ((user.is_first_time && !validToken) || !validToken) {
       ActiveModalRegistration(true);
     } else {
       ActiveModalRegistration(false);
@@ -210,10 +210,10 @@ export default function Interface({ children }: IInterfaceProps) {
     axios
       .post(`${API_ADDRESS}users/auth/verify/`, { token: getAccessToken() })
       .then(() => {
-        setValidToken(false);
-      })
-      .catch((e) => {
         setValidToken(true);
+      })
+      .catch(() => {
+        setValidToken(false);
       });
   }, []);
 

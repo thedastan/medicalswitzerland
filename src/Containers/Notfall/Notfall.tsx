@@ -60,6 +60,7 @@ export default function Notfall() {
   const { error, loading, user, bearbeiten } = useAppSelector(
     (state) => state.userReducer
   );
+  const loaderForile = useAppSelector((state) => state.filesReducer.loading);
 
   const { id } = useParams<string>();
   const [idFile, setIdFile] = useState("");
@@ -227,7 +228,7 @@ export default function Notfall() {
     // dotsClass: "slick-dots custom-dots-class",
   };
 
-  if (loading) {
+  if (loading || loaderForile) {
     return (
       <Box textColor="white" display="flex" justifyContent="center">
         <Spinner />
@@ -316,13 +317,12 @@ export default function Notfall() {
         </Box>
         <Box px="10px">
           {allGroups && (
-            <Box
+            <Button
               display="flex"
               mb="11px"
               mt="46px"
-              py="10px"
-              gap="2px"
-              w="32px"
+              w="30px"
+              px="0"
               ml="auto"
               onClick={() =>
                 validToken
@@ -331,7 +331,7 @@ export default function Notfall() {
               }
             >
               {dots}
-            </Box>
+            </Button>
           )}
           {!loader ? (
             <Box display="flex" flexDir="column-reverse">
@@ -347,13 +347,13 @@ export default function Notfall() {
                     >
                       <Input
                         w="100%"
-                        fontSize="18px"
+                        fontSize="10px"
                         fontFamily="inter"
-                        mb="20px"
+                        mb="5px"
                         defaultValue={el.title}
                         outline="black"
                         rounded="0px"
-                        h="27px"
+                        h="37px"
                         color="white"
                         pl="0"
                         borderColor="black"
@@ -369,13 +369,23 @@ export default function Notfall() {
                       <Box display="flex" justifyContent="space-between">
                         {deleteImg && (
                           <Button
-                            color="black"
+                            color={
+                              disabledFiles && el.id === idFiles
+                                ? "black"
+                                : "white"
+                            }
                             fontSize="10px"
                             fontWeight="700"
                             fontFamily="inter"
-                            bg="white"
-                            w="102px"
-                            h="26px"
+                            bg={
+                              disabledFiles && el.id === idFiles
+                                ? "white"
+                                : "#1A1A1A"
+                            }
+                            w="50%"
+                            h="37px"
+                            mr="2px"
+                            rounded="0px"
                             onClick={() => {
                               handleClickPutFiles(el.id);
                             }}
@@ -387,13 +397,15 @@ export default function Notfall() {
                         )}
                         {deleteImg && (
                           <Button
-                            color="black"
+                            color="white"
                             fontSize="10px"
                             fontWeight="700"
                             fontFamily="inter"
-                            bg="white"
-                            w="102px"
-                            h="26px"
+                            bg="#1A1A1A"
+                            w="50%"
+                            h="37px"
+                            ml="2px"
+                            rounded="0px"
                             onClick={() => handleClick(el.id)}
                           >
                             Added image
@@ -445,7 +457,7 @@ export default function Notfall() {
           idFile={idFile}
           modal={modalChange}
           setModal={setModalChange}
-          setDeleteCenceled={setDeleteImg}
+          // setDeleteCenceled={setDeleteImg}
         />
       </Box>
     </Fragment>

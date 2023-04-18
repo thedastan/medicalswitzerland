@@ -326,13 +326,13 @@ export default function Akte() {
                 >
                   <Input
                     w="100%"
-                    fontSize="18px"
+                    fontSize="10px"
                     fontFamily="inter"
-                    mb="20px"
+                    mb="5px"
                     defaultValue={el.title}
                     outline="black"
                     rounded="0px"
-                    h="27px"
+                    h="37px"
                     color="white"
                     pl="0"
                     borderColor="black"
@@ -348,13 +348,21 @@ export default function Akte() {
                   <Box display="flex" justifyContent="space-between">
                     {deleteImg && (
                       <Button
-                        color="black"
+                        color={
+                          disabledFiles && el.id === idFiles ? "black" : "white"
+                        }
                         fontSize="10px"
                         fontWeight="700"
                         fontFamily="inter"
-                        bg="white"
-                        w="102px"
-                        h="26px"
+                        bg={
+                          disabledFiles && el.id === idFiles
+                            ? "white"
+                            : "#1A1A1A"
+                        }
+                        w="50%"
+                        h="37px"
+                        mr="2px"
+                        rounded="0px"
                         onClick={() => {
                           handleClickPutFiles(el.id);
                         }}
@@ -366,13 +374,15 @@ export default function Akte() {
                     )}
                     {deleteImg && (
                       <Button
-                        color="black"
+                        color="white"
                         fontSize="10px"
                         fontWeight="700"
                         fontFamily="inter"
-                        bg="white"
-                        w="102px"
-                        h="26px"
+                        bg="#1A1A1A"
+                        w="50%"
+                        h="37px"
+                        ml="2px"
+                        rounded="0px"
                         onClick={() => handleClick(el.id)}
                       >
                         Added image
@@ -403,7 +413,7 @@ export default function Akte() {
           idFile={idFile}
           modal={modalChange}
           setModal={setModalChange}
-          setDeleteCenceled={setDeleteImg}
+          // setDeleteCenceled={setDeleteImg}
         />
       </Box>
     </Fragment>
