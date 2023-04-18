@@ -138,15 +138,15 @@ export default function PopupMediaFile() {
   const listProfile = [
     {
       svg: <SvgPhoneCall />,
-      item: user.contact || " ",
+      item: user.emergency_contact || "",
     },
     {
       svg: <SvgMail />,
-      item: user.email || " ",
+      item: user.email || "",
     },
     {
       svg: <SvgLocation />,
-      item: user.location || " ",
+      item: user.location || "",
     },
     {
       svg: <SvgBasket />,

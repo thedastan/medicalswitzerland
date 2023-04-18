@@ -29,14 +29,15 @@ export const ActionGetUser = (id?: string) => {
   };
 };
 
-export const ActionPutUser = (postData?: IInterfaceUser) => {
+export const ActionPutUser = (id: string, postData?: IInterfaceUser) => {
   return async (dispatch: Dispatch<ActionTypesUser>) => {
     try {
       const response = await API.put(`users/`, postData);
       const data = response.data;
-
       dispatch({ type: InterfaceUserTypes.USER_UPLOAD, payload: data });
+      ActionGetUser(id);
     } catch (e) {
+      dispatch({ type: InterfaceUserTypes.USER_LOADER, payload: false });
       dispatch({ type: InterfaceUserTypes.USER_ERROR, payload: e });
     }
   };

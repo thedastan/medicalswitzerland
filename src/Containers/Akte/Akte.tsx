@@ -139,7 +139,7 @@ export default function Akte() {
 
   function handleClickPut() {
     ActionBearbeiten(!bearbeiten);
-    ActionPutUser({
+    ActionPutUser(window.location.pathname.slice(6), {
       allergies: dataPost.allergies || user.allergies,
       allergies_text: dataPost.allergies_text || user.allergies_text,
       avatar: dataPost.avatar || user.avatar?.slice(6) || "",
@@ -298,7 +298,7 @@ export default function Akte() {
           </Box>
         ))}
 
-        {allGroups && (
+        {allGroups.filter((el) => el.is_akte === true).length && (
           <Box
             display="flex"
             mb="11px"

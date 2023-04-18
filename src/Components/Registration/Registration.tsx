@@ -96,6 +96,7 @@ export default function Registration() {
           localStorage.setItem("refreshToken", response.data.refresh);
           ActiveModalRegistration(false);
           ActionGetUser(window.location.pathname.slice(6));
+          window.location.reload();
         })
         .catch((e) => {
           alert("Ошибка!!! Проверте имя или пароль");
@@ -244,6 +245,7 @@ export default function Registration() {
                           h="35px"
                           bg="#D9D9D9"
                           textAlign="center"
+                          type="password"
                           border={
                             validate.confirm ? "1px solid red" : "1px solid"
                           }
