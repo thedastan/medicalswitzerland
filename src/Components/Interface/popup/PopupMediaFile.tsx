@@ -16,7 +16,7 @@ import Popup from "../../Ui/popup/Popup";
 import API from "../../../Api";
 import "./style.css";
 
-import { dataURLtoFile, onChangeImage } from "../../Helpers";
+import { dataURLtoFile, getAccessToken, onChangeImage } from "../../Helpers";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hooks";
 import { useActionsFile, useActionsForModal } from "../../../Hooks/useActions";
 import { InterfaceImageTypes } from "../redux-image/types/Types";
@@ -45,8 +45,10 @@ export default function PopupMediaFile() {
   const [text, setText] = useState("");
 
   const handleClickForDeleteProfile = async () => {
-    setOpenPopup(true);
-    ActionActiveModalMedia(false);
+    if (getAccessToken()) {
+      setOpenPopup(true);
+      ActionActiveModalMedia(false);
+    }
   };
 
   const getCropData = () => {
