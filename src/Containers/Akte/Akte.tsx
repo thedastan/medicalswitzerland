@@ -155,7 +155,7 @@ export default function Akte() {
       profession: dataPost.profession || user.profession,
       full_name: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
-      location: user.location ? user.location : "",
+      location: dataPost.location || user.location || "",
     });
   }
 

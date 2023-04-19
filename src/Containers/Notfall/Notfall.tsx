@@ -120,7 +120,7 @@ export default function Notfall() {
       profession: dataPost.profession || user.profession,
       full_name: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
-      location: "",
+      location: dataPost.location || user.location || "",
     });
     ActionBearbeiten(true);
   }

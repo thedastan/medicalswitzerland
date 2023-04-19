@@ -52,14 +52,16 @@ export default function Interface({ children }: IInterfaceProps) {
   const [validToken, setValidToken] = useState<boolean>(false);
 
   const handleActiveAuth = () => {
-    if (user.is_first_time && getAccessToken()) {
+    if (user.is_first_time && !getAccessToken()) {
+      ActiveModalRegistration(true);
+    } else if (!user.is_first_time && !getAccessToken()) {
+      ActiveModalRegistration(true);
+    } else {
       setPopup(true);
       ActiveModalRegistration(false);
       ActionActiveModalMedia(false);
       ActionActiveProfile(false);
       ActionActiveSubtrac(true);
-    } else {
-      ActiveModalRegistration(true);
     }
   };
 

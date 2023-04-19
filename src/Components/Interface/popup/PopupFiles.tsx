@@ -43,6 +43,12 @@ export default function PopupFiles({ setModal }: IPopupFilesProps) {
     }
   };
 
+  const deleteGroup = (id: string) => {
+    API.delete(`groups/${id}`).then(() => {
+      ActionAllGroups();
+    });
+  };
+
   const handleCloseModal = () => {
     setModal(false);
     setTitle("");
@@ -152,6 +158,7 @@ export default function PopupFiles({ setModal }: IPopupFilesProps) {
                       display="flex"
                       justifyContent="center"
                       alignItems="center"
+                      onClick={() => deleteGroup(el.id)}
                     >
                       <SvgRedBasket />
                     </Box>
