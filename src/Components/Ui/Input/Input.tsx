@@ -76,7 +76,7 @@ export default function MyInput(props: CustomInputProps) {
       borderColor="transparent"
       focusBorderColor="black"
       disabled={disabled}
-      textAlign={textAlign ? textAlign : "start"}
+      textAlign="start"
     />
   );
 }

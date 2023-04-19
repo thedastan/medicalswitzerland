@@ -173,7 +173,7 @@ export default function Notfall() {
     {
       item: "NAME",
       name: "full_name",
-      value: user.username,
+      value: user.full_name,
       type: "text",
       placeholder: "Name hinzufugen",
     },
