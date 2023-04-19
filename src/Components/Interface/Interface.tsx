@@ -73,6 +73,16 @@ export default function Interface({ children }: IInterfaceProps) {
     }
   };
 
+  const handleClickModalProfile = () => {
+    if (validToken) {
+      ActionActiveModalMedia(true);
+      ActionActiveProfile(true);
+      ActionActiveSubtrac(false);
+    } else {
+      ActiveModalRegistration(true);
+    }
+  };
+
   const handleActiveAuthAvatart = () => {
     if ((user.is_first_time && !validToken) || !validToken) {
       ActiveModalRegistration(true);
@@ -149,11 +159,7 @@ export default function Interface({ children }: IInterfaceProps) {
           cursor="pointer"
           fontSize="10px"
           fontWeight="300"
-          onClick={() => {
-            ActionActiveModalMedia(true);
-            ActionActiveProfile(true);
-            ActionActiveSubtrac(false);
-          }}
+          onClick={handleClickModalProfile}
         >
           <SvgProfile />
           <Text color="white" pt="6px">
@@ -371,7 +377,7 @@ export default function Interface({ children }: IInterfaceProps) {
                       setCropData("");
                     }}
                   >
-                    Cencel
+                    Cancel
                   </Button>
                   <Button
                     textColor="black"

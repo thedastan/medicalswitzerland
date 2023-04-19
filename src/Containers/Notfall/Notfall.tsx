@@ -27,6 +27,7 @@ import {
 } from "../../Hooks/useActions";
 import { useAppSelector } from "../../Hooks/Hooks";
 import PopupChangeFile from "../popupChangeFile/PopupChangeFile";
+import PopupForm from "../../Components/Registration/PopupForm";
 
 interface IGroupsTypes {
   id: string;
@@ -42,7 +43,8 @@ export default function Notfall() {
     ActionActiveSubtrac,
     ActionActiveProfile,
   } = useActionsForModal();
-  const { ActionGetUser, ActionPutUser, ActionBearbeiten } = useActionsUser();
+  const { ActionGetUser, ActionPutUser, ActionBearbeitenNotfall } =
+    useActionsUser();
   const {
     ActionAllGroups,
     ActionAllGroupsForCardId,
@@ -50,14 +52,14 @@ export default function Notfall() {
     ActionGroups,
     ActionGroup,
   } = useActionsFile();
-  const { ActiveModalRegistration } = useActionsAuth();
+  const { ActiveModalRegistration, ActiveModalSuccess } = useActionsAuth();
   const {
     allGroups,
     groups,
     loading: loader,
   } = useAppSelector((state) => state.filesReducer);
-  const { modal } = useAppSelector((state) => state.authReducer);
-  const { error, loading, user, bearbeiten } = useAppSelector(
+  const { modal, successPopup } = useAppSelector((state) => state.authReducer);
+  const { error, loading, user, bearbeitenNotfall } = useAppSelector(
     (state) => state.userReducer
   );
   const loaderForile = useAppSelector((state) => state.filesReducer.loading);
@@ -119,10 +121,12 @@ export default function Notfall() {
       particularities: dataPost.particularities || user.particularities,
       profession: dataPost.profession || user.profession,
       full_name: dataPost.full_name || user.full_name || "",
+      username: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: dataPost.location || user.location || "",
     });
-    ActionBearbeiten(true);
+
+    ActionBearbeitenNotfall(true);
   }
 
   function handleClickPutFiles(id: string) {
@@ -152,7 +156,7 @@ export default function Notfall() {
 
   function handleBearbeitenValid() {
     if (!validToken) {
-      ActionBearbeiten(!bearbeiten);
+      ActionBearbeitenNotfall(!bearbeitenNotfall);
     } else {
       ActiveModalRegistration(true);
     }
@@ -169,8 +173,9 @@ export default function Notfall() {
     {
       item: "NAME",
       name: "full_name",
-      value: user.full_name,
+      value: user.username,
       type: "text",
+      placeholder: "Name hinzufugen",
     },
     {
       item: "BILDUNTERSCHRIFT VERFASSEN",
@@ -183,18 +188,21 @@ export default function Notfall() {
       name: "birth_date",
       value: user.birth_date,
       type: "date",
+      placeholder: "Geburtsdatum hinzufugen",
     },
     {
       item: "NOTFALLKONTAKT",
       name: "emergency_contact",
       value: user.emergency_contact,
       type: "number",
+      placeholder: "Notfallkontact hinzufugen",
     },
     {
       item: "BESONDERHEITEN",
       name: "particularities",
       value: user.particularities,
       type: "text",
+      placeholder: "Besonderheiten hinzufugen",
     },
   ];
 
@@ -222,6 +230,14 @@ export default function Notfall() {
         setValidToken(true);
       });
   }, []);
+
+  // useEffect(() => {
+  //   if (successPopup) {
+  //     setTimeout(() => {
+  //       ActiveModalSuccess(false);
+  //     }, 3000);
+  //   }
+  // }, [successPopup]);
 
   const settings = {
     dots: true,
@@ -258,15 +274,15 @@ export default function Notfall() {
     <Fragment>
       <Box display="flex" justifyContent="end">
         <MyButton
-          typeColor={!bearbeiten ? "white" : "darkGrey"}
+          typeColor={!bearbeitenNotfall ? "white" : "darkGrey"}
           fontFamily="commissioner"
           marginRight="30px"
-          color={!bearbeiten ? "black" : "white"}
+          color={!bearbeitenNotfall ? "black" : "white"}
           onClick={() =>
-            !bearbeiten ? handleClickPut() : handleBearbeitenValid()
+            !bearbeitenNotfall ? handleClickPut() : handleBearbeitenValid()
           }
         >
-          {!bearbeiten ? "SAVE" : "Bearbeiten"}
+          {!bearbeitenNotfall ? "SAVE" : "Bearbeiten"}
         </MyButton>
       </Box>
       <Box>
@@ -283,15 +299,18 @@ export default function Notfall() {
                 {el.item}
               </Text>
               <MyInput
+                placeholder={el.placeholder}
+                textAlign={el.value?.length ? "start" : "center"}
                 type={el.type}
                 onChange={(e) => e && inputChange(e)}
                 name={el.name}
                 marginBottom="19px"
                 rounded="0px"
                 color="white"
+                fontFamily="inter"
                 defaultValue={el.value ? el.value : ""}
-                disabled={bearbeiten}
-                typeColor={!bearbeiten ? "colorForActiveInput" : "black"}
+                disabled={bearbeitenNotfall}
+                typeColor={!bearbeitenNotfall ? "colorForActiveInput" : "black"}
               />
             </Box>
           ))}
@@ -315,10 +334,12 @@ export default function Notfall() {
             fontSize="14px"
             borderColor="black"
             defaultValue={user.allergies_text ? user.allergies_text : ""}
-            disabled={bearbeiten}
-            textAlign="start"
+            disabled={bearbeitenNotfall}
+            textAlign={user.allergies_text ? "start" : "center"}
+            placeholder="Allergie hinzufugen"
+            fontFamily="inter"
             pl="0"
-            bg={!bearbeiten ? "colorForActiveInput" : "black"}
+            bg={!bearbeitenNotfall ? "colorForActiveInput" : "black"}
           />
         </Box>
         <Box px="10px">
@@ -414,7 +435,7 @@ export default function Notfall() {
                             rounded="0px"
                             onClick={() => handleClick(el.id)}
                           >
-                            Added image
+                            Add image
                           </Button>
                         )}
                       </Box>
@@ -456,6 +477,8 @@ export default function Notfall() {
           <Registration />
         </Box>
       )}
+      {successPopup && <PopupForm />}
+
       <Box display="flex" justifyContent="center">
         <PopupChangeFile
           idFile={idFile}

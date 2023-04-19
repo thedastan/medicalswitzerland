@@ -50,3 +50,7 @@ export const LoginPost = (id: any, data: any) => {
 export const ActiveModalRegistration = (payload: boolean): ActionTypesAuth => {
   return { type: AuthTypes.REGISTRATION_MODAL, payload };
 };
+
+export const ActiveModalSuccess = (payload: boolean): ActionTypesAuth => {
+  return { type: AuthTypes.SUCCESS_MODAL, payload };
+};

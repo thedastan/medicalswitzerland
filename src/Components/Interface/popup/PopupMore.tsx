@@ -114,9 +114,21 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 <Text fontSize="22px" textColor="middleGray" h="25px">
                   medical
                 </Text>
-                <Text fontSize="22px" color="red" mb="26px">
+                <Text fontSize="22px" color="red" mb="26px" w="150%">
                   switzerland
+                  <span
+                    style={{
+                      fontFamily: "HelveticaNeueLT",
+                      color: "black",
+                      marginLeft: "4px",
+                      fontSize: "19px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {user.full_name}
+                  </span>
                 </Text>
+
                 <Box display="flex" flexWrap="wrap" gap="22px">
                   {listSvg.map((el, index) => (
                     <a href={el.link} target="_blank">
@@ -147,7 +159,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   w="80%"
                   mx="auto"
                 >
-                  Hello {user?.full_name} Your personal Contact
+                  Your personal <br /> Contact
                 </Text>
               </Box>
             </Box>

@@ -12,9 +12,9 @@ import "./style.scss";
 
 import { useAppSelector } from "../../Hooks/Hooks";
 import { useActionsAuth, useActionsUser } from "../../Hooks/useActions";
-import { getAccessToken } from "../Helpers";
 import axios from "axios";
 import API, { API_ADDRESS } from "../../Api";
+import PopupForm from "./PopupForm";
 
 interface IAuthPostData {
   email: string;
@@ -34,7 +34,8 @@ export default function Registration() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const { LoginPost, ActiveModalRegistration } = useActionsAuth();
+  const { LoginPost, ActiveModalRegistration, ActiveModalSuccess } =
+    useActionsAuth();
   const { ActionGetUser } = useActionsUser();
   const { loading, loginLoder } = useAppSelector((state) => state.authReducer);
   const { user } = useAppSelector((state) => state.userReducer);
@@ -82,8 +83,6 @@ export default function Registration() {
     setDataPost({ ...dataPost, [`${keys}`]: e.target.value });
   };
 
-  const userId = user?.card_id;
-
   const handleAuthPost = () => {
     if (user.email) {
       axios
@@ -109,28 +108,30 @@ export default function Registration() {
   const handleLoginUser = () => {
     if (dataPost.password !== dataPost.confirm) {
       setValidate({ ...validate, confirm: true });
+    } else {
+      LoginPost(window.location.pathname.slice(6), {
+        email: dataPost.email,
+        password: dataPost.password,
+        username: "",
+        avatar: "",
+        contact: "",
+        birth_date: null,
+        allergies: "",
+        emergency_contact: "",
+        particularities: "",
+        operation: "",
+        allergies_text: "",
+        medications: "",
+        why_diagnose: "",
+        profession: "",
+        card_id: user.card_id,
+        location: "",
+        full_name: "",
+      });
+      ActiveModalRegistration(false);
+      ActionGetUser(window.location.pathname.slice(6));
+      ActiveModalSuccess(true);
     }
-    LoginPost(userId, {
-      email: dataPost.email,
-      password: dataPost.password,
-      username: "",
-      avatar: "",
-      contact: "",
-      birth_date: null,
-      allergies: "",
-      emergency_contact: "",
-      particularities: "",
-      operation: "",
-      allergies_text: "",
-      medications: "",
-      why_diagnose: "",
-      profession: "",
-      card_id: user.card_id,
-      location: "",
-      full_name: "",
-    });
-    ActionGetUser(window.location.pathname.slice(6));
-    ActiveModalRegistration(false);
   };
 
   const changeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {

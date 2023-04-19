@@ -3,7 +3,8 @@ export enum InterfaceUserTypes {
   USER_UPLOAD = "USER_UPLOAD",
   USER_ERROR = "USER_ERROR",
   USER_LOADER = "USER_LOADER",
-  BEARBEITEN = "BEARBEITEN",
+  BEARBEITEN_NOTFALL = "BEARBEITEN_NOTFALL",
+  BEARBEITEN_AKTE = "BEARBEITEN_AKTE",
 }
 
 export interface IInterfaceUser {
@@ -30,7 +31,8 @@ export interface IInterfaceUserState {
   user: IInterfaceUser;
   error: string | any | null;
   loading: boolean;
-  bearbeiten: boolean;
+  bearbeitenNotfall: boolean;
+  bearbeitenAkte: boolean;
 }
 
 interface IActionGetUser {
@@ -53,8 +55,13 @@ interface IActionUserPut {
   payload: IInterfaceUser;
 }
 
-interface IActionBearbeiten {
-  type: InterfaceUserTypes.BEARBEITEN;
+interface IActionBearbeitenNofall {
+  type: InterfaceUserTypes.BEARBEITEN_NOTFALL;
+  payload: boolean;
+}
+
+interface IActionBearbeitenAkte {
+  type: InterfaceUserTypes.BEARBEITEN_AKTE;
   payload: boolean;
 }
 
@@ -63,4 +70,5 @@ export type ActionTypesUser =
   | IActionGetUser
   | IActionLoaderUser
   | IActionUserPut
-  | IActionBearbeiten;
+  | IActionBearbeitenNofall
+  | IActionBearbeitenAkte;
