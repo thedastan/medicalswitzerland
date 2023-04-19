@@ -101,7 +101,7 @@ export default function Registration() {
           alert("Ошибка!!! Проверте имя или пароль");
         });
     } else {
-      alert("No no");
+      alert("Email invalid");
     }
   };
 

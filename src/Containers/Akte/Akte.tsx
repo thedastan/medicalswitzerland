@@ -244,7 +244,7 @@ export default function Akte() {
       </Text>
       <Box px="12px">
         <Input
-          mb="20px"
+          mb="30px"
           fontSize="14px"
           color="white"
           name="full_name"
@@ -257,21 +257,9 @@ export default function Akte() {
           borderColor="black"
           disabled
         />
-        <Input
-          pl="35px"
-          placeholder="GEBURTSDATUM"
-          fontSize="14px"
-          color="white"
-          name="birth_date"
-          value={dataPost.birth_date || user.birth_date || ""}
-          textAlign="center"
-          type="date"
-          bg="black"
-          rounded="0px"
-          borderColor="black"
-          disabled
-          mb="33px"
-        />
+        <Text fontSize="14px" color="#595959" textAlign="center" mb="33px">
+          {"GEBURTSDATUM" || user.birth_date}
+        </Text>
       </Box>
 
       <Box

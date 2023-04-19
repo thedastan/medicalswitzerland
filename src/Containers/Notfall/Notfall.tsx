@@ -299,7 +299,7 @@ export default function Notfall() {
                 {el.item}
               </Text>
               <MyInput
-                placeholder={el.placeholder}
+                placeholder={!bearbeitenNotfall ? el.placeholder : ""}
                 textAlign="start"
                 type={el.type}
                 onChange={(e) => e && inputChange(e)}
