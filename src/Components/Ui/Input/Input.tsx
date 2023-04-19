@@ -20,6 +20,7 @@ interface IInputProps {
   placeholder?: string;
   name?: string;
   marginBottom?: string;
+  type?: string;
 }
 
 interface CustomInputProps extends IInputProps {
@@ -45,11 +46,12 @@ export default function MyInput(props: CustomInputProps) {
     width,
     name,
     marginBottom,
+    type,
   } = props;
 
   return (
     <Input
-      type="text"
+      type={type}
       maxW={width ? width : "100%"}
       h={height ? height : "19px"}
       px="0px"

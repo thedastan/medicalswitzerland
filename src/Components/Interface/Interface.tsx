@@ -101,7 +101,7 @@ export default function Interface({ children }: IInterfaceProps) {
             allergies: user.allergies,
             allergies_text: user.allergies_text,
             avatar: data?.path.slice(6) || user.avatar,
-            birth_date: user.birth_date,
+            birth_date: user.birth_date || null,
             card_id: user.card_id,
             contact: user.contact || "",
             email: user.email,
@@ -111,8 +111,8 @@ export default function Interface({ children }: IInterfaceProps) {
             operation: user.operation,
             particularities: user.particularities,
             profession: user.profession,
-            username: user.username,
-            full_name: user.full_name,
+            username: user.username || "",
+            full_name: user.full_name || "",
             why_diagnose: user.why_diagnose,
           });
           setImageFile("");

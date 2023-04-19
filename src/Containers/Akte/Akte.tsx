@@ -153,7 +153,7 @@ export default function Akte() {
       operation: dataPost.operation || user.operation,
       particularities: dataPost.particularities || user.particularities,
       profession: dataPost.profession || user.profession,
-      full_name: dataPost.full_name || user.full_name,
+      full_name: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: user.location ? user.location : "",
     });

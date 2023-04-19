@@ -118,7 +118,7 @@ export default function Notfall() {
       operation: dataPost.operation || user.operation,
       particularities: dataPost.particularities || user.particularities,
       profession: dataPost.profession || user.profession,
-      full_name: dataPost.full_name || user.full_name,
+      full_name: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: "",
     });
@@ -170,26 +170,31 @@ export default function Notfall() {
       item: "NAME",
       name: "full_name",
       value: user.full_name,
+      type: "text",
     },
     {
       item: "BILDUNTERSCHRIFT VERFASSEN",
       name: "medications",
       value: user.medications,
+      type: "text",
     },
     {
       item: "GEBURTSDATUM",
       name: "birth_date",
       value: user.birth_date,
+      type: "date",
     },
     {
       item: "NOTFALLKONTAKT",
       name: "emergency_contact",
       value: user.emergency_contact,
+      type: "number",
     },
     {
       item: "BESONDERHEITEN",
       name: "particularities",
       value: user.particularities,
+      type: "text",
     },
   ];
 
@@ -278,6 +283,7 @@ export default function Notfall() {
                 {el.item}
               </Text>
               <MyInput
+                type={el.type}
                 onChange={(e) => e && inputChange(e)}
                 name={el.name}
                 marginBottom="19px"
