@@ -300,7 +300,7 @@ export default function Notfall() {
               </Text>
               <MyInput
                 placeholder={el.placeholder}
-                textAlign={el.value?.length ? "start" : "center"}
+                textAlign="start"
                 type={el.type}
                 onChange={(e) => e && inputChange(e)}
                 name={el.name}
@@ -335,7 +335,7 @@ export default function Notfall() {
             borderColor="black"
             defaultValue={user.allergies_text ? user.allergies_text : ""}
             disabled={bearbeitenNotfall}
-            textAlign={user.allergies_text ? "start" : "center"}
+            textAlign="start"
             placeholder="Allergie hinzufugen"
             fontFamily="inter"
             pl="0"

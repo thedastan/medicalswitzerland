@@ -130,7 +130,7 @@ export default function Registration() {
       });
       ActiveModalRegistration(false);
       ActionGetUser(window.location.pathname.slice(6));
-      ActiveModalSuccess(true);
+      // ActiveModalSuccess(true);
     }
   };
 
