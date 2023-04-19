@@ -66,11 +66,7 @@ export default function Interface({ children }: IInterfaceProps) {
   };
 
   const handleClickModalMore = () => {
-    if (validToken) {
-      setPopupMore(true);
-    } else {
-      ActiveModalRegistration(true);
-    }
+    setPopupMore(true);
   };
 
   const handleClickModalProfile = () => {

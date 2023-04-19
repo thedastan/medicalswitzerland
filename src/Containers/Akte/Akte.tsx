@@ -83,7 +83,6 @@ export default function Akte() {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    // dotsClass: "slick-dots custom-dots-class",
   };
 
   const listInput = [
@@ -253,14 +252,13 @@ export default function Akte() {
           value={dataPost.full_name || user.full_name || ""}
           textAlign="center"
           type="text"
-          bg={!bearbeitenAkte ? "colorForActiveInput" : "black"}
-          onChange={(e) => inputChange(e)}
+          bg="black"
           rounded="0px"
           borderColor="black"
-          disabled={bearbeitenAkte}
+          disabled
         />
         <Input
-          pl="28px"
+          pl="35px"
           placeholder="GEBURTSDATUM"
           fontSize="14px"
           color="white"
@@ -268,11 +266,10 @@ export default function Akte() {
           value={dataPost.birth_date || user.birth_date || ""}
           textAlign="center"
           type="date"
-          bg={!bearbeitenAkte ? "colorForActiveInput" : "black"}
-          onChange={(e) => inputChange(e)}
+          bg="black"
           rounded="0px"
           borderColor="black"
-          disabled={bearbeitenAkte}
+          disabled
           mb="33px"
         />
       </Box>
