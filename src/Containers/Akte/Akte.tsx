@@ -41,7 +41,8 @@ export default function Akte() {
     ActionActiveSubtrac,
     ActionActiveProfile,
   } = useActionsForModal();
-  const { ActionGetUser, ActionPutUser, ActionBearbeiten } = useActionsUser();
+  const { ActionGetUser, ActionPutUser, ActionBearbeitenAkte } =
+    useActionsUser();
   const {
     ActionAllGroups,
     ActionAllGroupsPut,
@@ -53,7 +54,7 @@ export default function Akte() {
     groups,
     loading: loader,
   } = useAppSelector((state) => state.filesReducer);
-  const { bearbeiten, loading, user, error } = useAppSelector(
+  const { bearbeitenAkte, loading, user, error } = useAppSelector(
     (state) => state.userReducer
   );
 
@@ -118,7 +119,11 @@ export default function Akte() {
     },
   ];
 
-  const inputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const inputChange = (
+    e:
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement>
+  ) => {
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
 
@@ -138,7 +143,7 @@ export default function Akte() {
   }
 
   function handleClickPut() {
-    ActionBearbeiten(!bearbeiten);
+    ActionBearbeitenAkte(!bearbeitenAkte);
     ActionPutUser(window.location.pathname.slice(6), {
       allergies: dataPost.allergies || user.allergies,
       allergies_text: dataPost.allergies_text || user.allergies_text,
@@ -154,6 +159,7 @@ export default function Akte() {
       particularities: dataPost.particularities || user.particularities,
       profession: dataPost.profession || user.profession,
       full_name: dataPost.full_name || user.full_name || "",
+      username: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: dataPost.location || user.location || "",
     });
@@ -228,20 +234,48 @@ export default function Akte() {
         textAlign="center"
         mt="48px"
         mb="6px"
+        fontSize="15px"
+        fontWeight="700"
       >
         PATIENTENAKTE
       </Text>
-      <Text color="#C7C4C4" textAlign="center" fontSize="22px" mb="49px">
+      <Text color="#C7C4C4" textAlign="center" fontSize="18px" mb="35px">
         medical
         <span style={{ color: "#E11F26" }}>switzerland</span>
       </Text>
-
-      <Text mb="28px" color="white" textAlign="center">
-        {user.full_name}
-      </Text>
-      <Text color="white" textAlign="center" mb="33px">
-        {user.birth_date}
-      </Text>
+      <Box px="12px">
+        <Input
+          mb="20px"
+          fontSize="14px"
+          color="white"
+          name="full_name"
+          placeholder="Name"
+          value={dataPost.full_name || user.full_name || ""}
+          textAlign="center"
+          type="text"
+          bg={!bearbeitenAkte ? "colorForActiveInput" : "black"}
+          onChange={(e) => inputChange(e)}
+          rounded="0px"
+          borderColor="black"
+          disabled={bearbeitenAkte}
+        />
+        <Input
+          pl="28px"
+          placeholder="GEBURTSDATUM"
+          fontSize="14px"
+          color="white"
+          name="birth_date"
+          value={dataPost.birth_date || user.birth_date || ""}
+          textAlign="center"
+          type="date"
+          bg={!bearbeitenAkte ? "colorForActiveInput" : "black"}
+          onChange={(e) => inputChange(e)}
+          rounded="0px"
+          borderColor="black"
+          disabled={bearbeitenAkte}
+          mb="33px"
+        />
+      </Box>
 
       <Box
         display="flex"
@@ -251,15 +285,17 @@ export default function Akte() {
         mb="29px"
       >
         <MyButton
-          typeColor={!bearbeiten ? "white" : "darkGrey"}
+          typeColor={!bearbeitenAkte ? "white" : "darkGrey"}
           fontFamily="commissioner"
-          marginRight="30px"
-          color={!bearbeiten ? "black" : "white"}
+          marginRight="16px"
+          color={!bearbeitenAkte ? "black" : "white"}
           onClick={() =>
-            !bearbeiten ? handleClickPut() : ActionBearbeiten(!bearbeiten)
+            !bearbeitenAkte
+              ? handleClickPut()
+              : ActionBearbeitenAkte(!bearbeitenAkte)
           }
         >
-          {!bearbeiten ? "SAVE" : "Bearbeiten"}
+          {!bearbeitenAkte ? "SAVE" : "Bearbeiten"}
         </MyButton>
       </Box>
       <Box px="12px">
@@ -290,10 +326,12 @@ export default function Akte() {
               color="white"
               fontSize="14px"
               borderColor="black"
+              fontWeight="400"
+              fontFamily="inter"
               defaultValue={el.value ? el.value : ""}
-              disabled={bearbeiten}
+              disabled={bearbeitenAkte}
               textAlign="center"
-              bg={!bearbeiten ? "colorForActiveInput" : "black"}
+              bg={!bearbeitenAkte ? "colorForActiveInput" : "black"}
             />
           </Box>
         ))}
@@ -385,7 +423,7 @@ export default function Akte() {
                         rounded="0px"
                         onClick={() => handleClick(el.id)}
                       >
-                        Added image
+                        Add image
                       </Button>
                     )}
                   </Box>

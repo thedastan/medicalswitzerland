@@ -43,6 +43,10 @@ export const ActionPutUser = (id: string, postData?: IInterfaceUser) => {
   };
 };
 
-export const ActionBearbeiten = (payload: boolean): ActionTypesUser => {
-  return { type: InterfaceUserTypes.BEARBEITEN, payload };
+export const ActionBearbeitenNotfall = (payload: boolean): ActionTypesUser => {
+  return { type: InterfaceUserTypes.BEARBEITEN_NOTFALL, payload };
+};
+
+export const ActionBearbeitenAkte = (payload: boolean): ActionTypesUser => {
+  return { type: InterfaceUserTypes.BEARBEITEN_AKTE, payload };
 };

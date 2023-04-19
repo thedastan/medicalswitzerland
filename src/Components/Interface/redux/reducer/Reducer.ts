@@ -9,7 +9,8 @@ const initalStateUser: IInterfaceUserState = {
   error: "",
   loading: false,
   user: {},
-  bearbeiten: true,
+  bearbeitenNotfall: true,
+  bearbeitenAkte: true,
 };
 
 export const userReducer = (
@@ -26,11 +27,18 @@ export const userReducer = (
     case InterfaceUserTypes.USER_ERROR:
       return { ...state, loading: false, error: action.payload };
 
-    case InterfaceUserTypes.BEARBEITEN:
+    case InterfaceUserTypes.BEARBEITEN_NOTFALL:
       return {
         ...state,
         loading: false,
-        bearbeiten: action.payload,
+        bearbeitenNotfall: action.payload,
+      };
+
+    case InterfaceUserTypes.BEARBEITEN_AKTE:
+      return {
+        ...state,
+        loading: false,
+        bearbeitenAkte: action.payload,
       };
 
     default:

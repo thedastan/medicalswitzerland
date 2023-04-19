@@ -5,6 +5,8 @@ type InputTypeColor = "secondaryLittleGray" | "colorForActiveInput" | "black";
 
 type InputTypeTextTransform = "uppercase" | "lowercase" | "capitalize";
 
+type InputTypeTextAlign = "start" | "center" | "end";
+
 interface IInputProps {
   color?: string;
   display?: string;
@@ -26,6 +28,7 @@ interface IInputProps {
 interface CustomInputProps extends IInputProps {
   typeColor?: InputTypeColor;
   textTransform?: InputTypeTextTransform;
+  textAlign?: InputTypeTextAlign;
 }
 
 export default function MyInput(props: CustomInputProps) {
@@ -47,6 +50,7 @@ export default function MyInput(props: CustomInputProps) {
     name,
     marginBottom,
     type,
+    textAlign,
   } = props;
 
   return (
@@ -72,6 +76,7 @@ export default function MyInput(props: CustomInputProps) {
       borderColor="transparent"
       focusBorderColor="black"
       disabled={disabled}
+      textAlign={textAlign ? textAlign : "start"}
     />
   );
 }

@@ -67,7 +67,7 @@ IPopupChangeProps) {
       : filePdf;
     if (cropData || filePdf) {
       const formData = new FormData();
-      formData.append("file", filePdf);
+      formData.append("file", image);
 
       setLoader(true);
       await API.post("users/upload/", formData)
@@ -421,7 +421,7 @@ IPopupChangeProps) {
                     textTransform="uppercase"
                     onClick={handleCencelCrop}
                   >
-                    Cencel
+                    Cancel
                   </Button>
                   <Button
                     textColor="black"
@@ -503,7 +503,7 @@ IPopupChangeProps) {
                 textTransform="uppercase"
                 onClick={handleCloseModal}
               >
-                Cencel
+                Cancel
               </Button>
               <Button
                 textColor="black"

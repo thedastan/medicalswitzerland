@@ -38,6 +38,7 @@ export default function PopupMediaFile() {
   const [cropData, setCropData] = useState("");
   const [loader, setLoader] = useState(false);
   const [imageFile, setImageFile] = useState("");
+  const [textVaildate, setTextValidate] = useState(false);
 
   const [openPopup, setOpenPopup] = useState(false);
   const [filePdf, setFilePdf] = useState<any>();
@@ -73,47 +74,53 @@ export default function PopupMediaFile() {
       : filePdf;
     const formData = new FormData();
     formData.append("file", image);
-    setLoader(true);
-    dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
-    await API.post("users/upload/", formData)
-      .then(({ data }) => {
-        if (data) {
-          API.post(`groups/${filesId}/info/`, {
-            text: text,
-            file_url: data.path,
-          })
-            .then(() => {
-              dispatch({
-                type: InterfaceImageTypes.USER_FILES_LOADER,
-                payload: false,
-              });
-              ActionAllGroups();
-              setImageFile("");
-              setCropData("");
-              ActionActiveModalMedia(false);
-              setLoader(false);
-              setPdfIncludes(false);
-              setText("");
+    if (text.length) {
+      setLoader(true);
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
+      await API.post("users/upload/", formData)
+        .then(({ data }) => {
+          if (data) {
+            API.post(`groups/${filesId}/info/`, {
+              text: text,
+              file_url: data.path,
             })
-            .catch(() => {
-              dispatch({
-                type: InterfaceImageTypes.USER_FILES_LOADER,
-                payload: false,
+              .then(() => {
+                dispatch({
+                  type: InterfaceImageTypes.USER_FILES_LOADER,
+                  payload: false,
+                });
+                ActionAllGroups();
+                setImageFile("");
+                setCropData("");
+                ActionActiveModalMedia(false);
+                setLoader(false);
+                setPdfIncludes(false);
+                setText("");
+                setTextValidate(false);
+              })
+              .catch(() => {
+                dispatch({
+                  type: InterfaceImageTypes.USER_FILES_LOADER,
+                  payload: false,
+                });
+                ActionAllGroups();
+                setImageFile("");
+                setCropData("");
+                ActionActiveModalMedia(false);
+                setLoader(false);
+                setPdfIncludes(false);
+                setText("");
+                setTextValidate(false);
               });
-              ActionAllGroups();
-              setImageFile("");
-              setCropData("");
-              ActionActiveModalMedia(false);
-              setLoader(false);
-              setPdfIncludes(false);
-              setText("");
-            });
-        }
-      })
-      .catch((e) => {
-        alert(`${e} Error`);
-        setLoader(false);
-      });
+          }
+        })
+        .catch((e) => {
+          alert(`${e} Error`);
+          setLoader(false);
+        });
+    } else {
+      setTextValidate(true);
+    }
   };
 
   const handleCencelCrop = () => {
@@ -139,21 +146,156 @@ export default function PopupMediaFile() {
 
   const listProfile = [
     {
-      svg: <SvgPhoneCall />,
-      item: user.emergency_contact || "",
+      content: user.emergency_contact && (
+        <Box
+          display="flex"
+          alignItems="center"
+          bg="thirdlittleGray"
+          textAlign="center"
+          borderTopRadius="12px"
+        >
+          <Box
+            w="10%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <SvgPhoneCall />
+          </Box>
+          <Box
+            w="90%"
+            mx="auto"
+            h="50px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            borderBottom="1px solid"
+          >
+            <Text
+              color="white"
+              fontWeight="300"
+              fontSize="13px"
+              fontFamily="inter"
+            >
+              {user.emergency_contact}
+            </Text>
+          </Box>
+        </Box>
+      ),
     },
     {
-      svg: <SvgMail />,
-      item: user.email || "",
+      content: user.email && (
+        <Box
+          display="flex"
+          alignItems="center"
+          bg="thirdlittleGray"
+          textAlign="center"
+          px="2px"
+          borderTopRadius={!user.emergency_contact ? "12px" : "0px"}
+        >
+          <Box
+            w="10%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <SvgMail />
+          </Box>
+          <Box
+            w="90%"
+            mx="auto"
+            h="50px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            borderBottom="1px solid"
+          >
+            <Text
+              color="white"
+              fontWeight="300"
+              fontSize="13px"
+              fontFamily="inter"
+            >
+              {user.email}
+            </Text>
+          </Box>
+        </Box>
+      ),
     },
     {
-      svg: <SvgLocation />,
-      item: user.location || "",
+      content: user.location && (
+        <Box
+          display="flex"
+          alignItems="center"
+          bg="thirdlittleGray"
+          textAlign="center"
+        >
+          <Box
+            w="10%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <SvgLocation />
+          </Box>
+          <Box
+            w="90%"
+            mx="auto"
+            h="50px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            borderBottom="1px solid"
+          >
+            <Text
+              color="white"
+              fontWeight="300"
+              fontSize="13px"
+              fontFamily="inter"
+            >
+              {user.location}
+            </Text>
+          </Box>
+        </Box>
+      ),
     },
     {
-      svg: <SvgBasket />,
-      item: "Delete profile",
-      onClick: handleClickForDeleteProfile,
+      content: (
+        <Box
+          display="flex"
+          alignItems="center"
+          bg="thirdlittleGray"
+          textAlign="center"
+          borderBottomRadius="12px"
+          onClick={handleClickForDeleteProfile}
+        >
+          <Box
+            w="10%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <SvgBasket />
+          </Box>
+          <Box
+            w="90%"
+            mx="auto"
+            h="50px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Text
+              color="white"
+              fontWeight="300"
+              fontSize="13px"
+              fontFamily="inter"
+            >
+              Delete profile
+            </Text>
+          </Box>
+        </Box>
+      ),
     },
   ];
 
@@ -281,42 +423,7 @@ export default function PopupMediaFile() {
               {profile && (
                 <Box zIndex="6">
                   {listProfile.map((el, index) => (
-                    <Box
-                      key={index}
-                      display="flex"
-                      alignItems="center"
-                      bg="thirdlittleGray"
-                      textAlign="center"
-                      roundedTop={index === 0 ? "12px" : "0"}
-                      roundedBottom={
-                        listProfile.length - 1 === index ? "12px" : "0"
-                      }
-                      onClick={el.onClick}
-                    >
-                      <Box pl={index > 1 ? "12px" : "10px"}>{el.svg}</Box>
-                      <Box
-                        w="90%"
-                        mx="auto"
-                        h="50px"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderBottom={
-                          listProfile.length - 1 !== index
-                            ? "1px solid black"
-                            : "0px"
-                        }
-                      >
-                        <Text
-                          color="white"
-                          fontWeight="300"
-                          fontSize="13px"
-                          fontFamily="inter"
-                        >
-                          {el.item}
-                        </Text>
-                      </Box>
-                    </Box>
+                    <Box key={index}>{el.content}</Box>
                   ))}
                 </Box>
               )}
@@ -357,6 +464,7 @@ export default function PopupMediaFile() {
                       fontWeight="300"
                       fontFamily="inter"
                       h="37px"
+                      border={textVaildate ? "1px solid #FF0000" : "1px solid"}
                     />
                   </Box>
                 ) : (
@@ -394,7 +502,7 @@ export default function PopupMediaFile() {
                     textTransform="uppercase"
                     onClick={handleCencelCrop}
                   >
-                    Cencel
+                    Cancel
                   </Button>
                   <Button
                     textColor="black"
@@ -405,8 +513,8 @@ export default function PopupMediaFile() {
                     h="36px"
                     rounded="0"
                     textTransform="uppercase"
+                    disabled
                     onClick={distributionFunction}
-                    disabled={text?.length > 0 ? false : true}
                   >
                     {!cropData ? "Crop Image" : "Save"}
                   </Button>
@@ -425,52 +533,69 @@ export default function PopupMediaFile() {
           bottom="0"
           bg="black"
           zIndex="8"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
         >
-          <Box>
-            <Box
-              mx="auto"
-              maxW="372px"
-              h="237px"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <SvgPdf />
+          <Box w="100%">
+            <Box maxW="372px" mx="auto" px="13px">
+              <Box
+                h="237px"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                bg="#1A1A1A"
+                mb="6px"
+              >
+                <SvgPdf />
+              </Box>
+              <Box mx="auto">
+                <Input
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  bg="white"
+                  fontSize="12px"
+                  fontFamily="inter"
+                  rounded="0"
+                  placeholder="Beschreibung..."
+                  border={textVaildate ? "1px solid #FF0000" : "1px solid"}
+                />
+              </Box>
+              <Box
+                display="flex"
+                w="100%"
+                gap="4px"
+                justifyContent="space-between"
+                mt="10px"
+              >
+                <Button
+                  textColor="white"
+                  bg="#ff3a22"
+                  fontSize="10px"
+                  fontWeight="500"
+                  w="50%"
+                  h="36px"
+                  rounded="0"
+                  textTransform="uppercase"
+                  onClick={handleCloseModal}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  textColor="black"
+                  bg="white"
+                  fontSize="10px"
+                  fontWeight="500"
+                  w="50%"
+                  h="36px"
+                  rounded="0"
+                  textTransform="uppercase"
+                  onClick={handlePostFiles}
+                >
+                  Save
+                </Button>
+              </Box>
             </Box>
-            <Box mx="auto" maxW="372px">
-              <Input
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                bg="white"
-                fontSize="16px"
-              />
-            </Box>
-          </Box>
-          <Box display="flex" w="100%" justifyContent="space-evenly" mt="50px">
-            <Button
-              textColor="white"
-              bg="#ff3a22"
-              fontSize="10px"
-              fontWeight="500"
-              w="80px"
-              h="30px"
-              textTransform="uppercase"
-              onClick={handleCloseModal}
-            >
-              Cencel
-            </Button>
-            <Button
-              textColor="white"
-              bg="whatsapp.500"
-              fontSize="10px"
-              fontWeight="500"
-              w="80px"
-              h="30px"
-              textTransform="uppercase"
-              onClick={handlePostFiles}
-            >
-              Save Files
-            </Button>
           </Box>
         </Box>
       )}
