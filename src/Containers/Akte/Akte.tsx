@@ -243,20 +243,9 @@ export default function Akte() {
         <span style={{ color: "#E11F26" }}>switzerland</span>
       </Text>
       <Box px="12px">
-        <Input
-          mb="30px"
-          fontSize="14px"
-          color="white"
-          name="full_name"
-          placeholder="Name"
-          value={dataPost.full_name || user.full_name || ""}
-          textAlign="center"
-          type="text"
-          bg="black"
-          rounded="0px"
-          borderColor="black"
-          disabled
-        />
+        <Text fontSize="14px" color="white" textAlign="center" mb="30px">
+          {user.full_name || "Name"}
+        </Text>
         <Text fontSize="14px" color="white" textAlign="center" mb="33px">
           {user.birth_date || "GEBURTSDATUM"}
         </Text>
