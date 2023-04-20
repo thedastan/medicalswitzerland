@@ -38,6 +38,7 @@ export default function Card({
             w="100%"
             h="237px"
             mb="13px"
+            objectFit="cover"
           />
         ) : (
           <a

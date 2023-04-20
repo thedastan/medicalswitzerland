@@ -125,7 +125,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                       fontWeight: "400",
                     }}
                   >
-                    {user.full_name}
+                    Hello {user.full_name}
                   </span>
                 </Text>
 

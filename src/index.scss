@@ -18,14 +18,10 @@
   src: url("../src/assets/fonts/helvetica-neue-lt-pro-2-cufonfonts/HelveticaNeueLTProBd.otf");
 }
 
-// textarea:disabled {
-//   cursor: default;
-//   color: white;
-// }
+input:disabled {
+  color: #ffffff;
+}
 
-input:read-only,
-textarea:read-only,
-[contenteditable]:read-only {
-  pointer-events: none;
+textarea:disabled {
   color: #ffffff;
 }

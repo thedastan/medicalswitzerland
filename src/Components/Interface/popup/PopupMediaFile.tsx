@@ -18,12 +18,17 @@ import "./style.css";
 
 import { dataURLtoFile, getAccessToken, onChangeImage } from "../../Helpers";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hooks";
-import { useActionsFile, useActionsForModal } from "../../../Hooks/useActions";
+import {
+  useActionsFile,
+  useActionsForMessage,
+  useActionsForModal,
+} from "../../../Hooks/useActions";
 import { InterfaceImageTypes } from "../redux-image/types/Types";
 
 export default function PopupMediaFile() {
   const dispatch = useAppDispatch();
   const { ActionActiveModalMedia } = useActionsForModal();
+  const { ActionUpload } = useActionsForMessage();
   const { ActionAllGroups } = useActionsFile();
   const { filesId, activeMediaModal, profile, subtract } = useAppSelector(
     (state) => state.idReducer
@@ -89,28 +94,29 @@ export default function PopupMediaFile() {
                   type: InterfaceImageTypes.USER_FILES_LOADER,
                   payload: false,
                 });
+                ActionActiveModalMedia(false);
+                setTextValidate(false);
+                setPdfIncludes(false);
+                ActionUpload(true);
+                setLoader(false);
                 ActionAllGroups();
                 setImageFile("");
                 setCropData("");
-                ActionActiveModalMedia(false);
-                setLoader(false);
-                setPdfIncludes(false);
                 setText("");
-                setTextValidate(false);
               })
               .catch(() => {
                 dispatch({
                   type: InterfaceImageTypes.USER_FILES_LOADER,
                   payload: false,
                 });
+                ActionActiveModalMedia(false);
+                setTextValidate(false);
+                setPdfIncludes(false);
+                setLoader(false);
                 ActionAllGroups();
                 setImageFile("");
                 setCropData("");
-                ActionActiveModalMedia(false);
-                setLoader(false);
-                setPdfIncludes(false);
                 setText("");
-                setTextValidate(false);
               });
           }
         })

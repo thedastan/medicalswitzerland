@@ -5,16 +5,21 @@ import { Button } from "@chakra-ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 /* Local dependencies */
+import SvgEyePassword from "../../assets/svg/SvgEyePassword";
 import SvgClose from "../../assets/svg/SvgClose";
+import SvgEye from "../../assets/svg/SvgEye";
 import "./style.scss";
 
 import { useAppSelector } from "../../Hooks/Hooks";
-import { useActionsAuth, useActionsUser } from "../../Hooks/useActions";
-import axios from "axios";
+import {
+  useActionsAuth,
+  useActionsForMessage,
+  useActionsUser,
+} from "../../Hooks/useActions";
 import API, { API_ADDRESS } from "../../Api";
-import PopupForm from "./PopupForm";
 
 interface IAuthPostData {
   email: string;
@@ -34,9 +39,9 @@ export default function Registration() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const { LoginPost, ActiveModalRegistration, ActiveModalSuccess } =
-    useActionsAuth();
   const { ActionGetUser } = useActionsUser();
+  const { LoginPost, ActiveModalRegistration } = useActionsAuth();
+  const { ActionReset } = useActionsForMessage();
   const { loading, loginLoder } = useAppSelector((state) => state.authReducer);
   const { user } = useAppSelector((state) => state.userReducer);
 
@@ -50,6 +55,7 @@ export default function Registration() {
     email: false,
     password: false,
   });
+  const [eye, setEye] = useState({ password: false, confirm: false });
 
   const listInput = [
     {
@@ -61,6 +67,7 @@ export default function Registration() {
       value: dataPost.email,
       valdation: validate.email,
       required: true,
+      pattern: /^\S+@\S+$/i,
       errors: errors.email,
     },
     {
@@ -68,11 +75,12 @@ export default function Registration() {
       placeholder: "Enter new password",
       name: "password",
       register: "password",
-      type: "password",
+      type: eye.password ? "text" : "password",
       value: dataPost.password,
       valdation: validate.password,
       required: true,
       errors: errors.password,
+      eye: <Box>{eye.password ? <SvgEye /> : <SvgEyePassword />}</Box>,
     },
   ];
 
@@ -130,13 +138,15 @@ export default function Registration() {
       });
       ActiveModalRegistration(false);
       ActionGetUser(window.location.pathname.slice(6));
-      // ActiveModalSuccess(true);
     }
   };
 
   const changeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDataPost({ ...dataPost, confirm: e.target.value });
-    ActionGetUser(window.location.pathname.slice(6));
+  };
+
+  const forgotPassword = () => {
+    ActionReset(true);
   };
 
   useEffect(() => {
@@ -144,6 +154,8 @@ export default function Registration() {
       setValidate({ ...validate, confirm: false });
     }
   }, [validate.confirm]);
+
+  console.log(errors.email);
 
   return (
     <AnimatePresence>
@@ -216,7 +228,13 @@ export default function Registration() {
                   <form onSubmit={handleSubmit(handleLoginUser)}>
                     <Box display="flex" flexDir="column" maxW="215px" mx="auto">
                       {listInput.map((el, index) => (
-                        <Box key={el.id} mb="3px" w="215px" mx="auto">
+                        <Box
+                          key={el.id}
+                          mb="3px"
+                          w="215px"
+                          mx="auto"
+                          pos="relative"
+                        >
                           <Input
                             placeholder={el.placeholder}
                             fontSize="10px"
@@ -229,14 +247,30 @@ export default function Registration() {
                             type={el.type}
                             {...register(index === 0 ? "email" : "password", {
                               required: el.required,
+                              pattern: el.pattern,
                             })}
                             border={el.errors ? "1px solid red" : "1px solid"}
                             value={el.value}
                             onChange={(e) => inputChange(e, el.name)}
                           />
+                          <Box
+                            pos="absolute"
+                            zIndex="8"
+                            right="12px"
+                            top="0"
+                            bottom="0"
+                            display="flex"
+                            alignItems="center"
+                            cursor="pointer"
+                            onClick={() =>
+                              setEye({ ...eye, password: !eye.password })
+                            }
+                          >
+                            {el.eye}
+                          </Box>
                         </Box>
                       ))}
-                      <Box mb="3px" w="215px" mx="auto">
+                      <Box mb="3px" w="215px" mx="auto" position="relative">
                         <Input
                           placeholder="Confirm  password"
                           fontSize="10px"
@@ -246,14 +280,62 @@ export default function Registration() {
                           h="35px"
                           bg="#D9D9D9"
                           textAlign="center"
-                          type="password"
+                          type={eye.confirm ? "text" : "password"}
                           border={
                             validate.confirm ? "1px solid red" : "1px solid"
                           }
                           value={dataPost.confirm}
                           onChange={(e) => changeConfirmPassword(e)}
                         />
+                        <Box
+                          pos="absolute"
+                          zIndex="8"
+                          right="12px"
+                          top="0"
+                          bottom="0"
+                          display="flex"
+                          alignItems="center"
+                          cursor="pointer"
+                          onClick={() =>
+                            setEye({ ...eye, confirm: !eye.confirm })
+                          }
+                        >
+                          {eye.confirm ? <SvgEye /> : <SvgEyePassword />}
+                        </Box>
                       </Box>
+                      {errors.email && (
+                        <Text
+                          color="#FF0000"
+                          fontSize="10px"
+                          fontWeight="200"
+                          fontFamily="inter"
+                          mb="7px"
+                        >
+                          Wrong email address
+                        </Text>
+                      )}
+                      {errors.password && (
+                        <Text
+                          color="#FF0000"
+                          fontSize="10px"
+                          fontWeight="200"
+                          fontFamily="inter"
+                          mb="7px"
+                        >
+                          Required fields
+                        </Text>
+                      )}
+                      {validate.confirm && (
+                        <Text
+                          color="#FF0000"
+                          fontSize="10px"
+                          fontWeight="200"
+                          fontFamily="inter"
+                          mb="7px"
+                        >
+                          Password does not match
+                        </Text>
+                      )}
                       <Button
                         fontFamily="inter"
                         fontSize="10px"
@@ -286,27 +368,47 @@ export default function Registration() {
                   </Text>
                 ) : (
                   <Box mb="3px" w="215px" mx="auto">
-                    <Input
-                      placeholder="Enter password"
-                      fontSize="10px"
-                      fontWeight="200"
-                      textColor="#3C3C3C"
-                      rounded="0px"
-                      h="35px"
-                      bg="#D9D9D9"
-                      textAlign="center"
-                      border="1px solid"
-                      type="password"
-                      onChange={(e) =>
-                        setDataPost({ ...dataPost, password: e.target.value })
-                      }
-                    />
+                    <Box position="relative">
+                      <Input
+                        placeholder="Enter password"
+                        fontSize="10px"
+                        fontWeight="200"
+                        textColor="#3C3C3C"
+                        rounded="0px"
+                        h="35px"
+                        bg="#D9D9D9"
+                        textAlign="center"
+                        border="1px solid"
+                        type={eye.password ? "text" : "password"}
+                        onChange={(e) =>
+                          setDataPost({ ...dataPost, password: e.target.value })
+                        }
+                      />
+                      <Box
+                        pos="absolute"
+                        zIndex="8"
+                        right="12px"
+                        top="0"
+                        bottom="0"
+                        display="flex"
+                        alignItems="center"
+                        cursor="pointer"
+                        onClick={() =>
+                          setEye({ ...eye, password: !eye.password })
+                        }
+                      >
+                        {eye.password ? <SvgEye /> : <SvgEyePassword />}
+                      </Box>
+                    </Box>
                     <Text
+                      mt="5px"
                       color="#2964FC"
                       fontSize="8px"
                       mb="8px"
                       textAlign="end"
                       fontFamily="inter"
+                      cursor="pointer"
+                      onClick={forgotPassword}
                     >
                       Forgot password
                     </Text>

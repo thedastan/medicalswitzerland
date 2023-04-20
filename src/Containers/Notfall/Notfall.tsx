@@ -1,7 +1,7 @@
 /* External dependencies */
 import axios from "axios";
 import { Box, Button, Input, Spinner, Text, Textarea } from "@chakra-ui/react";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
 import Slider from "react-slick";
 
@@ -27,7 +27,7 @@ import {
 } from "../../Hooks/useActions";
 import { useAppSelector } from "../../Hooks/Hooks";
 import PopupChangeFile from "../popupChangeFile/PopupChangeFile";
-import PopupForm from "../../Components/Registration/PopupForm";
+import PopupForMessage from "../../Components/Ui/popups/PopupForMessage";
 
 interface IGroupsTypes {
   id: string;
@@ -37,6 +37,7 @@ interface IGroupsTypes {
 }
 
 export default function Notfall() {
+  const refDate = useRef() as React.MutableRefObject<HTMLInputElement>;
   const {
     ActionFilesId,
     ActionActiveModalMedia,
@@ -179,22 +180,22 @@ export default function Notfall() {
     },
     {
       item: "BILDUNTERSCHRIFT VERFASSEN",
-      name: "medications",
-      value: user.medications,
+      name: "contact",
+      value: user.contact,
       type: "text",
     },
-    {
-      item: "GEBURTSDATUM",
-      name: "birth_date",
-      value: user.birth_date,
-      type: "date",
-      placeholder: "Geburtsdatum hinzufugen",
-    },
+    // {
+    //   item: "GEBURTSDATUM",
+    //   name: "birth_date",
+    //   value: user.birth_date,
+    //   type: "date",
+    //   placeholder: "Geburtsdatum hinzufugen",
+    // },
     {
       item: "NOTFALLKONTAKT",
       name: "emergency_contact",
       value: user.emergency_contact,
-      type: "number",
+      type: "text",
       placeholder: "Notfallkontact hinzufugen",
     },
     {
@@ -205,6 +206,11 @@ export default function Notfall() {
       placeholder: "Besonderheiten hinzufugen",
     },
   ];
+
+  const [focus, setFocused] = useState(false);
+  const [hasValue, setHasValue] = useState(false);
+  const onFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
 
   useEffect(() => {
     ActionGetUser(id);
@@ -287,7 +293,69 @@ export default function Notfall() {
       </Box>
       <Box>
         <Box px="41px">
-          {listInput?.map((el, index) => (
+          {listInput?.slice(0, 2).map((el, index) => (
+            <Box key={index}>
+              <Text
+                color="gray"
+                fontSize="10px"
+                fontWeight="700"
+                fontFamily="inter"
+                mb="3px"
+              >
+                {el.item}
+              </Text>
+              <MyInput
+                placeholder={!bearbeitenNotfall ? el.placeholder : ""}
+                textAlign="start"
+                type={el.type}
+                onChange={(e) => e && inputChange(e)}
+                name={el.name}
+                marginBottom="19px"
+                rounded="0px"
+                color="white"
+                fontFamily="inter"
+                defaultValue={el.value ? el.value : ""}
+                disabled={bearbeitenNotfall}
+                typeColor={!bearbeitenNotfall ? "colorForActiveInput" : "black"}
+              />
+            </Box>
+          ))}
+          <Box>
+            <Text
+              color="gray"
+              fontSize="10px"
+              fontWeight="700"
+              fontFamily="inter"
+              mb="3px"
+            >
+              GEBURTSDATUM
+            </Text>
+            <Input
+              placeholder={!bearbeitenNotfall ? "Geburtsdatum hinzufugen" : ""}
+              textAlign="start"
+              fontSize="14px"
+              h="20px"
+              px="0px"
+              borderColor="black"
+              onFocus={onFocus}
+              onBlur={onBlur}
+              type={hasValue || focus ? "date" : "text"}
+              onChange={(e) => {
+                e && inputChange(e);
+                if (e.target.value) setHasValue(true);
+                else setHasValue(false);
+              }}
+              name="birth_date"
+              marginBottom="19px"
+              rounded="0px"
+              color="white"
+              fontFamily="inter"
+              defaultValue={user.birth_date ? user.birth_date : ""}
+              disabled={bearbeitenNotfall}
+              bg={!bearbeitenNotfall ? "colorForActiveInput" : "black"}
+            />
+          </Box>
+          {listInput?.slice(2).map((el, index) => (
             <Box key={index}>
               <Text
                 color="gray"
@@ -336,7 +404,7 @@ export default function Notfall() {
             defaultValue={user.allergies_text ? user.allergies_text : ""}
             disabled={bearbeitenNotfall}
             textAlign="start"
-            placeholder="Allergie hinzufugen"
+            placeholder={!bearbeitenNotfall ? "Allergie hinzufugen" : ""}
             fontFamily="inter"
             pl="0"
             bg={!bearbeitenNotfall ? "colorForActiveInput" : "black"}
@@ -477,7 +545,7 @@ export default function Notfall() {
           <Registration />
         </Box>
       )}
-      {successPopup && <PopupForm />}
+      {successPopup && <PopupForMessage />}
 
       <Box display="flex" justifyContent="center">
         <PopupChangeFile

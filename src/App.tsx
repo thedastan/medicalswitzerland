@@ -8,8 +8,6 @@ import Interface from "./Components/Interface/Interface";
 import Tabs from "./Components/Ui/Tab/Tabs";
 import Notfall from "./Containers/Notfall/Notfall";
 import WelcomePage from "./Components/WelcomePage/WelcomePage";
-import Registration from "./Components/Registration/Registration";
-import { getAccessToken } from "./Components/Helpers";
 
 function App() {
   return (
