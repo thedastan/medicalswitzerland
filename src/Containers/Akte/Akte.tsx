@@ -257,7 +257,7 @@ export default function Akte() {
           borderColor="black"
           disabled
         />
-        <Text fontSize="14px" color="#595959" textAlign="center" mb="33px">
+        <Text fontSize="14px" color="white" textAlign="center" mb="33px">
           {user.birth_date || "GEBURTSDATUM"}
         </Text>
       </Box>
