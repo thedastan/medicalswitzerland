@@ -302,21 +302,13 @@ export default function Akte() {
             >
               {el.item}
             </Text>
-            <Textarea
+            <textarea
               name={el.name}
               onChange={(e) => inputChange(e)}
-              rounded="0px"
-              outline="black"
-              resize="none"
-              color="white"
-              fontSize="14px"
-              borderColor="black"
-              fontWeight="400"
-              fontFamily="inter"
               defaultValue={el.value ? el.value : ""}
               disabled={bearbeitenAkte}
-              textAlign="center"
-              bg={!bearbeitenAkte ? "colorForActiveInput" : "black"}
+              placeholder={!bearbeitenAkte ? "Allergie hinzufugen" : ""}
+              className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
             />
           </Box>
         ))}

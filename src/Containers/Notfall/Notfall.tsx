@@ -304,19 +304,15 @@ export default function Notfall() {
               >
                 {el.item}
               </Text>
-              <MyInput
-                placeholder={!bearbeitenNotfall ? el.placeholder : ""}
-                textAlign="start"
-                type={el.type}
-                onChange={(e) => e && inputChange(e)}
-                name={el.name}
-                marginBottom="19px"
-                rounded="0px"
-                color="white"
-                fontFamily="inter"
+              <input
                 defaultValue={el.value ? el.value : ""}
                 disabled={bearbeitenNotfall}
-                typeColor={!bearbeitenNotfall ? "colorForActiveInput" : "black"}
+                placeholder={!bearbeitenNotfall ? el.placeholder : ""}
+                type={el.type}
+                onChange={(e) => e && inputChange(e)}
+                className={`input--notfall ${
+                  !bearbeitenNotfall ? "active" : ""
+                }`}
               />
             </Box>
           ))}
@@ -330,29 +326,20 @@ export default function Notfall() {
             >
               GEBURTSDATUM
             </Text>
-            <Input
-              placeholder={!bearbeitenNotfall ? "Geburtsdatum hinzufugen" : ""}
-              textAlign="start"
-              fontSize="14px"
-              h="20px"
-              px="0px"
-              borderColor="black"
+
+            <input
               onFocus={onFocus}
               onBlur={onBlur}
+              defaultValue={user.birth_date ? user.birth_date : ""}
+              disabled={bearbeitenNotfall}
+              placeholder={!bearbeitenNotfall ? "Geburtsdatum hinzufugen" : ""}
               type={hasValue || focus ? "date" : "text"}
               onChange={(e) => {
                 e && inputChange(e);
                 if (e.target.value) setHasValue(true);
                 else setHasValue(false);
               }}
-              name="birth_date"
-              marginBottom="19px"
-              rounded="0px"
-              color="white"
-              fontFamily="inter"
-              defaultValue={user.birth_date ? user.birth_date : ""}
-              disabled={bearbeitenNotfall}
-              bg={!bearbeitenNotfall ? "colorForActiveInput" : "black"}
+              className={`input--notfall ${!bearbeitenNotfall ? "active" : ""}`}
             />
           </Box>
           {listInput?.slice(2).map((el, index) => (
@@ -366,19 +353,15 @@ export default function Notfall() {
               >
                 {el.item}
               </Text>
-              <MyInput
-                placeholder={!bearbeitenNotfall ? el.placeholder : ""}
-                textAlign="start"
-                type={el.type}
-                onChange={(e) => e && inputChange(e)}
-                name={el.name}
-                marginBottom="19px"
-                rounded="0px"
-                color="white"
-                fontFamily="inter"
+              <input
                 defaultValue={el.value ? el.value : ""}
                 disabled={bearbeitenNotfall}
-                typeColor={!bearbeitenNotfall ? "colorForActiveInput" : "black"}
+                placeholder={!bearbeitenNotfall ? el.placeholder : ""}
+                type={el.type}
+                onChange={(e) => e && inputChange(e)}
+                className={`input--notfall ${
+                  !bearbeitenNotfall ? "active" : ""
+                }`}
               />
             </Box>
           ))}
@@ -392,23 +375,17 @@ export default function Notfall() {
           >
             ALLERGIE
           </Text>
-          <Textarea
+          <textarea
             name="allergies_text"
             onChange={(e) => inputChangeTextArea(e)}
-            rounded="0px"
-            outline="black"
-            resize="none"
-            color="white"
-            fontSize="14px"
-            borderColor="black"
             defaultValue={user.allergies_text ? user.allergies_text : ""}
             disabled={bearbeitenNotfall}
-            textAlign="start"
             placeholder={!bearbeitenNotfall ? "Allergie hinzufugen" : ""}
-            fontFamily="inter"
-            pl="0"
-            bg={!bearbeitenNotfall ? "colorForActiveInput" : "black"}
+            className={`textarea--notfall ${
+              !bearbeitenNotfall ? "active" : ""
+            }`}
           />
+          
         </Box>
         <Box px="10px">
           {allGroups.filter((el) => el.is_akte === false).length && (
