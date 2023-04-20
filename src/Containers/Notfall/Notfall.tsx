@@ -184,13 +184,6 @@ export default function Notfall() {
       value: user.contact,
       type: "text",
     },
-    // {
-    //   item: "GEBURTSDATUM",
-    //   name: "birth_date",
-    //   value: user.birth_date,
-    //   type: "date",
-    //   placeholder: "Geburtsdatum hinzufugen",
-    // },
     {
       item: "NOTFALLKONTAKT",
       name: "emergency_contact",
@@ -305,6 +298,7 @@ export default function Notfall() {
                 {el.item}
               </Text>
               <input
+                name={el.name}
                 defaultValue={el.value ? el.value : ""}
                 disabled={bearbeitenNotfall}
                 placeholder={!bearbeitenNotfall ? el.placeholder : ""}
@@ -353,6 +347,7 @@ export default function Notfall() {
               >
                 {el.item}
               </Text>
+              <Text color="white">{el.value}</Text>
               <input
                 defaultValue={el.value ? el.value : ""}
                 disabled={bearbeitenNotfall}
@@ -385,7 +380,6 @@ export default function Notfall() {
               !bearbeitenNotfall ? "active" : ""
             }`}
           />
-          
         </Box>
         <Box px="10px">
           {allGroups.filter((el) => el.is_akte === false).length && (
