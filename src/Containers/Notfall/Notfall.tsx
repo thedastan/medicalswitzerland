@@ -347,7 +347,6 @@ export default function Notfall() {
               >
                 {el.item}
               </Text>
-              <Text color="white">{el.value}</Text>
               <input
                 defaultValue={el.value ? el.value : ""}
                 disabled={bearbeitenNotfall}
