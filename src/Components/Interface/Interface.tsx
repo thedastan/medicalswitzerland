@@ -25,6 +25,7 @@ import {
   useActionsUser,
 } from "../../Hooks/useActions";
 import { dataURLtoFile, getAccessToken, onChangeImage } from "../Helpers";
+import PopupForMessage from "../Ui/popups/PopupForMessage";
 
 interface IInterfaceProps {
   children: JSX.Element;
@@ -225,6 +226,7 @@ export default function Interface({ children }: IInterfaceProps) {
 
   return (
     <Box minH="100vh" w="100%" position="relative">
+      <PopupForMessage />
       <input
         style={{ display: "none" }}
         ref={ref}
@@ -246,7 +248,7 @@ export default function Interface({ children }: IInterfaceProps) {
                 medical
                 <span style={{ color: "#E11F26" }}>switzerland</span>
               </Text>
-              <Box pos="relative" w="100px" h="100px" mx="auto">
+              <Box pos="relative" zIndex="2" w="100px" h="100px" mx="auto">
                 <Image
                   src={`${API_ADDRESS?.substring(0, 35)}${user.avatar.slice(
                     1
@@ -256,6 +258,7 @@ export default function Interface({ children }: IInterfaceProps) {
                   h="100px"
                   mx="auto"
                   rounded="50%"
+                  objectFit="cover"
                 />
                 <Box
                   pos="absolute"
@@ -280,7 +283,14 @@ export default function Interface({ children }: IInterfaceProps) {
                 medical
                 <span style={{ color: "#E11F26" }}>switzerland</span>
               </Text>
-              <Box w="100px" h="100px" mx="auto" mb="10px" pos="relative">
+              <Box
+                w="100px"
+                h="100px"
+                zIndex="2"
+                mx="auto"
+                mb="10px"
+                pos="relative"
+              >
                 <SvgDefaultAvatar />
                 <Box
                   pos="absolute"
@@ -317,7 +327,6 @@ export default function Interface({ children }: IInterfaceProps) {
         ))}
       </Box>
       {popup && <PopupFiles modal={popup} setModal={setPopup} />}
-      <PopupMediaFile />
       {popupMore && <PopupMore setModal={setPopupMore} />}
       {modal && <Registration />}
       {imageFile && (
@@ -394,6 +403,7 @@ export default function Interface({ children }: IInterfaceProps) {
           )}
         </Box>
       )}
+      <PopupMediaFile />
     </Box>
   );
 }

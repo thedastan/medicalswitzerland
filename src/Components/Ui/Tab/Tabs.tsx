@@ -80,6 +80,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           flexDir="column"
           h="53px"
           rounded="0px"
+          position="static"
           pt="5px"
           boxShadow={"inset 0px 2px 2px rgba(31, 31, 31, 0.44)"}
           onClick={handleClickNotfall}
@@ -98,6 +99,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           flexDir="column"
           h="53px"
           rounded="0px"
+          position="static"
           pt="5px"
           boxShadow={"inset 0px 2px 2px rgba(31, 31, 31, 0.44)"}
           onClick={handleActiveAuth}

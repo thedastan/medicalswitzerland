@@ -98,7 +98,7 @@ export default function Akte() {
     },
     {
       item: "MEDIKAMENTE",
-      name: "medikamente",
+      name: "medications",
       value: user.medications,
     },
     {
@@ -257,8 +257,8 @@ export default function Akte() {
           borderColor="black"
           disabled
         />
-        <Text fontSize="14px" color="#595959" textAlign="center" mb="33px">
-          {"GEBURTSDATUM" || user.birth_date}
+        <Text fontSize="14px" color="white" textAlign="center" mb="33px">
+          {user.birth_date || "GEBURTSDATUM"}
         </Text>
       </Box>
 

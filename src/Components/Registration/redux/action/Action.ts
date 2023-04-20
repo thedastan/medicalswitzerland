@@ -1,10 +1,16 @@
 /* External dependencies */
+import axios from "axios";
 import { Dispatch } from "redux";
 
 /* Local dependencies */
 import API, { API_ADDRESS } from "../../../../Api";
 import { ActionTypesAuth, AuthTypes, IAuthPostData } from "../types/Types";
-import axios from "axios";
+import { ActionTypesPopupMessage } from "../../../Ui/popups/redux/types/Types";
+import { PopupTypesFormEssage } from "../../../Ui/popups/redux/types/Types";
+import {
+  ActionTypesUser,
+  InterfaceUserTypes,
+} from "../../../Interface/redux/types/Types";
 
 export const AuthPost = (data: IAuthPostData) => {
   return async (dispatch: Dispatch<ActionTypesAuth>) => {
@@ -26,21 +32,35 @@ export const AuthPost = (data: IAuthPostData) => {
   };
 };
 
-export const LoginPost = (id: any, data: any) => {
-  return async (dispatch: Dispatch<ActionTypesAuth>) => {
+export const LoginPost = (id: string, data: any) => {
+  return async (
+    dispatch: Dispatch<
+      ActionTypesAuth | ActionTypesPopupMessage | ActionTypesUser
+    >
+  ) => {
     try {
+      dispatch({ type: InterfaceUserTypes.USER_LOADER, payload: true });
       dispatch({ type: AuthTypes.LOGIN_USER_LOADING, payload: true });
 
       const response = await axios.put(
         `${API_ADDRESS}users/?card_id=${id}`,
         data
       );
+      const dataUser = await axios.get(`${API_ADDRESS}users/${id}/`);
 
-      ActiveModalRegistration(false);
+      dispatch({ type: PopupTypesFormEssage.SUCCESS, payload: true });
+      dispatch({ type: AuthTypes.REGISTRATION_MODAL, payload: false });
+
+      dataUser.status === 200 ||
+        (201 &&
+          dispatch({ type: InterfaceUserTypes.USER_LOADER, payload: false }));
+      dispatch({ type: InterfaceUserTypes.USER_LOADER, payload: false });
+      dispatch({ type: InterfaceUserTypes.USERS, payload: dataUser.data });
 
       dispatch({ type: AuthTypes.LOGIN_USER, payload: true });
       dispatch({ type: AuthTypes.LOGIN_USER_LOADING, payload: false });
     } catch (e) {
+      dispatch({ type: InterfaceUserTypes.USER_LOADER, payload: false });
       dispatch({ type: AuthTypes.LOGIN_USER_LOADING, payload: false });
       dispatch({ type: AuthTypes.LOGIN_USER_ERROR, payload: e });
     }
