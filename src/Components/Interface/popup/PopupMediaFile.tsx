@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createRef, useEffect, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
 import { Button, Image, Input, Select, Spinner } from "@chakra-ui/react";
+import { Trans } from "react-i18next";
 import "cropperjs/dist/cropper.css";
 
 /* Local dependencies */
@@ -12,8 +13,9 @@ import SvgMail from "../../../assets/svg/SvgMail";
 import SvgLocation from "../../../assets/svg/SvgLocation";
 import SvgBasket from "../../../assets/svg/SvgBasket";
 import SvgPdf from "../../../assets/svg/SvgPdf";
-import Popup from "../../Ui/popup/Popup";
+import i18n, { langs } from "../../../i18n/I18n";
 import API from "../../../Api";
+import Popup from "../../Ui/popup/Popup";
 import "./style.css";
 
 import { dataURLtoFile, getAccessToken, onChangeImage } from "../../Helpers";
@@ -238,6 +240,12 @@ export default function PopupMediaFile() {
     setText("");
   };
 
+  const onChange = (event: string) => {
+    localStorage.setItem("language", JSON.stringify(event));
+    i18n.changeLanguage(event);
+    setLanguage(event);
+  };
+
   useEffect(() => {
     if (cropData) {
       handlePostFiles();
@@ -370,6 +378,8 @@ export default function PopupMediaFile() {
       ),
     },
   ];
+
+  console.log(language);
 
   if (loader) {
     return (
@@ -507,6 +517,51 @@ export default function PopupMediaFile() {
                     alignItems="center"
                     bg="#1F1F1F"
                     textAlign="center"
+                  >
+                    <Box
+                      w="18%"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <SvgMore />
+                    </Box>
+
+                    <Box
+                      w="90%"
+                      mx="auto"
+                      h="50px"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Select
+                        w="60%"
+                        borderColor="transparent"
+                        value={language ? language : "en"}
+                        color="white"
+                        fontWeight="300"
+                        fontSize="13px"
+                        fontFamily="inter"
+                        onChange={(e) => onChange(e.target.value)}
+                      >
+                        <option value="en" style={{ color: "black" }}>
+                          English
+                        </option>
+                        <option value="de" style={{ color: "black" }}>
+                          Deutsch
+                        </option>
+                      </Select>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    mb="19px"
+                    rounded="5px"
+                    display="flex"
+                    alignItems="center"
+                    bg="#1F1F1F"
+                    textAlign="center"
                     onClick={() => {
                       localStorage.removeItem("refreshToken");
                       localStorage.removeItem("accessToken");
@@ -536,53 +591,8 @@ export default function PopupMediaFile() {
                         fontSize="13px"
                         fontFamily="inter"
                       >
-                        Sign out
+                        <Trans>signOut</Trans>
                       </Text>
-                    </Box>
-                  </Box>
-
-                  <Box
-                    mb="19px"
-                    rounded="5px"
-                    display="flex"
-                    alignItems="center"
-                    bg="#1F1F1F"
-                    textAlign="center"
-                  >
-                    <Box
-                      w="18%"
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <SvgMore />
-                    </Box>
-
-                    <Box
-                      w="90%"
-                      mx="auto"
-                      h="50px"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <Select
-                        w="60%"
-                        borderColor="transparent"
-                        value={language ? language : "en"}
-                        color="white"
-                        fontWeight="300"
-                        fontSize="13px"
-                        fontFamily="inter"
-                        onChange={(e) => setLanguage(e.target.value)}
-                      >
-                        <option value="en" style={{ color: "black" }}>
-                          English
-                        </option>
-                        <option value="de" style={{ color: "black" }}>
-                          Deutsch
-                        </option>
-                      </Select>
                     </Box>
                   </Box>
 
@@ -617,7 +627,7 @@ export default function PopupMediaFile() {
                         fontSize="13px"
                         fontFamily="inter"
                       >
-                        Delete profile
+                        <Trans>deleteProfile</Trans>
                       </Text>
                     </Box>
                   </Box>
@@ -636,11 +646,11 @@ export default function PopupMediaFile() {
           right="0"
           bottom="0"
           bg="black"
-          zIndex="8"
+          zIndex="10"
         >
           {imageFile && (
-            <Box>
-              <Box maxW="372px" mx="auto" mt="19px">
+            <Box zIndex="11">
+              <Box maxW="372px" mx="auto" mt="19px" mb="30px">
                 <Box w="30px" h="30px" onClick={handleCencelCrop}>
                   <SvgExet />
                 </Box>
@@ -649,15 +659,15 @@ export default function PopupMediaFile() {
                 display="flex"
                 minH="100vh"
                 justifyContent="center"
-                alignItems="center"
+                alignItems="start"
               >
                 <Box px="20px">
-                  <Box h="300px" pos="relative" maxW="372px">
+                  <Box h="auto" pos="relative" maxW="428px">
                     {cropData ? (
                       <Image
                         src={cropData}
                         w="100%"
-                        h="237px"
+                        h="448px"
                         objectFit="cover"
                       />
                     ) : (
@@ -665,11 +675,11 @@ export default function PopupMediaFile() {
                         ref={cropperRef}
                         src={imageFile}
                         guides={false}
-                        minCropBoxWidth={372}
-                        minCropBoxHeight={237}
-                        minCanvasWidth={372}
-                        minCanvasHeight={237}
-                        style={{ width: "100%", height: "237px" }}
+                        minCropBoxWidth={428}
+                        minCropBoxHeight={448}
+                        minCanvasWidth={428}
+                        minCanvasHeight={448}
+                        style={{ width: "100%", height: "448px" }}
                       />
                     )}
                     <Box bg="#141414">

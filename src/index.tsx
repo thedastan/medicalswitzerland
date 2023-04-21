@@ -12,6 +12,7 @@ import { setUpStore } from "./Redux/Store/Store";
 /* Local dependencies */
 import App from "./App";
 import "./index.scss";
+import "./i18n/I18n";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

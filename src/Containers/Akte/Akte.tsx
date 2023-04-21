@@ -52,7 +52,6 @@ export default function Akte() {
     ActionGroup,
     ActionGroupsForAkte,
     ActionGroupPut,
-    ActionGroupsInfo,
   } = useActionsFile();
 
   const {
@@ -532,6 +531,7 @@ export default function Akte() {
                             onClick={() => {
                               ActionActiveModalMedia(true);
                               ActionActiveSubtrac(true);
+                              ActionActiveProfile(false);
                             }}
                           >
                             Mehr hinzufügen

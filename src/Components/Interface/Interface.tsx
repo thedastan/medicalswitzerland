@@ -25,6 +25,7 @@ import {
 } from "../../Hooks/useActions";
 import { dataURLtoFile, getAccessToken, onChangeImage } from "../Helpers";
 import PopupForMessage from "../Ui/popups/PopupForMessage";
+import SvgExet from "../../assets/svg/SvgExit";
 
 interface IInterfaceProps {
   children: JSX.Element;
@@ -79,11 +80,11 @@ export default function Interface({ children }: IInterfaceProps) {
   };
 
   const handleActiveAuthAvatart = () => {
-    if ((user.is_first_time && !validToken) || !validToken) {
-      ActiveModalRegistration(true);
-    } else {
+    if (!user.is_first_time && validToken) {
       ActiveModalRegistration(false);
       ref.current?.click();
+    } else {
+      ActiveModalRegistration(true);
     }
   };
 
@@ -328,70 +329,93 @@ export default function Interface({ children }: IInterfaceProps) {
       {popupMore && <PopupMore setModal={setPopupMore} />}
       {modal && <Registration />}
       {imageFile && (
-        <Box pos="fixed" top="0" left="0" right="0" bottom="0" bg="black">
+        <Box
+          pos="fixed"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          bg="black"
+          zIndex="10"
+        >
           {imageFile && (
-            <Box
-              maxW="372px"
-              mx="auto"
-              display="flex"
-              minH="100vh"
-              justifyContent="center"
-              alignItems="center"
-              px="13px"
-            >
-              <Box>
-                {cropData ? (
-                  <Image src={cropData} />
-                ) : (
-                  <Box h="300px" pos="relative" maxW="372px">
-                    <Cropper
-                      ref={cropperRef}
-                      src={imageFile}
-                      minCropBoxHeight={10}
-                      minCropBoxWidth={10}
-                      minCanvasWidth={102}
-                      minCanvasHeight={87}
-                      style={{ width: "100%", height: "237px" }}
-                    />
+            <Box>
+              <Box
+                maxW="372px"
+                mx="auto"
+                mt="19px"
+                mb="30px"
+                onClick={() => {
+                  setImageFile("");
+                  setCropData("");
+                }}
+              >
+                <Box w="30px" h="30px">
+                  <SvgExet />
+                </Box>
+              </Box>
+              <Box
+                mt="30%"
+                zIndex="11"
+                maxW="372px"
+                mx="auto"
+                display="flex"
+                minH="100vh"
+                justifyContent="center"
+                alignItems="start"
+                px="13px"
+              >
+                <Box w="100%" mx="auto">
+                  {cropData ? (
+                    <Box w="95px" h="95px" mx="auto">
+                      <Image
+                        src={cropData}
+                        w="95px"
+                        h="95px"
+                        objectFit="cover"
+                        rounded="50%"
+                      />
+                    </Box>
+                  ) : (
+                    <Box
+                      h="180px"
+                      pos="relative"
+                      w="100%"
+                      display="flex"
+                      justifyContent="center"
+                    >
+                      <Cropper
+                        ref={cropperRef}
+                        src={imageFile}
+                        minCropBoxWidth={150}
+                        minCropBoxHeight={150}
+                        minCanvasWidth={150}
+                        minCanvasHeight={150}
+                        style={{ width: "150px", height: "150px" }}
+                      />
+                    </Box>
+                  )}
+                  <Box
+                    maxW="500px"
+                    display="flex"
+                    justifyContent="space-between"
+                    mx="auto"
+                    gap="2px"
+                    mt="20px"
+                  >
+                    <Button
+                      textColor="white"
+                      bg="#0B6CFF"
+                      fontSize="16px"
+                      fontWeight="600"
+                      w="100%"
+                      h="35px"
+                      rounded="7px"
+                      onClick={distributionFunction}
+                    >
+                      {!cropData ? "Crop Avatart" : "Save Avatar"}
+                    </Button>
                   </Box>
-                )}
-                <Box
-                  maxW="500px"
-                  display="flex"
-                  justifyContent="space-between"
-                  mx="auto"
-                  gap="2px"
-                  mt="20px"
-                >
-                  <Button
-                    textColor="white"
-                    bg="#ff3a22"
-                    fontSize="10px"
-                    fontWeight="500"
-                    w="50%"
-                    h="36px"
-                    rounded="0"
-                    textTransform="uppercase"
-                    onClick={() => {
-                      setImageFile("");
-                      setCropData("");
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    textColor="black"
-                    bg="white"
-                    fontSize="10px"
-                    fontWeight="500"
-                    w="50%"
-                    h="36px"
-                    rounded="0"
-                    textTransform="uppercase"
-                    onClick={distributionFunction}
-                  >
-                    {!cropData ? "Crop Avatart" : "Save Avatar"}
-                  </Button>
                 </Box>
               </Box>
             </Box>
