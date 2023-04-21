@@ -360,10 +360,11 @@ IPopupChangeProps) {
           right="0"
           bottom="0"
           bg="black"
-          zIndex="7"
+          zIndex="10"
         >
           {imageFile && (
             <Box
+              zIndex="11"
               display="flex"
               minH="100vh"
               justifyContent="center"
@@ -387,15 +388,15 @@ IPopupChangeProps) {
                     />
                   </Box>
                 ) : (
-                  <Box h="300px" pos="relative" maxW="372px">
+                  <Box h="300px" pos="relative" maxW="428px">
                     <Cropper
                       ref={cropperRef}
                       src={imageFile}
-                      minCropBoxHeight={10}
-                      minCropBoxWidth={10}
-                      minCanvasWidth={102}
-                      minCanvasHeight={87}
-                      style={{ width: "100%", height: "237px" }}
+                      minCropBoxWidth={428}
+                      minCropBoxHeight={448}
+                      minCanvasWidth={428}
+                      minCanvasHeight={448}
+                      style={{ width: "100%", height: "448px" }}
                     />
                   </Box>
                 )}

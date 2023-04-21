@@ -253,9 +253,6 @@ export default function Notfall() {
     // dotsClass: "slick-dots custom-dots-class",
   };
 
-  console.log(idFile, "Info");
-  console.log(idFiles, "group");
-
   if (loading || loaderForile) {
     return (
       <Box textColor="white" display="flex" justifyContent="center">
