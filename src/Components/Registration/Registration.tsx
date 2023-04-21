@@ -146,7 +146,14 @@ export default function Registration() {
   };
 
   const forgotPassword = () => {
-    ActionReset(true);
+    axios
+      .post(`${API_ADDRESS}users/reset_link/`, { email: user.email })
+      .then(() => {
+        ActionReset(true);
+      })
+      .catch(() => {
+        alert("Email not for forgot password");
+      });
   };
 
   useEffect(() => {
