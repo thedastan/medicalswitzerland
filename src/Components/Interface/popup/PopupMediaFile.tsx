@@ -526,7 +526,6 @@ export default function PopupMediaFile() {
                     >
                       <SvgMore />
                     </Box>
-
                     <Box
                       w="90%"
                       mx="auto"
