@@ -239,143 +239,240 @@ export default function Akte() {
 
   return (
     <Fragment>
-      <Text
-        color="white"
-        fontFamily="inter"
-        textAlign="center"
-        mt="48px"
-        mb="6px"
-        fontSize="15px"
-        fontWeight="700"
-      >
-        PATIENTENAKTE
-      </Text>
-      <Text color="#C7C4C4" textAlign="center" fontSize="18px" mb="35px">
-        medical
-        <span style={{ color: "#E11F26" }}>switzerland</span>
-      </Text>
-      <Box px="12px">
-        <Text fontSize="14px" color="white" textAlign="center" mb="30px">
-          {user.full_name || "Name"}
-        </Text>
-        <Text fontSize="14px" color="white" textAlign="center" mb="33px">
-          {user.birth_date || "GEBURTSDATUM"}
-        </Text>
-      </Box>
-
-      <Box
-        display="flex"
-        justifyContent="end"
-        pb="11px"
-        borderBottom="1px solid #454545"
-        mb="29px"
-      >
-        <MyButton
-          typeColor={!bearbeitenAkte ? "white" : "darkGrey"}
-          fontFamily="commissioner"
-          marginRight="16px"
-          color={!bearbeitenAkte ? "black" : "white"}
-          onClick={() =>
-            !bearbeitenAkte
-              ? handleClickPut()
-              : ActionBearbeitenAkte(!bearbeitenAkte)
-          }
+      <Box position="relative">
+        <Text
+          color="white"
+          fontFamily="inter"
+          textAlign="center"
+          mt="48px"
+          mb="6px"
+          fontSize="15px"
+          fontWeight="700"
         >
-          {!bearbeitenAkte ? "SAVE" : "Bearbeiten"}
-        </MyButton>
-      </Box>
-      <Box px="12px">
-        {listInput.map((el, index) => (
-          <Box
-            key={index}
-            borderBottom={
-              listInput.length - 1 === index ? "0px" : "1px solid #454545"
+          PATIENTENAKTE
+        </Text>
+        <Text color="#C7C4C4" textAlign="center" fontSize="18px" mb="35px">
+          medical
+          <span style={{ color: "#E11F26" }}>switzerland</span>
+        </Text>
+        <Box px="12px">
+          <Text fontSize="14px" color="white" textAlign="center" mb="30px">
+            {user.full_name || "Name"}
+          </Text>
+          <Text fontSize="14px" color="white" textAlign="center" mb="33px">
+            {user.birth_date || "GEBURTSDATUM"}
+          </Text>
+        </Box>
+
+        <Box
+          display="flex"
+          justifyContent="end"
+          pb="11px"
+          borderBottom="1px solid #454545"
+          mb="29px"
+        >
+          <MyButton
+            typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
+            fontFamily="commissioner"
+            marginRight="16px"
+            color={!bearbeitenAkte ? "black" : "white"}
+            onClick={() =>
+              !bearbeitenAkte
+                ? console.log("beiten")
+                : ActionBearbeitenAkte(!bearbeitenAkte)
             }
-            marginBottom="29px"
           >
-            <Text
-              color="gray"
-              fontSize="10px"
-              fontWeight="700"
-              fontFamily="inter"
-              mb="3px"
-              textAlign="center"
+            {!bearbeitenAkte ? "SAVE" : "Bearbeiten"}
+          </MyButton>
+        </Box>
+        <Box px="12px">
+          {listInput.map((el, index) => (
+            <Box
+              key={index}
+              borderBottom={
+                listInput.length - 1 === index ? "0px" : "1px solid #454545"
+              }
+              marginBottom="29px"
             >
-              {el.item}
-            </Text>
-            <textarea
-              name={el.name}
-              onChange={(e) => inputChange(e)}
-              defaultValue={el.value ? el.value : ""}
-              disabled={bearbeitenAkte}
-              placeholder={!bearbeitenAkte ? "Allergie hinzufugen" : ""}
-              className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
-            />
-          </Box>
-        ))}
-        <Box display="flex" flexDir="column-reverse">
-          {allGroups
-            .filter((elem) => elem.is_akte === true)
-            .map((el) => (
-              <Box key={el.id} maxW="372px" mx="auto">
-                <Box mb="50px">
-                  <Slider {...settings}>
-                    {el?.info_list.map((item, index) => (
-                      <Box>
-                        <Box
-                          position="relative"
-                          maxW="426px"
-                          mx="auto"
-                          h="448px"
-                          bg="#131313"
-                          display="flex"
-                          alignItems="center"
-                        >
-                          <Button
-                            position="absolute"
+              <Text
+                color="gray"
+                fontSize="10px"
+                fontWeight="700"
+                fontFamily="inter"
+                mb="3px"
+                textAlign="center"
+              >
+                {el.item}
+              </Text>
+              <textarea
+                name={el.name}
+                onChange={(e) => inputChange(e)}
+                defaultValue={el.value ? el.value : ""}
+                disabled={bearbeitenAkte}
+                placeholder={!bearbeitenAkte ? "Allergie hinzufugen" : ""}
+                className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
+              />
+            </Box>
+          ))}
+          <Box display="flex" flexDir="column-reverse">
+            {allGroups
+              .filter((elem) => elem.is_akte === true)
+              .map((el) => (
+                <Box key={el.id} maxW="372px" mx="auto">
+                  <Box mb="50px">
+                    <Slider {...settings}>
+                      {el?.info_list.map((item, index) => (
+                        <Box>
+                          <Box
+                            position="relative"
+                            maxW="426px"
+                            mx="auto"
+                            h="448px"
+                            bg="#131313"
                             display="flex"
-                            w="30px"
-                            h="10px"
-                            px="0"
-                            ml="auto"
-                            top="17px"
-                            right="11px"
-                            zIndex="5"
-                            onClick={() => handleClick(el.id, item.id, el)}
+                            alignItems="center"
                           >
-                            {dots}
-                          </Button>
-                          {deleteImg && (
-                            <Box
-                              rounded="50%"
-                              bg="black"
-                              w="30px"
-                              h="30px"
-                              pos="absolute"
-                              top="51px"
-                              right="17px"
+                            <Button
+                              position="absolute"
                               display="flex"
-                              justifyContent="center"
-                              alignItems="center"
+                              w="30px"
+                              h="10px"
+                              px="0"
+                              ml="auto"
+                              top="17px"
+                              right="11px"
                               zIndex="5"
-                              onClick={() => deletedImage(el, el.id)}
+                              onClick={() => handleClick(el.id, item.id, el)}
                             >
-                              <SvgRedBasket />
+                              {dots}
+                            </Button>
+                            {deleteImg && (
+                              <Box
+                                rounded="50%"
+                                bg="black"
+                                w="30px"
+                                h="30px"
+                                pos="absolute"
+                                top="51px"
+                                right="17px"
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                zIndex="5"
+                                onClick={() => deletedImage(el, el.id)}
+                              >
+                                <SvgRedBasket />
+                              </Box>
+                            )}
+                            <Card
+                              key={index}
+                              el={item}
+                              deleteImg={deleteImg}
+                              object={el}
+                            />
+                          </Box>
+                          <Box
+                            bg={
+                              disabledFiles && idFiles === el.id
+                                ? "#141414"
+                                : "black"
+                            }
+                            rounded="5px"
+                            px="4px"
+                            mb="7px"
+                            mt="7px"
+                          >
+                            <Input
+                              borderBottom="1px solid #343434"
+                              borderRight="transparent"
+                              borderLeft="transparent"
+                              defaultValue={el.title}
+                              borderTop="transparent"
+                              disabled={!deleteImg}
+                              placeholder="Titel"
+                              fontFamily="inter"
+                              textColor="white"
+                              fontWeight="700"
+                              bg="transparent"
+                              fontSize="15px"
+                              outline="black"
+                              rounded="0px"
+                              name="text"
+                              w="100%"
+                              mb="5px"
+                              h="37px"
+                              pl="10px"
+                              onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <Input
+                              disabled={!disabledFiles || idFiles !== el.id}
+                              placeholder="Beschreibung"
+                              defaultValue={item.text}
+                              borderColor="transparent"
+                              fontFamily="inter"
+                              textColor="white"
+                              bg="transparent"
+                              fontWeight="300"
+                              fontSize="15px"
+                              outline="black"
+                              rounded="0px"
+                              name="text"
+                              pl="10px"
+                              w="100%"
+                              mb="7px"
+                              h="37px"
+                              onChange={(e) => setText(e.target.value)}
+                            />
+                          </Box>
+                          {deleteImg && (
+                            <Box display="flex" w="100%">
+                              <Button
+                                color="black"
+                                fontSize="13px"
+                                fontWeight="700"
+                                fontFamily="inter"
+                                bg="white"
+                                w="50%"
+                                h="35px"
+                                ml="2px"
+                                rounded="7px"
+                                onClick={() => {
+                                  ActionActiveModalMedia(true);
+                                  ActionActiveSubtrac(true);
+                                }}
+                              >
+                                Mehr hinzufügen
+                              </Button>
+                              <Button
+                                color="white"
+                                fontSize="13px"
+                                fontWeight="700"
+                                fontFamily="inter"
+                                bg="#0B6CFF"
+                                w="50%"
+                                h="35px"
+                                ml="2px"
+                                rounded="7px"
+                                onClick={() => handlePutFile()}
+                              >
+                                Speichern
+                              </Button>
                             </Box>
                           )}
-                          <Card
-                            key={index}
-                            el={item}
-                            deleteImg={deleteImg}
-                            object={el}
-                          />
+                        </Box>
+                      ))}
+                      <Box mx="auto">
+                        <Box
+                          bg="#262626"
+                          h="448px"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          <SvgBluePluse />
                         </Box>
                         <Box
-                          bg={
-                            disabledFiles && idFiles === el.id
-                              ? "#141414"
-                              : "black"
-                          }
+                          bg="#141414"
                           rounded="5px"
                           px="4px"
                           mb="7px"
@@ -385,14 +482,13 @@ export default function Akte() {
                             borderBottom="1px solid #343434"
                             borderRight="transparent"
                             borderLeft="transparent"
-                            defaultValue={el.title}
                             borderTop="transparent"
-                            disabled={!deleteImg}
+                            defaultValue={title}
                             placeholder="Titel"
                             fontFamily="inter"
                             textColor="white"
-                            fontWeight="700"
                             bg="transparent"
+                            fontWeight="700"
                             fontSize="15px"
                             outline="black"
                             rounded="0px"
@@ -404,10 +500,9 @@ export default function Akte() {
                             onChange={(e) => setTitle(e.target.value)}
                           />
                           <Input
-                            disabled={!disabledFiles || idFiles !== el.id}
                             placeholder="Beschreibung"
-                            defaultValue={item.text}
                             borderColor="transparent"
+                            defaultValue={text}
                             fontFamily="inter"
                             textColor="white"
                             bg="transparent"
@@ -423,139 +518,63 @@ export default function Akte() {
                             onChange={(e) => setText(e.target.value)}
                           />
                         </Box>
-                        {deleteImg && (
-                          <Box display="flex" w="100%">
-                            <Button
-                              color="black"
-                              fontSize="13px"
-                              fontWeight="700"
-                              fontFamily="inter"
-                              bg="white"
-                              w="50%"
-                              h="35px"
-                              ml="2px"
-                              rounded="7px"
-                              onClick={() => {
-                                ActionActiveModalMedia(true);
-                                ActionActiveSubtrac(true);
-                              }}
-                            >
-                              Mehr hinzufügen
-                            </Button>
-                            <Button
-                              color="white"
-                              fontSize="13px"
-                              fontWeight="700"
-                              fontFamily="inter"
-                              bg="#0B6CFF"
-                              w="50%"
-                              h="35px"
-                              ml="2px"
-                              rounded="7px"
-                              onClick={() => handlePutFile()}
-                            >
-                              Speichern
-                            </Button>
-                          </Box>
-                        )}
+                        <Box display="flex" w="100%">
+                          <Button
+                            color="black"
+                            fontSize="13px"
+                            fontWeight="700"
+                            fontFamily="inter"
+                            bg="white"
+                            w="50%"
+                            h="35px"
+                            ml="2px"
+                            rounded="7px"
+                            onClick={() => {
+                              ActionActiveModalMedia(true);
+                              ActionActiveSubtrac(true);
+                            }}
+                          >
+                            Mehr hinzufügen
+                          </Button>
+                          <Button
+                            color="white"
+                            fontSize="13px"
+                            fontWeight="700"
+                            fontFamily="inter"
+                            bg="#0B6CFF"
+                            w="50%"
+                            h="35px"
+                            ml="2px"
+                            rounded="7px"
+                            onClick={() => handlePutFile()}
+                          >
+                            Speichern
+                          </Button>
+                        </Box>
                       </Box>
-                    ))}
-                    <Box mx="auto">
-                      <Box
-                        bg="#262626"
-                        h="448px"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <SvgBluePluse />
-                      </Box>
-                      <Box
-                        bg="#141414"
-                        rounded="5px"
-                        px="4px"
-                        mb="7px"
-                        mt="7px"
-                      >
-                        <Input
-                          borderBottom="1px solid #343434"
-                          borderRight="transparent"
-                          borderLeft="transparent"
-                          borderTop="transparent"
-                          defaultValue={title}
-                          placeholder="Titel"
-                          fontFamily="inter"
-                          textColor="white"
-                          bg="transparent"
-                          fontWeight="700"
-                          fontSize="15px"
-                          outline="black"
-                          rounded="0px"
-                          name="text"
-                          w="100%"
-                          mb="5px"
-                          h="37px"
-                          pl="10px"
-                          onChange={(e) => setTitle(e.target.value)}
-                        />
-                        <Input
-                          placeholder="Beschreibung"
-                          borderColor="transparent"
-                          defaultValue={text}
-                          fontFamily="inter"
-                          textColor="white"
-                          bg="transparent"
-                          fontWeight="300"
-                          fontSize="15px"
-                          outline="black"
-                          rounded="0px"
-                          name="text"
-                          pl="10px"
-                          w="100%"
-                          mb="7px"
-                          h="37px"
-                          onChange={(e) => setText(e.target.value)}
-                        />
-                      </Box>
-                      <Box display="flex" w="100%">
-                        <Button
-                          color="black"
-                          fontSize="13px"
-                          fontWeight="700"
-                          fontFamily="inter"
-                          bg="white"
-                          w="50%"
-                          h="35px"
-                          ml="2px"
-                          rounded="7px"
-                          onClick={() => {
-                            ActionActiveModalMedia(true);
-                            ActionActiveSubtrac(true);
-                          }}
-                        >
-                          Mehr hinzufügen
-                        </Button>
-                        <Button
-                          color="white"
-                          fontSize="13px"
-                          fontWeight="700"
-                          fontFamily="inter"
-                          bg="#0B6CFF"
-                          w="50%"
-                          h="35px"
-                          ml="2px"
-                          rounded="7px"
-                          onClick={() => handlePutFile()}
-                        >
-                          Speichern
-                        </Button>
-                      </Box>
-                    </Box>
-                  </Slider>
+                    </Slider>
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
+          </Box>
         </Box>
+
+        {!bearbeitenAkte && (
+          <Box position="fixed" mx="auto" bottom="70px" px="41px" w="100%">
+            <Button
+              bg="#0B6CFF"
+              fontSize="16px"
+              fontFamily="inter"
+              rounded="7px"
+              h="37px"
+              w="100%"
+              color="white"
+              onClick={() => handleClickPut()}
+            >
+              Speichern
+            </Button>
+          </Box>
+        )}
       </Box>
     </Fragment>
   );

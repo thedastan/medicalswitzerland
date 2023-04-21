@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Box, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Image, Text } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 
@@ -116,17 +116,6 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 </Text>
                 <Text fontSize="22px" color="red" mb="26px" w="150%">
                   switzerland
-                  <span
-                    style={{
-                      fontFamily: "HelveticaNeueLT",
-                      color: "black",
-                      marginLeft: "4px",
-                      fontSize: "19px",
-                      fontWeight: "400",
-                    }}
-                  >
-                    Hello {user.full_name}
-                  </span>
                 </Text>
 
                 <Box display="flex" flexWrap="wrap" gap="22px">
@@ -158,9 +147,23 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   textAlign="center"
                   w="80%"
                   mx="auto"
+                  mb="28px"
                 >
                   Your personal <br /> Contact
                 </Text>
+                <Box w="106px" h="25px" mx="auto">
+                  <Button
+                    position="static"
+                    fontSize="10px"
+                    fontWeight="300"
+                    bg="#B3B3B3"
+                    rounded="5px"
+                    h="25px"
+                    color="white"
+                  >
+                    Save contact
+                  </Button>
+                </Box>
               </Box>
             </Box>
           </Box>

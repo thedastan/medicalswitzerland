@@ -14,7 +14,6 @@ import Registration from "../Registration/Registration";
 import SVgContact from "../../assets/svg/SvgContact";
 import SvgAdded from "../../assets/svg/SvgAdded";
 import SvgDefaultAvatar from "../../assets/svg/SvgDefaultAvatar";
-import PopupFiles from "./popup/PopupFiles";
 import API, { API_ADDRESS } from "../../Api";
 import PopupMore from "./popup/PopupMore";
 
@@ -202,7 +201,7 @@ export default function Interface({ children }: IInterfaceProps) {
           onClick={handleClickModalMore}
         >
           <SVgContact />
-          <Text color="white">Contact</Text>
+          <Text color="white">Kontakt</Text>
         </Box>
       ),
     },

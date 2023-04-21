@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { createRef, useEffect, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
-import { Button, Image, Input, Spinner } from "@chakra-ui/react";
+import { Button, Image, Input, Select, Spinner } from "@chakra-ui/react";
 import "cropperjs/dist/cropper.css";
 
 /* Local dependencies */
@@ -25,6 +25,8 @@ import {
 } from "../../../Hooks/useActions";
 import { InterfaceImageTypes } from "../redux-image/types/Types";
 import SvgExet from "../../../assets/svg/SvgExit";
+import SvgSignOut from "../../../assets/svg/SvgSignOut";
+import SvgMore from "../../../assets/svg/SvgMore";
 
 export default function PopupMediaFile() {
   const dispatch = useAppDispatch();
@@ -55,6 +57,7 @@ export default function PopupMediaFile() {
   const [pdfIncludes, setPdfIncludes] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
+  const [language, setLanguage] = useState("");
 
   const handleClickForDeleteProfile = async () => {
     if (getAccessToken()) {
@@ -253,12 +256,12 @@ export default function PopupMediaFile() {
         <Box
           display="flex"
           alignItems="center"
-          bg="thirdlittleGray"
+          bg="#1F1F1F"
           textAlign="center"
-          borderTopRadius="12px"
+          borderTopRadius="5px"
         >
           <Box
-            w="10%"
+            w="18%"
             display="flex"
             justifyContent="center"
             alignItems="center"
@@ -272,7 +275,8 @@ export default function PopupMediaFile() {
             display="flex"
             alignItems="center"
             justifyContent="center"
-            borderBottom="1px solid"
+            borderBottom="1px solid #454545"
+            pr="30"
           >
             <Text
               color="white"
@@ -291,13 +295,14 @@ export default function PopupMediaFile() {
         <Box
           display="flex"
           alignItems="center"
-          bg="thirdlittleGray"
+          bg="#1F1F1F"
           textAlign="center"
           px="2px"
-          borderTopRadius={!user.emergency_contact ? "12px" : "0px"}
+          borderTopRadius={!user.emergency_contact ? "5px" : "0px"}
+          borderBottomRadius={!user.location ? "5px" : "0px"}
         >
           <Box
-            w="10%"
+            w="18%"
             display="flex"
             justifyContent="center"
             alignItems="center"
@@ -308,10 +313,11 @@ export default function PopupMediaFile() {
             w="90%"
             mx="auto"
             h="50px"
+            pr="30"
             display="flex"
             alignItems="center"
             justifyContent="center"
-            borderBottom="1px solid"
+            borderBottom="1px solid #454545"
           >
             <Text
               color="white"
@@ -330,11 +336,12 @@ export default function PopupMediaFile() {
         <Box
           display="flex"
           alignItems="center"
-          bg="thirdlittleGray"
+          bg="#1F1F1F"
+          borderBottomRadius="5px"
           textAlign="center"
         >
           <Box
-            w="10%"
+            w="18%"
             display="flex"
             justifyContent="center"
             alignItems="center"
@@ -345,10 +352,10 @@ export default function PopupMediaFile() {
             w="90%"
             mx="auto"
             h="50px"
+            pr="30"
             display="flex"
             alignItems="center"
             justifyContent="center"
-            borderBottom="1px solid"
           >
             <Text
               color="white"
@@ -357,44 +364,6 @@ export default function PopupMediaFile() {
               fontFamily="inter"
             >
               {user.location}
-            </Text>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      content: (
-        <Box
-          display="flex"
-          alignItems="center"
-          bg="thirdlittleGray"
-          textAlign="center"
-          borderBottomRadius="12px"
-          onClick={handleClickForDeleteProfile}
-        >
-          <Box
-            w="10%"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <SvgBasket />
-          </Box>
-          <Box
-            w="90%"
-            mx="auto"
-            h="50px"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Text
-              color="white"
-              fontWeight="300"
-              fontSize="13px"
-              fontFamily="inter"
-            >
-              Delete profile
             </Text>
           </Box>
         </Box>
@@ -524,10 +493,134 @@ export default function PopupMediaFile() {
                 </Box>
               )}
               {profile && (
-                <Box zIndex="6">
-                  {listProfile.map((el, index) => (
-                    <Box key={index}>{el.content}</Box>
-                  ))}
+                <Box px="29px" bg="#171717" pt="58px" pb="44px" rounded="10px">
+                  <Box zIndex="6" mb="19px">
+                    {listProfile.map((el, index) => (
+                      <Box key={index}>{el.content}</Box>
+                    ))}
+                  </Box>
+
+                  <Box
+                    mb="19px"
+                    rounded="5px"
+                    display="flex"
+                    alignItems="center"
+                    bg="#1F1F1F"
+                    textAlign="center"
+                    onClick={() => {
+                      localStorage.removeItem("refreshToken");
+                      localStorage.removeItem("accessToken");
+                      window.location.reload();
+                    }}
+                  >
+                    <Box
+                      w="18%"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <SvgSignOut />
+                    </Box>
+                    <Box
+                      w="90%"
+                      mx="auto"
+                      h="50px"
+                      pr="65px"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Text
+                        color="white"
+                        fontWeight="300"
+                        fontSize="13px"
+                        fontFamily="inter"
+                      >
+                        Sign out
+                      </Text>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    mb="19px"
+                    rounded="5px"
+                    display="flex"
+                    alignItems="center"
+                    bg="#1F1F1F"
+                    textAlign="center"
+                  >
+                    <Box
+                      w="18%"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <SvgMore />
+                    </Box>
+
+                    <Box
+                      w="90%"
+                      mx="auto"
+                      h="50px"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Select
+                        w="60%"
+                        borderColor="transparent"
+                        value={language ? language : "en"}
+                        color="white"
+                        fontWeight="300"
+                        fontSize="13px"
+                        fontFamily="inter"
+                        onChange={(e) => setLanguage(e.target.value)}
+                      >
+                        <option value="en" style={{ color: "black" }}>
+                          English
+                        </option>
+                        <option value="de" style={{ color: "black" }}>
+                          Deutsch
+                        </option>
+                      </Select>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    rounded="5px"
+                    display="flex"
+                    alignItems="center"
+                    bg="#1F1F1F"
+                    textAlign="center"
+                    onClick={handleClickForDeleteProfile}
+                  >
+                    <Box
+                      w="18%"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <SvgBasket />
+                    </Box>
+                    <Box
+                      w="90%"
+                      mx="auto"
+                      h="50px"
+                      pr="40px"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Text
+                        color="white"
+                        fontWeight="300"
+                        fontSize="13px"
+                        fontFamily="inter"
+                      >
+                        Delete profile
+                      </Text>
+                    </Box>
+                  </Box>
                 </Box>
               )}
             </motion.div>
