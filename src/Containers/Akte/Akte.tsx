@@ -25,12 +25,11 @@ import {
   IGroupsTypes,
   IInfoList,
 } from "../../Components/Interface/redux-image/types/Types";
-import PopupChangeFile from "../popupChangeFile/PopupChangeFile";
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 
 interface IGroupType {
-  id?: string;
+  id: string;
   title?: string;
   info_list?: IInfoList[];
   is_akte?: boolean;
@@ -132,7 +131,7 @@ export default function Akte() {
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
 
-  function deletedImage(data?: IGroupsTypes, idInfo?: string) {
+  function deletedImage(data: IGroupType, idInfo?: string) {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
       .then(() => {
         ActionGetUser(id);
@@ -174,7 +173,6 @@ export default function Akte() {
     setIdFile(idInfo);
     ActionFilesId(id);
     setIdFiles(id);
-    console.log(data, "OBJECT_DATA");
   };
 
   const handlePutFile = () => {
@@ -358,7 +356,7 @@ export default function Akte() {
                                 justifyContent="center"
                                 alignItems="center"
                                 zIndex="5"
-                                onClick={() => deletedImage(el, el.id)}
+                                onClick={() => deletedImage(el, item.id)}
                               >
                                 <SvgRedBasket />
                               </Box>

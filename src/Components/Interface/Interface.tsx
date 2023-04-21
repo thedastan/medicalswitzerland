@@ -33,8 +33,12 @@ interface IInterfaceProps {
 
 export default function Interface({ children }: IInterfaceProps) {
   const { ActionGetUser, ActionPutUser } = useActionsUser();
-  const { ActionActiveSubtrac, ActionActiveProfile, ActionActiveModalMedia } =
-    useActionsForModal();
+  const {
+    ActionActiveSubtrac,
+    ActionActiveProfile,
+    ActionActiveModalMedia,
+    ActionFilesId,
+  } = useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
   const { user } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
@@ -71,9 +75,10 @@ export default function Interface({ children }: IInterfaceProps) {
 
   const handleClickModalProfile = () => {
     if (validToken) {
-      ActionActiveModalMedia(true);
+      ActionFilesId("");
       ActionActiveProfile(true);
       ActionActiveSubtrac(false);
+      ActionActiveModalMedia(true);
     } else {
       ActiveModalRegistration(true);
     }

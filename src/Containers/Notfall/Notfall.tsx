@@ -82,10 +82,12 @@ export default function Notfall() {
   const [idFiles, setIdFiles] = useState("");
 
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
+  const [names, setNames] = useState({ vorname: "", nachname: "" });
 
   const [deleteImg, setDeleteImg] = useState(false);
   const [validToken, setValidToken] = useState<boolean>();
   const [disabledFiles, setDisabledFiles] = useState(false);
+  const [birthDate, setBirthDate] = useState("");
 
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
@@ -96,19 +98,27 @@ export default function Notfall() {
     dots.push(<SvgDot key={i} />);
   }
 
-  const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDataPost({ ...dataPost, [e.target.name]: e.target.value });
-  };
-
   const inputChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
+
+  function changeForName(vor: string, nach: string) {
+    setNames({ ...names, nachname: nach, vorname: vor });
+
+    setDataPost({
+      ...dataPost,
+      full_name: `${vor} ${nach}`,
+    });
+  }
+
+  console.log(dataPost);
+  console.log(names);
 
   function deletedImage(data?: IGroupsTypes, idInfo?: string) {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
       .then(() => {
         ActionGetUser(id);
-        // ActionAllGroups();
+        ActionAllGroups();
       })
       .catch((e) => {
         alert(`${e} Error`);
@@ -206,10 +216,18 @@ export default function Notfall() {
     },
   ];
 
-  const [focus, setFocused] = useState(false);
-  const [hasValue, setHasValue] = useState(false);
-  const onFocus = () => setFocused(true);
-  const onBlur = () => setFocused(false);
+  const handleBirthDateChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const inputBirthDate = event.target.value;
+    const formattedBirthDate = inputBirthDate
+      .replace(/\D/g, "") // remove all non-numeric characters
+      .replace(/^(\d{2})/, "$1/") // add slash after the first two digits
+      .replace(/^(\d{2}\/)(\d{2})/, "$1$2/"); // add slash after the next two digits
+
+    setBirthDate(formattedBirthDate);
+    setDataPost({ ...dataPost, [event.target.name]: birthDate });
+  };
 
   useEffect(() => {
     ActionGetUser(id);
@@ -294,29 +312,107 @@ export default function Notfall() {
         </Box>
         <Box>
           <Box px="41px">
-            {listInput?.slice(0, 2).map((el, index) => (
-              <Box key={index}>
-                <Text
-                  color="gray"
-                  fontSize="10px"
-                  fontWeight="700"
-                  fontFamily="inter"
-                  mb="3px"
-                >
-                  {el.item}
-                </Text>
-                <textarea
-                  name={el.name}
-                  onChange={(e) => inputChangeTextArea(e)}
-                  defaultValue={el.value ? el.value : ""}
-                  disabled={bearbeitenNotfall}
-                  placeholder={!bearbeitenNotfall ? el.placeholder : ""}
-                  className={`textarea--notfall ${
-                    !bearbeitenNotfall ? "active" : ""
-                  }`}
-                />
+            {!bearbeitenNotfall && (
+              <Box display="flex" gap="7px">
+                <Box w="50%">
+                  <Text
+                    color="gray"
+                    fontSize="10px"
+                    fontWeight="700"
+                    fontFamily="inter"
+                    mb="3px"
+                  >
+                    VORNAME
+                  </Text>
+                  <textarea
+                    onChange={(e) =>
+                      changeForName(e.target.value, names.nachname)
+                    }
+                    defaultValue={
+                      user.full_name?.split(" ")[0]
+                        ? user.full_name?.split(" ")[0]
+                        : names.vorname
+                    }
+                    disabled={bearbeitenNotfall}
+                    className={`textarea--notfall ${
+                      !bearbeitenNotfall ? "active" : ""
+                    }`}
+                  />
+                </Box>
+                <Box w="50%">
+                  <Text
+                    color="gray"
+                    fontSize="10px"
+                    fontWeight="700"
+                    fontFamily="inter"
+                    mb="3px"
+                  >
+                    NACHNAME
+                  </Text>
+                  <textarea
+                    onChange={(e) =>
+                      changeForName(names.vorname, e.target.value)
+                    }
+                    defaultValue={
+                      user.full_name?.split(" ")[1]
+                        ? user.full_name?.split(" ")[1]
+                        : names.nachname
+                    }
+                    disabled={bearbeitenNotfall}
+                    className={`textarea--notfall ${
+                      !bearbeitenNotfall ? "active" : ""
+                    }`}
+                  />
+                </Box>
               </Box>
-            ))}
+            )}
+            {bearbeitenNotfall
+              ? listInput?.slice(0, 2).map((el, index) => (
+                  <Box key={index}>
+                    <Text
+                      color="gray"
+                      fontSize="10px"
+                      fontWeight="700"
+                      fontFamily="inter"
+                      mb="3px"
+                    >
+                      {el.item}
+                    </Text>
+                    <textarea
+                      name={el.name}
+                      onChange={(e) => inputChangeTextArea(e)}
+                      defaultValue={el.value ? el.value : ""}
+                      disabled={bearbeitenNotfall}
+                      placeholder={!bearbeitenNotfall ? el.placeholder : ""}
+                      className={`textarea--notfall ${
+                        !bearbeitenNotfall ? "active" : ""
+                      }`}
+                    />
+                  </Box>
+                ))
+              : listInput?.slice(1, 2).map((el, index) => (
+                  <Box key={index}>
+                    <Text
+                      color="gray"
+                      fontSize="10px"
+                      fontWeight="700"
+                      fontFamily="inter"
+                      mb="3px"
+                    >
+                      {el.item}
+                    </Text>
+                    <textarea
+                      name={el.name}
+                      onChange={(e) => inputChangeTextArea(e)}
+                      defaultValue={el.value ? el.value : ""}
+                      disabled={bearbeitenNotfall}
+                      placeholder={!bearbeitenNotfall ? el.placeholder : ""}
+                      className={`textarea--notfall ${
+                        !bearbeitenNotfall ? "active" : ""
+                      }`}
+                    />
+                  </Box>
+                ))}
             <Box>
               <Text
                 color="gray"
@@ -334,7 +430,7 @@ export default function Notfall() {
                 placeholder={
                   !bearbeitenNotfall ? "Geburtsdatum hinzufugen" : ""
                 }
-                onChange={(e) => inputChangeTextArea(e)}
+                onChange={(e) => handleBirthDateChange(e)}
                 className={`textarea--notfall ${
                   !bearbeitenNotfall ? "active" : ""
                 }`}
@@ -433,7 +529,7 @@ export default function Notfall() {
                                     zIndex="5"
                                     w="30px"
                                     h="30px"
-                                    onClick={() => deletedImage(el, el.id)}
+                                    onClick={() => deletedImage(el, item.id)}
                                   >
                                     <SvgRedBasket />
                                   </Box>
@@ -514,6 +610,7 @@ export default function Notfall() {
                                     rounded="7px"
                                     onClick={() => {
                                       ActionActiveModalMedia(true);
+                                      ActionActiveProfile(false);
                                       ActionActiveSubtrac(true);
                                     }}
                                   >

@@ -178,53 +178,58 @@ export default function PopupMediaFile() {
     const formData = new FormData();
     formData.append("file", image);
 
-    setLoader(true);
-    dispatch({
-      type: InterfaceImageTypes.USER_FILES_LOADER,
-      payload: true,
-    });
-    await API.post("users/upload/", formData)
-      .then(({ data }) => {
-        if (data) {
-          API.post(`groups/${filesId}/info/`, {
-            text: text,
-            file_url: data.path,
-          })
-            .then(() => {
-              dispatch({
-                type: InterfaceImageTypes.USER_FILES_LOADER,
-                payload: false,
-              });
-              ActionActiveModalMedia(false);
-              setTextValidate(false);
-              setPdfIncludes(false);
-              ActionUpload(true);
-              setLoader(false);
-              ActionAllGroups();
-              setImageFile("");
-              setCropData("");
-              setText("");
-            })
-            .catch(() => {
-              dispatch({
-                type: InterfaceImageTypes.USER_FILES_LOADER,
-                payload: false,
-              });
-              ActionActiveModalMedia(false);
-              setTextValidate(false);
-              setPdfIncludes(false);
-              setLoader(false);
-              ActionAllGroups();
-              setImageFile("");
-              setCropData("");
-              setText("");
-            });
-        }
-      })
-      .catch((e) => {
-        alert(`${e} Error`);
-        setLoader(false);
+    if (text.length) {
+      setLoader(true);
+      dispatch({
+        type: InterfaceImageTypes.USER_FILES_LOADER,
+        payload: true,
       });
+      await API.post("users/upload/", formData)
+        .then(({ data }) => {
+          if (data) {
+            API.post(`groups/${filesId}/info/`, {
+              text: text,
+              file_url: data.path,
+            })
+              .then(() => {
+                dispatch({
+                  type: InterfaceImageTypes.USER_FILES_LOADER,
+                  payload: false,
+                });
+                ActionActiveModalMedia(false);
+                setTextValidate(false);
+                setPdfIncludes(false);
+                ActionUpload(true);
+                setLoader(false);
+                ActionAllGroups();
+                ActionFilesId("");
+                setImageFile("");
+                setCropData("");
+                setText("");
+              })
+              .catch(() => {
+                dispatch({
+                  type: InterfaceImageTypes.USER_FILES_LOADER,
+                  payload: false,
+                });
+                ActionActiveModalMedia(false);
+                setTextValidate(false);
+                setPdfIncludes(false);
+                setLoader(false);
+                ActionAllGroups();
+                setImageFile("");
+                setCropData("");
+                setText("");
+              });
+          }
+        })
+        .catch((e) => {
+          alert(`${e} Error`);
+          setLoader(false);
+        });
+    } else {
+      setTextValidate(true);
+    }
   };
 
   const handleCencelCrop = () => {
@@ -254,7 +259,11 @@ export default function PopupMediaFile() {
 
   useEffect(() => {
     if (filesId) {
-      handlePostMoreFiles();
+      if (text.length) {
+        handlePostMoreFiles();
+      } else {
+        setTextValidate(true);
+      }
     }
   }, [renderMore]);
 
@@ -378,8 +387,6 @@ export default function PopupMediaFile() {
       ),
     },
   ];
-
-  console.log(language);
 
   if (loader) {
     return (
@@ -760,13 +767,18 @@ export default function PopupMediaFile() {
           right="0"
           bottom="0"
           bg="black"
-          zIndex="8"
+          zIndex="11"
           display="flex"
           justifyContent="center"
           alignItems="center"
         >
           <Box w="100%">
-            <Box maxW="372px" mx="auto" px="13px">
+            <Box maxW="372px" mx="auto" mt="19px" mb="30px">
+              <Box w="30px" h="30px" onClick={handleCloseModal}>
+                <SvgExet />
+              </Box>
+            </Box>
+            <Box maxW="428px" mx="auto" px="13px">
               <Box
                 h="237px"
                 display="flex"
@@ -789,38 +801,26 @@ export default function PopupMediaFile() {
                   border={textVaildate ? "1px solid #FF0000" : "1px solid"}
                 />
               </Box>
+
               <Box
+                maxW="500px"
                 display="flex"
-                w="100%"
-                gap="4px"
                 justifyContent="space-between"
-                mt="10px"
+                mx="auto"
+                gap="2px"
+                mt="20px"
               >
                 <Button
                   textColor="white"
-                  bg="#ff3a22"
-                  fontSize="10px"
-                  fontWeight="500"
-                  w="50%"
-                  h="36px"
-                  rounded="0"
-                  textTransform="uppercase"
-                  onClick={handleCloseModal}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  textColor="black"
-                  bg="white"
-                  fontSize="10px"
-                  fontWeight="500"
-                  w="50%"
-                  h="36px"
-                  rounded="0"
-                  textTransform="uppercase"
+                  bg="#0B6CFF"
+                  fontSize="16px"
+                  fontWeight="600"
+                  w="100%"
+                  h="35px"
+                  rounded="7px"
                   onClick={handlePostMoreFiles}
                 >
-                  Save
+                  Speichern
                 </Button>
               </Box>
             </Box>
