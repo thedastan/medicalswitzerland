@@ -106,7 +106,7 @@ export default function Registration() {
           window.location.reload();
         })
         .catch((e) => {
-          alert("Ошибка!!! Проверте имя или пароль");
+          alert("Fehler!!! Überprüfen Sie den Benutzernamen oder das Passwort");
         });
     } else {
       alert("Email invalid");
