@@ -204,7 +204,7 @@ export default function Registration() {
           className="modal--content__wrapper"
           key={3}
         >
-          <Box bg="thirdlittleGray" h="266px" rounded="12px" zIndex="6">
+          <Box bg="#272727" h="266px" rounded="12px" zIndex="6">
             <Box
               w="17px"
               h="17px"
@@ -237,26 +237,30 @@ export default function Registration() {
                       {listInput.map((el, index) => (
                         <Box
                           key={el.id}
-                          mb="3px"
+                          mb="10px"
                           w="215px"
                           mx="auto"
                           pos="relative"
                         >
                           <Input
                             placeholder={el.placeholder}
-                            fontSize="10px"
-                            fontWeight="200"
-                            textColor="#3C3C3C"
-                            rounded="0px"
-                            h="35px"
-                            bg="#D9D9D9"
                             textAlign="center"
+                            color="#7C7575"
+                            fontSize="15px"
+                            fontWeight="200"
+                            textColor="#7C7575"
+                            rounded="4px"
+                            boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+                            h="35px"
+                            bg="#303030"
                             type={el.type}
                             {...register(index === 0 ? "email" : "password", {
                               required: el.required,
                               pattern: el.pattern,
                             })}
-                            border={el.errors ? "1px solid red" : "1px solid"}
+                            border={
+                              el.errors ? "1px solid red" : "1px solid #303030"
+                            }
                             value={el.value}
                             onChange={(e) => inputChange(e, el.name)}
                           />
@@ -277,19 +281,23 @@ export default function Registration() {
                           </Box>
                         </Box>
                       ))}
-                      <Box mb="3px" w="215px" mx="auto" position="relative">
+                      <Box mb="17px" w="215px" mx="auto" position="relative">
                         <Input
                           placeholder="Confirm  password"
-                          fontSize="10px"
-                          fontWeight="200"
-                          textColor="#3C3C3C"
-                          rounded="0px"
-                          h="35px"
-                          bg="#D9D9D9"
                           textAlign="center"
+                          color="#7C7575"
+                          fontSize="15px"
+                          fontWeight="200"
+                          textColor="#7C7575"
+                          rounded="4px"
+                          boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+                          h="35px"
+                          bg="#303030"
                           type={eye.confirm ? "text" : "password"}
                           border={
-                            validate.confirm ? "1px solid red" : "1px solid"
+                            validate.confirm
+                              ? "1px solid red"
+                              : "1px solid #303030"
                           }
                           value={dataPost.confirm}
                           onChange={(e) => changeConfirmPassword(e)}
@@ -348,15 +356,15 @@ export default function Registration() {
                         fontSize="10px"
                         w="215px"
                         h="34px"
-                        bg="black"
+                        bg="#0B6CFF"
                         textColor="white"
                         fontWeight="500"
-                        border="1px solid white"
-                        rounded="0px"
+                        border="1px solid #0B6CFF"
+                        rounded="5px"
                         mx="auto"
                         type="submit"
                       >
-                        Save
+                        Registrieren
                       </Button>
                     </Box>
                   </form>
@@ -367,7 +375,7 @@ export default function Registration() {
                 display="flex"
                 justifyContent="center"
                 alignContent="center"
-                mt="66px"
+                mt="12px"
               >
                 {loginLoder ? (
                   <Text textColor="white" textAlign="center">
@@ -375,17 +383,28 @@ export default function Registration() {
                   </Text>
                 ) : (
                   <Box mb="3px" w="215px" mx="auto">
+                    <Text
+                      fontFamily="inter"
+                      fontWeight="200"
+                      textColor="white"
+                      textAlign="center"
+                      mb="29px"
+                    >
+                      ANMELDUNG
+                    </Text>
                     <Box position="relative">
                       <Input
+                        color="#7C7575"
                         placeholder="Enter password"
-                        fontSize="10px"
+                        fontSize="15px"
                         fontWeight="200"
-                        textColor="#3C3C3C"
-                        rounded="0px"
+                        textColor="#7C7575"
+                        rounded="4px"
+                        boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+                        border="1px solid #303030"
                         h="35px"
-                        bg="#D9D9D9"
+                        bg="#303030"
                         textAlign="center"
-                        border="1px solid"
                         type={eye.password ? "text" : "password"}
                         onChange={(e) =>
                           setDataPost({ ...dataPost, password: e.target.value })
@@ -408,8 +427,9 @@ export default function Registration() {
                       </Box>
                     </Box>
                     <Text
+                      fontWeight="500"
                       mt="5px"
-                      color="#2964FC"
+                      color="#6A6A6A"
                       fontSize="8px"
                       mb="8px"
                       textAlign="end"
@@ -417,22 +437,22 @@ export default function Registration() {
                       cursor="pointer"
                       onClick={forgotPassword}
                     >
-                      Forgot password
+                      passwort vergessen?
                     </Text>
                     <Button
                       fontFamily="inter"
                       fontSize="10px"
                       w="215px"
                       h="34px"
-                      bg="black"
+                      bg="#0B6CFF"
                       textColor="white"
                       fontWeight="500"
-                      border="1px solid white"
-                      rounded="0px"
+                      border="1px solid #0B6CFF"
+                      rounded="5px"
                       mx="auto"
                       onClick={handleAuthPost}
                     >
-                      Login
+                      Anmeldung
                     </Button>
                   </Box>
                 )}

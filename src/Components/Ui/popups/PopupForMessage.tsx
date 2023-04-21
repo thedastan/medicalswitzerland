@@ -73,7 +73,7 @@ export default function PopupForMessage() {
                   fontSize="15px"
                   fontFamily="inter"
                 >
-                  Than you
+                  Als du
                 </Text>
                 <Box mb="9px">
                   <SvgSuccess />
@@ -84,7 +84,7 @@ export default function PopupForMessage() {
                   fontSize="10px"
                   fontWeight="300"
                 >
-                  Registration success
+                  Registrierung erfolgreich
                 </Text>
               </Box>
             )}
@@ -102,7 +102,7 @@ export default function PopupForMessage() {
                   fontWeight="500"
                   mb="16px"
                 >
-                  Password Reset
+                  Passwort zurücksetzen
                 </Text>
                 <SvgKey />
                 <Text
@@ -112,7 +112,9 @@ export default function PopupForMessage() {
                   fontSize="10px"
                   fontWeight="200"
                 >
-                  Password reset link sent to your registered Email
+                  Link zum Zurücksetzen des Passworts an Ihre registrierte
+                  E-Mail-Adresse gesendet. Bitte überprüfen Sie den Posteingang
+                  oder den Spam-Ordner
                 </Text>
                 <Text
                   color="white"

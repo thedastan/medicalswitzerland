@@ -102,7 +102,6 @@ export default function PopupMediaFile() {
   };
 
   const handlePostFiles = async () => {
-    alert("POST");
     try {
       const response = await API.post("groups/", {
         title: title,
@@ -171,7 +170,6 @@ export default function PopupMediaFile() {
   };
 
   const handlePostMoreFiles = async () => {
-    alert("MORE");
     const image = cropData
       ? dataURLtoFile(cropData, `${Math.floor(Math.random() * 100000)}.png`)
       : filePdf;
