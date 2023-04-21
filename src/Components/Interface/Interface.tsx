@@ -134,7 +134,7 @@ export default function Interface({ children }: IInterfaceProps) {
         }
       })
       .catch((e) => {
-        alert("Error");
+        alert("Error!!!");
       });
   };
 
