@@ -11,13 +11,13 @@ i18n.use(initReactI18next).init({
     en: {
       translation: {
         deleteProfile: "Delete profile",
-        signOut: "Sign out",
+        signOut: "Log-out",
       },
     },
     de: {
       translation: {
         deleteProfile: "Profil löschen",
-        signOut: "Austragen",
+        signOut: "Ausloggen",
       },
     },
   },
