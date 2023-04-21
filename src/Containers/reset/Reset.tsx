@@ -29,7 +29,7 @@ export default function ResetPassword() {
         alert("Post");
         axios
           .post(
-            `${API_ADDRESS}users/reset/?${window.location.href.slice(28)}`,
+            `${API_ADDRESS}users/reset/?${window.location.href.slice(44)}`,
             {
               password: dataPost.password,
             }
@@ -48,10 +48,12 @@ export default function ResetPassword() {
       setValidate({ ...validate, password: true });
     }
   }
-
+  // const res =
+  //   "https://medicalswitzerland.vercel.app/reset?rpt=b14bfbd92789e57a904cd9cca69acea4&&uci=f997f3b7026256bb6b66605edf5a8795";
+  // console.log(res.slice(44));
+  // console.log(window.location.href.slice(28), "href");
   return (
     <>
-      {isSuccess && <></>}
       <Box
         minH="100vh"
         px="13px"
