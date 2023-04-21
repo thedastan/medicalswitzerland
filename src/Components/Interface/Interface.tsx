@@ -46,7 +46,6 @@ export default function Interface({ children }: IInterfaceProps) {
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
-  const [popup, setPopup] = useState(false);
   const [popupMore, setPopupMore] = useState(false);
   const [imageFile, setImageFile] = useState("");
   const [cropData, setCropData] = useState("");
@@ -58,9 +57,9 @@ export default function Interface({ children }: IInterfaceProps) {
     } else if (!user.is_first_time && !getAccessToken()) {
       ActiveModalRegistration(true);
     } else {
-      setPopup(true);
+      // setPopup(true);
       ActiveModalRegistration(false);
-      ActionActiveModalMedia(false);
+      ActionActiveModalMedia(true);
       ActionActiveProfile(false);
       ActionActiveSubtrac(true);
     }
@@ -326,7 +325,7 @@ export default function Interface({ children }: IInterfaceProps) {
           <div key={index}>{el.content}</div>
         ))}
       </Box>
-      {popup && <PopupFiles modal={popup} setModal={setPopup} />}
+      {/* {popup && <PopupFiles modal={popup} setModal={setPopup} />} */}
       {popupMore && <PopupMore setModal={setPopupMore} />}
       {modal && <Registration />}
       {imageFile && (
@@ -351,9 +350,6 @@ export default function Interface({ children }: IInterfaceProps) {
                       src={imageFile}
                       minCropBoxHeight={10}
                       minCropBoxWidth={10}
-                      zoomOnTouch={false}
-                      zoomOnWheel={false}
-                      zoomable={false}
                       minCanvasWidth={102}
                       minCanvasHeight={87}
                       style={{ width: "100%", height: "237px" }}

@@ -26,6 +26,8 @@ import {
   IInfoList,
 } from "../../Components/Interface/redux-image/types/Types";
 import PopupChangeFile from "../popupChangeFile/PopupChangeFile";
+import SvgBluePluse from "../../assets/svg/SvgBluePlus";
+import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 
 interface IGroupType {
   id?: string;
@@ -46,14 +48,20 @@ export default function Akte() {
   const {
     ActionAllGroups,
     ActionAllGroupsPut,
-    ActionGroupsForAkte,
+    ActionGroups,
     ActionGroup,
+    ActionGroupsForAkte,
+    ActionGroupPut,
+    ActionGroupsInfo,
   } = useActionsFile();
+
   const {
     allGroups,
     groups,
     loading: loader,
+    group,
   } = useAppSelector((state) => state.filesReducer);
+
   const { bearbeitenAkte, loading, user, error } = useAppSelector(
     (state) => state.userReducer
   );
@@ -63,14 +71,13 @@ export default function Akte() {
   const [idFiles, setIdFiles] = useState("");
 
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
-  const [dataPutFiles, setDataPutFiles] = useState<IGroupType>({});
-
-  const [modalChange, setModalChange] = useState(false);
   const [deleteImg, setDeleteImg] = useState(false);
 
   const [disabledFiles, setDisabledFiles] = useState(false);
+  const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
 
-  const dots = [];
+  const dots: any[] = [];
 
   for (let i = 0; i < 3; i++) {
     dots.push(<SvgDot key={i} />);
@@ -126,15 +133,12 @@ export default function Akte() {
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
 
-  const inputChangeForFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDataPutFiles({ ...dataPutFiles, [e.target.name]: e.target.value });
-  };
-
   function deletedImage(data?: IGroupsTypes, idInfo?: string) {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
       .then(() => {
         ActionGetUser(id);
         ActionAllGroups();
+        ActionGroups(data?.id);
       })
       .catch((e) => {
         alert(`${e} Error`);
@@ -164,36 +168,37 @@ export default function Akte() {
     });
   }
 
-  function handleClickPutFiles(id: string) {
-    if (groups.id) {
-      ActionAllGroupsPut(idFiles, {
-        id: id,
-        title: dataPutFiles.title || groups.title,
-        info_list: groups?.info_list.map((el) => el.id),
-        is_akte: true,
-      });
-      setDisabledFiles(false);
-    }
-    getIdForFiles(id);
+  const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
     setDisabledFiles(!disabledFiles);
-  }
-
-  function getIdForFiles(id: string) {
-    ActionGroupsForAkte(id);
-    setIdFiles(id);
-  }
-
-  function getIdForFile(data: IGroupsTypes, id: string) {
-    ActionGroup(data.id, id);
-    setModalChange(true);
-    setIdFile(data.id);
-  }
-
-  const handleClick = (id: string) => {
-    ActionActiveModalMedia(true);
-    ActionActiveProfile(false);
-    ActionActiveSubtrac(true);
+    ActionGroup(data.id, idInfo);
+    setDeleteImg(!deleteImg);
+    setIdFile(idInfo);
     ActionFilesId(id);
+    setIdFiles(id);
+    console.log(data, "OBJECT_DATA");
+  };
+
+  const handlePutFile = () => {
+    alert("Put");
+    ActionAllGroupsPut(idFiles, {
+      id: groups.id,
+      title: title || groups.title,
+      info_list: groups?.info_list.map((el) => el.id),
+      is_akte: true,
+    });
+
+    ActionGroupPut(idFiles, group.id, {
+      file_url: group.file_url,
+      text: text || group.text,
+      id: group.id,
+    });
+    setDisabledFiles(!disabledFiles);
+    setDeleteImg(!deleteImg);
+    ActionGroups(groups.id);
+    ActionAllGroups();
+    setIdFiles("");
+    setIdFile("");
+    setText("");
   };
 
   useEffect(() => {
@@ -203,6 +208,13 @@ export default function Akte() {
   useEffect(() => {
     ActionAllGroups();
   }, []);
+
+  useEffect(() => {
+    if (idFile) {
+      ActionGroups(idFile);
+      ActionGroupsForAkte(idFile);
+    }
+  }, [idFile]);
 
   if (loading) {
     return (
@@ -301,124 +313,249 @@ export default function Akte() {
             />
           </Box>
         ))}
-
-        {allGroups.filter((el) => el.is_akte === true).length && (
-          <Box
-            display="flex"
-            mb="11px"
-            mt="46px"
-            py="10px"
-            gap="2px"
-            w="32px"
-            ml="auto"
-            onClick={() => setDeleteImg(!deleteImg)}
-          >
-            {dots}
-          </Box>
-        )}
-
         <Box display="flex" flexDir="column-reverse">
           {allGroups
             .filter((elem) => elem.is_akte === true)
             .map((el) => (
-              <Box key={el.id}>
-                <Box
-                  display="flex"
-                  flexDir="column"
-                  justifyContent="space-between"
-                  mb="10px"
-                >
-                  <Input
-                    w="100%"
-                    fontSize="10px"
-                    fontFamily="inter"
-                    mb="5px"
-                    defaultValue={el.title}
-                    outline="black"
-                    rounded="0px"
-                    h="37px"
-                    color="white"
-                    pl="0"
-                    borderColor="black"
-                    name="title"
-                    disabled={!disabledFiles || idFiles !== el.id}
-                    bg={
-                      disabledFiles && idFiles === el.id
-                        ? "colorForActiveInput"
-                        : "black"
-                    }
-                    onChange={(e) => inputChangeForFiles(e)}
-                  />
-                  <Box display="flex" justifyContent="space-between">
-                    {deleteImg && (
-                      <Button
-                        color={
-                          disabledFiles && el.id === idFiles ? "black" : "white"
-                        }
-                        fontSize="10px"
-                        fontWeight="700"
-                        fontFamily="inter"
-                        bg={
-                          disabledFiles && el.id === idFiles
-                            ? "white"
-                            : "#1A1A1A"
-                        }
-                        w="50%"
-                        h="37px"
-                        mr="2px"
-                        rounded="0px"
-                        onClick={() => {
-                          handleClickPutFiles(el.id);
-                        }}
-                      >
-                        {disabledFiles && el.id === idFiles
-                          ? "Save change"
-                          : "Change info"}
-                      </Button>
-                    )}
-                    {deleteImg && (
-                      <Button
-                        color="white"
-                        fontSize="10px"
-                        fontWeight="700"
-                        fontFamily="inter"
-                        bg="#1A1A1A"
-                        w="50%"
-                        h="37px"
-                        ml="2px"
-                        rounded="0px"
-                        onClick={() => handleClick(el.id)}
-                      >
-                        Add image
-                      </Button>
-                    )}
-                  </Box>
-                </Box>
-                <Box mb="53px">
+              <Box key={el.id} maxW="372px" mx="auto">
+                <Box mb="50px">
                   <Slider {...settings}>
                     {el?.info_list.map((item, index) => (
-                      <Card
-                        key={index}
-                        el={item}
-                        deleteImg={deleteImg}
-                        handleIdForDelete={deletedImage}
-                        handleIdForChange={getIdForFile}
-                        object={el}
-                      />
+                      <Box>
+                        <Box
+                          position="relative"
+                          maxW="426px"
+                          mx="auto"
+                          h="448px"
+                          bg="#131313"
+                          display="flex"
+                          alignItems="center"
+                        >
+                          <Button
+                            position="absolute"
+                            display="flex"
+                            w="30px"
+                            h="10px"
+                            px="0"
+                            ml="auto"
+                            top="17px"
+                            right="11px"
+                            zIndex="5"
+                            onClick={() => handleClick(el.id, item.id, el)}
+                          >
+                            {dots}
+                          </Button>
+                          {deleteImg && (
+                            <Box
+                              rounded="50%"
+                              bg="black"
+                              w="30px"
+                              h="30px"
+                              pos="absolute"
+                              top="51px"
+                              right="17px"
+                              display="flex"
+                              justifyContent="center"
+                              alignItems="center"
+                              zIndex="5"
+                              onClick={() => deletedImage(el, el.id)}
+                            >
+                              <SvgRedBasket />
+                            </Box>
+                          )}
+                          <Card
+                            key={index}
+                            el={item}
+                            deleteImg={deleteImg}
+                            object={el}
+                          />
+                        </Box>
+                        <Box
+                          bg={
+                            disabledFiles && idFiles === el.id
+                              ? "#141414"
+                              : "black"
+                          }
+                          rounded="5px"
+                          px="4px"
+                          mb="7px"
+                          mt="7px"
+                        >
+                          <Input
+                            borderBottom="1px solid #343434"
+                            borderRight="transparent"
+                            borderLeft="transparent"
+                            defaultValue={el.title}
+                            borderTop="transparent"
+                            disabled={!deleteImg}
+                            placeholder="Titel"
+                            fontFamily="inter"
+                            textColor="white"
+                            fontWeight="700"
+                            bg="transparent"
+                            fontSize="15px"
+                            outline="black"
+                            rounded="0px"
+                            name="text"
+                            w="100%"
+                            mb="5px"
+                            h="37px"
+                            pl="10px"
+                            onChange={(e) => setTitle(e.target.value)}
+                          />
+                          <Input
+                            disabled={!disabledFiles || idFiles !== el.id}
+                            placeholder="Beschreibung"
+                            defaultValue={item.text}
+                            borderColor="transparent"
+                            fontFamily="inter"
+                            textColor="white"
+                            bg="transparent"
+                            fontWeight="300"
+                            fontSize="15px"
+                            outline="black"
+                            rounded="0px"
+                            name="text"
+                            pl="10px"
+                            w="100%"
+                            mb="7px"
+                            h="37px"
+                            onChange={(e) => setText(e.target.value)}
+                          />
+                        </Box>
+                        {deleteImg && (
+                          <Box display="flex" w="100%">
+                            <Button
+                              color="black"
+                              fontSize="13px"
+                              fontWeight="700"
+                              fontFamily="inter"
+                              bg="white"
+                              w="50%"
+                              h="35px"
+                              ml="2px"
+                              rounded="7px"
+                              onClick={() => {
+                                ActionActiveModalMedia(true);
+                                ActionActiveSubtrac(true);
+                              }}
+                            >
+                              Mehr hinzufügen
+                            </Button>
+                            <Button
+                              color="white"
+                              fontSize="13px"
+                              fontWeight="700"
+                              fontFamily="inter"
+                              bg="#0B6CFF"
+                              w="50%"
+                              h="35px"
+                              ml="2px"
+                              rounded="7px"
+                              onClick={() => handlePutFile()}
+                            >
+                              Speichern
+                            </Button>
+                          </Box>
+                        )}
+                      </Box>
                     ))}
+                    <Box mx="auto">
+                      <Box
+                        bg="#262626"
+                        h="448px"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <SvgBluePluse />
+                      </Box>
+                      <Box
+                        bg="#141414"
+                        rounded="5px"
+                        px="4px"
+                        mb="7px"
+                        mt="7px"
+                      >
+                        <Input
+                          borderBottom="1px solid #343434"
+                          borderRight="transparent"
+                          borderLeft="transparent"
+                          borderTop="transparent"
+                          defaultValue={title}
+                          placeholder="Titel"
+                          fontFamily="inter"
+                          textColor="white"
+                          bg="transparent"
+                          fontWeight="700"
+                          fontSize="15px"
+                          outline="black"
+                          rounded="0px"
+                          name="text"
+                          w="100%"
+                          mb="5px"
+                          h="37px"
+                          pl="10px"
+                          onChange={(e) => setTitle(e.target.value)}
+                        />
+                        <Input
+                          placeholder="Beschreibung"
+                          borderColor="transparent"
+                          defaultValue={text}
+                          fontFamily="inter"
+                          textColor="white"
+                          bg="transparent"
+                          fontWeight="300"
+                          fontSize="15px"
+                          outline="black"
+                          rounded="0px"
+                          name="text"
+                          pl="10px"
+                          w="100%"
+                          mb="7px"
+                          h="37px"
+                          onChange={(e) => setText(e.target.value)}
+                        />
+                      </Box>
+                      <Box display="flex" w="100%">
+                        <Button
+                          color="black"
+                          fontSize="13px"
+                          fontWeight="700"
+                          fontFamily="inter"
+                          bg="white"
+                          w="50%"
+                          h="35px"
+                          ml="2px"
+                          rounded="7px"
+                          onClick={() => {
+                            ActionActiveModalMedia(true);
+                            ActionActiveSubtrac(true);
+                          }}
+                        >
+                          Mehr hinzufügen
+                        </Button>
+                        <Button
+                          color="white"
+                          fontSize="13px"
+                          fontWeight="700"
+                          fontFamily="inter"
+                          bg="#0B6CFF"
+                          w="50%"
+                          h="35px"
+                          ml="2px"
+                          rounded="7px"
+                          onClick={() => handlePutFile()}
+                        >
+                          Speichern
+                        </Button>
+                      </Box>
+                    </Box>
                   </Slider>
                 </Box>
               </Box>
             ))}
         </Box>
-      </Box>
-      <Box display="flex" justifyContent="center">
-        <PopupChangeFile
-          idFile={idFile}
-          modal={modalChange}
-          setModal={setModalChange}
-          // setDeleteCenceled={setDeleteImg}
-        />
       </Box>
     </Fragment>
   );

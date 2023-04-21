@@ -1,7 +1,7 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/layout";
 import { motion, AnimatePresence } from "framer-motion";
-import { createRef, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
 import { Button, Image, Input, Spinner } from "@chakra-ui/react";
 import "cropperjs/dist/cropper.css";
@@ -24,15 +24,17 @@ import {
   useActionsForModal,
 } from "../../../Hooks/useActions";
 import { InterfaceImageTypes } from "../redux-image/types/Types";
+import SvgExet from "../../../assets/svg/SvgExit";
 
 export default function PopupMediaFile() {
   const dispatch = useAppDispatch();
-  const { ActionActiveModalMedia } = useActionsForModal();
+  const { ActionActiveModalMedia, ActionFilesId } = useActionsForModal();
   const { ActionUpload } = useActionsForMessage();
   const { ActionAllGroups } = useActionsFile();
   const { filesId, activeMediaModal, profile, subtract } = useAppSelector(
     (state) => state.idReducer
   );
+  const { isAkte } = useAppSelector((state) => state.idReducer);
   const { user } = useAppSelector((state) => state.userReducer);
 
   const imageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -44,11 +46,15 @@ export default function PopupMediaFile() {
   const [loader, setLoader] = useState(false);
   const [imageFile, setImageFile] = useState("");
   const [textVaildate, setTextValidate] = useState(false);
+  const [titleValidate, setTitleValidate] = useState(false);
+  const [validate, setValidate] = useState(false);
+  const [renderMore, setRenderMore] = useState(false);
 
   const [openPopup, setOpenPopup] = useState(false);
   const [filePdf, setFilePdf] = useState<any>();
   const [pdfIncludes, setPdfIncludes] = useState(false);
   const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
 
   const handleClickForDeleteProfile = async () => {
     if (getAccessToken()) {
@@ -58,8 +64,25 @@ export default function PopupMediaFile() {
   };
 
   const getCropData = () => {
-    if (typeof cropperRef.current?.cropper !== "undefined") {
-      setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+    if (!title.length && !text.length) {
+      setTextValidate(true);
+      setTitleValidate(true);
+    } else if (!title.length) {
+      setTitleValidate(true);
+    } else if (!text.length) {
+      setTextValidate(true);
+    } else {
+      if (typeof cropperRef.current?.cropper !== "undefined") {
+        setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+        setValidate(true);
+      }
+    }
+
+    if (filesId) {
+      if (typeof cropperRef.current?.cropper !== "undefined") {
+        setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+        setRenderMore(true);
+      }
     }
   };
 
@@ -74,59 +97,129 @@ export default function PopupMediaFile() {
   };
 
   const handlePostFiles = async () => {
+    alert("POST");
+    try {
+      const response = await API.post("groups/", {
+        title: title,
+        is_akte: isAkte,
+      });
+      const dataGroup = response.data;
+
+      const image = cropData
+        ? dataURLtoFile(cropData, `${Math.floor(Math.random() * 100000)}.png`)
+        : filePdf;
+      const formData = new FormData();
+      formData.append("file", image);
+
+      if (dataGroup) {
+        setLoader(true);
+        dispatch({
+          type: InterfaceImageTypes.USER_FILES_LOADER,
+          payload: true,
+        });
+        await API.post("users/upload/", formData)
+          .then(({ data }) => {
+            if (data) {
+              API.post(`groups/${dataGroup.id}/info/`, {
+                text: text,
+                file_url: data.path,
+              })
+                .then(() => {
+                  dispatch({
+                    type: InterfaceImageTypes.USER_FILES_LOADER,
+                    payload: false,
+                  });
+                  ActionActiveModalMedia(false);
+                  setTextValidate(false);
+                  setPdfIncludes(false);
+                  ActionUpload(true);
+                  setLoader(false);
+                  ActionAllGroups();
+                  setImageFile("");
+                  setCropData("");
+                  setText("");
+                })
+                .catch(() => {
+                  dispatch({
+                    type: InterfaceImageTypes.USER_FILES_LOADER,
+                    payload: false,
+                  });
+                  ActionActiveModalMedia(false);
+                  setTextValidate(false);
+                  setPdfIncludes(false);
+                  setLoader(false);
+                  ActionAllGroups();
+                  setImageFile("");
+                  setCropData("");
+                  setText("");
+                });
+            }
+          })
+          .catch((e) => {
+            alert(`${e} Error`);
+            setLoader(false);
+          });
+      }
+    } catch (e) {
+      alert(`${e} Error`);
+    }
+  };
+
+  const handlePostMoreFiles = async () => {
+    alert("MORE");
     const image = cropData
       ? dataURLtoFile(cropData, `${Math.floor(Math.random() * 100000)}.png`)
       : filePdf;
     const formData = new FormData();
     formData.append("file", image);
-    if (text.length) {
-      setLoader(true);
-      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
-      await API.post("users/upload/", formData)
-        .then(({ data }) => {
-          if (data) {
-            API.post(`groups/${filesId}/info/`, {
-              text: text,
-              file_url: data.path,
-            })
-              .then(() => {
-                dispatch({
-                  type: InterfaceImageTypes.USER_FILES_LOADER,
-                  payload: false,
-                });
-                ActionActiveModalMedia(false);
-                setTextValidate(false);
-                setPdfIncludes(false);
-                ActionUpload(true);
-                setLoader(false);
-                ActionAllGroups();
-                setImageFile("");
-                setCropData("");
-                setText("");
-              })
-              .catch(() => {
-                dispatch({
-                  type: InterfaceImageTypes.USER_FILES_LOADER,
-                  payload: false,
-                });
-                ActionActiveModalMedia(false);
-                setTextValidate(false);
-                setPdfIncludes(false);
-                setLoader(false);
-                ActionAllGroups();
-                setImageFile("");
-                setCropData("");
-                setText("");
+
+    setLoader(true);
+    dispatch({
+      type: InterfaceImageTypes.USER_FILES_LOADER,
+      payload: true,
+    });
+    await API.post("users/upload/", formData)
+      .then(({ data }) => {
+        if (data) {
+          API.post(`groups/${filesId}/info/`, {
+            text: text,
+            file_url: data.path,
+          })
+            .then(() => {
+              dispatch({
+                type: InterfaceImageTypes.USER_FILES_LOADER,
+                payload: false,
               });
-          }
-        })
-        .catch((e) => {
-          alert(`${e} Error`);
-          setLoader(false);
-        });
-    } else {
-      setTextValidate(true);
-    }
+              ActionActiveModalMedia(false);
+              setTextValidate(false);
+              setPdfIncludes(false);
+              ActionUpload(true);
+              setLoader(false);
+              ActionAllGroups();
+              setImageFile("");
+              setCropData("");
+              setText("");
+            })
+            .catch(() => {
+              dispatch({
+                type: InterfaceImageTypes.USER_FILES_LOADER,
+                payload: false,
+              });
+              ActionActiveModalMedia(false);
+              setTextValidate(false);
+              setPdfIncludes(false);
+              setLoader(false);
+              ActionAllGroups();
+              setImageFile("");
+              setCropData("");
+              setText("");
+            });
+        }
+      })
+      .catch((e) => {
+        alert(`${e} Error`);
+        setLoader(false);
+      });
   };
 
   const handleCencelCrop = () => {
@@ -136,19 +229,23 @@ export default function PopupMediaFile() {
     ActionActiveModalMedia(false);
   };
 
-  const distributionFunction = async () => {
-    if (!cropData) {
-      await getCropData();
-    } else {
-      handlePostFiles();
-    }
-  };
-
   const handleCloseModal = () => {
     ActionActiveModalMedia(false);
     setPdfIncludes(false);
     setText("");
   };
+
+  useEffect(() => {
+    if (cropData) {
+      handlePostFiles();
+    }
+  }, [validate]);
+
+  useEffect(() => {
+    if (filesId) {
+      handlePostMoreFiles();
+    }
+  }, [renderMore]);
 
   const listProfile = [
     {
@@ -449,81 +546,104 @@ export default function PopupMediaFile() {
           zIndex="8"
         >
           {imageFile && (
-            <Box
-              display="flex"
-              minH="100vh"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Box px="20px">
-                {cropData ? (
-                  <Box w="100%">
-                    <Image src={cropData} w="100%" h="237px" mb="10px" />
-                    <Input
-                      defaultValue={text}
-                      onChange={(e) => setText(e.target.value)}
-                      bg="white"
-                      color="#323232"
-                      fontSize="10px"
-                      placeholder="Beschreibung..."
-                      rounded="0px"
-                      fontWeight="300"
-                      fontFamily="inter"
-                      h="37px"
-                      border={textVaildate ? "1px solid #FF0000" : "1px solid"}
-                    />
-                  </Box>
-                ) : (
+            <Box>
+              <Box maxW="372px" mx="auto" mt="19px">
+                <Box w="30px" h="30px" onClick={handleCencelCrop}>
+                  <SvgExet />
+                </Box>
+              </Box>
+              <Box
+                display="flex"
+                minH="100vh"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Box px="20px">
                   <Box h="300px" pos="relative" maxW="372px">
-                    <Cropper
-                      ref={cropperRef}
-                      src={imageFile}
-                      minCropBoxHeight={10}
-                      minCropBoxWidth={10}
-                      zoomOnTouch={false}
-                      zoomOnWheel={false}
-                      zoomable={false}
-                      minCanvasWidth={102}
-                      minCanvasHeight={87}
-                      style={{ width: "100%", height: "237px" }}
-                    />
+                    {cropData ? (
+                      <Image
+                        src={cropData}
+                        w="100%"
+                        h="237px"
+                        objectFit="cover"
+                      />
+                    ) : (
+                      <Cropper
+                        ref={cropperRef}
+                        src={imageFile}
+                        guides={false}
+                        minCropBoxWidth={372}
+                        minCropBoxHeight={237}
+                        minCanvasWidth={372}
+                        minCanvasHeight={237}
+                        style={{ width: "100%", height: "237px" }}
+                      />
+                    )}
+                    <Box bg="#141414">
+                      {!filesId && (
+                        <Input
+                          defaultValue={title}
+                          onChange={(e) => setTitle(e.target.value)}
+                          bg="transparent"
+                          color="white"
+                          fontSize="15px"
+                          placeholder="Title..."
+                          rounded="0px"
+                          fontWeight="700"
+                          fontFamily="inter"
+                          h="37px"
+                          border={
+                            textVaildate
+                              ? "1px solid #FF0000"
+                              : "1px solid transparent"
+                          }
+                          borderBottom={
+                            textVaildate
+                              ? "1px solid #FF0000"
+                              : "1px solid #343434"
+                          }
+                        />
+                      )}
+                      <Input
+                        defaultValue={text}
+                        onChange={(e) => setText(e.target.value)}
+                        bg="transparent"
+                        color="white"
+                        fontSize="15px"
+                        placeholder="comentarie..."
+                        rounded="0px"
+                        fontWeight="300"
+                        fontFamily="inter"
+                        h="37px"
+                        border={
+                          textVaildate
+                            ? "1px solid #FF0000"
+                            : "1px solid transparent"
+                        }
+                      />
+                    </Box>
                   </Box>
-                )}
-                <Box
-                  maxW="500px"
-                  display="flex"
-                  justifyContent="space-between"
-                  mx="auto"
-                  gap="2px"
-                  mt="20px"
-                >
-                  <Button
-                    textColor="white"
-                    bg="#ff3a22"
-                    fontSize="10px"
-                    fontWeight="500"
-                    w="50%"
-                    h="36px"
-                    rounded="0"
-                    textTransform="uppercase"
-                    onClick={handleCencelCrop}
+                  <Box
+                    maxW="500px"
+                    display="flex"
+                    justifyContent="space-between"
+                    mx="auto"
+                    gap="2px"
+                    mt="20px"
                   >
-                    Cancel
-                  </Button>
-                  <Button
-                    textColor="black"
-                    bg="white"
-                    fontSize="10px"
-                    fontWeight="500"
-                    w="50%"
-                    h="36px"
-                    rounded="0"
-                    textTransform="uppercase"
-                    disabled
-                    onClick={distributionFunction}
-                  >
-                    {!cropData ? "Crop Image" : "Save"}
-                  </Button>
+                    <Button
+                      textColor="white"
+                      bg="#0B6CFF"
+                      fontSize="16px"
+                      fontWeight="600"
+                      w="100%"
+                      h="35px"
+                      rounded="7px"
+                      onClick={() => getCropData()}
+                    >
+                      Speichern
+                    </Button>
+                  </Box>
                 </Box>
               </Box>
             </Box>
@@ -596,7 +716,7 @@ export default function PopupMediaFile() {
                   h="36px"
                   rounded="0"
                   textTransform="uppercase"
-                  onClick={handlePostFiles}
+                  onClick={handlePostMoreFiles}
                 >
                   Save
                 </Button>

@@ -22,7 +22,7 @@ interface IPopupFilesProps {
 export default function PopupFiles({ setModal }: IPopupFilesProps) {
   const dispatch = useAppDispatch();
   const { ActionAllGroups } = useActionsFile();
-  const { ActionActiveModalMedia } = useActionsForModal();
+  const { ActionActiveModalMedia  } = useActionsForModal();
   const { isAkte } = useAppSelector((state) => state.idReducer);
   const { loading, allGroups } = useAppSelector((state) => state.filesReducer);
 

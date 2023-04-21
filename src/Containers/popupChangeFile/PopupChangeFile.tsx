@@ -393,9 +393,6 @@ IPopupChangeProps) {
                       src={imageFile}
                       minCropBoxHeight={10}
                       minCropBoxWidth={10}
-                      zoomOnTouch={false}
-                      zoomOnWheel={false}
-                      zoomable={false}
                       minCanvasWidth={102}
                       minCanvasHeight={87}
                       style={{ width: "100%", height: "237px" }}
