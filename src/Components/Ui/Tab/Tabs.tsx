@@ -15,6 +15,8 @@ import { useAppSelector } from "../../../Hooks/Hooks";
 import { getAccessToken } from "../../Helpers";
 import axios from "axios";
 import { API_ADDRESS } from "../../../Api";
+import { tokenVerification } from "../../Helpers/action";
+import { Trans } from "react-i18next";
 
 enum TabTypes {
   NOTFALL = "NOTFALL",
@@ -59,14 +61,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
   }, []);
 
   useEffect(() => {
-    axios
-      .post(`${API_ADDRESS}users/auth/verify/`, { token: getAccessToken() })
-      .then(() => {
-        setValidToken(true);
-      })
-      .catch((e) => {
-        setValidToken(false);
-      });
+    tokenVerification(setValidToken);
   }, [modal]);
 
   return (
@@ -88,7 +83,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
         >
           <SvgPhone />
           <Text pt="4px" fontFamily="Calibri" fontSize="10px" fontWeight="300">
-            Notfall
+            <Trans>emergency</Trans>
           </Text>
         </Button>
         <Button
@@ -107,7 +102,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
         >
           <SvgAkte />
           <Text pt="4px" fontFamily="Calibri" fontSize="10px" fontWeight="300">
-            Akte
+            <Trans>medicall</Trans>
           </Text>
         </Button>
       </Box>

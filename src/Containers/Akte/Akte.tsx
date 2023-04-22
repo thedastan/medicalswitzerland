@@ -1,9 +1,10 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/layout";
-import { Button, Input, Spinner, Textarea } from "@chakra-ui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Button, Input, Spinner } from "@chakra-ui/react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import Slider from "react-slick";
+import { Trans } from "react-i18next";
 
 /* Local dependencies */
 import SvgDot from "../../assets/svg/SvgDot";
@@ -36,6 +37,8 @@ interface IGroupType {
 }
 
 export default function Akte() {
+  const textareaRef = useRef(null);
+
   const {
     ActionFilesId,
     ActionActiveModalMedia,
@@ -53,12 +56,9 @@ export default function Akte() {
     ActionGroupPut,
   } = useActionsFile();
 
-  const {
-    allGroups,
-    groups,
-    loading: loader,
-    group,
-  } = useAppSelector((state) => state.filesReducer);
+  const { allGroups, groups, group } = useAppSelector(
+    (state) => state.filesReducer
+  );
 
   const { bearbeitenAkte, loading, user, error } = useAppSelector(
     (state) => state.userReducer
@@ -69,6 +69,7 @@ export default function Akte() {
   const [idFiles, setIdFiles] = useState("");
 
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
+  const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [deleteImg, setDeleteImg] = useState(false);
 
   const [disabledFiles, setDisabledFiles] = useState(false);
@@ -92,32 +93,32 @@ export default function Akte() {
 
   const listInput = [
     {
-      item: "OPERATIONEN",
-      name: "operation",
-      value: user.operation,
-    },
-    {
-      item: "ALLERGIE",
+      item: "allergies",
       name: "allergies",
       value: user.allergies,
     },
     {
-      item: "MEDIKAMENTE",
-      name: "medications",
-      value: user.medications,
-    },
-    {
-      item: "NEDENDIAGNOSEN",
+      item: "diagnosen",
       name: "why_diagnose",
       value: user.why_diagnose,
     },
     {
-      item: "BERUF",
+      item: "operationen",
+      name: "operation",
+      value: user.operation,
+    },
+    {
+      item: "medicamentPlan",
+      name: "medications",
+      value: user.medications,
+    },
+    {
+      item: "nebenDiagnosen",
       name: "profession",
       value: user.profession,
     },
     {
-      item: "LOCATION",
+      item: "location",
       name: "location",
       value: user.location,
     },
@@ -128,8 +129,22 @@ export default function Akte() {
       | React.ChangeEvent<HTMLTextAreaElement>
       | React.ChangeEvent<HTMLInputElement>
   ) => {
+    e.target.style.height = "auto";
+    e.target.style.height = `${e.target.scrollHeight}px`;
+
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
+
+  function changeForName(vor: string, nach: string) {
+    setNames({ ...names, nachname: nach, vorname: vor });
+
+    setDataPost({
+      ...dataPost,
+      full_name: `${vor || user.full_name?.split(" ")[0] || names.vorname} ${
+        nach || user.full_name?.split(" ")[1] || names.nachname
+      }`,
+    });
+  }
 
   function deletedImage(data: IGroupType, idInfo?: string) {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
@@ -176,7 +191,6 @@ export default function Akte() {
   };
 
   const handlePutFile = () => {
-    alert("Put");
     ActionAllGroupsPut(idFiles, {
       id: groups.id,
       title: title || groups.title,
@@ -189,6 +203,7 @@ export default function Akte() {
       text: text || group.text,
       id: group.id,
     });
+
     setDisabledFiles(!disabledFiles);
     setDeleteImg(!deleteImg);
     ActionGroups(groups.id);
@@ -246,7 +261,7 @@ export default function Akte() {
           fontSize="15px"
           fontWeight="700"
         >
-          PATIENTENAKTE
+          <Trans>patientRecord</Trans>
         </Text>
         <Text color="#C7C4C4" textAlign="center" fontSize="18px" mb="35px">
           medical
@@ -279,10 +294,90 @@ export default function Akte() {
                 : ActionBearbeitenAkte(!bearbeitenAkte)
             }
           >
-            {!bearbeitenAkte ? "SAVE" : "Bearbeiten"}
+            {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
           </MyButton>
         </Box>
         <Box px="12px">
+          {!bearbeitenAkte ? (
+            <Box display="flex" gap="7px">
+              <Box w="50%">
+                <Text
+                  color="gray"
+                  fontSize="10px"
+                  fontWeight="700"
+                  fontFamily="inter"
+                  mb="3px"
+                >
+                  <Trans>fristName</Trans>
+                </Text>
+                <textarea
+                  onChange={(e) =>
+                    changeForName(e.target.value, names.nachname)
+                  }
+                  defaultValue={
+                    user.full_name?.split(" ")[0]
+                      ? user.full_name?.split(" ")[0]
+                      : names.vorname
+                  }
+                  disabled={bearbeitenAkte}
+                  className={`textarea--notfall ${
+                    !bearbeitenAkte ? "active" : ""
+                  }`}
+                  style={{ textAlign: "center", paddingTop: "17px" }}
+                />
+              </Box>
+              <Box w="50%">
+                <Text
+                  color="gray"
+                  fontSize="10px"
+                  fontWeight="700"
+                  fontFamily="inter"
+                  mb="3px"
+                >
+                  <Trans>lastName</Trans>
+                </Text>
+                <textarea
+                  onChange={(e) => changeForName(names.vorname, e.target.value)}
+                  defaultValue={
+                    user.full_name?.split(" ")[1]
+                      ? user.full_name?.split(" ")[1]
+                      : names.nachname
+                  }
+                  disabled={bearbeitenAkte}
+                  className={`textarea--notfall ${
+                    !bearbeitenAkte ? "active" : ""
+                  }`}
+                  style={{ textAlign: "center", paddingTop: "17px" }}
+                />
+              </Box>
+            </Box>
+          ) : (
+            <Box gap="7px" w="100% ">
+              <Box borderBottom="1px solid #454545" marginBottom="29px">
+                <Text
+                  color="gray"
+                  fontSize="10px"
+                  fontWeight="700"
+                  fontFamily="inter"
+                  mb="3px"
+                  textAlign="center"
+                >
+                  NAME
+                </Text>
+                <textarea
+                  name="full_name"
+                  ref={textareaRef}
+                  disabled={bearbeitenAkte}
+                  onChange={(e) => inputChange(e)}
+                  defaultValue={user.full_name ? user.full_name : ""}
+                  placeholder={!bearbeitenAkte ? "Name hinzufugen" : ""}
+                  className={`textarea--akte ${
+                    !bearbeitenAkte ? "active" : ""
+                  }`}
+                />
+              </Box>
+            </Box>
+          )}
           {listInput.map((el, index) => (
             <Box
               key={index}
@@ -299,18 +394,20 @@ export default function Akte() {
                 mb="3px"
                 textAlign="center"
               >
-                {el.item}
+                <Trans>{el.item}</Trans>
               </Text>
               <textarea
                 name={el.name}
+                ref={textareaRef}
+                disabled={bearbeitenAkte}
                 onChange={(e) => inputChange(e)}
                 defaultValue={el.value ? el.value : ""}
-                disabled={bearbeitenAkte}
                 placeholder={!bearbeitenAkte ? "Allergie hinzufugen" : ""}
                 className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
               />
             </Box>
           ))}
+
           <Box display="flex" flexDir="column-reverse">
             {allGroups
               .filter((elem) => elem.is_akte === true)
@@ -438,7 +535,7 @@ export default function Akte() {
                                   ActionActiveSubtrac(true);
                                 }}
                               >
-                                Mehr hinzufügen
+                                <Trans>addMore</Trans>
                               </Button>
                               <Button
                                 color="white"
@@ -452,7 +549,7 @@ export default function Akte() {
                                 rounded="7px"
                                 onClick={() => handlePutFile()}
                               >
-                                Speichern
+                                <Trans>done</Trans>
                               </Button>
                             </Box>
                           )}
@@ -515,40 +612,42 @@ export default function Akte() {
                             onChange={(e) => setText(e.target.value)}
                           />
                         </Box>
-                        <Box display="flex" w="100%">
-                          <Button
-                            color="black"
-                            fontSize="13px"
-                            fontWeight="700"
-                            fontFamily="inter"
-                            bg="white"
-                            w="50%"
-                            h="35px"
-                            ml="2px"
-                            rounded="7px"
-                            onClick={() => {
-                              ActionActiveModalMedia(true);
-                              ActionActiveSubtrac(true);
-                              ActionActiveProfile(false);
-                            }}
-                          >
-                            Mehr hinzufügen
-                          </Button>
-                          <Button
-                            color="white"
-                            fontSize="13px"
-                            fontWeight="700"
-                            fontFamily="inter"
-                            bg="#0B6CFF"
-                            w="50%"
-                            h="35px"
-                            ml="2px"
-                            rounded="7px"
-                            onClick={() => handlePutFile()}
-                          >
-                            Speichern
-                          </Button>
-                        </Box>
+                        {deleteImg && (
+                          <Box display="flex" w="100%">
+                            <Button
+                              color="black"
+                              fontSize="13px"
+                              fontWeight="700"
+                              fontFamily="inter"
+                              bg="white"
+                              w="50%"
+                              h="35px"
+                              ml="2px"
+                              rounded="7px"
+                              onClick={() => {
+                                ActionActiveModalMedia(true);
+                                ActionActiveSubtrac(true);
+                                ActionActiveProfile(false);
+                              }}
+                            >
+                              <Trans>addMore</Trans>
+                            </Button>
+                            <Button
+                              color="white"
+                              fontSize="13px"
+                              fontWeight="700"
+                              fontFamily="inter"
+                              bg="#0B6CFF"
+                              w="50%"
+                              h="35px"
+                              ml="2px"
+                              rounded="7px"
+                              onClick={() => handlePutFile()}
+                            >
+                              <Trans>done</Trans>
+                            </Button>
+                          </Box>
+                        )}
                       </Box>
                     </Slider>
                   </Box>
@@ -569,7 +668,7 @@ export default function Akte() {
               color="white"
               onClick={() => handleClickPut()}
             >
-              Speichern
+              <Trans>done</Trans>
             </Button>
           </Box>
         )}

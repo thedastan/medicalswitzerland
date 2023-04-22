@@ -32,7 +32,7 @@ export default function PopupForMessage() {
         }`}
         w="100%"
         minH="100vh"
-      ></Box>
+      />
       <Box
         zIndex="6"
         h="100vh"
@@ -50,6 +50,7 @@ export default function PopupForMessage() {
           h="151px"
           rounded="12px"
           boxShadow="0px 4px 4px rgba(20, 20, 20, 0.25), 0px 4px 4px #000000"
+          px="8px"
         >
           <Box
             className="popup"

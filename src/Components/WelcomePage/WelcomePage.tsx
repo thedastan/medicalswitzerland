@@ -1,6 +1,7 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
+import { Trans } from "react-i18next";
 
 /* Local dependencies */
 import "./style.scss";
@@ -31,7 +32,7 @@ export default function WelcomePage() {
       right="0"
       top="0"
       bottom="0"
-      zIndex="3"
+      zIndex="10"
       display={display}
       className={`welcome-container ${isVisible ? "visible" : ""}`}
     >
@@ -53,7 +54,7 @@ export default function WelcomePage() {
           fontFamily="inter"
           fontWeight="700"
         >
-          PATIENTENAKTE
+          <Trans>medicalRecord</Trans>
         </Text>
       </Box>
     </Box>

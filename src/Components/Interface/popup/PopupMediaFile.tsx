@@ -31,20 +31,23 @@ import SvgSignOut from "../../../assets/svg/SvgSignOut";
 import SvgMore from "../../../assets/svg/SvgMore";
 
 export default function PopupMediaFile() {
+  //Actions
   const dispatch = useAppDispatch();
   const { ActionActiveModalMedia, ActionFilesId } = useActionsForModal();
   const { ActionUpload } = useActionsForMessage();
   const { ActionAllGroups } = useActionsFile();
-  const { filesId, activeMediaModal, profile, subtract } = useAppSelector(
-    (state) => state.idReducer
-  );
-  const { isAkte } = useAppSelector((state) => state.idReducer);
+
+  //States
+  const { filesId, activeMediaModal, profile, subtract, isAkte } =
+    useAppSelector((state) => state.modalReducer);
   const { user } = useAppSelector((state) => state.userReducer);
 
+  //useRefs
   const imageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const fileRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
+  //useStates
   const [accept, setAccept] = useState("");
   const [cropData, setCropData] = useState("");
   const [loader, setLoader] = useState(false);
@@ -61,6 +64,7 @@ export default function PopupMediaFile() {
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState("");
 
+  //functions
   const handleClickForDeleteProfile = async () => {
     if (getAccessToken()) {
       setOpenPopup(true);
@@ -235,11 +239,13 @@ export default function PopupMediaFile() {
     setImageFile("");
     setText("");
     ActionActiveModalMedia(false);
+    ActionFilesId("");
   };
 
   const handleCloseModal = () => {
     ActionActiveModalMedia(false);
     setPdfIncludes(false);
+    ActionFilesId("");
     setText("");
   };
 
@@ -249,6 +255,7 @@ export default function PopupMediaFile() {
     setLanguage(event);
   };
 
+  //useEffects
   useEffect(() => {
     if (cropData) {
       handlePostFiles();
@@ -265,6 +272,7 @@ export default function PopupMediaFile() {
     }
   }, [renderMore]);
 
+  //list-profile
   const listProfile = [
     {
       content: user.emergency_contact && (
@@ -283,25 +291,31 @@ export default function PopupMediaFile() {
           >
             <SvgPhoneCall />
           </Box>
-          <Box
-            w="90%"
-            mx="auto"
-            h="50px"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            borderBottom="1px solid #454545"
-            pr="30"
+          <a
+            href={`tel:${user.emergency_contact}`}
+            style={{ width: "100%" }}
+            target="_blank"
           >
-            <Text
-              color="white"
-              fontWeight="300"
-              fontSize="13px"
-              fontFamily="inter"
+            <Box
+              w="100%"
+              mx="auto"
+              h="50px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              borderBottom="1px solid #454545"
+              pr="30"
             >
-              {user.emergency_contact}
-            </Text>
-          </Box>
+              <Text
+                color="white"
+                fontWeight="300"
+                fontSize="13px"
+                fontFamily="inter"
+              >
+                {user.emergency_contact}
+              </Text>
+            </Box>
+          </a>
         </Box>
       ),
     },
@@ -324,25 +338,31 @@ export default function PopupMediaFile() {
           >
             <SvgMail />
           </Box>
-          <Box
-            w="90%"
-            mx="auto"
-            h="50px"
-            pr="30"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            borderBottom="1px solid #454545"
+          <a
+            href={`mailto:${user.email}`}
+            style={{ width: "100%" }}
+            target="_blank"
           >
-            <Text
-              color="white"
-              fontWeight="300"
-              fontSize="13px"
-              fontFamily="inter"
+            <Box
+              w="100%"
+              mx="auto"
+              h="50px"
+              pr="30"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              borderBottom="1px solid #454545"
             >
-              {user.email}
-            </Text>
-          </Box>
+              <Text
+                color="white"
+                fontWeight="300"
+                fontSize="13px"
+                fontFamily="inter"
+              >
+                {user.email}
+              </Text>
+            </Box>
+          </a>
         </Box>
       ),
     },
@@ -475,7 +495,7 @@ export default function PopupMediaFile() {
                     }}
                     fontFamily="inter"
                   >
-                    Photo
+                    <Trans>photo</Trans>
                   </Text>
                   <input
                     type="file"
@@ -503,7 +523,7 @@ export default function PopupMediaFile() {
                     }}
                     fontFamily="inter"
                   >
-                    PDF file
+                    <Trans>document</Trans>
                   </Text>
                 </Box>
               )}
@@ -542,7 +562,7 @@ export default function PopupMediaFile() {
                       <Select
                         w="60%"
                         borderColor="transparent"
-                        value={language ? language : "en"}
+                        placeholder={language || "langauge"}
                         color="white"
                         fontWeight="300"
                         fontSize="13px"
@@ -788,6 +808,29 @@ export default function PopupMediaFile() {
                 <SvgPdf />
               </Box>
               <Box mx="auto">
+                {!filesId && (
+                  <Input
+                    defaultValue={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    bg="transparent"
+                    color="white"
+                    fontSize="15px"
+                    placeholder="Title..."
+                    rounded="0px"
+                    fontWeight="700"
+                    fontFamily="inter"
+                    h="37px"
+                    border={
+                      textVaildate
+                        ? "1px solid #FF0000"
+                        : "1px solid transparent"
+                    }
+                    borderBottom={
+                      textVaildate ? "1px solid #FF0000" : "1px solid #343434"
+                    }
+                  />
+                )}
+
                 <Input
                   value={text}
                   onChange={(e) => setText(e.target.value)}
@@ -816,7 +859,9 @@ export default function PopupMediaFile() {
                   w="100%"
                   h="35px"
                   rounded="7px"
-                  onClick={handlePostMoreFiles}
+                  onClick={() =>
+                    filesId ? handlePostMoreFiles() : handlePostFiles
+                  }
                 >
                   Speichern
                 </Button>

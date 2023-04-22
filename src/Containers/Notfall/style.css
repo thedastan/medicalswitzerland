@@ -54,6 +54,8 @@ input::-webkit-input-placeholder {
 }
 
 .textarea--notfall.active {
+    padding-top: 17px;
     background-color: #141414;
     color: white;
+    text-align: center;
 }

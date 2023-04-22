@@ -106,10 +106,10 @@ export default function Registration() {
           window.location.reload();
         })
         .catch((e) => {
-          alert("Fehler!!! Überprüfen Sie den Benutzernamen oder das Passwort");
+          setValidate({ ...validate, password: true });
         });
     } else {
-      alert("Email invalid");
+      alert("There is no such thing active account");
     }
   };
 
@@ -162,8 +162,6 @@ export default function Registration() {
     }
   }, [validate.confirm]);
 
-  console.log(errors.email);
-
   return (
     <AnimatePresence>
       <motion.div
@@ -204,7 +202,7 @@ export default function Registration() {
           className="modal--content__wrapper"
           key={3}
         >
-          <Box bg="#272727" h="266px" rounded="12px" zIndex="6">
+          <Box bg="#272727" h="auto" rounded="12px" zIndex="6">
             <Box
               w="17px"
               h="17px"
@@ -220,25 +218,25 @@ export default function Registration() {
               <>
                 <Text
                   color="white"
-                  fontSize="10px"
+                  fontSize="15px"
                   fontWeight="200"
                   textAlign="center"
                   fontFamily="inter"
-                  mb="7px"
+                  mb="32px"
                 >
-                  REGISTRATION
+                  ANMELDUNG
                 </Text>
 
                 {loading ? (
                   <Text>Loading...</Text>
                 ) : (
                   <form onSubmit={handleSubmit(handleLoginUser)}>
-                    <Box display="flex" flexDir="column" maxW="215px" mx="auto">
+                    <Box display="flex" flexDir="column" maxW="300px" mx="auto">
                       {listInput.map((el, index) => (
                         <Box
                           key={el.id}
                           mb="10px"
-                          w="215px"
+                          w="100%"
                           mx="auto"
                           pos="relative"
                         >
@@ -251,7 +249,7 @@ export default function Registration() {
                             textColor="#7C7575"
                             rounded="4px"
                             boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
-                            h="35px"
+                            h="50px"
                             bg="#303030"
                             type={el.type}
                             {...register(index === 0 ? "email" : "password", {
@@ -281,7 +279,7 @@ export default function Registration() {
                           </Box>
                         </Box>
                       ))}
-                      <Box mb="17px" w="215px" mx="auto" position="relative">
+                      <Box mb="17px" w="100%" mx="auto" position="relative">
                         <Input
                           placeholder="Confirm  password"
                           textAlign="center"
@@ -291,7 +289,7 @@ export default function Registration() {
                           textColor="#7C7575"
                           rounded="4px"
                           boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
-                          h="35px"
+                          h="50px"
                           bg="#303030"
                           type={eye.confirm ? "text" : "password"}
                           border={
@@ -354,8 +352,8 @@ export default function Registration() {
                       <Button
                         fontFamily="inter"
                         fontSize="10px"
-                        w="215px"
-                        h="34px"
+                        w="100%"
+                        h="40px"
                         bg="#0B6CFF"
                         textColor="white"
                         fontWeight="500"
@@ -363,6 +361,7 @@ export default function Registration() {
                         rounded="5px"
                         mx="auto"
                         type="submit"
+                        mb="48px"
                       >
                         Registrieren
                       </Button>
@@ -382,7 +381,7 @@ export default function Registration() {
                     Loading...
                   </Text>
                 ) : (
-                  <Box mb="3px" w="215px" mx="auto">
+                  <Box mb="3px" w="70vw">
                     <Text
                       fontFamily="inter"
                       fontWeight="200"
@@ -401,8 +400,12 @@ export default function Registration() {
                         textColor="#7C7575"
                         rounded="4px"
                         boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        border="1px solid #303030"
-                        h="35px"
+                        border={
+                          validate.password
+                            ? "1px solid #FF0000"
+                            : "1px solid #303030"
+                        }
+                        h="50px"
                         bg="#303030"
                         textAlign="center"
                         type={eye.password ? "text" : "password"}
@@ -439,17 +442,30 @@ export default function Registration() {
                     >
                       passwort vergessen?
                     </Text>
+                    {validate.password && (
+                      <Text
+                        color="#FF0000"
+                        fontSize="10px"
+                        fontWeight="200"
+                        fontFamily="inter"
+                        mb="7px"
+                      >
+                        Fehler!!! Überprüfen Sie den Benutzernamen oder das
+                        Passwort
+                      </Text>
+                    )}
                     <Button
                       fontFamily="inter"
                       fontSize="10px"
-                      w="215px"
-                      h="34px"
+                      w="100%"
+                      h="40px"
                       bg="#0B6CFF"
                       textColor="white"
                       fontWeight="500"
                       border="1px solid #0B6CFF"
                       rounded="5px"
                       mx="auto"
+                      mb="51px"
                       onClick={handleAuthPost}
                     >
                       Anmeldung

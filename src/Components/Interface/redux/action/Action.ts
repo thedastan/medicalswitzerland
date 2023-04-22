@@ -16,7 +16,6 @@ export const ActionGetUser = (id?: string) => {
       dispatch({ type: InterfaceUserTypes.USER_LOADER, payload: true });
       const response = await axios.get(`${API_ADDRESS}users/${id}/`);
       const data = response.data;
-
       response.status === 200 ||
         (201 &&
           dispatch({ type: InterfaceUserTypes.USER_LOADER, payload: false }));
@@ -35,9 +34,7 @@ export const ActionPutUser = (id: string, postData?: IInterfaceUser) => {
       const response = await API.put(`users/`, postData);
       const data = response.data;
       dispatch({ type: InterfaceUserTypes.USER_UPLOAD, payload: data });
-      ActionGetUser(id);
     } catch (e) {
-      dispatch({ type: InterfaceUserTypes.USER_LOADER, payload: false });
       dispatch({ type: InterfaceUserTypes.USER_ERROR, payload: e });
     }
   };
