@@ -8,7 +8,6 @@ import { API_ADDRESS } from "../../Api";
 
 export default function ResetPassword() {
   const [eye, setEye] = useState({ password: false, confirm: false });
-  const [isSuccess, setIsSuccess] = useState(false);
 
   const [dataPost, setDataPost] = useState({
     confirm: "",
@@ -60,8 +59,9 @@ export default function ResetPassword() {
         display="flex"
         alignItems="center"
         justifyContent="center"
+        bg="#272727"
       >
-        <Box color="white" mb="300px" w="215px" mx="auto">
+        <Box color="white" mb="150px" w="300px" mx="auto">
           <Text
             mb="19px"
             fontFamily="inter"
@@ -75,15 +75,17 @@ export default function ResetPassword() {
             <Input
               value={dataPost.password}
               placeholder="New password"
-              fontSize="10px"
-              fontWeight="200"
-              textColor="#3C3C3C"
-              rounded="0px"
-              h="35px"
-              bg="#D9D9D9"
               textAlign="center"
+              color="#7C7575"
+              fontSize="15px"
+              fontWeight="200"
+              textColor="#7C7575"
+              rounded="4px"
+              boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+              h="50px"
+              bg="#303030"
               type={eye.password ? "text" : "password"}
-              border={validate.password ? "1px solid red" : "1px solid"}
+              border={validate.password ? "1px solid red" : "1px solid #303030"}
               onChange={(e) =>
                 setDataPost({ ...dataPost, password: e.target.value })
               }
@@ -106,14 +108,16 @@ export default function ResetPassword() {
             <Input
               value={dataPost.confirm}
               placeholder="Confirm password"
-              fontSize="10px"
-              fontWeight="200"
-              textColor="#3C3C3C"
-              rounded="0px"
-              h="35px"
-              bg="#D9D9D9"
               textAlign="center"
-              border={validate.confirm ? "1px solid red" : "1px solid"}
+              color="#7C7575"
+              fontSize="15px"
+              fontWeight="200"
+              textColor="#7C7575"
+              rounded="4px"
+              boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+              h="50px"
+              bg="#303030"
+              border={validate.confirm ? "1px solid red" : "1px solid #303030"}
               type={eye.confirm ? "text" : "password"}
               onChange={(e) =>
                 setDataPost({ ...dataPost, confirm: e.target.value })
@@ -154,16 +158,17 @@ export default function ResetPassword() {
             )}
           </Box>
           <Button
-            h="34px"
+            h="50px"
             w="100%"
-            border="1px solid #C2C2C2"
-            rounded="0px"
+            border="1px solid #0B6CFF"
+            rounded="4px"
             fontFamily="inter"
-            fontWeight="500"
-            fontSize="10px"
+            fontWeight="300"
+            fontSize="20px"
+            bg="#0B6CFF"
             onClick={postResetUser}
           >
-            CREATE
+            Erstellen
           </Button>
         </Box>
       </Box>

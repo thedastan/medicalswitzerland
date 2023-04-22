@@ -1,6 +1,6 @@
 /* External dependencies */
 import axios from "axios";
-import { Box, Button, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Image, Spinner, Text } from "@chakra-ui/react";
 import { createRef, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { Cropper, ReactCropperElement } from "react-cropper";
@@ -26,6 +26,8 @@ import {
 import { dataURLtoFile, getAccessToken, onChangeImage } from "../Helpers";
 import PopupForMessage from "../Ui/popups/PopupForMessage";
 import SvgExet from "../../assets/svg/SvgExit";
+import { tokenVerification } from "../Helpers/action";
+import { Trans } from "react-i18next";
 
 interface IInterfaceProps {
   children: JSX.Element;
@@ -40,10 +42,10 @@ export default function Interface({ children }: IInterfaceProps) {
     ActionFilesId,
   } = useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
-  const { user } = useAppSelector((state) => state.userReducer);
+  const { user, loading } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
   const { subtract, more, profile } = useAppSelector(
-    (state) => state.idReducer
+    (state) => state.modalReducer
   );
 
   const { id } = useParams<string>();
@@ -61,7 +63,6 @@ export default function Interface({ children }: IInterfaceProps) {
     } else if (!user.is_first_time && !getAccessToken()) {
       ActiveModalRegistration(true);
     } else {
-      // setPopup(true);
       ActiveModalRegistration(false);
       ActionActiveModalMedia(true);
       ActionActiveProfile(false);
@@ -164,7 +165,7 @@ export default function Interface({ children }: IInterfaceProps) {
         >
           <SvgProfile />
           <Text color="white" pt="6px">
-            Profil
+            <Trans>profile</Trans>
           </Text>
         </Box>
       ),
@@ -186,7 +187,7 @@ export default function Interface({ children }: IInterfaceProps) {
         >
           <SvgSubtract />
           <Text color="white" pt="6px">
-            Hinzufügen
+            <Trans>add</Trans>
           </Text>
         </Box>
       ),
@@ -207,7 +208,9 @@ export default function Interface({ children }: IInterfaceProps) {
           onClick={handleClickModalMore}
         >
           <SVgContact />
-          <Text color="white">Kontakt</Text>
+          <Text color="white">
+            <Trans>contact</Trans>
+          </Text>
         </Box>
       ),
     },
@@ -218,14 +221,7 @@ export default function Interface({ children }: IInterfaceProps) {
   }, [subtract, profile, more]);
 
   useEffect(() => {
-    axios
-      .post(`${API_ADDRESS}users/auth/verify/`, { token: getAccessToken() })
-      .then(() => {
-        setValidToken(true);
-      })
-      .catch(() => {
-        setValidToken(false);
-      });
+    tokenVerification(setValidToken);
   }, []);
 
   return (

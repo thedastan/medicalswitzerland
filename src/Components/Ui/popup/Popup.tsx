@@ -54,6 +54,7 @@ export default function Popup({
             }}
             className={`modal-backdrop`}
             onClick={() => setModal(false)}
+            key={1}
           />
           <motion.div
             initial={{ scale: 0 }}
@@ -65,6 +66,7 @@ export default function Popup({
             }}
             className="modal--content"
             onClick={() => setModal(false)}
+            key={2}
           >
             <motion.div
               initial={{ x: 100, opacity: 0 }}
@@ -78,6 +80,7 @@ export default function Popup({
               }}
               onClick={(e) => e.stopPropagation()}
               className="modal--content__wrapper"
+              key={3}
             >
               <Box bg="thirdlittleGray" h="166px" rounded="12px" zIndex="10">
                 <Box

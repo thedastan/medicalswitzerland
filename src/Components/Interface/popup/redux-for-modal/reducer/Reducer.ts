@@ -1,10 +1,10 @@
 import {
-  ActionFilesIdType,
+  ActionModalMediaType,
   ModalTypes,
-  InterfaceFilesIdState,
+  InterfaceModalMediaState,
 } from "../types/Types";
 
-const initalStateFilesId: InterfaceFilesIdState = {
+const initalStateFilesId: InterfaceModalMediaState = {
   activeMediaModal: false,
   profile: false,
   subtract: false,
@@ -13,10 +13,10 @@ const initalStateFilesId: InterfaceFilesIdState = {
   filesId: "",
 };
 
-export const idReducer = (
+export const modalReducer = (
   state = initalStateFilesId,
-  action: ActionFilesIdType
-): InterfaceFilesIdState => {
+  action: ActionModalMediaType
+): InterfaceModalMediaState => {
   switch (action.type) {
     case ModalTypes.ID_FILES:
       return { ...state, filesId: action.payload };

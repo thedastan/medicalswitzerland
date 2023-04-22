@@ -1,24 +1,15 @@
 /* External dependencies */
-import axios from "axios";
-import { Box, Button, Input, Spinner, Text, Textarea } from "@chakra-ui/react";
-import {
-  Fragment,
-  useState,
-  useEffect,
-  useRef,
-  JSXElementConstructor,
-  ReactElement,
-  ReactFragment,
-} from "react";
+import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
+import { Fragment, useState, useEffect } from "react";
+import { Trans } from "react-i18next";
 import { useParams } from "react-router";
 import Slider from "react-slick";
 
 /* Local dependencies */
 import Card from "../../Components/Ui/Card/Card";
 import MyButton from "../../Components/Ui/Button/Button";
-import MyInput from "../../Components/Ui/Input/Input";
 import SvgDot from "../../assets/svg/SvgDot";
-import API, { API_ADDRESS } from "../../Api";
+import API from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
@@ -26,7 +17,6 @@ import "./style.css";
 import Registration from "../../Components/Registration/Registration";
 import { IInterfaceUser } from "../../Components/Interface/redux/types/Types";
 import { IInfoList } from "../../Components/Interface/redux-image/types/Types";
-import { getAccessToken } from "../../Components/Helpers";
 import {
   useActionsAuth,
   useActionsFile,
@@ -36,6 +26,7 @@ import {
 import { useAppSelector } from "../../Hooks/Hooks";
 import PopupForMessage from "../../Components/Ui/popups/PopupForMessage";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
+import { tokenVerification } from "../../Components/Helpers/action";
 
 interface IGroupsTypes {
   id: string;
@@ -61,14 +52,9 @@ export default function Notfall() {
     ActionGroup,
     ActionGroupsForAkte,
     ActionGroupPut,
-    ActionGroupsInfo,
   } = useActionsFile();
   const { ActiveModalRegistration } = useActionsAuth();
-  const {
-    allGroups,
-    groups,
-    loading: loader,
-  } = useAppSelector((state) => state.filesReducer);
+  const { allGroups, groups } = useAppSelector((state) => state.filesReducer);
   const { modal, successPopup } = useAppSelector((state) => state.authReducer);
   const { error, loading, user, bearbeitenNotfall } = useAppSelector(
     (state) => state.userReducer
@@ -84,10 +70,10 @@ export default function Notfall() {
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
   const [names, setNames] = useState({ vorname: "", nachname: "" });
 
-  const [deleteImg, setDeleteImg] = useState(false);
-  const [validToken, setValidToken] = useState<boolean>();
-  const [disabledFiles, setDisabledFiles] = useState(false);
   const [birthDate, setBirthDate] = useState("");
+  const [deleteImg, setDeleteImg] = useState(false);
+  const [validToken, setValidToken] = useState(false);
+  const [disabledFiles, setDisabledFiles] = useState(false);
 
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
@@ -107,12 +93,11 @@ export default function Notfall() {
 
     setDataPost({
       ...dataPost,
-      full_name: `${vor} ${nach}`,
+      full_name: `${vor || user.full_name?.split(" ")[0] || names.vorname} ${
+        nach || user.full_name?.split(" ")[1] || names.nachname
+      }`,
     });
   }
-
-  console.log(dataPost);
-  console.log(names);
 
   function deletedImage(data?: IGroupsTypes, idInfo?: string) {
     API.delete(`groups/${data?.id}/info/${idInfo}/`)
@@ -125,7 +110,7 @@ export default function Notfall() {
       });
   }
 
-  function handleClickPut() {
+  async function handleClickPut() {
     ActionPutUser(window.location.pathname.slice(6), {
       allergies: dataPost.allergies || user.allergies,
       allergies_text: dataPost.allergies_text || user.allergies_text,
@@ -150,7 +135,7 @@ export default function Notfall() {
   }
 
   function handleBearbeitenValid() {
-    if (!validToken) {
+    if (validToken) {
       ActionBearbeitenNotfall(!bearbeitenNotfall);
     } else {
       ActiveModalRegistration(true);
@@ -181,36 +166,29 @@ export default function Notfall() {
 
     ActionGroups(groups.id);
     ActionGroups(groups.id);
+    setDeleteImg(false);
     ActionAllGroups();
     setText("");
-    // setDeleteCenceled(false);
   };
 
   const listInput = [
     {
-      item: "NAME",
-      name: "full_name",
-      value: user.full_name,
-      type: "text",
-      placeholder: "Name hinzufugen",
-    },
-    {
       item: "BILDUNTERSCHRIFT VERFASSEN",
       name: "contact",
-      value: user.contact,
+      value: dataPost.contact || user.contact,
       type: "text",
     },
     {
-      item: "NOTFALLKONTAKT",
+      item: "emergencyContact",
       name: "emergency_contact",
-      value: user.emergency_contact,
+      value: dataPost.emergency_contact || user.emergency_contact,
       type: "text",
       placeholder: "Notfallkontact hinzufugen",
     },
     {
-      item: "BESONDERHEITEN",
+      item: "importTantInfo",
       name: "particularities",
-      value: user.particularities,
+      value: dataPost.particularities || user.particularities,
       type: "text",
       placeholder: "Besonderheiten hinzufugen",
     },
@@ -234,24 +212,11 @@ export default function Notfall() {
   }, []);
 
   useEffect(() => {
-    if (!validToken) {
+    if (validToken) {
       ActionAllGroups();
     } else {
       ActionAllGroupsForCardId(window.location.pathname.slice(6));
     }
-  }, []);
-
-  useEffect(() => {
-    axios
-      .post(`${API_ADDRESS}users/auth/verify/`, { token: getAccessToken() })
-      .then(() => {
-        // ActionAllGroups();
-        setValidToken(false);
-      })
-      .catch((e) => {
-        ActionAllGroupsForCardId(id);
-        setValidToken(true);
-      });
   }, []);
 
   useEffect(() => {
@@ -260,6 +225,10 @@ export default function Notfall() {
       ActionGroupsForAkte(idFile);
     }
   }, [idFile]);
+
+  useEffect(() => {
+    tokenVerification(setValidToken);
+  }, []);
 
   const settings = {
     dots: true,
@@ -307,12 +276,12 @@ export default function Notfall() {
                 : handleBearbeitenValid();
             }}
           >
-            Bearbeiten
+            <Trans>editProfile</Trans>
           </MyButton>
         </Box>
         <Box>
           <Box px="41px">
-            {!bearbeitenNotfall && (
+            {!bearbeitenNotfall ? (
               <Box display="flex" gap="7px">
                 <Box w="50%">
                   <Text
@@ -322,21 +291,24 @@ export default function Notfall() {
                     fontFamily="inter"
                     mb="3px"
                   >
-                    VORNAME
+                    <Trans>fristName</Trans>
                   </Text>
                   <textarea
                     onChange={(e) =>
                       changeForName(e.target.value, names.nachname)
                     }
                     defaultValue={
+                      dataPost.full_name?.split(" ")[0] ||
                       user.full_name?.split(" ")[0]
-                        ? user.full_name?.split(" ")[0]
+                        ? dataPost.full_name?.split(" ")[0] ||
+                          user.full_name?.split(" ")[0]
                         : names.vorname
                     }
                     disabled={bearbeitenNotfall}
                     className={`textarea--notfall ${
                       !bearbeitenNotfall ? "active" : ""
                     }`}
+                    style={{ textAlign: "center", paddingTop: "17px" }}
                   />
                 </Box>
                 <Box w="50%">
@@ -347,25 +319,74 @@ export default function Notfall() {
                     fontFamily="inter"
                     mb="3px"
                   >
-                    NACHNAME
+                    <Trans>lastName</Trans>
                   </Text>
                   <textarea
                     onChange={(e) =>
                       changeForName(names.vorname, e.target.value)
                     }
                     defaultValue={
+                      dataPost.full_name?.split(" ")[1] ||
                       user.full_name?.split(" ")[1]
-                        ? user.full_name?.split(" ")[1]
+                        ? dataPost.full_name?.split(" ")[1] ||
+                          user.full_name?.split(" ")[1]
                         : names.nachname
                     }
                     disabled={bearbeitenNotfall}
                     className={`textarea--notfall ${
                       !bearbeitenNotfall ? "active" : ""
                     }`}
+                    style={{ textAlign: "center", paddingTop: "17px" }}
                   />
                 </Box>
               </Box>
+            ) : (
+              <Box gap="7px" w="100% ">
+                <Text
+                  color="gray"
+                  fontSize="10px"
+                  fontWeight="700"
+                  fontFamily="inter"
+                  mb="3px"
+                  textAlign="start"
+                >
+                  NAME
+                </Text>
+                <textarea
+                  name="full_name"
+                  disabled={bearbeitenNotfall}
+                  onChange={(e) => inputChangeTextArea(e)}
+                  defaultValue={dataPost.full_name || user.full_name || ""}
+                  placeholder={!bearbeitenNotfall ? "Name hinzufugen" : ""}
+                  className={`textarea--notfall ${
+                    !bearbeitenNotfall ? "active" : ""
+                  }`}
+                />
+              </Box>
             )}
+            <Box>
+              <Text
+                color="gray"
+                fontSize="10px"
+                fontWeight="700"
+                fontFamily="inter"
+                mb="3px"
+              >
+                <Trans>dateOfBrith</Trans>
+              </Text>
+
+              <textarea
+                defaultValue={user.birth_date ? user.birth_date : ""}
+                disabled={bearbeitenNotfall}
+                placeholder={
+                  !bearbeitenNotfall ? "Geburtsdatum hinzufugen" : ""
+                }
+                onChange={(e) => handleBirthDateChange(e)}
+                className={`textarea--notfall ${
+                  !bearbeitenNotfall ? "active" : ""
+                }`}
+              />
+            </Box>
             {bearbeitenNotfall
               ? listInput?.slice(0, 2).map((el, index) => (
                   <Box key={index}>
@@ -376,7 +397,7 @@ export default function Notfall() {
                       fontFamily="inter"
                       mb="3px"
                     >
-                      {el.item}
+                      <Trans>{el.item}</Trans>
                     </Text>
                     <textarea
                       name={el.name}
@@ -399,7 +420,7 @@ export default function Notfall() {
                       fontFamily="inter"
                       mb="3px"
                     >
-                      {el.item}
+                      <Trans>{el.item}</Trans>
                     </Text>
                     <textarea
                       name={el.name}
@@ -413,29 +434,6 @@ export default function Notfall() {
                     />
                   </Box>
                 ))}
-            <Box>
-              <Text
-                color="gray"
-                fontSize="10px"
-                fontWeight="700"
-                fontFamily="inter"
-                mb="3px"
-              >
-                GEBURTSDATUM
-              </Text>
-
-              <textarea
-                defaultValue={user.birth_date ? user.birth_date : ""}
-                disabled={bearbeitenNotfall}
-                placeholder={
-                  !bearbeitenNotfall ? "Geburtsdatum hinzufugen" : ""
-                }
-                onChange={(e) => handleBirthDateChange(e)}
-                className={`textarea--notfall ${
-                  !bearbeitenNotfall ? "active" : ""
-                }`}
-              />
-            </Box>
             {listInput?.slice(2).map((el, index) => (
               <Box key={index}>
                 <Text
@@ -445,7 +443,7 @@ export default function Notfall() {
                   fontFamily="inter"
                   mb="3px"
                 >
-                  {el.item}
+                  <Trans>{el.item}</Trans>
                 </Text>
                 <textarea
                   name={el.name}
@@ -467,7 +465,7 @@ export default function Notfall() {
               mb="3px"
               textAlign="start"
             >
-              ALLERGIE
+              <Trans>allergies</Trans>
             </Text>
             <textarea
               name="allergies_text"
@@ -481,169 +479,165 @@ export default function Notfall() {
             />
           </Box>
           <Box px="10px">
-            {!loader ? (
-              <Box display="flex" flexDir="column-reverse">
-                {allGroups
-                  .filter((elem) => elem.is_akte === false)
-                  .map((el) => (
-                    <Box key={el.id} maxW="372px" mx="auto">
-                      <Box mb="53px">
-                        <Slider {...settings}>
-                          {el?.info_list.map((item, index) => (
-                            <Box>
-                              <Box
-                                position="relative"
-                                alignItems="center"
+            <Box display="flex" flexDir="column-reverse">
+              {allGroups
+                .filter((elem) => elem.is_akte === false)
+                .map((el) => (
+                  <Box key={el.id} maxW="372px" mx="auto">
+                    <Box mb="53px">
+                      <Slider {...settings}>
+                        {el?.info_list.map((item, index) => (
+                          <Box key={index}>
+                            <Box
+                              position="relative"
+                              alignItems="center"
+                              display="flex"
+                              bg="#131313"
+                              maxW="426px"
+                              mx="auto"
+                              h="448px"
+                            >
+                              <Button
+                                position="absolute"
                                 display="flex"
-                                bg="#131313"
-                                maxW="426px"
-                                mx="auto"
-                                h="448px"
-                              >
-                                <Button
-                                  position="absolute"
-                                  display="flex"
-                                  right="11px"
-                                  top="17px"
-                                  zIndex="5"
-                                  ml="auto"
-                                  w="30px"
-                                  h="10px"
-                                  px="0"
-                                  onClick={() =>
-                                    handleClick(el.id, item.id, el)
-                                  }
-                                >
-                                  {dots}
-                                </Button>
-                                {deleteImg && (
-                                  <Box
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    pos="absolute"
-                                    display="flex"
-                                    rounded="50%"
-                                    right="17px"
-                                    top="51px"
-                                    bg="black"
-                                    zIndex="5"
-                                    w="30px"
-                                    h="30px"
-                                    onClick={() => deletedImage(el, item.id)}
-                                  >
-                                    <SvgRedBasket />
-                                  </Box>
-                                )}
-                                <Box w="100%">
-                                  <Card
-                                    key={index}
-                                    el={item}
-                                    deleteImg={deleteImg}
-                                    object={el}
-                                  />
-                                </Box>
-                              </Box>
-                              <Box
-                                bg={
-                                  disabledFiles && idFiles === el.id
-                                    ? "#141414"
-                                    : "black"
+                                right="11px"
+                                top="17px"
+                                zIndex="5"
+                                ml="auto"
+                                w="30px"
+                                h="10px"
+                                px="0"
+                                onClick={() =>
+                                  validToken
+                                    ? handleClick(el.id, item.id, el)
+                                    : ActiveModalRegistration(true)
                                 }
-                                rounded="5px"
-                                px="4px"
-                                mb="7px"
-                                mt="7px"
                               >
-                                <Input
-                                  borderBottom="1px solid #343434"
-                                  borderRight="transparent"
-                                  borderLeft="transparent"
-                                  defaultValue={el.title}
-                                  borderTop="transparent"
-                                  disabled={!deleteImg}
-                                  placeholder="Titel"
-                                  fontFamily="inter"
-                                  textColor="white"
-                                  fontWeight="700"
-                                  bg="transparent"
-                                  fontSize="15px"
-                                  outline="black"
-                                  rounded="0px"
-                                  name="text"
-                                  w="100%"
-                                  mb="5px"
-                                  h="37px"
-                                  pl="10px"
-                                  onChange={(e) => setTitle(e.target.value)}
-                                />
-                                <Input
-                                  disabled={!disabledFiles || idFiles !== el.id}
-                                  placeholder="Beschreibung"
-                                  defaultValue={item.text}
-                                  borderColor="transparent"
-                                  fontFamily="inter"
-                                  textColor="white"
-                                  bg="transparent"
-                                  fontWeight="300"
-                                  fontSize="15px"
-                                  outline="black"
-                                  rounded="0px"
-                                  name="text"
-                                  pl="10px"
-                                  w="100%"
-                                  mb="7px"
-                                  h="37px"
-                                  onChange={(e) => setText(e.target.value)}
-                                />
-                              </Box>
+                                {dots}
+                              </Button>
                               {deleteImg && (
-                                <Box display="flex" w="100%">
-                                  <Button
-                                    color="black"
-                                    fontSize="13px"
-                                    fontWeight="700"
-                                    fontFamily="inter"
-                                    bg="white"
-                                    w="50%"
-                                    h="35px"
-                                    ml="2px"
-                                    rounded="7px"
-                                    onClick={() => {
-                                      ActionActiveModalMedia(true);
-                                      ActionActiveProfile(false);
-                                      ActionActiveSubtrac(true);
-                                    }}
-                                  >
-                                    Mehr hinzufügen
-                                  </Button>
-                                  <Button
-                                    color="white"
-                                    fontSize="13px"
-                                    fontWeight="700"
-                                    fontFamily="inter"
-                                    bg="#0B6CFF"
-                                    w="50%"
-                                    h="35px"
-                                    ml="2px"
-                                    rounded="7px"
-                                    onClick={() => handlePutFile()}
-                                  >
-                                    Speichern
-                                  </Button>
+                                <Box
+                                  justifyContent="center"
+                                  alignItems="center"
+                                  pos="absolute"
+                                  display="flex"
+                                  rounded="50%"
+                                  right="17px"
+                                  top="51px"
+                                  bg="black"
+                                  zIndex="5"
+                                  w="30px"
+                                  h="30px"
+                                  onClick={() => deletedImage(el, item.id)}
+                                >
+                                  <SvgRedBasket />
                                 </Box>
                               )}
+                              <Box w="100%">
+                                <Card
+                                  key={index}
+                                  el={item}
+                                  deleteImg={deleteImg}
+                                  object={el}
+                                />
+                              </Box>
                             </Box>
-                          ))}
-                        </Slider>
-                      </Box>
+                            <Box
+                              bg={
+                                disabledFiles && idFiles === el.id
+                                  ? "#141414"
+                                  : "black"
+                              }
+                              rounded="5px"
+                              px="4px"
+                              mb="7px"
+                              mt="7px"
+                            >
+                              <Input
+                                borderBottom="1px solid #343434"
+                                borderRight="transparent"
+                                borderLeft="transparent"
+                                defaultValue={el.title}
+                                borderTop="transparent"
+                                disabled={!deleteImg}
+                                placeholder="Titel"
+                                fontFamily="inter"
+                                textColor="white"
+                                fontWeight="700"
+                                bg="transparent"
+                                fontSize="15px"
+                                outline="black"
+                                rounded="0px"
+                                name="text"
+                                w="100%"
+                                mb="5px"
+                                h="37px"
+                                pl="10px"
+                                onChange={(e) => setTitle(e.target.value)}
+                              />
+                              <Input
+                                disabled={!disabledFiles || idFiles !== el.id}
+                                placeholder="Beschreibung"
+                                defaultValue={item.text}
+                                borderColor="transparent"
+                                fontFamily="inter"
+                                textColor="white"
+                                bg="transparent"
+                                fontWeight="300"
+                                fontSize="15px"
+                                outline="black"
+                                rounded="0px"
+                                name="text"
+                                pl="10px"
+                                w="100%"
+                                mb="7px"
+                                h="37px"
+                                onChange={(e) => setText(e.target.value)}
+                              />
+                            </Box>
+                            {deleteImg && (
+                              <Box display="flex" w="100%">
+                                <Button
+                                  color="black"
+                                  fontSize="13px"
+                                  fontWeight="700"
+                                  fontFamily="inter"
+                                  bg="white"
+                                  w="50%"
+                                  h="35px"
+                                  ml="2px"
+                                  rounded="7px"
+                                  onClick={() => {
+                                    ActionActiveModalMedia(true);
+                                    ActionActiveProfile(false);
+                                    ActionActiveSubtrac(true);
+                                  }}
+                                >
+                                  <Trans>addMore</Trans>
+                                </Button>
+                                <Button
+                                  color="white"
+                                  fontSize="13px"
+                                  fontWeight="700"
+                                  fontFamily="inter"
+                                  bg="#0B6CFF"
+                                  w="50%"
+                                  h="35px"
+                                  ml="2px"
+                                  rounded="7px"
+                                  onClick={() => handlePutFile()}
+                                >
+                                  <Trans>done</Trans>
+                                </Button>
+                              </Box>
+                            )}
+                          </Box>
+                        ))}
+                      </Slider>
                     </Box>
-                  ))}
-              </Box>
-            ) : (
-              <Box textColor="white" display="flex" justifyContent="center">
-                <Spinner />
-              </Box>
-            )}
+                  </Box>
+                ))}
+            </Box>
           </Box>
         </Box>
         {!bearbeitenNotfall && (
@@ -658,7 +652,7 @@ export default function Notfall() {
               color="white"
               onClick={() => handleClickPut()}
             >
-              Speichern
+              <Trans>done</Trans>
             </Button>
           </Box>
         )}

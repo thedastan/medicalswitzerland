@@ -7,7 +7,7 @@ export enum ModalTypes {
   ACTIVE_MODAL_MEDIA = "ACTIVE_MODAL_MEDIA",
 }
 
-export interface InterfaceFilesIdState {
+export interface InterfaceModalMediaState {
   activeMediaModal: boolean;
   subtract: boolean;
   profile: boolean;
@@ -46,7 +46,7 @@ interface IActionActiveIsAkte {
   payload: boolean;
 }
 
-export type ActionFilesIdType =
+export type ActionModalMediaType =
   | IActionFilesId
   | IActionActiveModalMedia
   | IActionActiveSubtract
