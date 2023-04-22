@@ -280,7 +280,7 @@ export default function Notfall() {
           </MyButton>
         </Box>
         <Box>
-          <Box px="41px">
+          <Box px="41px" mb="76px">
             {!bearbeitenNotfall ? (
               <Box display="flex" gap="7px">
                 <Box w="50%">
@@ -473,7 +473,7 @@ export default function Notfall() {
               defaultValue={user.allergies_text ? user.allergies_text : ""}
               disabled={bearbeitenNotfall}
               placeholder={!bearbeitenNotfall ? "Allergie hinzufugen" : ""}
-              className={`textarea--notfall ${
+              className={`textarea--allergia ${
                 !bearbeitenNotfall ? "active" : ""
               }`}
             />
