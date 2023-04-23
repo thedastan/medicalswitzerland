@@ -43,7 +43,9 @@ textarea::placeholder {
 }
 
 .textarea--akte.active {
+    padding-top: 17px;
     background-color: #141414;
     color: white;
+    text-align: center;
     padding-top: 20px;
 }

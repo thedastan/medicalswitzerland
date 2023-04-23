@@ -58,9 +58,9 @@ export default function Interface({ children }: IInterfaceProps) {
   const [validToken, setValidToken] = useState<boolean>(false);
 
   const handleActiveAuth = () => {
-    if (user.is_first_time && !getAccessToken()) {
+    if (user.is_first_time && !validToken) {
       ActiveModalRegistration(true);
-    } else if (!user.is_first_time && !getAccessToken()) {
+    } else if (!user.is_first_time && !validToken) {
       ActiveModalRegistration(true);
     } else {
       ActiveModalRegistration(false);
@@ -128,7 +128,7 @@ export default function Interface({ children }: IInterfaceProps) {
             username: user.username || "",
             full_name: user.full_name || "",
             why_diagnose: user.why_diagnose,
-            guest_mode:false
+            guest_mode: false,
           });
           setImageFile("");
           setCropData("");

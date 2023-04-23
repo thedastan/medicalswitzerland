@@ -39,6 +39,14 @@ i18n.use(initReactI18next).init({
         medicamentPlan: "MEDIKAMENTEN PLAN",
         nebenDiagnosen: "NEBENDIAGNOSEN",
         location: "LOCATION",
+
+        //guest
+        guestLogin: "Guest Login",
+        yourName: "Your name",
+        enterEmail: "Enter email",
+        desc: "Enter the password we sent to your email adress ",
+        next: "Next",
+        login: "Login",
       },
     },
     de: {
@@ -72,6 +80,14 @@ i18n.use(initReactI18next).init({
         medicamentPlan: "MEDIKAMENTEN PLAN",
         nebenDiagnosen: "NEBENDIAGNOSEN",
         location: "LOCATION",
+
+        //guest
+        guestLogin: "Gast-Login",
+        yourName: "Ihren Namen",
+        enterEmail: "Email eingeben",
+        desc: "Geben Sie das Passwort ein, das wir an Ihre E-Mail-Adresse gesendet haben",
+        next: "nächste",
+        login: "Anmeldung",
       },
     },
   },
