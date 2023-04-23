@@ -10,11 +10,17 @@ import {
 } from "../../Hooks/useActions";
 import { useAppSelector } from "../../Hooks/Hooks";
 import { API_ADDRESS } from "../../Api";
+import PopupSuccessFull from "./popup/PopupSuccessFull";
+import { Trans } from "react-i18next";
 
 export default function GeustMode() {
   const { ActionGroupsForGuest } = useActionsFile();
   const { ActionGetUser } = useActionsUser();
-  const { ActionGetGuestId, ActionGuestActiveModa } = useActionsGuest();
+  const {
+    ActionGetGuestId,
+    ActionGuestActiveModa,
+    ActionGuestActiveSuccessModal,
+  } = useActionsGuest();
   const { activeModal } = useAppSelector((state) => state.guestReducer);
 
   const [dataPost, setDataPost] = useState({ name: "", email: "" });
@@ -41,6 +47,7 @@ export default function GeustMode() {
         .then(() => {
           setCode(true);
           sessionStorage.setItem("active", "true");
+          ActionGuestActiveSuccessModal(true);
         });
     }
   }
@@ -86,6 +93,7 @@ export default function GeustMode() {
         w="100%"
         minH="100vh"
       />
+      <PopupSuccessFull />
       <Box
         top="200px"
         bottom="0"
@@ -121,11 +129,20 @@ export default function GeustMode() {
             >
               <SvgClose />
             </Box>
-            <Text fontSize="20px" fontFamily="inter" color="white" mb="27px">
-              Guest Login
+            <Text fontSize="20px" fontFamily="inter" color="white" mb="12px">
+              <Trans>guestLogin</Trans>
             </Text>
             {code || codeActive ? (
               <Box>
+                <Text
+                  fontFamily="inter"
+                  fontSize="12px"
+                  mb="21"
+                  textAlign="center"
+                  textColor="white"
+                >
+                  <Trans>desc</Trans>
+                </Text>
                 <Input
                   placeholder="Enter code"
                   textAlign="center"
@@ -157,7 +174,7 @@ export default function GeustMode() {
                   boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                   onClick={postGuestDataCode}
                 >
-                  Login
+                  <Trans>login</Trans>
                 </Button>
                 {validateCode && (
                   <Text
@@ -221,12 +238,24 @@ export default function GeustMode() {
                   fontWeight="500"
                   fontSize="15px"
                   rounded="4px"
-                  mb="59px"
+                  mb={validate.name || validate.email ? "16px" : "59px"}
                   boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                   onClick={postGuestData}
                 >
-                  Next
+                  <Trans>next</Trans>
                 </Button>
+                {validate.name && (
+                  <Text
+                    color="#FF0000"
+                    fontSize="10px"
+                    fontWeight="200"
+                    fontFamily="inter"
+                    mb="43px"
+                    textAlign="center"
+                  >
+                    Fill in all fields, they are both required
+                  </Text>
+                )}
               </Box>
             )}
           </Box>

@@ -1,11 +1,13 @@
 export enum IGuestTypes {
   MODAL_GUEST = "MODAL_GUEST",
   GUEST_ID = "GUEST_ID",
+  MODAL_SUCCESS = "MODAL_SUCCESS",
 }
 
 export interface initialGuestState {
   idGuest: string;
   activeModal: boolean;
+  successModal: boolean;
 }
 
 interface IActiveModalGuest {
@@ -18,4 +20,12 @@ interface IActionGetIdGuest {
   payload: string;
 }
 
-export type ActionGuest = IActionGetIdGuest | IActiveModalGuest;
+interface IActionActiveSuccessFull {
+  type: IGuestTypes.MODAL_SUCCESS;
+  payload: boolean;
+}
+
+export type ActionGuest =
+  | IActionGetIdGuest
+  | IActiveModalGuest
+  | IActionActiveSuccessFull;
