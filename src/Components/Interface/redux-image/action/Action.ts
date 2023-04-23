@@ -93,6 +93,22 @@ export const ActionGroupsForAkte = (id?: string) => {
   };
 };
 
+export const ActionGroupsForGuest = (id?: string, guestId?: string) => {
+  return async (dispatch: Dispatch<ActionsGroup>) => {
+    try {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
+      const response = await axios.get(
+        `${API_ADDRESS}groups/?card_id=${id}&&guest_id=9`
+      );
+
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    } catch (e) {
+      dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+      dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+    }
+  };
+};
+
 export const ActionGroup = (id?: string, idInfo?: string) => {
   return async (dispatch: Dispatch<ActionsGroup>) => {
     try {

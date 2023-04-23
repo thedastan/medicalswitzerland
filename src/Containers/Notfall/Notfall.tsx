@@ -129,6 +129,7 @@ export default function Notfall() {
       username: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: dataPost.location || user.location || "",
+      guest_mode: false,
     });
 
     ActionBearbeitenNotfall(true);
@@ -265,19 +266,21 @@ export default function Notfall() {
     <Fragment>
       <Box pos="relative">
         <Box display="flex" justifyContent="end">
-          <MyButton
-            typeColor={!bearbeitenNotfall ? "transparent" : "darkGrey"}
-            fontFamily="commissioner"
-            marginRight="30px"
-            color={!bearbeitenNotfall ? "black" : "white"}
-            onClick={() => {
-              !bearbeitenNotfall
-                ? console.log("beiten")
-                : handleBearbeitenValid();
-            }}
-          >
-            <Trans>editProfile</Trans>
-          </MyButton>
+          {validToken && (
+            <MyButton
+              typeColor={!bearbeitenNotfall ? "transparent" : "darkGrey"}
+              fontFamily="commissioner"
+              marginRight="30px"
+              color={!bearbeitenNotfall ? "black" : "white"}
+              onClick={() => {
+                !bearbeitenNotfall
+                  ? console.log("beiten")
+                  : handleBearbeitenValid();
+              }}
+            >
+              <Trans>editProfile</Trans>
+            </MyButton>
+          )}
         </Box>
         <Box>
           <Box px="41px" mb="76px">
@@ -497,24 +500,26 @@ export default function Notfall() {
                               mx="auto"
                               h="448px"
                             >
-                              <Button
-                                position="absolute"
-                                display="flex"
-                                right="11px"
-                                top="17px"
-                                zIndex="5"
-                                ml="auto"
-                                w="30px"
-                                h="10px"
-                                px="0"
-                                onClick={() =>
-                                  validToken
-                                    ? handleClick(el.id, item.id, el)
-                                    : ActiveModalRegistration(true)
-                                }
-                              >
-                                {dots}
-                              </Button>
+                              {validToken && (
+                                <Button
+                                  position="absolute"
+                                  display="flex"
+                                  right="11px"
+                                  top="17px"
+                                  zIndex="5"
+                                  ml="auto"
+                                  w="30px"
+                                  h="10px"
+                                  px="0"
+                                  onClick={() =>
+                                    validToken
+                                      ? handleClick(el.id, item.id, el)
+                                      : ActiveModalRegistration(true)
+                                  }
+                                >
+                                  {dots}
+                                </Button>
+                              )}
                               {deleteImg && (
                                 <Box
                                   justifyContent="center"

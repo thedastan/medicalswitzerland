@@ -9,14 +9,13 @@ import Registration from "../../Registration/Registration";
 import {
   useActionsAuth,
   useActionsForModal,
+  useActionsGuest,
   useActionsUser,
 } from "../../../Hooks/useActions";
 import { useAppSelector } from "../../../Hooks/Hooks";
-import { getAccessToken } from "../../Helpers";
-import axios from "axios";
-import { API_ADDRESS } from "../../../Api";
 import { tokenVerification } from "../../Helpers/action";
 import { Trans } from "react-i18next";
+import GeustMode from "../../GuestMode/GuestMode";
 
 enum TabTypes {
   NOTFALL = "NOTFALL",
@@ -29,11 +28,14 @@ interface ITabs {
 }
 
 export default function Tabs({ akte, notfall }: ITabs) {
+  const { ActionGuestActiveModa } = useActionsGuest();
   const { ActionGetUser } = useActionsUser();
   const { ActionActiveIsAkte } = useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
+
   const { user } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
+  const { idGuest } = useAppSelector((state) => state.guestReducer);
 
   const [isActive, setActive] = useState(TabTypes.NOTFALL);
   const [validToken, setValidToken] = useState<boolean>(true);
@@ -41,9 +43,21 @@ export default function Tabs({ akte, notfall }: ITabs) {
   const isNotfall = isActive === TabTypes.NOTFALL;
   const isAkte = isActive === TabTypes.AKTE;
 
+  const guest_id = sessionStorage.getItem("guestId") as string;
+  console.log(guest_id);
+  console.log(idGuest);
+
   const handleActiveAuth = () => {
     if (user.is_first_time || !validToken) {
-      ActiveModalRegistration(true);
+      if (user.guest_mode) {
+        if (idGuest || guest_id) {
+          setActive(TabTypes.AKTE);
+        } else {
+          ActionGuestActiveModa(true);
+        }
+      } else {
+        ActiveModalRegistration(true);
+      }
     } else {
       setActive(TabTypes.AKTE);
       ActiveModalRegistration(false);
@@ -63,6 +77,12 @@ export default function Tabs({ akte, notfall }: ITabs) {
   useEffect(() => {
     tokenVerification(setValidToken);
   }, [modal]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      sessionStorage.removeItem("guestId");
+    }, 60 * 60 * 10000);
+  }, [idGuest]);
 
   return (
     <Box>
@@ -110,6 +130,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
         {isNotfall ? notfall : akte}
       </Box>
       {modal && <Registration />}
+      <GeustMode />
     </Box>
   );
 }

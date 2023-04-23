@@ -3,7 +3,14 @@ import { Box, Text } from "@chakra-ui/layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { createRef, useEffect, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
-import { Button, Image, Input, Select, Spinner } from "@chakra-ui/react";
+import {
+  Button,
+  Image,
+  Input,
+  Select,
+  Spinner,
+  Switch,
+} from "@chakra-ui/react";
 import { Trans } from "react-i18next";
 import "cropperjs/dist/cropper.css";
 
@@ -24,11 +31,13 @@ import {
   useActionsFile,
   useActionsForMessage,
   useActionsForModal,
+  useActionsUser,
 } from "../../../Hooks/useActions";
 import { InterfaceImageTypes } from "../redux-image/types/Types";
 import SvgExet from "../../../assets/svg/SvgExit";
 import SvgSignOut from "../../../assets/svg/SvgSignOut";
 import SvgMore from "../../../assets/svg/SvgMore";
+import SvgGuest from "../../../assets/svg/SvgGuest";
 
 export default function PopupMediaFile() {
   //Actions
@@ -36,6 +45,7 @@ export default function PopupMediaFile() {
   const { ActionActiveModalMedia, ActionFilesId } = useActionsForModal();
   const { ActionUpload } = useActionsForMessage();
   const { ActionAllGroups } = useActionsFile();
+  const { ActionPutUser } = useActionsUser();
 
   //States
   const { filesId, activeMediaModal, profile, subtract, isAkte } =
@@ -253,6 +263,50 @@ export default function PopupMediaFile() {
     localStorage.setItem("language", JSON.stringify(event));
     i18n.changeLanguage(event);
     setLanguage(event);
+  };
+
+  const activeGuestMode = () => {
+    if (!user.guest_mode) {
+      ActionPutUser(window.location.pathname.slice(6), {
+        allergies: user.allergies,
+        allergies_text: user.allergies_text,
+        avatar: user.avatar?.slice(6),
+        birth_date: user.birth_date,
+        card_id: user.card_id,
+        contact: user.contact,
+        email: user.email,
+        emergency_contact: user.emergency_contact,
+        full_name: user.full_name,
+        location: user.location,
+        medications: user.medications,
+        operation: user.operation,
+        particularities: user.particularities,
+        profession: user.particularities,
+        username: user.username,
+        why_diagnose: user.why_diagnose,
+        guest_mode: true,
+      });
+    } else {
+      ActionPutUser(window.location.pathname.slice(6), {
+        allergies: user.allergies,
+        allergies_text: user.allergies_text,
+        avatar: user.avatar?.slice(6),
+        birth_date: user.birth_date,
+        card_id: user.card_id,
+        contact: user.contact,
+        email: user.email,
+        emergency_contact: user.emergency_contact,
+        full_name: user.full_name,
+        location: user.location,
+        medications: user.medications,
+        operation: user.operation,
+        particularities: user.particularities,
+        profession: user.particularities,
+        username: user.username,
+        why_diagnose: user.why_diagnose,
+        guest_mode: false,
+      });
+    }
   };
 
   //useEffects
@@ -576,6 +630,60 @@ export default function PopupMediaFile() {
                           Deutsch
                         </option>
                       </Select>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    mb="19px"
+                    rounded="5px"
+                    display="flex"
+                    alignItems="center"
+                    bg="#1F1F1F"
+                    textAlign="center"
+                  >
+                    <Box
+                      w="18%"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <SvgGuest />
+                    </Box>
+                    <Box
+                      w="90%"
+                      mx="auto"
+                      h="50px"
+                      pl="20px"
+                      pr="20px"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Text
+                        color="white"
+                        fontWeight="300"
+                        fontSize="13px"
+                        fontFamily="inter"
+                        textAlign="center"
+                      >
+                        Gast Login aktivieren
+                      </Text>
+                      {user.guest_mode ? (
+                        <Switch
+                          isChecked
+                          onChange={activeGuestMode}
+                          rounded="12px"
+                          colorScheme="orange"
+                          boxShadow="0px 10px 10px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
+                        />
+                      ) : (
+                        <Switch
+                          rounded="12px"
+                          colorScheme="orange"
+                          onChange={activeGuestMode}
+                          boxShadow="0px 10px 10px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
+                        />
+                      )}
                     </Box>
                   </Box>
 
