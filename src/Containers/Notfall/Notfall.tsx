@@ -27,6 +27,7 @@ import { useAppSelector } from "../../Hooks/Hooks";
 import PopupForMessage from "../../Components/Ui/popups/PopupForMessage";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import { tokenVerification } from "../../Components/Helpers/action";
+import SvgBluePluse from "../../assets/svg/SvgBluePlus";
 
 interface IGroupsTypes {
   id: string;
@@ -70,7 +71,7 @@ export default function Notfall() {
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
   const [names, setNames] = useState({ vorname: "", nachname: "" });
 
-  const [birthDate, setBirthDate] = useState("");
+  // const [birthDate, setBirthDate] = useState("");
   const [deleteImg, setDeleteImg] = useState(false);
   const [validToken, setValidToken] = useState(false);
   const [disabledFiles, setDisabledFiles] = useState(false);
@@ -115,7 +116,6 @@ export default function Notfall() {
       allergies: dataPost.allergies || user.allergies,
       allergies_text: dataPost.allergies_text || user.allergies_text,
       avatar: dataPost.avatar || user.avatar?.slice(6) || "",
-      birth_date: dataPost.birth_date || user.birth_date || null,
       card_id: user.card_id || id,
       contact: dataPost.contact || user.contact || "",
       email: dataPost.email || user.email,
@@ -129,6 +129,7 @@ export default function Notfall() {
       username: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: dataPost.location || user.location || "",
+      guest_mode: false,
     });
 
     ActionBearbeitenNotfall(true);
@@ -173,12 +174,6 @@ export default function Notfall() {
 
   const listInput = [
     {
-      item: "BILDUNTERSCHRIFT VERFASSEN",
-      name: "contact",
-      value: dataPost.contact || user.contact,
-      type: "text",
-    },
-    {
       item: "emergencyContact",
       name: "emergency_contact",
       value: dataPost.emergency_contact || user.emergency_contact,
@@ -194,18 +189,8 @@ export default function Notfall() {
     },
   ];
 
-  const handleBirthDateChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const inputBirthDate = event.target.value;
-    const formattedBirthDate = inputBirthDate
-      .replace(/\D/g, "") // remove all non-numeric characters
-      .replace(/^(\d{2})/, "$1/") // add slash after the first two digits
-      .replace(/^(\d{2}\/)(\d{2})/, "$1$2/"); // add slash after the next two digits
 
-    setBirthDate(formattedBirthDate);
-    setDataPost({ ...dataPost, [event.target.name]: birthDate });
-  };
+  
 
   useEffect(() => {
     ActionGetUser(id);
@@ -265,19 +250,21 @@ export default function Notfall() {
     <Fragment>
       <Box pos="relative">
         <Box display="flex" justifyContent="end">
-          <MyButton
-            typeColor={!bearbeitenNotfall ? "transparent" : "darkGrey"}
-            fontFamily="commissioner"
-            marginRight="30px"
-            color={!bearbeitenNotfall ? "black" : "white"}
-            onClick={() => {
-              !bearbeitenNotfall
-                ? console.log("beiten")
-                : handleBearbeitenValid();
-            }}
-          >
-            <Trans>editProfile</Trans>
-          </MyButton>
+          {validToken && (
+            <MyButton
+              typeColor={!bearbeitenNotfall ? "transparent" : "darkGrey"}
+              fontFamily="commissioner"
+              marginRight="30px"
+              color={!bearbeitenNotfall ? "black" : "white"}
+              onClick={() => {
+                !bearbeitenNotfall
+                  ? console.log("beiten")
+                  : handleBearbeitenValid();
+              }}
+            >
+              <Trans>editProfile</Trans>
+            </MyButton>
+          )}
         </Box>
         <Box>
           <Box px="41px" mb="76px">
@@ -364,29 +351,9 @@ export default function Notfall() {
                 />
               </Box>
             )}
-            <Box>
-              <Text
-                color="gray"
-                fontSize="10px"
-                fontWeight="700"
-                fontFamily="inter"
-                mb="3px"
-              >
-                <Trans>dateOfBrith</Trans>
-              </Text>
 
-              <textarea
-                defaultValue={user.birth_date ? user.birth_date : ""}
-                disabled={bearbeitenNotfall}
-                placeholder={
-                  !bearbeitenNotfall ? "Geburtsdatum hinzufugen" : ""
-                }
-                onChange={(e) => handleBirthDateChange(e)}
-                className={`textarea--notfall ${
-                  !bearbeitenNotfall ? "active" : ""
-                }`}
-              />
-            </Box>
+        
+
             {bearbeitenNotfall
               ? listInput?.slice(0, 2).map((el, index) => (
                   <Box key={index}>
@@ -497,40 +464,98 @@ export default function Notfall() {
                               mx="auto"
                               h="448px"
                             >
-                              <Button
-                                position="absolute"
-                                display="flex"
-                                right="11px"
-                                top="17px"
-                                zIndex="5"
-                                ml="auto"
-                                w="30px"
-                                h="10px"
-                                px="0"
-                                onClick={() =>
-                                  validToken
-                                    ? handleClick(el.id, item.id, el)
-                                    : ActiveModalRegistration(true)
-                                }
-                              >
-                                {dots}
-                              </Button>
+                              {validToken && (
+                                <Button
+                                  position="absolute"
+                                  display="flex"
+                                  right="11px"
+                                  top="17px"
+                                  zIndex="5"
+                                  ml="auto"
+                                  w="30px"
+                                  h="10px"
+                                  px="0"
+                                  onClick={() =>
+                                    validToken
+                                      ? handleClick(el.id, item.id, el)
+                                      : ActiveModalRegistration(true)
+                                  }
+                                >
+                                  {dots}
+                                </Button>
+                              )}
                               {deleteImg && (
                                 <Box
-                                  justifyContent="center"
+                                  bg="rgba(57, 57, 57, 0.5)"
+                                  w="64px"
+                                  h="190px"
                                   alignItems="center"
                                   pos="absolute"
                                   display="flex"
-                                  rounded="50%"
-                                  right="17px"
-                                  top="51px"
-                                  bg="black"
+                                  flexDir="column"
+                                  rounded="5px"
+                                  right="5px"
+                                  top="40px"
                                   zIndex="5"
-                                  w="30px"
-                                  h="30px"
-                                  onClick={() => deletedImage(el, item.id)}
                                 >
-                                  <SvgRedBasket />
+                                  <Box
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    pos="absolute"
+                                    display="flex"
+                                    rounded="50%"
+                                    right="11px"
+                                    top="25px"
+                                    bg="black"
+                                    zIndex="5"
+                                    w="39px"
+                                    h="39px"
+                                    onClick={() => deletedImage(el, item.id)}
+                                  >
+                                    <SvgRedBasket />
+                                  </Box>
+                                  <Text
+                                    fontSize="10px"
+                                    fontWeight="300"
+                                    textColor="white"
+                                    fontFamily="inter"
+                                    pos="absolute"
+                                    right="16px"
+                                    top="71px"
+                                  >
+                                    Delete
+                                  </Text>
+                                  <Box
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    pos="absolute"
+                                    display="flex"
+                                    rounded="50%"
+                                    right="11px"
+                                    top="100px"
+                                    bg="black"
+                                    zIndex="5"
+                                    w="39px"
+                                    h="39px"
+                                    onClick={() => {
+                                      ActionActiveModalMedia(true);
+                                      ActionActiveProfile(false);
+                                      ActionActiveSubtrac(true);
+                                    }}
+                                  >
+                                    <SvgBluePluse />
+                                  </Box>
+                                  <Text
+                                    fontSize="10px"
+                                    fontWeight="300"
+                                    textColor="white"
+                                    fontFamily="inter"
+                                    pos="absolute"
+                                    right="9px"
+                                    top="145px"
+                                  >
+                                    <Trans>addMore</Trans>
+                                  </Text>
                                 </Box>
                               )}
                               <Box w="100%">
@@ -598,30 +623,12 @@ export default function Notfall() {
                             {deleteImg && (
                               <Box display="flex" w="100%">
                                 <Button
-                                  color="black"
-                                  fontSize="13px"
-                                  fontWeight="700"
-                                  fontFamily="inter"
-                                  bg="white"
-                                  w="50%"
-                                  h="35px"
-                                  ml="2px"
-                                  rounded="7px"
-                                  onClick={() => {
-                                    ActionActiveModalMedia(true);
-                                    ActionActiveProfile(false);
-                                    ActionActiveSubtrac(true);
-                                  }}
-                                >
-                                  <Trans>addMore</Trans>
-                                </Button>
-                                <Button
                                   color="white"
                                   fontSize="13px"
                                   fontWeight="700"
                                   fontFamily="inter"
                                   bg="#0B6CFF"
-                                  w="50%"
+                                  w="100%"
                                   h="35px"
                                   ml="2px"
                                   rounded="7px"

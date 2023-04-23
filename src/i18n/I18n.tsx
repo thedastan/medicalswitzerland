@@ -12,6 +12,7 @@ i18n.use(initReactI18next).init({
       translation: {
         //all termin
         add: "Add",
+        login: "Login",
         addMore: "Add more",
         contact: "Contact",
         done: "DONE",
@@ -38,12 +39,20 @@ i18n.use(initReactI18next).init({
         medicamentPlan: "MEDIKAMENTEN PLAN",
         nebenDiagnosen: "NEBENDIAGNOSEN",
         location: "LOCATION",
+
+        //guest
+        guestLogin: "Guest Login",
+        yourName: "Your name",
+        enterEmail: "Enter email",
+        desc: "Enter the password we sent to your email adress ",
+        next: "Next",
       },
     },
     de: {
       translation: {
         //all termin
         add: "Hinzufügen",
+        login:"ANMELDUNG",
         addMore: "Mehr hinzufügen",
         contact: "Kontakt",
         done: "Speichern",
@@ -70,6 +79,13 @@ i18n.use(initReactI18next).init({
         medicamentPlan: "MEDIKAMENTEN PLAN",
         nebenDiagnosen: "NEBENDIAGNOSEN",
         location: "LOCATION",
+
+        //guest
+        guestLogin: "Gast-Login",
+        yourName: "Ihren Namen",
+        enterEmail: "Email eingeben",
+        desc: "Geben Sie das Passwort ein, das wir an Ihre E-Mail-Adresse gesendet haben",
+        next: "nächste",
       },
     },
   },

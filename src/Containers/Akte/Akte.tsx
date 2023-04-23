@@ -75,6 +75,8 @@ export default function Akte() {
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+
 
   const dots: any[] = [];
 
@@ -121,7 +123,8 @@ export default function Akte() {
       item: "location",
       name: "location",
       value: user.location,
-    },
+      
+    }
   ];
 
   const inputChange = (
@@ -164,12 +167,14 @@ export default function Akte() {
       allergies: dataPost.allergies || user.allergies,
       allergies_text: dataPost.allergies_text || user.allergies_text,
       avatar: dataPost.avatar || user.avatar?.slice(6) || "",
-      birth_date: dataPost.birth_date || user.birth_date || null,
       card_id: user.card_id || id,
       contact: dataPost.contact || user.contact || "",
       email: dataPost.email || user.email,
+      birth_date: dataPost.birth_date || user.birth_date || null,
+
+
       emergency_contact:
-        dataPost.emergency_contact || user.emergency_contact || "",
+      dataPost.emergency_contact || user.emergency_contact || "",
       medications: dataPost.medications || user.medications,
       operation: dataPost.operation || user.operation,
       particularities: dataPost.particularities || user.particularities,
@@ -178,8 +183,22 @@ export default function Akte() {
       username: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: dataPost.location || user.location || "",
+
     });
   }
+
+    const handleBirthDateChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const inputBirthDate = event.target.value;
+    const formattedBirthDate = inputBirthDate
+      .replace(/\D/g, "") // remove all non-numeric characters
+      .replace(/^(\d{2})/, "$1/") // add slash after the first two digits
+      .replace(/^(\d{2}\/)(\d{2})/, "$1$2/"); // add slash after the next two digits
+
+    setBirthDate(formattedBirthDate);
+    setDataPost({ ...dataPost, [event.target.name]: birthDate });
+  };
 
   const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
     setDisabledFiles(!disabledFiles);
@@ -267,14 +286,7 @@ export default function Akte() {
           medical
           <span style={{ color: "#E11F26" }}>switzerland</span>
         </Text>
-        <Box px="12px">
-          <Text fontSize="14px" color="white" textAlign="center" mb="30px">
-            {user.full_name || "Name"}
-          </Text>
-          <Text fontSize="14px" color="white" textAlign="center" mb="33px">
-            {user.birth_date || "GEBURTSDATUM"}
-          </Text>
-        </Box>
+    
 
         <Box
           display="flex"
@@ -297,6 +309,8 @@ export default function Akte() {
             {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
           </MyButton>
         </Box>
+
+       
         <Box px="12px">
           {!bearbeitenAkte ? (
             <Box display="flex" gap="7px">
@@ -323,7 +337,7 @@ export default function Akte() {
                   className={`textarea--notfall ${
                     !bearbeitenAkte ? "active" : ""
                   }`}
-                  style={{ textAlign: "center", paddingTop: "17px" }}
+                  style={{ textAlign: "center", paddingTop: "2px" }}
                 />
               </Box>
               <Box w="50%">
@@ -347,7 +361,7 @@ export default function Akte() {
                   className={`textarea--notfall ${
                     !bearbeitenAkte ? "active" : ""
                   }`}
-                  style={{ textAlign: "center", paddingTop: "17px" }}
+                  style={{ textAlign: "center", paddingTop: "25px" }}
                 />
               </Box>
             </Box>
@@ -378,6 +392,30 @@ export default function Akte() {
               </Box>
             </Box>
           )}
+           <Box>
+              <Text
+                color="gray"
+                fontSize="10px"
+                fontWeight="700"
+                fontFamily="inter"
+                mb="3px"
+                textAlign="center"
+              >
+                <Trans>dateOfBrith</Trans>
+              </Text>
+
+              <textarea
+                defaultValue={user.birth_date ? user.birth_date : ""}
+                disabled={bearbeitenAkte}
+                placeholder={
+                  !bearbeitenAkte ? "Geburtsdatum hinzufugen" : ""
+                }
+                onChange={(e) => handleBirthDateChange(e)}
+                className={`textarea--akte ${
+                  !bearbeitenAkte ? "active" : ""
+                }`}
+              />
+            </Box>
           {listInput.map((el, index) => (
             <Box
               key={index}
@@ -391,7 +429,8 @@ export default function Akte() {
                 fontSize="10px"
                 fontWeight="700"
                 fontFamily="inter"
-                mb="3px"
+                mb="15px"
+                mt="10px"
                 textAlign="center"
               >
                 <Trans>{el.item}</Trans>
@@ -407,6 +446,7 @@ export default function Akte() {
               />
             </Box>
           ))}
+        
 
           <Box display="flex" flexDir="column-reverse">
             {allGroups
@@ -655,6 +695,7 @@ export default function Akte() {
               ))}
           </Box>
         </Box>
+        
 
         {!bearbeitenAkte && (
           <Box position="fixed" mx="auto" bottom="70px" px="41px" w="100%">
