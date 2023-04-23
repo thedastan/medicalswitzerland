@@ -128,6 +128,7 @@ export default function Interface({ children }: IInterfaceProps) {
             username: user.username || "",
             full_name: user.full_name || "",
             why_diagnose: user.why_diagnose,
+            guest_mode:false
           });
           setImageFile("");
           setCropData("");
