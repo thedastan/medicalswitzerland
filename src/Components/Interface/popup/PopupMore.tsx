@@ -41,10 +41,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                     "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n"+
                     "X-SOCIALPROFILE;TYPE=https://www.medicalswitzerland.ch/:https://wa.me/+41797545136\n"+
                     "END:VCARD";
-
-
                     
-
     const element = document.createElement("a");
     const file = new Blob([vcfData], {type: 'text/vcard'});
     element.href = URL.createObjectURL(file);
@@ -53,8 +50,6 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
     element.click();
     document.body.removeChild(element);
   }
-
-  
 
   const listSvg = [
     {
@@ -189,8 +184,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                     color="white"
                     onClick={handleDownload}
                   >
-                    Save contact 
-                 
+                    Save contact
                   </Button>
                   
                 </Box>
