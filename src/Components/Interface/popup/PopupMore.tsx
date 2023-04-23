@@ -57,23 +57,23 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
     },
     {
       svg: <SvgMail />,
-      link: "",
+      link: "info@medicalswitzerland.ch",
     },
     {
       svg: <SvgWhatsapp />,
-      link: "",
+      link: "https://wa.me/+41797545136",
     },
     {
       svg: <SvgPhoneCall />,
-      link: "",
+      link: "tel:+41797545136",
     },
     {
       svg: <SvgInstagram />,
-      link: "",
+      link: "https://www.instagram.com/medicalsswitzerland/",
     },
     {
       svg: <SvgLinkedin />,
-      link: "",
+      link: "https://www.linkedin.com/in/jennifer-urwyler-05366884/",
     },
   ];
 
