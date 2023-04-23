@@ -435,7 +435,7 @@ export default function Registration() {
                       fontWeight="500"
                       mt="5px"
                       color="#6A6A6A"
-                      fontSize="8px"
+                      fontSize="12px"
                       mb="8px"
                       textAlign="end"
                       fontFamily="inter"
@@ -458,7 +458,7 @@ export default function Registration() {
                     )}
                     <Button
                       fontFamily="inter"
-                      fontSize="10px"
+                      fontSize="13px"
                       w="100%"
                       h="40px"
                       bg="#0B6CFF"
