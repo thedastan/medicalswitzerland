@@ -25,6 +25,7 @@ export interface IInterfaceUser {
   is_first_time?: string | null;
   location?: string | null;
   full_name?: string | null;
+  guest_mode?: boolean;
 }
 
 export interface IInterfaceUserState {

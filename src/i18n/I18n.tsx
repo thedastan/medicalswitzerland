@@ -12,6 +12,7 @@ i18n.use(initReactI18next).init({
       translation: {
         //all termin
         add: "Add",
+        login: "Login",
         addMore: "Add more",
         contact: "Contact",
         done: "DONE",
@@ -44,6 +45,7 @@ i18n.use(initReactI18next).init({
       translation: {
         //all termin
         add: "Hinzufügen",
+        login:"ANMELDUNG",
         addMore: "Mehr hinzufügen",
         contact: "Kontakt",
         done: "Speichern",
