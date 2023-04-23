@@ -28,6 +28,7 @@ import {
 } from "../../Components/Interface/redux-image/types/Types";
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
+import { tokenVerification } from "../../Components/Helpers/action";
 
 interface IGroupType {
   id: string;
@@ -71,11 +72,12 @@ export default function Akte() {
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
   const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [deleteImg, setDeleteImg] = useState(false);
+  const [validToken, setValidToken] = useState(false);
 
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
-  const [birthDate, setBirthDate] = useState("");
+  const [birthDate, setBirthDate] = useState<string>("");
 
   const dots: any[] = [];
 
@@ -180,37 +182,26 @@ export default function Akte() {
       username: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: dataPost.location || user.location || "",
-
     });
   }
 
   const handleBirthDateChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    let input: string = event.target.value;
-    // Remove all non-numeric characters
-    input = input.replace(/\D/g, "");
-    // Format the date as DD/MM/YYYY
-    if (input.length > 0) {
-      //@ts-ignore
-      input = input.match(/(\d{1,2})(\d{1,2})?(\d{1,4})?/);
-      if (input[2]) {
-        //@ts-ignore
-        input[2] = "/" + input[2];
-      }
-      if (input[3]) {
-        //@ts-ignore
-        input[3] = "/" + input[3];
-      }
-      input = input[1] + (input[2] || "") + (input[3] || "");
+    const value = event.target.value;
+    if (/^\d{0,4}$/.test(value)) {
+      // Ограничение длины года в 4 цифры
+      setBirthDate(value);
+    } else if (/^\d{4}-\d{0,2}$/.test(value)) {
+      // Ограничение длины месяца в 2 цифры
+      setBirthDate(value);
+    } else if (/^\d{4}-\d{2}-\d{0,2}$/.test(value)) {
+      // Ограничение длины дня в 2 цифры
+      setBirthDate(value);
     }
 
-    setBirthDate(input);
-    setDataPost({ ...dataPost, [event.target.name]: event.target.value });
+    setDataPost({ ...dataPost, [event.target.name]: birthDate });
   };
-
-  console.log(dataPost.birth_date);
-  console.log(birthDate);
 
   const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
     setDisabledFiles(!disabledFiles);
@@ -259,6 +250,10 @@ export default function Akte() {
     }
   }, [idFile]);
 
+  useEffect(() => {
+    tokenVerification(setValidToken);
+  }, []);
+
   if (loading) {
     return (
       <Box textColor="white" display="flex" justifyContent="center">
@@ -298,7 +293,6 @@ export default function Akte() {
           medical
           <span style={{ color: "#E11F26" }}>switzerland</span>
         </Text>
-
         <Box
           display="flex"
           justifyContent="end"
@@ -416,11 +410,17 @@ export default function Akte() {
 
             <textarea
               name="birth_date"
-              defaultValue={birthDate || ""}
+              value={
+                dataPost.birth_date
+                  ? dataPost.birth_date
+                  : user.birth_date
+                  ? user.birth_date
+                  : birthDate
+              }
               disabled={bearbeitenAkte}
               placeholder={!bearbeitenAkte ? "Geburtsdatum hinzufugen" : ""}
-              onChange={(e) => handleBirthDateChange(e)}
               className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
+              onChange={(e) => handleBirthDateChange(e)}
             />
           </Box>
           {listInput.map((el, index) => (
@@ -758,7 +758,7 @@ export default function Akte() {
         </Box>
 
         {!bearbeitenAkte && (
-          <Box position="fixed" mx="auto" bottom="70px" px="41px" w="100%">
+          <Box position="fixed" mx="auto" bottom="100px" px="41px" w="100%">
             <Button
               bg="#0B6CFF"
               fontSize="16px"

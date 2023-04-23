@@ -190,9 +190,6 @@ export default function Notfall() {
     },
   ];
 
-
-  
-
   useEffect(() => {
     ActionGetUser(id);
   }, []);
@@ -356,8 +353,6 @@ export default function Notfall() {
                 />
               </Box>
             )}
-
-        
 
             {bearbeitenNotfall
               ? listInput?.slice(0, 2).map((el, index) => (
@@ -653,7 +648,7 @@ export default function Notfall() {
           </Box>
         </Box>
         {!bearbeitenNotfall && (
-          <Box position="fixed" mx="auto" bottom="70px" px="41px" w="100%">
+          <Box position="fixed" mx="auto" bottom="100px" px="41px" w="100%">
             <Button
               bg="#0B6CFF"
               fontSize="16px"

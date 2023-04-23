@@ -25,16 +25,11 @@ export default function ResetPassword() {
   function postResetUser() {
     if (dataPost.password) {
       if (dataPost.password === dataPost.confirm) {
-        alert("Post");
         axios
-          .post(
-            `${API_ADDRESS}users/reset/?${window.location.href.slice(44)}`,
-            {
-              password: dataPost.password,
-            }
-          )
+          .post(`${API_ADDRESS}users/reset/${window.location.href.slice(44)}`, {
+            password: dataPost.password,
+          })
           .then(() => {
-            alert("Success");
             window.location.href = navigateUser;
           })
           .catch(() => {
