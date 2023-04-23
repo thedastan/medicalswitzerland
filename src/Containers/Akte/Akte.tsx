@@ -28,7 +28,6 @@ import {
 } from "../../Components/Interface/redux-image/types/Types";
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
-import { tokenVerification } from "../../Components/Helpers/action";
 
 interface IGroupType {
   id: string;
@@ -55,7 +54,6 @@ export default function Akte() {
     ActionGroup,
     ActionGroupsForAkte,
     ActionGroupPut,
-    ActionGroupsForGuest,
   } = useActionsFile();
 
   const { allGroups, groups, group } = useAppSelector(
@@ -65,7 +63,6 @@ export default function Akte() {
   const { bearbeitenAkte, loading, user, error } = useAppSelector(
     (state) => state.userReducer
   );
-  const { idGuest } = useAppSelector((state) => state.guestReducer);
 
   const { id } = useParams<string>();
   const [idFile, setIdFile] = useState("");
@@ -74,7 +71,6 @@ export default function Akte() {
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
   const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [deleteImg, setDeleteImg] = useState(false);
-  const [validToken, setValidToken] = useState(false);
 
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
@@ -82,8 +78,6 @@ export default function Akte() {
   const [birthDate, setBirthDate] = useState("");
 
   const dots: any[] = [];
-
-  const guest_id = localStorage.getItem("guestId") as string;
 
   for (let i = 0; i < 3; i++) {
     dots.push(<SvgDot key={i} />);
@@ -186,7 +180,7 @@ export default function Akte() {
       username: dataPost.full_name || user.full_name || "",
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: dataPost.location || user.location || "",
-      guest_mode: false,
+
     });
   }
 
@@ -265,17 +259,6 @@ export default function Akte() {
     }
   }, [idFile]);
 
-  useEffect(() => {
-    ActionGroupsForGuest(
-      window.location.pathname.slice(6),
-      guest_id ? guest_id : idGuest
-    );
-  }, [idGuest]);
-
-  useEffect(() => {
-    tokenVerification(setValidToken);
-  }, []);
-
   if (loading) {
     return (
       <Box textColor="white" display="flex" justifyContent="center">
@@ -323,21 +306,19 @@ export default function Akte() {
           borderBottom="1px solid #454545"
           mb="29px"
         >
-          {validToken && (
-            <MyButton
-              typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
-              fontFamily="commissioner"
-              marginRight="16px"
-              color={!bearbeitenAkte ? "black" : "white"}
-              onClick={() =>
-                !bearbeitenAkte
-                  ? console.log("beiten")
-                  : ActionBearbeitenAkte(!bearbeitenAkte)
-              }
-            >
-              {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
-            </MyButton>
-          )}
+          <MyButton
+            typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
+            fontFamily="commissioner"
+            marginRight="16px"
+            color={!bearbeitenAkte ? "black" : "white"}
+            onClick={() =>
+              !bearbeitenAkte
+                ? console.log("beiten")
+                : ActionBearbeitenAkte(!bearbeitenAkte)
+            }
+          >
+            {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
+          </MyButton>
         </Box>
 
         <Box px="12px">

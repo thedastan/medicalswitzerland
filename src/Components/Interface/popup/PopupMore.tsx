@@ -32,15 +32,14 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
   const handleDownload = () => {
     const vcfData = "BEGIN:VCARD\n" +
                     "VERSION:3.0\n" +
-                    "N:Medical Switzerland;;Mr.;\n" +
                     "ORG:Medical Switzerland.\n" +
                     "TEL;TYPE=WORK,VOICE:(111) 555-1212\n" +
                     "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n" +
                     "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n"+
                     "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n"+
                     "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n"+
-                    "X-SOCIALPROFILE;TYPE=https://www.medicalswitzerland.ch\n"+
-                    "X-SOCIALPROFILE;TYPE=https://wa.me/+41797545136\n"+
+                    "X-SOCIALPROFILE;TYPE=www.medicalswitzerland.ch\n"+
+                    "X-SOCIALPROFILE;TYPE=wa.me/+41797545136\n"+
                     "END:VCARD";
                     
     const element = document.createElement("a");
@@ -165,7 +164,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   <Image src={Map} w="93%" ml="auto" />
                 </Box>
                 <Text
-                  fontFamily="badScript"
+                  fontFamily="Helvetica"
                   fontSize="18px"
                   textAlign="center"
                   w="80%"

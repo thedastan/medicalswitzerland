@@ -174,12 +174,6 @@ export default function Notfall() {
   };
 
   const listInput = [
-    // {
-    //   item: "BILDUNTERSCHRIFT VERFASSEN",
-    //   name: "contact",
-    //   value: dataPost.contact || user.contact,
-    //   type: "text",
-    // },
     {
       item: "emergencyContact",
       name: "emergency_contact",
@@ -196,18 +190,8 @@ export default function Notfall() {
     },
   ];
 
-  // const handleBirthDateChange = (
-  //   event: React.ChangeEvent<HTMLTextAreaElement>
-  // ) => {
-  //   const inputBirthDate = event.target.value;
-  //   const formattedBirthDate = inputBirthDate
-  //     .replace(/\D/g, "") // remove all non-numeric characters
-  //     .replace(/^(\d{2})/, "$1/") // add slash after the first two digits
-  //     .replace(/^(\d{2}\/)(\d{2})/, "$1$2/"); // add slash after the next two digits
 
-  //   setBirthDate(formattedBirthDate);
-  //   setDataPost({ ...dataPost, [event.target.name]: birthDate });
-  // };
+  
 
   useEffect(() => {
     ActionGetUser(id);
@@ -372,29 +356,9 @@ export default function Notfall() {
                 />
               </Box>
             )}
-            {/* <Box>
-              <Text
-                color="gray"
-                fontSize="10px"
-                fontWeight="700"
-                fontFamily="inter"
-                mb="3px"
-              >
-                <Trans>dateOfBrith</Trans>
-              </Text>
 
-              <textarea
-                defaultValue={user.birth_date ? user.birth_date : ""}
-                disabled={bearbeitenNotfall}
-                placeholder={
-                  !bearbeitenNotfall ? "Geburtsdatum hinzufugen" : ""
-                }
-                onChange={(e) => handleBirthDateChange(e)}
-                className={`textarea--notfall ${
-                  !bearbeitenNotfall ? "active" : ""
-                }`}
-              />
-            </Box> */}
+        
+
             {bearbeitenNotfall
               ? listInput?.slice(0, 2).map((el, index) => (
                   <Box key={index}>

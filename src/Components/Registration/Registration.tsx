@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { Trans } from "react-i18next";
+
 
 /* Local dependencies */
 import SvgEyePassword from "../../assets/svg/SvgEyePassword";
@@ -468,7 +470,7 @@ export default function Registration() {
                       mb="51px"
                       onClick={handleAuthPost}
                     >
-                      Anmeldung
+                      <Trans>login</Trans>
                     </Button>
                   </Box>
                 )}

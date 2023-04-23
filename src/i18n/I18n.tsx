@@ -12,6 +12,7 @@ i18n.use(initReactI18next).init({
       translation: {
         //all termin
         add: "Add",
+        login: "Login",
         addMore: "Add more",
         contact: "Contact",
         done: "DONE",
@@ -45,13 +46,13 @@ i18n.use(initReactI18next).init({
         enterEmail: "Enter email",
         desc: "Enter the password we sent to your email adress ",
         next: "Next",
-        login: "Login",
       },
     },
     de: {
       translation: {
         //all termin
         add: "Hinzufügen",
+        login:"ANMELDUNG",
         addMore: "Mehr hinzufügen",
         contact: "Kontakt",
         done: "Speichern",
@@ -85,7 +86,6 @@ i18n.use(initReactI18next).init({
         enterEmail: "Email eingeben",
         desc: "Geben Sie das Passwort ein, das wir an Ihre E-Mail-Adresse gesendet haben",
         next: "nächste",
-        login: "Anmeldung",
       },
     },
   },
