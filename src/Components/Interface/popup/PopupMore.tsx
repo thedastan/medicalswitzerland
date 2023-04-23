@@ -165,7 +165,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   <Image src={Map} w="93%" ml="auto" />
                 </Box>
                 <Text
-                  fontFamily="badScript"
+                  fontFamily="Helvetica"
                   fontSize="18px"
                   textAlign="center"
                   w="80%"
