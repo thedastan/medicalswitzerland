@@ -42,7 +42,7 @@ export default function Interface({ children }: IInterfaceProps) {
     ActionFilesId,
   } = useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
-  const { user } = useAppSelector((state) => state.userReducer);
+  const { user, loading } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
   const { subtract, more, profile } = useAppSelector(
     (state) => state.modalReducer
@@ -158,7 +158,7 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           fontFamily="inter"
           mb="8px"
-          mt="-14px"
+          mt="14px"
           cursor="pointer"
           fontSize="10px"
           fontWeight="300"
@@ -180,7 +180,7 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           fontFamily="inter"
           mb="8px"
-          mt="-14px"
+          mt="14px"
           cursor="pointer"
           fontSize="10"
           fontWeight="300"
@@ -202,7 +202,7 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           fontFamily="inter"
           mb="8px"
-          mt="-14px"
+          mt="14px"
           cursor="pointer"
           fontSize="10"
           fontWeight="300"
@@ -261,17 +261,15 @@ export default function Interface({ children }: IInterfaceProps) {
                   rounded="50%"
                   objectFit="cover"
                 />
-                {validToken && (
-                  <Box
-                    pos="absolute"
-                    top="10px"
-                    right="-9px"
-                    cursor="pointer"
-                    onClick={handleActiveAuthAvatart}
-                  >
-                    <SvgAdded />
-                  </Box>
-                )}
+                <Box
+                  pos="absolute"
+                  top="10px"
+                  right="-9px"
+                  cursor="pointer"
+                  onClick={handleActiveAuthAvatart}
+                >
+                  <SvgAdded />
+                </Box>
               </Box>
             </>
           ) : (
@@ -319,7 +317,7 @@ export default function Interface({ children }: IInterfaceProps) {
         boxShadow="2px 4px 4px 2px #FFFFFF"
         mb="auto"
         w="100%"
-        h="94px"
+        h="59px"
         bottom="0"
         left="0"
         right="0"
@@ -395,7 +393,12 @@ export default function Interface({ children }: IInterfaceProps) {
                         minCropBoxHeight={150}
                         minCanvasWidth={150}
                         minCanvasHeight={150}
-                        style={{ width: "150px", height: "150px" }}
+                        style={{
+                          width: "100%",
+                          height: "150px",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
                       />
                     </Box>
                   )}

@@ -1,7 +1,7 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/layout";
 import { Button, Input, Spinner } from "@chakra-ui/react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import Slider from "react-slick";
 import { Trans } from "react-i18next";
@@ -68,6 +68,7 @@ export default function Akte() {
   const { id } = useParams<string>();
   const [idFile, setIdFile] = useState("");
   const [idFiles, setIdFiles] = useState("");
+  const [back, setBack] = useState(false);
 
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
   const [names, setNames] = useState({ vorname: "", nachname: "" });
@@ -185,22 +186,18 @@ export default function Akte() {
     });
   }
 
-  const handleBirthDateChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const value = event.target.value;
-    if (/^\d{0,4}$/.test(value)) {
-      // Ограничение длины года в 4 цифры
-      setBirthDate(value);
-    } else if (/^\d{4}-\d{0,2}$/.test(value)) {
-      // Ограничение длины месяца в 2 цифры
-      setBirthDate(value);
-    } else if (/^\d{4}-\d{2}-\d{0,2}$/.test(value)) {
-      // Ограничение длины дня в 2 цифры
-      setBirthDate(value);
-    }
+  const BackSpaceFn = (e: any) => {
+    e.key === "Backspace" ? setBack(true) : setBack(false);
+  };
 
-    setDataPost({ ...dataPost, [event.target.name]: birthDate });
+  const handleBirthDateChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length === 4 && back === false) {
+      e.target.value += "-";
+    } else if (e.target.value.length === 7 && back === false) {
+      e.target.value += "-";
+    }
+    setBirthDate(e.target.value);
+    setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
 
   const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
@@ -413,14 +410,13 @@ export default function Akte() {
               value={
                 dataPost.birth_date
                   ? dataPost.birth_date
-                  : user.birth_date
-                  ? user.birth_date
-                  : birthDate
+                  : user.birth_date || ""
               }
               disabled={bearbeitenAkte}
               placeholder={!bearbeitenAkte ? "Geburtsdatum hinzufugen" : ""}
               className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
               onChange={(e) => handleBirthDateChange(e)}
+              onKeyDown={(e) => BackSpaceFn(e)}
             />
           </Box>
           {listInput.map((el, index) => (
