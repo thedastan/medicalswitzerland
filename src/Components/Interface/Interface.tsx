@@ -42,7 +42,7 @@ export default function Interface({ children }: IInterfaceProps) {
     ActionFilesId,
   } = useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
-  const { user, loading } = useAppSelector((state) => state.userReducer);
+  const { user } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
   const { subtract, more, profile } = useAppSelector(
     (state) => state.modalReducer
@@ -261,15 +261,17 @@ export default function Interface({ children }: IInterfaceProps) {
                   rounded="50%"
                   objectFit="cover"
                 />
-                <Box
-                  pos="absolute"
-                  top="10px"
-                  right="-9px"
-                  cursor="pointer"
-                  onClick={handleActiveAuthAvatart}
-                >
-                  <SvgAdded />
-                </Box>
+                {validToken && (
+                  <Box
+                    pos="absolute"
+                    top="10px"
+                    right="-9px"
+                    cursor="pointer"
+                    onClick={handleActiveAuthAvatart}
+                  >
+                    <SvgAdded />
+                  </Box>
+                )}
               </Box>
             </>
           ) : (

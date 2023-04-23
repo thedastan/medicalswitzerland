@@ -63,7 +63,6 @@ export default function GeustMode() {
         }
       )
       .then(({ data }) => {
-        alert("Data");
         sessionStorage.setItem("guestId", data.guest_id);
         ActionGroupsForGuest(window.location.pathname.slice(6), data.guest_id);
         ActionGetUser(window.location.pathname.slice(6));

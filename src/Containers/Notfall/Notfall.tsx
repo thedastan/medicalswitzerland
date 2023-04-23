@@ -116,6 +116,7 @@ export default function Notfall() {
       allergies: dataPost.allergies || user.allergies,
       allergies_text: dataPost.allergies_text || user.allergies_text,
       avatar: dataPost.avatar || user.avatar?.slice(6) || "",
+      birth_date: dataPost.birth_date || user.birth_date || null,
       card_id: user.card_id || id,
       contact: dataPost.contact || user.contact || "",
       email: dataPost.email || user.email,
@@ -343,7 +344,11 @@ export default function Notfall() {
                   name="full_name"
                   disabled={bearbeitenNotfall}
                   onChange={(e) => inputChangeTextArea(e)}
-                  defaultValue={dataPost.full_name || user.full_name || ""}
+                  defaultValue={
+                    dataPost.full_name?.split(" ")[0] ||
+                    user.full_name?.split(" ")[0] ||
+                    ""
+                  }
                   placeholder={!bearbeitenNotfall ? "Name hinzufugen" : ""}
                   className={`textarea--notfall ${
                     !bearbeitenNotfall ? "active" : ""

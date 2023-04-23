@@ -77,7 +77,6 @@ export default function Akte() {
   const [title, setTitle] = useState("");
   const [birthDate, setBirthDate] = useState("");
 
-
   const dots: any[] = [];
 
   for (let i = 0; i < 3; i++) {
@@ -123,8 +122,7 @@ export default function Akte() {
       item: "location",
       name: "location",
       value: user.location,
-      
-    }
+    },
   ];
 
   const inputChange = (
@@ -172,9 +170,8 @@ export default function Akte() {
       email: dataPost.email || user.email,
       birth_date: dataPost.birth_date || user.birth_date || null,
 
-
       emergency_contact:
-      dataPost.emergency_contact || user.emergency_contact || "",
+        dataPost.emergency_contact || user.emergency_contact || "",
       medications: dataPost.medications || user.medications,
       operation: dataPost.operation || user.operation,
       particularities: dataPost.particularities || user.particularities,
@@ -187,18 +184,33 @@ export default function Akte() {
     });
   }
 
-    const handleBirthDateChange = (
+  const handleBirthDateChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    const inputBirthDate = event.target.value;
-    const formattedBirthDate = inputBirthDate
-      .replace(/\D/g, "") // remove all non-numeric characters
-      .replace(/^(\d{2})/, "$1/") // add slash after the first two digits
-      .replace(/^(\d{2}\/)(\d{2})/, "$1$2/"); // add slash after the next two digits
+    let input: string = event.target.value;
+    // Remove all non-numeric characters
+    input = input.replace(/\D/g, "");
+    // Format the date as DD/MM/YYYY
+    if (input.length > 0) {
+      //@ts-ignore
+      input = input.match(/(\d{1,2})(\d{1,2})?(\d{1,4})?/);
+      if (input[2]) {
+        //@ts-ignore
+        input[2] = "/" + input[2];
+      }
+      if (input[3]) {
+        //@ts-ignore
+        input[3] = "/" + input[3];
+      }
+      input = input[1] + (input[2] || "") + (input[3] || "");
+    }
 
-    setBirthDate(formattedBirthDate);
-    setDataPost({ ...dataPost, [event.target.name]: birthDate });
+    setBirthDate(input);
+    setDataPost({ ...dataPost, [event.target.name]: event.target.value });
   };
+
+  console.log(dataPost.birth_date);
+  console.log(birthDate);
 
   const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
     setDisabledFiles(!disabledFiles);
@@ -286,7 +298,6 @@ export default function Akte() {
           medical
           <span style={{ color: "#E11F26" }}>switzerland</span>
         </Text>
-    
 
         <Box
           display="flex"
@@ -310,7 +321,6 @@ export default function Akte() {
           </MyButton>
         </Box>
 
-       
         <Box px="12px">
           {!bearbeitenAkte ? (
             <Box display="flex" gap="7px">
@@ -337,7 +347,7 @@ export default function Akte() {
                   className={`textarea--notfall ${
                     !bearbeitenAkte ? "active" : ""
                   }`}
-                  style={{ textAlign: "center", paddingTop: "2px" }}
+                  style={{ textAlign: "center", paddingTop: "25px" }}
                 />
               </Box>
               <Box w="50%">
@@ -392,30 +402,27 @@ export default function Akte() {
               </Box>
             </Box>
           )}
-           <Box>
-              <Text
-                color="gray"
-                fontSize="10px"
-                fontWeight="700"
-                fontFamily="inter"
-                mb="3px"
-                textAlign="center"
-              >
-                <Trans>dateOfBrith</Trans>
-              </Text>
+          <Box>
+            <Text
+              color="gray"
+              fontSize="10px"
+              fontWeight="700"
+              fontFamily="inter"
+              mb="3px"
+              textAlign="center"
+            >
+              <Trans>dateOfBrith</Trans>
+            </Text>
 
-              <textarea
-                defaultValue={user.birth_date ? user.birth_date : ""}
-                disabled={bearbeitenAkte}
-                placeholder={
-                  !bearbeitenAkte ? "Geburtsdatum hinzufugen" : ""
-                }
-                onChange={(e) => handleBirthDateChange(e)}
-                className={`textarea--akte ${
-                  !bearbeitenAkte ? "active" : ""
-                }`}
-              />
-            </Box>
+            <textarea
+              name="birth_date"
+              defaultValue={birthDate || ""}
+              disabled={bearbeitenAkte}
+              placeholder={!bearbeitenAkte ? "Geburtsdatum hinzufugen" : ""}
+              onChange={(e) => handleBirthDateChange(e)}
+              className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
+            />
+          </Box>
           {listInput.map((el, index) => (
             <Box
               key={index}
@@ -446,7 +453,6 @@ export default function Akte() {
               />
             </Box>
           ))}
-        
 
           <Box display="flex" flexDir="column-reverse">
             {allGroups
@@ -466,36 +472,94 @@ export default function Akte() {
                             display="flex"
                             alignItems="center"
                           >
-                            <Button
-                              position="absolute"
-                              display="flex"
-                              w="30px"
-                              h="10px"
-                              px="0"
-                              ml="auto"
-                              top="17px"
-                              right="11px"
-                              zIndex="5"
-                              onClick={() => handleClick(el.id, item.id, el)}
-                            >
-                              {dots}
-                            </Button>
+                            {validToken && (
+                              <Button
+                                position="absolute"
+                                display="flex"
+                                w="30px"
+                                h="10px"
+                                px="0"
+                                ml="auto"
+                                top="17px"
+                                right="11px"
+                                zIndex="5"
+                                onClick={() => handleClick(el.id, item.id, el)}
+                              >
+                                {dots}
+                              </Button>
+                            )}
                             {deleteImg && (
                               <Box
-                                rounded="50%"
-                                bg="black"
-                                w="30px"
-                                h="30px"
-                                pos="absolute"
-                                top="51px"
-                                right="17px"
-                                display="flex"
-                                justifyContent="center"
+                                bg="rgba(57, 57, 57, 0.5)"
+                                w="64px"
+                                h="190px"
                                 alignItems="center"
+                                pos="absolute"
+                                display="flex"
+                                flexDir="column"
+                                rounded="5px"
+                                right="5px"
+                                top="40px"
                                 zIndex="5"
-                                onClick={() => deletedImage(el, item.id)}
                               >
-                                <SvgRedBasket />
+                                <Box
+                                  justifyContent="center"
+                                  alignItems="center"
+                                  pos="absolute"
+                                  display="flex"
+                                  rounded="50%"
+                                  right="11px"
+                                  top="25px"
+                                  bg="black"
+                                  zIndex="5"
+                                  w="39px"
+                                  h="39px"
+                                  onClick={() => deletedImage(el, item.id)}
+                                >
+                                  <SvgRedBasket />
+                                </Box>
+                                <Text
+                                  fontSize="10px"
+                                  fontWeight="300"
+                                  textColor="white"
+                                  fontFamily="inter"
+                                  pos="absolute"
+                                  right="16px"
+                                  top="71px"
+                                >
+                                  Delete
+                                </Text>
+                                <Box
+                                  justifyContent="center"
+                                  alignItems="center"
+                                  pos="absolute"
+                                  display="flex"
+                                  rounded="50%"
+                                  right="11px"
+                                  top="100px"
+                                  bg="black"
+                                  zIndex="5"
+                                  w="39px"
+                                  h="39px"
+                                  onClick={() => {
+                                    ActionActiveModalMedia(true);
+                                    ActionActiveSubtrac(true);
+                                    ActionActiveProfile(false);
+                                  }}
+                                >
+                                  <SvgBluePluse />
+                                </Box>
+                                <Text
+                                  fontSize="10px"
+                                  fontWeight="300"
+                                  textColor="white"
+                                  fontFamily="inter"
+                                  pos="absolute"
+                                  right="9px"
+                                  top="145px"
+                                >
+                                  <Trans>addMore</Trans>
+                                </Text>
                               </Box>
                             )}
                             <Card
@@ -570,10 +634,6 @@ export default function Akte() {
                                 h="35px"
                                 ml="2px"
                                 rounded="7px"
-                                onClick={() => {
-                                  ActionActiveModalMedia(true);
-                                  ActionActiveSubtrac(true);
-                                }}
                               >
                                 <Trans>addMore</Trans>
                               </Button>
@@ -665,9 +725,10 @@ export default function Akte() {
                               ml="2px"
                               rounded="7px"
                               onClick={() => {
-                                ActionActiveModalMedia(true);
+                                ActionFilesId("");
                                 ActionActiveSubtrac(true);
                                 ActionActiveProfile(false);
+                                ActionActiveModalMedia(true);
                               }}
                             >
                               <Trans>addMore</Trans>
@@ -695,7 +756,6 @@ export default function Akte() {
               ))}
           </Box>
         </Box>
-        
 
         {!bearbeitenAkte && (
           <Box position="fixed" mx="auto" bottom="70px" px="41px" w="100%">
