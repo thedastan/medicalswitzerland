@@ -39,7 +39,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                     "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n"+
                     "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n"+
                     "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n"+
-                    "X-SOCIALPROFILE;TYPE=https://www.medicalswitzerland.ch/:https://wa.me/+41797545136\n"
+                    "X-SOCIALPROFILE;TYPE=https://www.medicalswitzerland.ch/:https://wa.me/+41797545136\n"+
                     "END:VCARD";
 
 
