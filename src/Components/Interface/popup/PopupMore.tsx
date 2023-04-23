@@ -32,13 +32,16 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
   const handleDownload = () => {
     const vcfData = "BEGIN:VCARD\n" +
                     "VERSION:3.0\n" +
-                    "N:Milad;;Mr.;\n" +
+                    "N:Medical Switzerland;;Mr.;\n" +
                     "ORG:Medical Switzerland.\n" +
                     "TEL;TYPE=WORK,VOICE:(111) 555-1212\n" +
                     "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n" +
-                    "EMAIL:info@medicalswitzerland.ch\n" +
+                    "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n"+
+                    "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n"+
+                    "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n"+
+                    "X-SOCIALPROFILE;TYPE=https://www.medicalswitzerland.ch/:https://wa.me/+41797545136\n"+
                     "END:VCARD";
-
+                    
     const element = document.createElement("a");
     const file = new Blob([vcfData], {type: 'text/vcard'});
     element.href = URL.createObjectURL(file);
@@ -48,8 +51,6 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
     document.body.removeChild(element);
   }
 
-
-
   const listSvg = [
     {
       svg: <SvgMore />,
@@ -57,7 +58,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
     },
     {
       svg: <SvgMail />,
-      link: "info@medicalswitzerland.ch",
+      link: "mailto:info@medicalswitzerland.ch",
     },
     {
       svg: <SvgWhatsapp />,
@@ -183,8 +184,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                     color="white"
                     onClick={handleDownload}
                   >
-                    Save contact 
-                 
+                    Save contact
                   </Button>
                   
                 </Box>
