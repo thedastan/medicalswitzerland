@@ -971,7 +971,7 @@ export default function PopupMediaFile() {
                     filesId ? handlePostMoreFiles() : handlePostFiles
                   }
                 >
-                  Speichern
+                  <Trans>done</Trans>
                 </Button>
               </Box>
             </Box>
