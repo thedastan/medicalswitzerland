@@ -71,7 +71,7 @@ export default function Notfall() {
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
   const [names, setNames] = useState({ vorname: "", nachname: "" });
 
-  const [birthDate, setBirthDate] = useState("");
+  // const [birthDate, setBirthDate] = useState("");
   const [deleteImg, setDeleteImg] = useState(false);
   const [validToken, setValidToken] = useState(false);
   const [disabledFiles, setDisabledFiles] = useState(false);
@@ -116,7 +116,7 @@ export default function Notfall() {
       allergies: dataPost.allergies || user.allergies,
       allergies_text: dataPost.allergies_text || user.allergies_text,
       avatar: dataPost.avatar || user.avatar?.slice(6) || "",
-      birth_date: dataPost.birth_date || user.birth_date || null,
+      // birth_date: dataPost.birth_date || user.birth_date || null,
       card_id: user.card_id || id,
       contact: dataPost.contact || user.contact || "",
       email: dataPost.email || user.email,
@@ -174,12 +174,12 @@ export default function Notfall() {
   };
 
   const listInput = [
-    {
-      item: "BILDUNTERSCHRIFT VERFASSEN",
-      name: "contact",
-      value: dataPost.contact || user.contact,
-      type: "text",
-    },
+    // {
+    //   item: "BILDUNTERSCHRIFT VERFASSEN",
+    //   name: "contact",
+    //   value: dataPost.contact || user.contact,
+    //   type: "text",
+    // },
     {
       item: "emergencyContact",
       name: "emergency_contact",
@@ -196,18 +196,18 @@ export default function Notfall() {
     },
   ];
 
-  const handleBirthDateChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const inputBirthDate = event.target.value;
-    const formattedBirthDate = inputBirthDate
-      .replace(/\D/g, "") // remove all non-numeric characters
-      .replace(/^(\d{2})/, "$1/") // add slash after the first two digits
-      .replace(/^(\d{2}\/)(\d{2})/, "$1$2/"); // add slash after the next two digits
+  // const handleBirthDateChange = (
+  //   event: React.ChangeEvent<HTMLTextAreaElement>
+  // ) => {
+  //   const inputBirthDate = event.target.value;
+  //   const formattedBirthDate = inputBirthDate
+  //     .replace(/\D/g, "") // remove all non-numeric characters
+  //     .replace(/^(\d{2})/, "$1/") // add slash after the first two digits
+  //     .replace(/^(\d{2}\/)(\d{2})/, "$1$2/"); // add slash after the next two digits
 
-    setBirthDate(formattedBirthDate);
-    setDataPost({ ...dataPost, [event.target.name]: birthDate });
-  };
+  //   setBirthDate(formattedBirthDate);
+  //   setDataPost({ ...dataPost, [event.target.name]: birthDate });
+  // };
 
   useEffect(() => {
     ActionGetUser(id);
@@ -368,7 +368,7 @@ export default function Notfall() {
                 />
               </Box>
             )}
-            <Box>
+            {/* <Box>
               <Text
                 color="gray"
                 fontSize="10px"
@@ -390,7 +390,7 @@ export default function Notfall() {
                   !bearbeitenNotfall ? "active" : ""
                 }`}
               />
-            </Box>
+            </Box> */}
             {bearbeitenNotfall
               ? listInput?.slice(0, 2).map((el, index) => (
                   <Box key={index}>
