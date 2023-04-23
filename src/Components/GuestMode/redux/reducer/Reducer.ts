@@ -2,6 +2,7 @@ import { ActionGuest, IGuestTypes, initialGuestState } from "../types/Types";
 
 const initialState: initialGuestState = {
   activeModal: false,
+  successModal: false,
   idGuest: "",
 };
 
@@ -15,6 +16,9 @@ export const guestReducer = (
 
     case IGuestTypes.MODAL_GUEST:
       return { ...state, activeModal: action.payload };
+
+    case IGuestTypes.MODAL_SUCCESS:
+      return { ...state, successModal: action.payload };
 
     default:
       return state;
