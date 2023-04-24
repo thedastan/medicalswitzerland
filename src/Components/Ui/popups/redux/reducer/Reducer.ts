@@ -5,10 +5,11 @@ import {
 } from "../types/Types";
 
 const initialState: initialPopupMessageState = {
-  error: false,
   reset_password: false,
+  errorMessenger: "",
   success: false,
   upload: false,
+  error: false,
 };
 
 export const messageReducer = (
@@ -27,6 +28,9 @@ export const messageReducer = (
 
     case PopupTypesFormEssage.UPLOAD:
       return { ...state, upload: action.payload };
+
+    case PopupTypesFormEssage.ERROR_MESSENGERS:
+      return { ...state, errorMessenger: action.payload };
 
     default:
       return state;

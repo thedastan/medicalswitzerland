@@ -4,61 +4,66 @@ import { useEffect } from "react";
 import SvgSuccess from "../../../assets/svg/SvgSuccess";
 import { useAppSelector } from "../../../Hooks/Hooks";
 import { useActionsForMessage } from "../../../Hooks/useActions";
-import "./style.scss";
 import SvgKey from "../../../assets/svg/SvgKey";
+import "./style.scss";
 
 export default function PopupForMessage() {
-  const { ActionSuccess, ActionError, ActionReset, ActionUpload } =
-    useActionsForMessage();
-  const { success, error, reset_password, upload } = useAppSelector(
-    (state) => state.messageReducer
-  );
+  const {
+    ActionError,
+    ActionReset,
+    ActionUpload,
+    ActionSuccess,
+    ActionErrorMessenger,
+  } = useActionsForMessage();
+  const { success, error, reset_password, upload, errorMessenger } =
+    useAppSelector((state) => state.messageReducer);
 
   useEffect(() => {
     setTimeout(() => {
-      ActionSuccess(false);
       ActionError(false);
       ActionReset(false);
       ActionUpload(false);
+      ActionSuccess(false);
+      ActionErrorMessenger("");
     }, 3000);
   }, [success, upload, reset_password, error]);
 
   return (
     <>
       <Box
+        w="100%"
         zIndex="5"
+        minH="100vh"
         className={`bg--popup ${
           success || error || reset_password || upload ? "active" : ""
         }`}
-        w="100%"
-        minH="100vh"
       />
       <Box
-        zIndex="6"
-        h="100vh"
         left="0"
         right="0"
+        h="100vh"
+        pt="20px"
+        px="10px"
+        zIndex="6"
+        pos="fixed"
         className={`popupMessage ${
           success || error || reset_password || upload ? "transform" : ""
         }`}
-        pos="fixed"
-        pt="20px"
-        px="10px"
       >
         <Box
-          bg="thirdlittleGray"
+          px="8px"
           h="151px"
           rounded="12px"
+          bg="thirdlittleGray"
           boxShadow="0px 4px 4px rgba(20, 20, 20, 0.25), 0px 4px 4px #000000"
-          px="8px"
         >
           <Box
-            className="popup"
+            h="151px"
             display="flex"
             flexDir="column"
+            className="popup"
             alignItems="center"
             justifyContent="center"
-            h="151px"
           >
             {success && (
               <Box
@@ -68,11 +73,11 @@ export default function PopupForMessage() {
                 justifyContent="center"
               >
                 <Text
-                  color="white"
-                  textAlign="center"
                   mb="15px"
+                  color="white"
                   fontSize="15px"
                   fontFamily="inter"
+                  textAlign="center"
                 >
                   Als du
                 </Text>
@@ -81,9 +86,9 @@ export default function PopupForMessage() {
                 </Box>
                 <Text
                   color="white"
-                  fontFamily="inter"
                   fontSize="10px"
                   fontWeight="300"
+                  fontFamily="inter"
                 >
                   Registrierung erfolgreich
                 </Text>
@@ -97,11 +102,11 @@ export default function PopupForMessage() {
                 justifyContent="center"
               >
                 <Text
+                  mb="16px"
                   color="white"
-                  fontFamily="inter"
                   fontSize="15px"
                   fontWeight="500"
-                  mb="16px"
+                  fontFamily="inter"
                 >
                   Passwort zurücksetzen
                 </Text>
@@ -109,9 +114,9 @@ export default function PopupForMessage() {
                 <Text
                   mt="10px"
                   color="white"
-                  fontFamily="inter"
                   fontSize="10px"
                   fontWeight="200"
+                  fontFamily="inter"
                 >
                   Link zum Zurücksetzen des Passworts an Ihre registrierte
                   E-Mail-Adresse gesendet. Bitte überprüfen Sie den Posteingang
@@ -119,9 +124,9 @@ export default function PopupForMessage() {
                 </Text>
                 <Text
                   color="white"
-                  fontFamily="inter"
                   fontSize="10px"
                   fontWeight="200"
+                  fontFamily="inter"
                 >
                   Please check inbox or spam folder
                 </Text>
@@ -135,18 +140,36 @@ export default function PopupForMessage() {
                 justifyContent="center"
               >
                 <Text
-                  color="white"
-                  textAlign="center"
                   mb="15px"
+                  color="white"
                   fontSize="15px"
-                  fontFamily="inter"
                   fontWeight="400"
+                  fontFamily="inter"
+                  textAlign="center"
                 >
                   File Successfully Uploaded
                 </Text>
                 <Box>
                   <SvgSuccess />
                 </Box>
+              </Box>
+            )}
+            {error && (
+              <Box
+                display="flex"
+                flexDir="column"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Text
+                  color="white"
+                  fontSize="15px"
+                  fontWeight="400"
+                  textAlign="center"
+                  fontFamily="inter"
+                >
+                  {errorMessenger}
+                </Text>
               </Box>
             )}
           </Box>

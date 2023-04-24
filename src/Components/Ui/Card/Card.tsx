@@ -1,11 +1,11 @@
 // External dependencies
-import { EditIcon } from "@chakra-ui/icons";
-import { Box, Image, Text } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
+import { useState } from "react";
 
-import SvgRedBasket from "../../../assets/svg/SvgRedBasket";
 import SvgPdf from "../../../assets/svg/SvgPdf";
-import { IGroupsTypes } from "../../Interface/redux-image/types/Types";
+import SvgView from "../../../assets/svg/SvgView";
 import { API_ADDRESS } from "../../../Api";
+import "./style.scss";
 
 interface IElement {
   id: string;
@@ -15,21 +15,40 @@ interface IElement {
 
 interface ICardProps {
   el: IElement;
-  deleteImg: boolean;
-  object: IGroupsTypes;
 }
 
-export default function Card({ el, deleteImg, object }: ICardProps) {
+export default function Card({ el }: ICardProps) {
+  const [blur, setBlur] = useState(true);
+
   return (
     <Box h="auto">
       {el.file_url?.slice(-3) === "png" ? (
-        <Image
-          src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
-          alt="exemple"
-          w="100%"
-          h="auto"
-          objectFit="cover"
-        />
+        <Box>
+          <Image
+            w="100%"
+            h="auto"
+            alt="exemple"
+            objectFit="cover"
+            src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
+          />
+          <Box
+            top="0"
+            left="0"
+            right="0"
+            bottom="0"
+            display="flex"
+            className={`image ${!blur && "active"}`}
+            position="absolute"
+            alignItems="center"
+            justifyContent="center"
+            bg="rgba(0, 0, 0, 0.8)"
+            onClick={() => setBlur(!blur)}
+          >
+            <Box zIndex="11">
+              <SvgView />
+            </Box>
+          </Box>
+        </Box>
       ) : (
         <a
           href={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}

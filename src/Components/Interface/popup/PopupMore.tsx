@@ -41,15 +41,15 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                     "URL;WORK:=www.medicalswitzerland.ch\n"+
                     "X-SOCIALPROFILE;TYPE=wa.me/+41797545136\n"+
                     "END:VCARD";
-                    
+                   
     const element = document.createElement("a");
-    const file = new Blob([vcfData], {type: 'text/vcard'});
+    const file = new Blob([vcfData], { type: "text/vcard" });
     element.href = URL.createObjectURL(file);
     element.download = "medicalswitzerland.vcf";
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-  }
+  };
 
   const listSvg = [
     {
@@ -137,7 +137,10 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   medical
                 </Text>
                 <Text fontSize="22px" color="red" mb="26px" w="150%">
-                  switzerland
+                  switzerland{" "}
+                  <span style={{ color: "black" }}>
+                    Hello {user.full_name?.split(" ")[0]}
+                  </span>
                 </Text>
 
                 <Box display="flex" flexWrap="wrap" gap="22px">
@@ -173,7 +176,12 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 >
                   Your personal <br /> Contact
                 </Text>
-                <Box  mx="auto" display={'flex'} justifyContent="center" alignItems={'center'}>
+                <Box
+                  mx="auto"
+                  display={"flex"}
+                  justifyContent="center"
+                  alignItems={"center"}
+                >
                   <Button
                     position="static"
                     fontSize="10px"
@@ -186,7 +194,6 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   >
                     Save contact
                   </Button>
-                  
                 </Box>
               </Box>
             </Box>

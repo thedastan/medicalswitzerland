@@ -1,22 +1,23 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/layout";
 import { Button, Input, Spinner } from "@chakra-ui/react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import Slider from "react-slick";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 /* Local dependencies */
 import SvgDot from "../../assets/svg/SvgDot";
 import Card from "../../Components/Ui/Card/Card";
 import MyButton from "../../Components/Ui/Button/Button";
-import API from "../../Api";
+import API, { API_ADDRESS } from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
 
 import {
   useActionsFile,
+  useActionsForMessage,
   useActionsForModal,
   useActionsUser,
 } from "../../Hooks/useActions";
@@ -29,6 +30,7 @@ import {
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import { tokenVerification } from "../../Components/Helpers/action";
+import axios from "axios";
 
 interface IGroupType {
   id: string;
@@ -38,6 +40,7 @@ interface IGroupType {
 }
 
 export default function Akte() {
+  const { t } = useTranslation();
   const textareaRef = useRef(null);
 
   const {
@@ -48,12 +51,14 @@ export default function Akte() {
   } = useActionsForModal();
   const { ActionGetUser, ActionPutUser, ActionBearbeitenAkte } =
     useActionsUser();
+  const { ActionError, ActionErrorMessenger } = useActionsForMessage();
   const {
     ActionAllGroups,
     ActionAllGroupsPut,
     ActionGroups,
     ActionGroup,
     ActionGroupsForAkte,
+    ActionGroupsForGuest,
     ActionGroupPut,
   } = useActionsFile();
 
@@ -68,16 +73,18 @@ export default function Akte() {
   const { id } = useParams<string>();
   const [idFile, setIdFile] = useState("");
   const [idFiles, setIdFiles] = useState("");
+  const [back, setBack] = useState(false);
 
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
-  const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [deleteImg, setDeleteImg] = useState(false);
+  const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [validToken, setValidToken] = useState(false);
 
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
-  const [birthDate, setBirthDate] = useState<string>("");
+
+  const guest_id = sessionStorage.getItem("guestId") as string;
 
   const dots: any[] = [];
 
@@ -157,7 +164,8 @@ export default function Akte() {
         ActionGroups(data?.id);
       })
       .catch((e) => {
-        alert(`${e} Error`);
+        ActionError(true);
+        ActionErrorMessenger(e);
       });
   }
 
@@ -185,22 +193,23 @@ export default function Akte() {
     });
   }
 
-  const handleBirthDateChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const value = event.target.value;
-    if (/^\d{0,4}$/.test(value)) {
-      // Ограничение длины года в 4 цифры
-      setBirthDate(value);
-    } else if (/^\d{4}-\d{0,2}$/.test(value)) {
-      // Ограничение длины месяца в 2 цифры
-      setBirthDate(value);
-    } else if (/^\d{4}-\d{2}-\d{0,2}$/.test(value)) {
-      // Ограничение длины дня в 2 цифры
-      setBirthDate(value);
-    }
+  const BackSpaceFn = (e: any) => {
+    e.key === "Backspace" ? setBack(true) : setBack(false);
+  };
 
-    setDataPost({ ...dataPost, [event.target.name]: birthDate });
+  const handleBirthDateChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const regex = /^[0-9\b]+$/;
+
+    let value = e.target.value;
+
+    if (value === "" || regex.test(value)) {
+      if (value.length === 4 && back === false) {
+        value += "-";
+      } else if (value.length === 7 && back === false) {
+        value += "-";
+      }
+    }
+    setDataPost({ ...dataPost, [e.target.name]: value });
   };
 
   const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
@@ -235,6 +244,22 @@ export default function Akte() {
     setText("");
   };
 
+  const handleViewImage = (id: string) => {
+    let idGroup = sessionStorage.getItem(`${id}`);
+
+    Number(idGroup) === Number(id)
+      ? console.log("Block")
+      : axios.post(`${API_ADDRESS}groups/${id}/view/?g_id=${guest_id}`);
+
+    setTimeout(() => {
+      sessionStorage.setItem(`${id}`, id);
+    }, 500);
+
+    setTimeout(() => {
+      sessionStorage.removeItem(`${idGroup}`);
+    }, 60 * 60 * 1000);
+  };
+
   useEffect(() => {
     ActionGetUser(id);
   }, []);
@@ -252,6 +277,10 @@ export default function Akte() {
 
   useEffect(() => {
     tokenVerification(setValidToken);
+  }, []);
+
+  useEffect(() => {
+    ActionGroupsForGuest(window.location.pathname.slice(6), guest_id);
   }, []);
 
   if (loading) {
@@ -289,10 +318,12 @@ export default function Akte() {
         >
           <Trans>patientRecord</Trans>
         </Text>
+
         <Text color="#C7C4C4" textAlign="center" fontSize="18px" mb="35px">
           medical
           <span style={{ color: "#E11F26" }}>switzerland</span>
         </Text>
+
         <Box
           display="flex"
           justifyContent="end"
@@ -300,19 +331,21 @@ export default function Akte() {
           borderBottom="1px solid #454545"
           mb="29px"
         >
-          <MyButton
-            typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
-            fontFamily="commissioner"
-            marginRight="16px"
-            color={!bearbeitenAkte ? "black" : "white"}
-            onClick={() =>
-              !bearbeitenAkte
-                ? console.log("beiten")
-                : ActionBearbeitenAkte(!bearbeitenAkte)
-            }
-          >
-            {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
-          </MyButton>
+          {validToken && (
+            <MyButton
+              typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
+              fontFamily="commissioner"
+              marginRight="16px"
+              color={!bearbeitenAkte ? "black" : "white"}
+              onClick={() =>
+                !bearbeitenAkte
+                  ? console.log("beiten")
+                  : ActionBearbeitenAkte(!bearbeitenAkte)
+              }
+            >
+              {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
+            </MyButton>
+          )}
         </Box>
 
         <Box px="12px">
@@ -396,6 +429,7 @@ export default function Akte() {
               </Box>
             </Box>
           )}
+
           <Box>
             <Text
               color="gray"
@@ -410,19 +444,20 @@ export default function Akte() {
 
             <textarea
               name="birth_date"
-              value={
+              defaultValue={
                 dataPost.birth_date
                   ? dataPost.birth_date
-                  : user.birth_date
-                  ? user.birth_date
-                  : birthDate
+                  : user.birth_date || ""
               }
+              maxLength={10}
               disabled={bearbeitenAkte}
               placeholder={!bearbeitenAkte ? "Geburtsdatum hinzufugen" : ""}
               className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
               onChange={(e) => handleBirthDateChange(e)}
+              onKeyDown={(e) => BackSpaceFn(e)}
             />
           </Box>
+
           {listInput.map((el, index) => (
             <Box
               key={index}
@@ -562,12 +597,12 @@ export default function Akte() {
                                 </Text>
                               </Box>
                             )}
-                            <Card
-                              key={index}
-                              el={item}
-                              deleteImg={deleteImg}
-                              object={el}
-                            />
+                            <Box
+                              onClick={() => handleViewImage(el.id)}
+                              mb="7px"
+                            >
+                              <Card key={index} el={item} />
+                            </Box>
                           </Box>
                           <Box
                             bg={
@@ -578,7 +613,7 @@ export default function Akte() {
                             rounded="5px"
                             px="4px"
                             mb="7px"
-                            mt="7px"
+                            mt="14px"
                           >
                             <Input
                               borderBottom="1px solid #343434"
@@ -625,6 +660,84 @@ export default function Akte() {
                           {deleteImg && (
                             <Box display="flex" w="100%">
                               <Button
+                                color="white"
+                                fontSize="13px"
+                                fontWeight="700"
+                                fontFamily="inter"
+                                bg="#0B6CFF"
+                                w="100%"
+                                h="35px"
+                                ml="2px"
+                                rounded="7px"
+                                onClick={() => handlePutFile()}
+                              >
+                                <Trans>done</Trans>
+                              </Button>
+                            </Box>
+                          )}
+                        </Box>
+                      ))}
+                      {validToken && (
+                        <Box mx="auto">
+                          <Box
+                            bg="#262626"
+                            h="448px"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                          >
+                            <SvgBluePluse />
+                          </Box>
+                          <Box
+                            bg="#141414"
+                            rounded="5px"
+                            px="4px"
+                            mb="7px"
+                            mt="7px"
+                          >
+                            <Input
+                              borderBottom="1px solid #343434"
+                              borderRight="transparent"
+                              borderLeft="transparent"
+                              borderTop="transparent"
+                              defaultValue={title}
+                              placeholder="Titel"
+                              fontFamily="inter"
+                              textColor="white"
+                              bg="transparent"
+                              fontWeight="700"
+                              fontSize="15px"
+                              outline="black"
+                              rounded="0px"
+                              name="text"
+                              w="100%"
+                              mb="5px"
+                              h="37px"
+                              pl="10px"
+                              onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <Input
+                              placeholder="Beschreibung"
+                              borderColor="transparent"
+                              defaultValue={text}
+                              fontFamily="inter"
+                              textColor="white"
+                              bg="transparent"
+                              fontWeight="300"
+                              fontSize="15px"
+                              outline="black"
+                              rounded="0px"
+                              name="text"
+                              pl="10px"
+                              w="100%"
+                              mb="7px"
+                              h="37px"
+                              onChange={(e) => setText(e.target.value)}
+                            />
+                          </Box>
+                          {deleteImg && (
+                            <Box display="flex" w="100%">
+                              <Button
                                 color="black"
                                 fontSize="13px"
                                 fontWeight="700"
@@ -634,6 +747,12 @@ export default function Akte() {
                                 h="35px"
                                 ml="2px"
                                 rounded="7px"
+                                onClick={() => {
+                                  ActionFilesId("");
+                                  ActionActiveSubtrac(true);
+                                  ActionActiveProfile(false);
+                                  ActionActiveModalMedia(true);
+                                }}
                               >
                                 <Trans>addMore</Trans>
                               </Button>
@@ -654,102 +773,7 @@ export default function Akte() {
                             </Box>
                           )}
                         </Box>
-                      ))}
-                      <Box mx="auto">
-                        <Box
-                          bg="#262626"
-                          h="448px"
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                        >
-                          <SvgBluePluse />
-                        </Box>
-                        <Box
-                          bg="#141414"
-                          rounded="5px"
-                          px="4px"
-                          mb="7px"
-                          mt="7px"
-                        >
-                          <Input
-                            borderBottom="1px solid #343434"
-                            borderRight="transparent"
-                            borderLeft="transparent"
-                            borderTop="transparent"
-                            defaultValue={title}
-                            placeholder="Titel"
-                            fontFamily="inter"
-                            textColor="white"
-                            bg="transparent"
-                            fontWeight="700"
-                            fontSize="15px"
-                            outline="black"
-                            rounded="0px"
-                            name="text"
-                            w="100%"
-                            mb="5px"
-                            h="37px"
-                            pl="10px"
-                            onChange={(e) => setTitle(e.target.value)}
-                          />
-                          <Input
-                            placeholder="Beschreibung"
-                            borderColor="transparent"
-                            defaultValue={text}
-                            fontFamily="inter"
-                            textColor="white"
-                            bg="transparent"
-                            fontWeight="300"
-                            fontSize="15px"
-                            outline="black"
-                            rounded="0px"
-                            name="text"
-                            pl="10px"
-                            w="100%"
-                            mb="7px"
-                            h="37px"
-                            onChange={(e) => setText(e.target.value)}
-                          />
-                        </Box>
-                        {deleteImg && (
-                          <Box display="flex" w="100%">
-                            <Button
-                              color="black"
-                              fontSize="13px"
-                              fontWeight="700"
-                              fontFamily="inter"
-                              bg="white"
-                              w="50%"
-                              h="35px"
-                              ml="2px"
-                              rounded="7px"
-                              onClick={() => {
-                                ActionFilesId("");
-                                ActionActiveSubtrac(true);
-                                ActionActiveProfile(false);
-                                ActionActiveModalMedia(true);
-                              }}
-                            >
-                              <Trans>addMore</Trans>
-                            </Button>
-                            <Button
-                              color="white"
-                              fontSize="13px"
-                              fontWeight="700"
-                              fontFamily="inter"
-                              bg="#0B6CFF"
-                              w="50%"
-                              h="35px"
-                              ml="2px"
-                              rounded="7px"
-                              onClick={() => handlePutFile()}
-                            >
-                              <Trans>done</Trans>
-                            </Button>
-                          </Box>
-                        )}
-                      </Box>
+                      )}
                     </Slider>
                   </Box>
                 </Box>

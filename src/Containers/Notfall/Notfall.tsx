@@ -1,7 +1,7 @@
 /* External dependencies */
 import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { Fragment, useState, useEffect } from "react";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import Slider from "react-slick";
 
@@ -9,7 +9,7 @@ import Slider from "react-slick";
 import Card from "../../Components/Ui/Card/Card";
 import MyButton from "../../Components/Ui/Button/Button";
 import SvgDot from "../../assets/svg/SvgDot";
-import API from "../../Api";
+import API, { API_ADDRESS } from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
@@ -20,6 +20,7 @@ import { IInfoList } from "../../Components/Interface/redux-image/types/Types";
 import {
   useActionsAuth,
   useActionsFile,
+  useActionsForMessage,
   useActionsForModal,
   useActionsUser,
 } from "../../Hooks/useActions";
@@ -28,6 +29,7 @@ import PopupForMessage from "../../Components/Ui/popups/PopupForMessage";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import { tokenVerification } from "../../Components/Helpers/action";
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
+import axios from "axios";
 
 interface IGroupsTypes {
   id: string;
@@ -37,6 +39,8 @@ interface IGroupsTypes {
 }
 
 export default function Notfall() {
+  const { t } = useTranslation();
+
   const {
     ActionFilesId,
     ActionActiveModalMedia,
@@ -45,6 +49,7 @@ export default function Notfall() {
   } = useActionsForModal();
   const { ActionGetUser, ActionPutUser, ActionBearbeitenNotfall } =
     useActionsUser();
+  const { ActionError, ActionErrorMessenger } = useActionsForMessage();
   const {
     ActionAllGroups,
     ActionAllGroupsForCardId,
@@ -64,6 +69,8 @@ export default function Notfall() {
     (state) => state.filesReducer
   );
 
+  const guest_id = sessionStorage.getItem("guestId") as string;
+
   const { id } = useParams<string>();
   const [idFile, setIdFile] = useState("");
   const [idFiles, setIdFiles] = useState("");
@@ -71,7 +78,6 @@ export default function Notfall() {
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
   const [names, setNames] = useState({ vorname: "", nachname: "" });
 
-  // const [birthDate, setBirthDate] = useState("");
   const [deleteImg, setDeleteImg] = useState(false);
   const [validToken, setValidToken] = useState(false);
   const [disabledFiles, setDisabledFiles] = useState(false);
@@ -107,7 +113,8 @@ export default function Notfall() {
         ActionAllGroups();
       })
       .catch((e) => {
-        alert(`${e} Error`);
+        ActionError(true);
+        ActionErrorMessenger(e);
       });
   }
 
@@ -171,6 +178,22 @@ export default function Notfall() {
     setDeleteImg(false);
     ActionAllGroups();
     setText("");
+  };
+
+  const handleViewImage = (id: string) => {
+    let idGroup = sessionStorage.getItem(`${id}`);
+
+    Number(idGroup) === Number(id)
+      ? console.log("Block")
+      : axios.post(`${API_ADDRESS}groups/${id}/view/?g_id=${guest_id}`);
+
+    setTimeout(() => {
+      sessionStorage.setItem(`${id}`, id);
+    }, 500);
+
+    setTimeout(() => {
+      sessionStorage.removeItem(`${idGroup}`);
+    }, 60 * 60 * 1000);
   };
 
   const listInput = [
@@ -558,13 +581,12 @@ export default function Notfall() {
                                   </Text>
                                 </Box>
                               )}
-                              <Box w="100%">
-                                <Card
-                                  key={index}
-                                  el={item}
-                                  deleteImg={deleteImg}
-                                  object={el}
-                                />
+                              <Box
+                                w="100%"
+                                mb="7px"
+                                onClick={() => handleViewImage(el.id)}
+                              >
+                                <Card key={index} el={item} />
                               </Box>
                             </Box>
                             <Box
@@ -576,7 +598,7 @@ export default function Notfall() {
                               rounded="5px"
                               px="4px"
                               mb="7px"
-                              mt="7px"
+                              mt="14px"
                             >
                               <Input
                                 borderBottom="1px solid #343434"

@@ -22,19 +22,23 @@ import {
   useActionsAuth,
   useActionsForModal,
   useActionsUser,
+  useActionsForMessage,
 } from "../../Hooks/useActions";
-import { dataURLtoFile, getAccessToken, onChangeImage } from "../Helpers";
+import { dataURLtoFile, onChangeImage } from "../Helpers";
 import PopupForMessage from "../Ui/popups/PopupForMessage";
 import SvgExet from "../../assets/svg/SvgExit";
 import { tokenVerification } from "../Helpers/action";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 interface IInterfaceProps {
   children: JSX.Element;
 }
 
 export default function Interface({ children }: IInterfaceProps) {
+  const { t } = useTranslation();
+
   const { ActionGetUser, ActionPutUser } = useActionsUser();
+  const { ActionError, ActionErrorMessenger } = useActionsForMessage();
   const {
     ActionActiveSubtrac,
     ActionActiveProfile,
@@ -52,9 +56,9 @@ export default function Interface({ children }: IInterfaceProps) {
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
-  const [popupMore, setPopupMore] = useState(false);
-  const [imageFile, setImageFile] = useState("");
   const [cropData, setCropData] = useState("");
+  const [imageFile, setImageFile] = useState("");
+  const [popupMore, setPopupMore] = useState(false);
   const [validToken, setValidToken] = useState<boolean>(false);
 
   const handleActiveAuth = () => {
@@ -136,7 +140,8 @@ export default function Interface({ children }: IInterfaceProps) {
         }
       })
       .catch((e) => {
-        alert("Error!!!");
+        ActionError(true);
+        ActionErrorMessenger(e);
       });
   };
 
@@ -158,7 +163,7 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           fontFamily="inter"
           mb="8px"
-          mt="-14px"
+          mt="14px"
           cursor="pointer"
           fontSize="10px"
           fontWeight="300"
@@ -180,7 +185,7 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           fontFamily="inter"
           mb="8px"
-          mt="-14px"
+          mt="14px"
           cursor="pointer"
           fontSize="10"
           fontWeight="300"
@@ -202,7 +207,7 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           fontFamily="inter"
           mb="8px"
-          mt="-14px"
+          mt="14px"
           cursor="pointer"
           fontSize="10"
           fontWeight="300"
@@ -261,17 +266,15 @@ export default function Interface({ children }: IInterfaceProps) {
                   rounded="50%"
                   objectFit="cover"
                 />
-                {validToken && (
-                  <Box
-                    pos="absolute"
-                    top="10px"
-                    right="-9px"
-                    cursor="pointer"
-                    onClick={handleActiveAuthAvatart}
-                  >
-                    <SvgAdded />
-                  </Box>
-                )}
+                <Box
+                  pos="absolute"
+                  top="10px"
+                  right="-9px"
+                  cursor="pointer"
+                  onClick={handleActiveAuthAvatart}
+                >
+                  <SvgAdded />
+                </Box>
               </Box>
             </>
           ) : (
@@ -319,7 +322,7 @@ export default function Interface({ children }: IInterfaceProps) {
         boxShadow="2px 4px 4px 2px #FFFFFF"
         mb="auto"
         w="100%"
-        h="94px"
+        h="59px"
         bottom="0"
         left="0"
         right="0"
@@ -395,7 +398,12 @@ export default function Interface({ children }: IInterfaceProps) {
                         minCropBoxHeight={150}
                         minCanvasWidth={150}
                         minCanvasHeight={150}
-                        style={{ width: "150px", height: "150px" }}
+                        style={{
+                          width: "100%",
+                          height: "150px",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
                       />
                     </Box>
                   )}
@@ -405,7 +413,7 @@ export default function Interface({ children }: IInterfaceProps) {
                     justifyContent="space-between"
                     mx="auto"
                     gap="2px"
-                    mt="20px"
+                    mt="30px"
                   >
                     <Button
                       textColor="white"

@@ -11,9 +11,10 @@ import {
 import { useAppSelector } from "../../Hooks/Hooks";
 import { API_ADDRESS } from "../../Api";
 import PopupSuccessFull from "./popup/PopupSuccessFull";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 export default function GeustMode() {
+  const {t} = useTranslation()
   const { ActionGroupsForGuest } = useActionsFile();
   const { ActionGetUser } = useActionsUser();
   const {
@@ -150,7 +151,7 @@ export default function GeustMode() {
                   fontWeight="200"
                   textColor="#7C7575"
                   rounded="4px"
-                  value={codeStrig}
+                  defaultValue={codeStrig}
                   maxLength={6}
                   boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                   h="50px"
