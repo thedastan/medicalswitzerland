@@ -73,8 +73,7 @@ export default function PopupMediaFile() {
   const [imageFile, setImageFile] = useState("");
   const [validate, setValidate] = useState(false);
   const [isChecked, setIsChecked] = useState(
-    // () => JSON.parse(window.localStorage.getItem("isChecked") as any) ?? false
-    false
+    () => JSON.parse(window.localStorage.getItem("isChecked") as any) ?? false
   );
 
   const [renderMore, setRenderMore] = useState(false);
@@ -303,9 +302,10 @@ export default function PopupMediaFile() {
       profession: user.particularities,
       username: user.username,
       why_diagnose: user.why_diagnose,
-      guest_mode: isChecked,
+      guest_mode: isChecked ? false : true,
     });
     setIsChecked(e);
+    ActionGetUser(window.location.pathname.slice(6));
   };
 
   const forgotPassword = () => {
@@ -342,20 +342,24 @@ export default function PopupMediaFile() {
   }, [examinationGuestMode]);
 
   useEffect(() => {
-    // window.localStorage.setItem("isChecked", JSON.stringify(isChecked));
+    window.localStorage.setItem("isChecked", JSON.stringify(isChecked));
   }, [isChecked]);
 
   useEffect(() => {
-    // window.localStorage.setItem("isChecked", JSON.stringify(user.guest_mode));
-  }, [user.guest_mode]);
+    window.localStorage.setItem("isChecked", JSON.stringify(user.guest_mode));
+  }, [user]);
 
   useEffect(() => {
     ActionGetUser(window.location.pathname.slice(6));
   }, [isChecked]);
 
   useEffect(() => {
-    ActionGetUser(window.location.pathname.slice(6));
-  }, [language]);
+    if (user.guest_mode) {
+      window.localStorage.setItem("isChecked", JSON.stringify(true));
+    } else {
+      window.localStorage.setItem("isChecked", JSON.stringify(false));
+    }
+  });
 
   //list-profile
   const listProfile = [
@@ -810,7 +814,7 @@ export default function PopupMediaFile() {
                         Gast Login aktivieren
                       </Text>
                       <Switch
-                        isChecked={user.guest_mode}
+                        isChecked={isChecked}
                         rounded="12px"
                         colorScheme="orange"
                         onChange={(e) => activeGuestMode(e.target.checked)}

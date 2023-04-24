@@ -10,7 +10,7 @@ import { Trans, useTranslation } from "react-i18next";
 import SvgDot from "../../assets/svg/SvgDot";
 import Card from "../../Components/Ui/Card/Card";
 import MyButton from "../../Components/Ui/Button/Button";
-import API from "../../Api";
+import API, { API_ADDRESS } from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
@@ -30,6 +30,7 @@ import {
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import { tokenVerification } from "../../Components/Helpers/action";
+import axios from "axios";
 
 interface IGroupType {
   id: string;
@@ -57,6 +58,7 @@ export default function Akte() {
     ActionGroups,
     ActionGroup,
     ActionGroupsForAkte,
+    ActionGroupsForGuest,
     ActionGroupPut,
   } = useActionsFile();
 
@@ -81,6 +83,8 @@ export default function Akte() {
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
+
+  const guest_id = sessionStorage.getItem("guestId") as string;
 
   const dots: any[] = [];
 
@@ -194,12 +198,18 @@ export default function Akte() {
   };
 
   const handleBirthDateChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.length === 4 && back === false) {
-      e.target.value += "-";
-    } else if (e.target.value.length === 7 && back === false) {
-      e.target.value += "-";
+    const regex = /^[0-9\b]+$/;
+
+    let value = e.target.value;
+
+    if (value === "" || regex.test(value)) {
+      if (value.length === 4 && back === false) {
+        value += "-";
+      } else if (value.length === 7 && back === false) {
+        value += "-";
+      }
     }
-    setDataPost({ ...dataPost, [e.target.name]: e.target.value });
+    setDataPost({ ...dataPost, [e.target.name]: value });
   };
 
   const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
@@ -234,6 +244,22 @@ export default function Akte() {
     setText("");
   };
 
+  const handleViewImage = (id: string) => {
+    let idGroup = sessionStorage.getItem(`${id}`);
+
+    Number(idGroup) === Number(id)
+      ? console.log("Block")
+      : axios.post(`${API_ADDRESS}groups/${id}/view/?g_id=${guest_id}`);
+
+    setTimeout(() => {
+      sessionStorage.setItem(`${id}`, id);
+    }, 500);
+
+    setTimeout(() => {
+      sessionStorage.removeItem(`${idGroup}`);
+    }, 60 * 60 * 1000);
+  };
+
   useEffect(() => {
     ActionGetUser(id);
   }, []);
@@ -251,6 +277,10 @@ export default function Akte() {
 
   useEffect(() => {
     tokenVerification(setValidToken);
+  }, []);
+
+  useEffect(() => {
+    ActionGroupsForGuest(window.location.pathname.slice(6), guest_id);
   }, []);
 
   if (loading) {
@@ -288,10 +318,12 @@ export default function Akte() {
         >
           <Trans>patientRecord</Trans>
         </Text>
+
         <Text color="#C7C4C4" textAlign="center" fontSize="18px" mb="35px">
           medical
           <span style={{ color: "#E11F26" }}>switzerland</span>
         </Text>
+
         <Box
           display="flex"
           justifyContent="end"
@@ -395,6 +427,7 @@ export default function Akte() {
               </Box>
             </Box>
           )}
+
           <Box>
             <Text
               color="gray"
@@ -422,6 +455,7 @@ export default function Akte() {
               onKeyDown={(e) => BackSpaceFn(e)}
             />
           </Box>
+
           {listInput.map((el, index) => (
             <Box
               key={index}
@@ -561,12 +595,9 @@ export default function Akte() {
                                 </Text>
                               </Box>
                             )}
-                            <Card
-                              key={index}
-                              el={item}
-                              deleteImg={deleteImg}
-                              object={el}
-                            />
+                            <Box onClick={() => handleViewImage(el.id)}>
+                              <Card key={index} el={item} />
+                            </Box>
                           </Box>
                           <Box
                             bg={
@@ -624,25 +655,12 @@ export default function Akte() {
                           {deleteImg && (
                             <Box display="flex" w="100%">
                               <Button
-                                color="black"
-                                fontSize="13px"
-                                fontWeight="700"
-                                fontFamily="inter"
-                                bg="white"
-                                w="50%"
-                                h="35px"
-                                ml="2px"
-                                rounded="7px"
-                              >
-                                <Trans>addMore</Trans>
-                              </Button>
-                              <Button
                                 color="white"
                                 fontSize="13px"
                                 fontWeight="700"
                                 fontFamily="inter"
                                 bg="#0B6CFF"
-                                w="50%"
+                                w="100%"
                                 h="35px"
                                 ml="2px"
                                 rounded="7px"

@@ -9,7 +9,7 @@ import Slider from "react-slick";
 import Card from "../../Components/Ui/Card/Card";
 import MyButton from "../../Components/Ui/Button/Button";
 import SvgDot from "../../assets/svg/SvgDot";
-import API from "../../Api";
+import API, { API_ADDRESS } from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
@@ -29,6 +29,7 @@ import PopupForMessage from "../../Components/Ui/popups/PopupForMessage";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import { tokenVerification } from "../../Components/Helpers/action";
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
+import axios from "axios";
 
 interface IGroupsTypes {
   id: string;
@@ -67,6 +68,8 @@ export default function Notfall() {
   const { loading: loaderForile, group } = useAppSelector(
     (state) => state.filesReducer
   );
+
+  const guest_id = sessionStorage.getItem("guestId") as string;
 
   const { id } = useParams<string>();
   const [idFile, setIdFile] = useState("");
@@ -175,6 +178,22 @@ export default function Notfall() {
     setDeleteImg(false);
     ActionAllGroups();
     setText("");
+  };
+
+  const handleViewImage = (id: string) => {
+    let idGroup = sessionStorage.getItem(`${id}`);
+
+    Number(idGroup) === Number(id)
+      ? console.log("Block")
+      : axios.post(`${API_ADDRESS}groups/${id}/view/?g_id=${guest_id}`);
+
+    setTimeout(() => {
+      sessionStorage.setItem(`${id}`, id);
+    }, 500);
+
+    setTimeout(() => {
+      sessionStorage.removeItem(`${idGroup}`);
+    }, 60 * 60 * 1000);
   };
 
   const listInput = [
@@ -562,13 +581,11 @@ export default function Notfall() {
                                   </Text>
                                 </Box>
                               )}
-                              <Box w="100%">
-                                <Card
-                                  key={index}
-                                  el={item}
-                                  deleteImg={deleteImg}
-                                  object={el}
-                                />
+                              <Box
+                                w="100%"
+                                onClick={() => handleViewImage(el.id)}
+                              >
+                                <Card key={index} el={item} />
                               </Box>
                             </Box>
                             <Box
