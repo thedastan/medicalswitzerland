@@ -294,12 +294,12 @@ export default function Notfall() {
                 <Box w="50%">
                   <Text
                     color="gray"
-                    fontSize="10px"
+                    fontSize="14px"
                     fontWeight="700"
                     fontFamily="inter"
                     mb="3px"
                   >
-                    <Trans>fristName</Trans>
+                    <Trans>firstName</Trans>
                   </Text>
                   <textarea
                     onChange={(e) =>

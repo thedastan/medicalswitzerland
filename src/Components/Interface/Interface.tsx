@@ -425,7 +425,7 @@ export default function Interface({ children }: IInterfaceProps) {
                       rounded="7px"
                       onClick={distributionFunction}
                     >
-                      {!cropData ? "Crop Avatart" : "Save Avatar"}
+                      {!cropData ? "Crop Avatar" : "Save Avatar"}
                     </Button>
                   </Box>
                 </Box>

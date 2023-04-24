@@ -32,8 +32,8 @@ textarea::placeholder {
     width: 100%;
     background-color: rgb(0, 0, 0);
     color: white;
-    font-size: 14px;
-    line-height: 16.94px;
+    font-size: 16px;
+    line-height: 25px;
     font-weight: 400;
     font-family: 'Inter', sans-serif;
     resize: none;

@@ -354,10 +354,10 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="14px"
                   fontWeight="700"
                   fontFamily="inter"
-                  mb="3px"
+                  mb="10px"
                 >
                   <Trans>fristName</Trans>
                 </Text>
@@ -380,10 +380,10 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="14px"
                   fontWeight="700"
                   fontFamily="inter"
-                  mb="3px"
+                  mb="10px"
                 >
                   <Trans>lastName</Trans>
                 </Text>
@@ -407,10 +407,10 @@ export default function Akte() {
               <Box borderBottom="1px solid #454545" marginBottom="29px">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="14px"
                   fontWeight="700"
                   fontFamily="inter"
-                  mb="3px"
+                  mb="10px"
                   textAlign="center"
                 >
                   NAME
@@ -433,10 +433,10 @@ export default function Akte() {
           <Box>
             <Text
               color="gray"
-              fontSize="10px"
+              fontSize="14px"
               fontWeight="700"
               fontFamily="inter"
-              mb="3px"
+              mb="10px"
               textAlign="center"
             >
               <Trans>dateOfBrith</Trans>
@@ -468,7 +468,7 @@ export default function Akte() {
             >
               <Text
                 color="gray"
-                fontSize="10px"
+                fontSize="14px"
                 fontWeight="700"
                 fontFamily="inter"
                 mb="15px"
@@ -512,7 +512,7 @@ export default function Akte() {
                                 position="absolute"
                                 display="flex"
                                 w="30px"
-                                h="10px"
+                                h="14px"
                                 px="0"
                                 ml="auto"
                                 top="17px"
