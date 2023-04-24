@@ -98,9 +98,11 @@ export const ActionGroupsForGuest = (id?: string, guestId?: string) => {
     try {
       dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
       const response = await axios.get(
-        `${API_ADDRESS}groups/?card_id=${id}&&guest_id=9`
+        `${API_ADDRESS}groups/?card_id=${id}&&guest_id=${guestId}`
       );
+      const data = response.data;
 
+      dispatch({ type: InterfaceImageTypes.USER_ALL_FILES, payload: data });
       dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
     } catch (e) {
       dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });

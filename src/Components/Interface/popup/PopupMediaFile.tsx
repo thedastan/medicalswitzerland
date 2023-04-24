@@ -361,9 +361,6 @@ export default function PopupMediaFile() {
     }
   });
 
-  console.log(user.guest_mode, "user");
-  console.log(isChecked, "is");
-
   //list-profile
   const listProfile = [
     {
