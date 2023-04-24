@@ -4,7 +4,7 @@ import { Button, Input, Spinner } from "@chakra-ui/react";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import Slider from "react-slick";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 /* Local dependencies */
 import SvgDot from "../../assets/svg/SvgDot";
@@ -17,6 +17,7 @@ import "./style.css";
 
 import {
   useActionsFile,
+  useActionsForMessage,
   useActionsForModal,
   useActionsUser,
 } from "../../Hooks/useActions";
@@ -38,6 +39,7 @@ interface IGroupType {
 }
 
 export default function Akte() {
+  const { t } = useTranslation();
   const textareaRef = useRef(null);
 
   const {
@@ -48,6 +50,7 @@ export default function Akte() {
   } = useActionsForModal();
   const { ActionGetUser, ActionPutUser, ActionBearbeitenAkte } =
     useActionsUser();
+  const { ActionError, ActionErrorMessenger } = useActionsForMessage();
   const {
     ActionAllGroups,
     ActionAllGroupsPut,
@@ -71,14 +74,13 @@ export default function Akte() {
   const [back, setBack] = useState(false);
 
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
-  const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [deleteImg, setDeleteImg] = useState(false);
+  const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [validToken, setValidToken] = useState(false);
 
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
-  const [birthDate, setBirthDate] = useState<string>("");
 
   const dots: any[] = [];
 
@@ -158,7 +160,8 @@ export default function Akte() {
         ActionGroups(data?.id);
       })
       .catch((e) => {
-        alert(`${e} Error`);
+        ActionError(true);
+        ActionErrorMessenger(e);
       });
   }
 
@@ -196,7 +199,6 @@ export default function Akte() {
     } else if (e.target.value.length === 7 && back === false) {
       e.target.value += "-";
     }
-    setBirthDate(e.target.value);
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
 
@@ -407,11 +409,12 @@ export default function Akte() {
 
             <textarea
               name="birth_date"
-              value={
+              defaultValue={
                 dataPost.birth_date
                   ? dataPost.birth_date
                   : user.birth_date || ""
               }
+              maxLength={10}
               disabled={bearbeitenAkte}
               placeholder={!bearbeitenAkte ? "Geburtsdatum hinzufugen" : ""}
               className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}

@@ -12,6 +12,12 @@ export const ActionReset = (payload: boolean): ActionTypesPopupMessage => {
   return { type: PopupTypesFormEssage.RESSET_PASSWORD, payload };
 };
 
-export const ActionUpload = (payload: boolean) => {
+export const ActionUpload = (payload: boolean): ActionTypesPopupMessage => {
   return { type: PopupTypesFormEssage.UPLOAD, payload };
+};
+
+export const ActionErrorMessenger = (
+  payload: string
+): ActionTypesPopupMessage => {
+  return { type: PopupTypesFormEssage.ERROR_MESSENGERS, payload };
 };

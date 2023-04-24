@@ -6,8 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Trans } from "react-i18next";
-
+import { Trans, useTranslation } from "react-i18next";
 
 /* Local dependencies */
 import SvgEyePassword from "../../assets/svg/SvgEyePassword";
@@ -35,6 +34,8 @@ interface Inputs {
 }
 
 export default function Registration() {
+  const { t } = useTranslation();
+
   const {
     register,
     handleSubmit,
@@ -43,7 +44,8 @@ export default function Registration() {
 
   const { ActionGetUser } = useActionsUser();
   const { LoginPost, ActiveModalRegistration } = useActionsAuth();
-  const { ActionReset } = useActionsForMessage();
+  const { ActionReset, ActionError, ActionErrorMessenger } =
+    useActionsForMessage();
   const { loading, loginLoder } = useAppSelector((state) => state.authReducer);
   const { user } = useAppSelector((state) => state.userReducer);
 
@@ -111,7 +113,8 @@ export default function Registration() {
           setValidate({ ...validate, password: true });
         });
     } else {
-      alert("There is no such thing active account");
+      ActionError(true);
+      ActionErrorMessenger("There is no such thing active account");
     }
   };
 
@@ -154,7 +157,8 @@ export default function Registration() {
         ActionReset(true);
       })
       .catch(() => {
-        alert("Email not for forgot password");
+        ActionError(true);
+        ActionErrorMessenger("Email not for forgot password");
       });
   };
 
@@ -261,7 +265,7 @@ export default function Registration() {
                             border={
                               el.errors ? "1px solid red" : "1px solid #303030"
                             }
-                            value={el.value}
+                            defaultValue={el.value}
                             onChange={(e) => inputChange(e, el.name)}
                           />
                           <Box
@@ -299,7 +303,7 @@ export default function Registration() {
                               ? "1px solid red"
                               : "1px solid #303030"
                           }
-                          value={dataPost.confirm}
+                          defaultValue={dataPost.confirm}
                           onChange={(e) => changeConfirmPassword(e)}
                         />
                         <Box

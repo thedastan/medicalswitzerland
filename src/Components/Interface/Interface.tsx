@@ -22,19 +22,23 @@ import {
   useActionsAuth,
   useActionsForModal,
   useActionsUser,
+  useActionsForMessage,
 } from "../../Hooks/useActions";
-import { dataURLtoFile, getAccessToken, onChangeImage } from "../Helpers";
+import { dataURLtoFile, onChangeImage } from "../Helpers";
 import PopupForMessage from "../Ui/popups/PopupForMessage";
 import SvgExet from "../../assets/svg/SvgExit";
 import { tokenVerification } from "../Helpers/action";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 interface IInterfaceProps {
   children: JSX.Element;
 }
 
 export default function Interface({ children }: IInterfaceProps) {
+  const { t } = useTranslation();
+
   const { ActionGetUser, ActionPutUser } = useActionsUser();
+  const { ActionError, ActionErrorMessenger } = useActionsForMessage();
   const {
     ActionActiveSubtrac,
     ActionActiveProfile,
@@ -42,7 +46,7 @@ export default function Interface({ children }: IInterfaceProps) {
     ActionFilesId,
   } = useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
-  const { user, loading } = useAppSelector((state) => state.userReducer);
+  const { user } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
   const { subtract, more, profile } = useAppSelector(
     (state) => state.modalReducer
@@ -52,9 +56,9 @@ export default function Interface({ children }: IInterfaceProps) {
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
-  const [popupMore, setPopupMore] = useState(false);
-  const [imageFile, setImageFile] = useState("");
   const [cropData, setCropData] = useState("");
+  const [imageFile, setImageFile] = useState("");
+  const [popupMore, setPopupMore] = useState(false);
   const [validToken, setValidToken] = useState<boolean>(false);
 
   const handleActiveAuth = () => {
@@ -136,7 +140,8 @@ export default function Interface({ children }: IInterfaceProps) {
         }
       })
       .catch((e) => {
-        alert("Error!!!");
+        ActionError(true);
+        ActionErrorMessenger(e);
       });
   };
 
