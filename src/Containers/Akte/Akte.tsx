@@ -597,6 +597,7 @@ export default function Akte() {
                                 </Text>
                               </Box>
                             )}
+                            <Card key={index} el={item} />
                             <Box
                               onClick={() => handleViewImage(el.id)}
                               mb="7px"
@@ -762,7 +763,7 @@ export default function Akte() {
                                 fontWeight="700"
                                 fontFamily="inter"
                                 bg="#0B6CFF"
-                                w="50%"
+                                w="100%"
                                 h="35px"
                                 ml="2px"
                                 rounded="7px"

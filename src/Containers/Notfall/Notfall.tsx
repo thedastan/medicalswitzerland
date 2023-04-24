@@ -581,11 +581,12 @@ export default function Notfall() {
                                   </Text>
                                 </Box>
                               )}
-                              <Box
+                              <Box w="100%">
                                 w="100%"
                                 mb="7px"
                                 onClick={() => handleViewImage(el.id)}
                               >
+
                                 <Card key={index} el={item} />
                               </Box>
                             </Box>
