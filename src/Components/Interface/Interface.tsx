@@ -413,7 +413,7 @@ export default function Interface({ children }: IInterfaceProps) {
                     justifyContent="space-between"
                     mx="auto"
                     gap="2px"
-                    mt="20px"
+                    mt="30px"
                   >
                     <Button
                       textColor="white"

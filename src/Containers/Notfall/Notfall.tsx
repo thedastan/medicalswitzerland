@@ -583,6 +583,7 @@ export default function Notfall() {
                               )}
                               <Box
                                 w="100%"
+                                mb="7px"
                                 onClick={() => handleViewImage(el.id)}
                               >
                                 <Card key={index} el={item} />
@@ -597,7 +598,7 @@ export default function Notfall() {
                               rounded="5px"
                               px="4px"
                               mb="7px"
-                              mt="7px"
+                              mt="14px"
                             >
                               <Input
                                 borderBottom="1px solid #343434"
