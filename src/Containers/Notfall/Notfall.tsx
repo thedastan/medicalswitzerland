@@ -563,12 +563,7 @@ export default function Notfall() {
                                 </Box>
                               )}
                               <Box w="100%">
-                                <Card
-                                  key={index}
-                                  el={item}
-                                  deleteImg={deleteImg}
-                                  object={el}
-                                />
+                                <Card key={index} el={item} />
                               </Box>
                             </Box>
                             <Box

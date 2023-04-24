@@ -194,12 +194,18 @@ export default function Akte() {
   };
 
   const handleBirthDateChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.length === 4 && back === false) {
-      e.target.value += "-";
-    } else if (e.target.value.length === 7 && back === false) {
-      e.target.value += "-";
+    const regex = /^[0-9\b]+$/;
+
+    let value = e.target.value;
+
+    if (value === "" || regex.test(value)) {
+      if (value.length === 4 && back === false) {
+        value += "-";
+      } else if (value.length === 7 && back === false) {
+        value += "-";
+      }
     }
-    setDataPost({ ...dataPost, [e.target.name]: e.target.value });
+    setDataPost({ ...dataPost, [e.target.name]: value });
   };
 
   const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
@@ -288,10 +294,12 @@ export default function Akte() {
         >
           <Trans>patientRecord</Trans>
         </Text>
+
         <Text color="#C7C4C4" textAlign="center" fontSize="18px" mb="35px">
           medical
           <span style={{ color: "#E11F26" }}>switzerland</span>
         </Text>
+
         <Box
           display="flex"
           justifyContent="end"
@@ -395,6 +403,7 @@ export default function Akte() {
               </Box>
             </Box>
           )}
+
           <Box>
             <Text
               color="gray"
@@ -422,6 +431,7 @@ export default function Akte() {
               onKeyDown={(e) => BackSpaceFn(e)}
             />
           </Box>
+
           {listInput.map((el, index) => (
             <Box
               key={index}
@@ -561,12 +571,7 @@ export default function Akte() {
                                 </Text>
                               </Box>
                             )}
-                            <Card
-                              key={index}
-                              el={item}
-                              deleteImg={deleteImg}
-                              object={el}
-                            />
+                            <Card key={index} el={item} />
                           </Box>
                           <Box
                             bg={
@@ -624,25 +629,12 @@ export default function Akte() {
                           {deleteImg && (
                             <Box display="flex" w="100%">
                               <Button
-                                color="black"
-                                fontSize="13px"
-                                fontWeight="700"
-                                fontFamily="inter"
-                                bg="white"
-                                w="50%"
-                                h="35px"
-                                ml="2px"
-                                rounded="7px"
-                              >
-                                <Trans>addMore</Trans>
-                              </Button>
-                              <Button
                                 color="white"
                                 fontSize="13px"
                                 fontWeight="700"
                                 fontFamily="inter"
                                 bg="#0B6CFF"
-                                w="50%"
+                                w="100%"
                                 h="35px"
                                 ml="2px"
                                 rounded="7px"
