@@ -14,7 +14,7 @@ import {
 } from "../../../Hooks/useActions";
 import { useAppSelector } from "../../../Hooks/Hooks";
 import { tokenVerification } from "../../Helpers/action";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import GeustMode from "../../GuestMode/GuestMode";
 
 enum TabTypes {
@@ -28,6 +28,8 @@ interface ITabs {
 }
 
 export default function Tabs({ akte, notfall }: ITabs) {
+  const { t } = useTranslation();
+
   const { ActionGuestActiveModa } = useActionsGuest();
   const { ActionGetUser } = useActionsUser();
   const { ActionActiveIsAkte } = useActionsForModal();

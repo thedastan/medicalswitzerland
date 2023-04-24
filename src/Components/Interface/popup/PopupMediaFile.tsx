@@ -11,7 +11,7 @@ import {
   Spinner,
   Switch,
 } from "@chakra-ui/react";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import "cropperjs/dist/cropper.css";
 
 /* Local dependencies */
@@ -20,8 +20,8 @@ import SvgMail from "../../../assets/svg/SvgMail";
 import SvgLocation from "../../../assets/svg/SvgLocation";
 import SvgBasket from "../../../assets/svg/SvgBasket";
 import SvgPdf from "../../../assets/svg/SvgPdf";
-import i18n, { langs } from "../../../i18n/I18n";
-import API from "../../../Api";
+import i18n from "../../../i18n/I18n";
+import API, { API_ADDRESS } from "../../../Api";
 import Popup from "../../Ui/popup/Popup";
 import "./style.css";
 
@@ -38,12 +38,19 @@ import SvgExet from "../../../assets/svg/SvgExit";
 import SvgSignOut from "../../../assets/svg/SvgSignOut";
 import SvgMore from "../../../assets/svg/SvgMore";
 import SvgGuest from "../../../assets/svg/SvgGuest";
+import { ActionGetUser } from "../redux/action/Action";
+import SvgAvatarDefault from "../../../assets/svg/SvgAvatartDefault";
+import SvgChange from "../../../assets/svg/SvgChange";
+import axios from "axios";
 
 export default function PopupMediaFile() {
+  const { t } = useTranslation();
+
   //Actions
   const dispatch = useAppDispatch();
   const { ActionActiveModalMedia, ActionFilesId } = useActionsForModal();
-  const { ActionUpload } = useActionsForMessage();
+  const { ActionUpload, ActionError, ActionErrorMessenger, ActionReset } =
+    useActionsForMessage();
   const { ActionAllGroups } = useActionsFile();
   const { ActionPutUser } = useActionsUser();
 
@@ -57,22 +64,29 @@ export default function PopupMediaFile() {
   const fileRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
+  const examinationGuestMode = sessionStorage.getItem("guestMode");
+
   //useStates
   const [accept, setAccept] = useState("");
-  const [cropData, setCropData] = useState("");
   const [loader, setLoader] = useState(false);
+  const [cropData, setCropData] = useState("");
   const [imageFile, setImageFile] = useState("");
+  const [validate, setValidate] = useState(false);
+  const [isChecked, setIsChecked] = useState(
+    // () => JSON.parse(window.localStorage.getItem("isChecked") as any) ?? false
+    false
+  );
+
+  const [renderMore, setRenderMore] = useState(false);
   const [textVaildate, setTextValidate] = useState(false);
   const [titleValidate, setTitleValidate] = useState(false);
-  const [validate, setValidate] = useState(false);
-  const [renderMore, setRenderMore] = useState(false);
 
-  const [openPopup, setOpenPopup] = useState(false);
-  const [filePdf, setFilePdf] = useState<any>();
-  const [pdfIncludes, setPdfIncludes] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState("");
+  const [filePdf, setFilePdf] = useState<any>();
+  const [openPopup, setOpenPopup] = useState(false);
+  const [pdfIncludes, setPdfIncludes] = useState(false);
 
   //functions
   const handleClickForDeleteProfile = async () => {
@@ -174,12 +188,14 @@ export default function PopupMediaFile() {
             }
           })
           .catch((e) => {
-            alert(`${e} Error`);
             setLoader(false);
+            ActionError(true);
+            ActionErrorMessenger(e);
           });
       }
     } catch (e) {
-      alert(`${e} Error`);
+      ActionError(true);
+      ActionErrorMessenger(`${e}`);
     }
   };
 
@@ -219,16 +235,18 @@ export default function PopupMediaFile() {
                 setCropData("");
                 setText("");
               })
-              .catch(() => {
+              .catch((e) => {
                 dispatch({
                   type: InterfaceImageTypes.USER_FILES_LOADER,
                   payload: false,
                 });
                 ActionActiveModalMedia(false);
+                ActionErrorMessenger(e);
                 setTextValidate(false);
                 setPdfIncludes(false);
-                setLoader(false);
                 ActionAllGroups();
+                setLoader(false);
+                ActionError(true);
                 setImageFile("");
                 setCropData("");
                 setText("");
@@ -236,7 +254,8 @@ export default function PopupMediaFile() {
           }
         })
         .catch((e) => {
-          alert(`${e} Error`);
+          ActionErrorMessenger(e);
+          ActionError(true);
           setLoader(false);
         });
     } else {
@@ -245,11 +264,11 @@ export default function PopupMediaFile() {
   };
 
   const handleCencelCrop = () => {
-    setCropData("");
-    setImageFile("");
-    setText("");
     ActionActiveModalMedia(false);
     ActionFilesId("");
+    setImageFile("");
+    setCropData("");
+    setText("");
   };
 
   const handleCloseModal = () => {
@@ -260,53 +279,45 @@ export default function PopupMediaFile() {
   };
 
   const onChange = (event: string) => {
-    localStorage.setItem("language", JSON.stringify(event));
-    i18n.changeLanguage(event);
     setLanguage(event);
+    i18n.changeLanguage(event);
+    localStorage.setItem("language", JSON.stringify(event));
+    ActionGetUser(window.location.pathname.slice(6));
   };
 
-  const activeGuestMode = () => {
-    if (!user.guest_mode) {
-      ActionPutUser(window.location.pathname.slice(6), {
-        allergies: user.allergies,
-        allergies_text: user.allergies_text,
-        avatar: user.avatar?.slice(6),
-        birth_date: user.birth_date,
-        card_id: user.card_id,
-        contact: user.contact,
-        email: user.email,
-        emergency_contact: user.emergency_contact,
-        full_name: user.full_name,
-        location: user.location,
-        medications: user.medications,
-        operation: user.operation,
-        particularities: user.particularities,
-        profession: user.particularities,
-        username: user.username,
-        why_diagnose: user.why_diagnose,
-        guest_mode: true,
+  const activeGuestMode = (e: boolean) => {
+    ActionPutUser(window.location.pathname.slice(6), {
+      allergies: user.allergies,
+      allergies_text: user.allergies_text,
+      avatar: user.avatar?.slice(6),
+      birth_date: user.birth_date,
+      card_id: user.card_id,
+      contact: user.contact,
+      email: user.email,
+      emergency_contact: user.emergency_contact,
+      full_name: user.full_name,
+      location: user.location,
+      medications: user.medications,
+      operation: user.operation,
+      particularities: user.particularities,
+      profession: user.particularities,
+      username: user.username,
+      why_diagnose: user.why_diagnose,
+      guest_mode: isChecked,
+    });
+    setIsChecked(e);
+  };
+
+  const forgotPassword = () => {
+    axios
+      .post(`${API_ADDRESS}users/reset_link/`, { email: user.email })
+      .then(() => {
+        ActionReset(true);
+      })
+      .catch(() => {
+        ActionError(true);
+        ActionErrorMessenger("Email not for forgot password");
       });
-    } else {
-      ActionPutUser(window.location.pathname.slice(6), {
-        allergies: user.allergies,
-        allergies_text: user.allergies_text,
-        avatar: user.avatar?.slice(6),
-        birth_date: user.birth_date,
-        card_id: user.card_id,
-        contact: user.contact,
-        email: user.email,
-        emergency_contact: user.emergency_contact,
-        full_name: user.full_name,
-        location: user.location,
-        medications: user.medications,
-        operation: user.operation,
-        particularities: user.particularities,
-        profession: user.particularities,
-        username: user.username,
-        why_diagnose: user.why_diagnose,
-        guest_mode: false,
-      });
-    }
   };
 
   //useEffects
@@ -325,6 +336,26 @@ export default function PopupMediaFile() {
       }
     }
   }, [renderMore]);
+
+  useEffect(() => {
+    ActionGetUser(window.location.pathname.slice(6));
+  }, [examinationGuestMode]);
+
+  useEffect(() => {
+    // window.localStorage.setItem("isChecked", JSON.stringify(isChecked));
+  }, [isChecked]);
+
+  useEffect(() => {
+    // window.localStorage.setItem("isChecked", JSON.stringify(user.guest_mode));
+  }, [user.guest_mode]);
+
+  useEffect(() => {
+    ActionGetUser(window.location.pathname.slice(6));
+  }, [isChecked]);
+
+  useEffect(() => {
+    ActionGetUser(window.location.pathname.slice(6));
+  }, [language]);
 
   //list-profile
   const listProfile = [
@@ -582,11 +613,80 @@ export default function PopupMediaFile() {
                 </Box>
               )}
               {profile && (
-                <Box px="29px" bg="#171717" pt="58px" pb="44px" rounded="10px">
-                  <Box zIndex="6" mb="19px">
+                <Box px="29px" bg="#171717" pt="31px" pb="44px" rounded="10px">
+                  <Box display="flex" justifyContent="center" mb="12px">
+                    {user.avatar ? (
+                      <Image
+                        src={`${API_ADDRESS?.substring(
+                          0,
+                          35
+                        )}${user.avatar.slice(1)}`}
+                        alt="avatar"
+                        w="49px"
+                        h="49px"
+                        mx="auto"
+                        rounded="50%"
+                        objectFit="cover"
+                      />
+                    ) : (
+                      <SvgAvatarDefault />
+                    )}
+                  </Box>
+                  <Text
+                    textAlign="center"
+                    fontWeight="400"
+                    textColor="white"
+                    fontFamily="inter"
+                    fontSize="20px"
+                    mb="47px"
+                  >
+                    {user.full_name?.split(" ")[0]}
+                  </Text>
+                  {/* <Box zIndex="6" mb="19px">
                     {listProfile.map((el, index) => (
                       <Box key={index}>{el.content}</Box>
                     ))}
+                  </Box> */}
+
+                  <Box
+                    mb="19px"
+                    rounded="5px"
+                    display="flex"
+                    alignItems="center"
+                    bg="#1F1F1F"
+                    textAlign="center"
+                    onClick={() => {
+                      localStorage.removeItem("refreshToken");
+                      localStorage.removeItem("accessToken");
+                      window.location.reload();
+                    }}
+                  >
+                    <Box
+                      w="18%"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <SvgSignOut />
+                    </Box>
+                    <Box
+                      w="90%"
+                      h="50px"
+                      pl="15px"
+                      mx="auto"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="start"
+                    >
+                      <Text
+                        color="white"
+                        fontWeight="300"
+                        fontSize="13px"
+                        fontFamily="inter"
+                      >
+                        <Trans>signOut</Trans>
+                      </Text>
+                    </Box>
                   </Box>
 
                   <Box
@@ -607,16 +707,20 @@ export default function PopupMediaFile() {
                     </Box>
                     <Box
                       w="90%"
-                      mx="auto"
                       h="50px"
+                      mx="auto"
                       display="flex"
                       alignItems="center"
-                      justifyContent="center"
+                      justifyContent="start"
                     >
                       <Select
-                        w="60%"
+                        paddingLeft="0px"
                         borderColor="transparent"
-                        placeholder={language || "langauge"}
+                        placeholder={
+                          language === "en"
+                            ? "English"
+                            : "Deutsch" || "langauge"
+                        }
                         color="white"
                         fontWeight="300"
                         fontSize="13px"
@@ -647,43 +751,26 @@ export default function PopupMediaFile() {
                       justifyContent="center"
                       alignItems="center"
                     >
-                      <SvgGuest />
+                      <SvgChange />
                     </Box>
                     <Box
                       w="90%"
                       mx="auto"
                       h="50px"
-                      pl="20px"
-                      pr="20px"
                       display="flex"
                       alignItems="center"
-                      justifyContent="space-between"
+                      justifyContent="start"
+                      pl="15px"
+                      onClick={forgotPassword}
                     >
                       <Text
                         color="white"
                         fontWeight="300"
                         fontSize="13px"
                         fontFamily="inter"
-                        textAlign="center"
                       >
-                        Gast Login aktivieren
+                        <Trans>changePassword</Trans>
                       </Text>
-                      {user.guest_mode ? (
-                        <Switch
-                          isChecked
-                          onChange={activeGuestMode}
-                          rounded="12px"
-                          colorScheme="orange"
-                          boxShadow="0px 10px 10px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        />
-                      ) : (
-                        <Switch
-                          rounded="12px"
-                          colorScheme="orange"
-                          onChange={activeGuestMode}
-                          boxShadow="0px 10px 10px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        />
-                      )}
                     </Box>
                   </Box>
 
@@ -694,11 +781,6 @@ export default function PopupMediaFile() {
                     alignItems="center"
                     bg="#1F1F1F"
                     textAlign="center"
-                    onClick={() => {
-                      localStorage.removeItem("refreshToken");
-                      localStorage.removeItem("accessToken");
-                      window.location.reload();
-                    }}
                   >
                     <Box
                       w="18%"
@@ -706,25 +788,34 @@ export default function PopupMediaFile() {
                       justifyContent="center"
                       alignItems="center"
                     >
-                      <SvgSignOut />
+                      <SvgGuest />
                     </Box>
                     <Box
                       w="90%"
                       mx="auto"
                       h="50px"
-                      pr="65px"
                       display="flex"
                       alignItems="center"
-                      justifyContent="center"
+                      justifyContent="space-between"
+                      pr="15px"
+                      pl="15px"
                     >
                       <Text
                         color="white"
                         fontWeight="300"
                         fontSize="13px"
                         fontFamily="inter"
+                        textAlign="center"
                       >
-                        <Trans>signOut</Trans>
+                        Gast Login aktivieren
                       </Text>
+                      <Switch
+                        isChecked={user.guest_mode}
+                        rounded="12px"
+                        colorScheme="orange"
+                        onChange={(e) => activeGuestMode(e.target.checked)}
+                        boxShadow="0px 10px 10px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
+                      />
                     </Box>
                   </Box>
 
@@ -746,12 +837,12 @@ export default function PopupMediaFile() {
                     </Box>
                     <Box
                       w="90%"
-                      mx="auto"
                       h="50px"
-                      pr="40px"
+                      pl="15px"
+                      mx="auto"
                       display="flex"
                       alignItems="center"
-                      justifyContent="center"
+                      justifyContent="start"
                     >
                       <Text
                         color="white"
@@ -940,7 +1031,7 @@ export default function PopupMediaFile() {
                 )}
 
                 <Input
-                  value={text}
+                  defaultValue={text}
                   onChange={(e) => setText(e.target.value)}
                   bg="white"
                   fontSize="12px"

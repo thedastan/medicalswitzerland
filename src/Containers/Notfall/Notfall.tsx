@@ -1,7 +1,7 @@
 /* External dependencies */
 import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { Fragment, useState, useEffect } from "react";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import Slider from "react-slick";
 
@@ -20,6 +20,7 @@ import { IInfoList } from "../../Components/Interface/redux-image/types/Types";
 import {
   useActionsAuth,
   useActionsFile,
+  useActionsForMessage,
   useActionsForModal,
   useActionsUser,
 } from "../../Hooks/useActions";
@@ -37,6 +38,8 @@ interface IGroupsTypes {
 }
 
 export default function Notfall() {
+  const { t } = useTranslation();
+
   const {
     ActionFilesId,
     ActionActiveModalMedia,
@@ -45,6 +48,7 @@ export default function Notfall() {
   } = useActionsForModal();
   const { ActionGetUser, ActionPutUser, ActionBearbeitenNotfall } =
     useActionsUser();
+  const { ActionError, ActionErrorMessenger } = useActionsForMessage();
   const {
     ActionAllGroups,
     ActionAllGroupsForCardId,
@@ -71,7 +75,6 @@ export default function Notfall() {
   const [dataPost, setDataPost] = useState<IInterfaceUser>({});
   const [names, setNames] = useState({ vorname: "", nachname: "" });
 
-  // const [birthDate, setBirthDate] = useState("");
   const [deleteImg, setDeleteImg] = useState(false);
   const [validToken, setValidToken] = useState(false);
   const [disabledFiles, setDisabledFiles] = useState(false);
@@ -107,7 +110,8 @@ export default function Notfall() {
         ActionAllGroups();
       })
       .catch((e) => {
-        alert(`${e} Error`);
+        ActionError(true);
+        ActionErrorMessenger(e);
       });
   }
 

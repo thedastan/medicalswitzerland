@@ -5,8 +5,10 @@ import { useState } from "react";
 import SvgEye from "../../assets/svg/SvgEye";
 import SvgEyePassword from "../../assets/svg/SvgEyePassword";
 import { API_ADDRESS } from "../../Api";
+import { useActionsForMessage } from "../../Hooks/useActions";
 
 export default function ResetPassword() {
+  const { ActionErrorMessenger, ActionError } = useActionsForMessage();
   const [eye, setEye] = useState({ password: false, confirm: false });
 
   const [dataPost, setDataPost] = useState({
@@ -32,8 +34,9 @@ export default function ResetPassword() {
           .then(() => {
             window.location.href = navigateUser;
           })
-          .catch(() => {
-            alert("Error");
+          .catch((e) => {
+            ActionError(true);
+            ActionErrorMessenger(e);
           });
       } else {
         setValidate({ ...validate, confirm: true });

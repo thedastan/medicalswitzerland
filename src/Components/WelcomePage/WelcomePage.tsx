@@ -1,12 +1,14 @@
 /* External dependencies */
 import { Box, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 /* Local dependencies */
 import "./style.scss";
 
 export default function WelcomePage() {
+  const { t } = useTranslation();
+
   const [isVisible, setIsVisible] = useState(true);
   const [display, setDisplay] = useState("block");
 

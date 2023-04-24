@@ -1,8 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-export const langs = JSON.parse(localStorage.getItem("lang") as string);
-
 i18n.use(initReactI18next).init({
   fallbackLng: "en",
   lng: "en",
@@ -17,6 +15,7 @@ i18n.use(initReactI18next).init({
         contact: "Contact",
         done: "DONE",
         document: "Files",
+        deleteProfile: "Delete profile",
         editProfile: "Edit profile",
         emergency: "EMERGENCY",
         medicall: "MEDICALFILES",
@@ -24,6 +23,8 @@ i18n.use(initReactI18next).init({
         profile: "Profile",
         photo: "Images",
         medicalRecord: "MEDICAL RECORD",
+        signOut: "Sign out",
+        changePassword: "Change password",
 
         //notfall
         allergies: "ALLERGIES",
@@ -52,11 +53,12 @@ i18n.use(initReactI18next).init({
       translation: {
         //all termin
         add: "Hinzufügen",
-        login:"ANMELDUNG",
+        login: "ANMELDUNG",
         addMore: "Mehr hinzufügen",
         contact: "Kontakt",
         done: "Speichern",
         document: "Berichte",
+        deleteProfile: "Profil löschen",
         editProfile: "Bearbeiten",
         emergency: "Notfall",
         medicall: "akte",
@@ -64,6 +66,8 @@ i18n.use(initReactI18next).init({
         profile: "Profil",
         photo: "Bilder ",
         medicalRecord: "PATIENTENAKTE",
+        signOut: "Austragen",
+        changePassword: "Kennwort ändern",
 
         //notfall
         allergies: "ALLERGIE",

@@ -1,6 +1,10 @@
 import API from "../../Api";
 import { ActionGroupPut } from "../Interface/redux-image/action/Action";
 import { IInfoList } from "../Interface/redux-image/types/Types";
+import {
+  ActionError,
+  ActionErrorMessenger,
+} from "../Ui/popups/redux/action/Action";
 
 interface IHandlePutFilesProps {
   text: string;
@@ -102,9 +106,10 @@ export const handlePutFiles = async ({
       .catch((e) => {
         setText("");
         setLoader(false);
+        ActionError(true);
         ActionAllGroups();
-        alert(`${e} Error`);
         setPdfIncludes(false);
+        ActionErrorMessenger(e);
       });
   } else {
     ActionGroupPut(idFile, group.id, {
