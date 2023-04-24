@@ -191,18 +191,20 @@ export default function GeustMode() {
             ) : (
               <Box>
                 <Input
+                className="input-guest"
                   placeholder="Your name"
                   textAlign="center"
-                  color="#7C7575"
+                  color="#fff"
                   fontSize="15px"
                   fontWeight="200"
-                  textColor="#7C7575"
+                  textColor="#fff"
                   rounded="4px"
                   boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                   h="50px"
                   bg="#303030"
                   type="email"
                   mb="8px"
+                  
                   border={validate.name ? "1px solid red" : "1px solid #303030"}
                   onChange={(e) =>
                     setDataPost({ ...dataPost, name: e.target.value })

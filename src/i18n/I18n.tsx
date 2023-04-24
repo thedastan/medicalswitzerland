@@ -29,7 +29,7 @@ i18n.use(initReactI18next).init({
         allergies: "ALLERGIES",
         dateOfBrith: "DATE OF BIRTH",
         emergencyContact: "EMERGENCY CONTACT",
-        fritName: "FRIST NAME",
+        firstName: "FRIST NAME",
         lastName: "LAST NAME",
         importTantInfo: "IMPORTTANT INFORMATION / OR MEDICATIONS",
 
@@ -41,11 +41,12 @@ i18n.use(initReactI18next).init({
         location: "LOCATION",
 
         //guest
-        guestLogin: "Guest Login",
+        guestLogin: "Activate Guest Login",
         yourName: "Your name",
         enterEmail: "Enter email",
         desc: "Enter the password we sent to your email adress ",
         next: "Next",
+        register:"Register"
       },
     },
     de: {
@@ -69,7 +70,7 @@ i18n.use(initReactI18next).init({
         allergies: "ALLERGIE",
         dateOfBrith: "GEBURTSDATUM",
         emergencyContact: "NOTFALLKONTAKT",
-        fritName: "VORNAME",
+        firstName: "VORNAME",
         lastName: "NACHNAME",
         importTantInfo: "BESONDERHEITEN",
 
@@ -81,11 +82,12 @@ i18n.use(initReactI18next).init({
         location: "LOCATION",
 
         //guest
-        guestLogin: "Gast-Login",
+        guestLogin: "Gast-Login aktivieren",
         yourName: "Ihren Namen",
         enterEmail: "Email eingeben",
         desc: "Geben Sie das Passwort ein, das wir an Ihre E-Mail-Adresse gesendet haben",
         next: "nächste",
+        register:"Registrieren"
       },
     },
   },

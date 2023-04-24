@@ -666,20 +666,20 @@ export default function PopupMediaFile() {
                         fontFamily="inter"
                         textAlign="center"
                       >
-                        Gast Login aktivieren
+                         <Trans>guestLogin</Trans>
                       </Text>
                       {user.guest_mode ? (
                         <Switch
                           isChecked
                           onChange={activeGuestMode}
                           rounded="12px"
-                          colorScheme="orange"
+                          colorScheme="blue"
                           boxShadow="0px 10px 10px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
                         />
                       ) : (
                         <Switch
                           rounded="12px"
-                          colorScheme="orange"
+                          colorScheme="blue"
                           onChange={activeGuestMode}
                           boxShadow="0px 10px 10px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
                         />

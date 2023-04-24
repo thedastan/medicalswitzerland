@@ -16,6 +16,9 @@ $transitionTime: "1" ".5", "2" ".7", "3" "1", "4" "1.2", "5" "1.5";
   }
 }
 
+.popupMessage .input-guest::placeholder div {
+  color: #fff;
+}
 .popupMessage {
   transform: translateX(150vw);
   transition: all 0.55s;
