@@ -909,7 +909,7 @@ export default function PopupMediaFile() {
                         style={{ width: "100%", height: "448px" }}
                       />
                     )}
-                    <Box bg="#141414">
+                    <Box bg="#141414" mt="20px">
                       {!filesId && (
                         <Input
                           defaultValue={title}
