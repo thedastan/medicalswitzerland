@@ -9,6 +9,7 @@ import ActionsFile from "../Components/Interface/redux-image/action/Index";
 import ActionsModal from "../Components/Interface/popup/redux-for-modal/action/Index";
 import ActionsMessage from "../Components/Ui/popups/redux/action/Index";
 import ActionGuest from "../Components/GuestMode/redux/action/Index";
+import ActionsError from "../Containers/errors/redux/action/Index";
 
 export const useActionsUser = () => {
   const dispatch = useDispatch();
@@ -38,4 +39,9 @@ export const useActionsForMessage = () => {
 export const useActionsGuest = () => {
   const dispatch = useDispatch();
   return bindActionCreators(ActionGuest, dispatch);
+};
+
+export const useActionsErrors = () => {
+  const dispatch = useDispatch();
+  return bindActionCreators(ActionsError, dispatch);
 };
