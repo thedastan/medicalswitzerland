@@ -43,14 +43,14 @@ input::-webkit-input-placeholder {
 .textarea--notfall {
     text-align: start;
     width: 100%;
-    min-height: 62px;
     background-color: rgb(0, 0, 0);
     color: white;
     font-size: 14px;
-    line-height: 16.94px;
+    line-height: 25px;
     font-weight: 400;
     font-family: 'Inter', sans-serif;
     resize: none;
+
 }
 
 .textarea--notfall.active {

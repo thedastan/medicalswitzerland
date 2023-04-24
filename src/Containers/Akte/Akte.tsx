@@ -10,7 +10,7 @@ import { Trans, useTranslation } from "react-i18next";
 import SvgDot from "../../assets/svg/SvgDot";
 import Card from "../../Components/Ui/Card/Card";
 import MyButton from "../../Components/Ui/Button/Button";
-import API from "../../Api";
+import API, { API_ADDRESS } from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
@@ -30,6 +30,7 @@ import {
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import { tokenVerification } from "../../Components/Helpers/action";
+import axios from "axios";
 
 interface IGroupType {
   id: string;
@@ -57,6 +58,7 @@ export default function Akte() {
     ActionGroups,
     ActionGroup,
     ActionGroupsForAkte,
+    ActionGroupsForGuest,
     ActionGroupPut,
   } = useActionsFile();
 
@@ -81,6 +83,8 @@ export default function Akte() {
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
+
+  const guest_id = sessionStorage.getItem("guestId") as string;
 
   const dots: any[] = [];
 
@@ -240,6 +244,22 @@ export default function Akte() {
     setText("");
   };
 
+  const handleViewImage = (id: string) => {
+    let idGroup = sessionStorage.getItem(`${id}`);
+
+    Number(idGroup) === Number(id)
+      ? console.log("Block")
+      : axios.post(`${API_ADDRESS}groups/${id}/view/?g_id=${guest_id}`);
+
+    setTimeout(() => {
+      sessionStorage.setItem(`${id}`, id);
+    }, 500);
+
+    setTimeout(() => {
+      sessionStorage.removeItem(`${idGroup}`);
+    }, 60 * 60 * 1000);
+  };
+
   useEffect(() => {
     ActionGetUser(id);
   }, []);
@@ -257,6 +277,10 @@ export default function Akte() {
 
   useEffect(() => {
     tokenVerification(setValidToken);
+  }, []);
+
+  useEffect(() => {
+    ActionGroupsForGuest(window.location.pathname.slice(6), guest_id);
   }, []);
 
   if (loading) {
@@ -307,19 +331,21 @@ export default function Akte() {
           borderBottom="1px solid #454545"
           mb="29px"
         >
-          <MyButton
-            typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
-            fontFamily="commissioner"
-            marginRight="16px"
-            color={!bearbeitenAkte ? "black" : "white"}
-            onClick={() =>
-              !bearbeitenAkte
-                ? console.log("beiten")
-                : ActionBearbeitenAkte(!bearbeitenAkte)
-            }
-          >
-            {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
-          </MyButton>
+          {validToken && (
+            <MyButton
+              typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
+              fontFamily="commissioner"
+              marginRight="16px"
+              color={!bearbeitenAkte ? "black" : "white"}
+              onClick={() =>
+                !bearbeitenAkte
+                  ? console.log("beiten")
+                  : ActionBearbeitenAkte(!bearbeitenAkte)
+              }
+            >
+              {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
+            </MyButton>
+          )}
         </Box>
 
         <Box px="12px">
@@ -328,10 +354,10 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="14px"
                   fontWeight="700"
                   fontFamily="inter"
-                  mb="3px"
+                  mb="10px"
                 >
                   <Trans>fristName</Trans>
                 </Text>
@@ -354,10 +380,10 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="14px"
                   fontWeight="700"
                   fontFamily="inter"
-                  mb="3px"
+                  mb="10px"
                 >
                   <Trans>lastName</Trans>
                 </Text>
@@ -381,10 +407,10 @@ export default function Akte() {
               <Box borderBottom="1px solid #454545" marginBottom="29px">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="14px"
                   fontWeight="700"
                   fontFamily="inter"
-                  mb="3px"
+                  mb="10px"
                   textAlign="center"
                 >
                   NAME
@@ -407,10 +433,10 @@ export default function Akte() {
           <Box>
             <Text
               color="gray"
-              fontSize="10px"
+              fontSize="14px"
               fontWeight="700"
               fontFamily="inter"
-              mb="3px"
+              mb="10px"
               textAlign="center"
             >
               <Trans>dateOfBrith</Trans>
@@ -442,7 +468,7 @@ export default function Akte() {
             >
               <Text
                 color="gray"
-                fontSize="10px"
+                fontSize="14px"
                 fontWeight="700"
                 fontFamily="inter"
                 mb="15px"
@@ -486,7 +512,7 @@ export default function Akte() {
                                 position="absolute"
                                 display="flex"
                                 w="30px"
-                                h="10px"
+                                h="14px"
                                 px="0"
                                 ml="auto"
                                 top="17px"
@@ -572,6 +598,12 @@ export default function Akte() {
                               </Box>
                             )}
                             <Card key={index} el={item} />
+                            <Box
+                              onClick={() => handleViewImage(el.id)}
+                              mb="7px"
+                            >
+                              <Card key={index} el={item} />
+                            </Box>
                           </Box>
                           <Box
                             bg={
@@ -582,7 +614,7 @@ export default function Akte() {
                             rounded="5px"
                             px="4px"
                             mb="7px"
-                            mt="7px"
+                            mt="14px"
                           >
                             <Input
                               borderBottom="1px solid #343434"
@@ -646,101 +678,103 @@ export default function Akte() {
                           )}
                         </Box>
                       ))}
-                      <Box mx="auto">
-                        <Box
-                          bg="#262626"
-                          h="448px"
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                        >
-                          <SvgBluePluse />
-                        </Box>
-                        <Box
-                          bg="#141414"
-                          rounded="5px"
-                          px="4px"
-                          mb="7px"
-                          mt="7px"
-                        >
-                          <Input
-                            borderBottom="1px solid #343434"
-                            borderRight="transparent"
-                            borderLeft="transparent"
-                            borderTop="transparent"
-                            defaultValue={title}
-                            placeholder="Titel"
-                            fontFamily="inter"
-                            textColor="white"
-                            bg="transparent"
-                            fontWeight="700"
-                            fontSize="15px"
-                            outline="black"
-                            rounded="0px"
-                            name="text"
-                            w="100%"
-                            mb="5px"
-                            h="37px"
-                            pl="10px"
-                            onChange={(e) => setTitle(e.target.value)}
-                          />
-                          <Input
-                            placeholder="Beschreibung"
-                            borderColor="transparent"
-                            defaultValue={text}
-                            fontFamily="inter"
-                            textColor="white"
-                            bg="transparent"
-                            fontWeight="300"
-                            fontSize="15px"
-                            outline="black"
-                            rounded="0px"
-                            name="text"
-                            pl="10px"
-                            w="100%"
-                            mb="7px"
-                            h="37px"
-                            onChange={(e) => setText(e.target.value)}
-                          />
-                        </Box>
-                        {deleteImg && (
-                          <Box display="flex" w="100%">
-                            <Button
-                              color="black"
-                              fontSize="13px"
-                              fontWeight="700"
-                              fontFamily="inter"
-                              bg="white"
-                              w="50%"
-                              h="35px"
-                              ml="2px"
-                              rounded="7px"
-                              onClick={() => {
-                                ActionFilesId("");
-                                ActionActiveSubtrac(true);
-                                ActionActiveProfile(false);
-                                ActionActiveModalMedia(true);
-                              }}
-                            >
-                              <Trans>addMore</Trans>
-                            </Button>
-                            <Button
-                              color="white"
-                              fontSize="13px"
-                              fontWeight="700"
-                              fontFamily="inter"
-                              bg="#0B6CFF"
-                              w="50%"
-                              h="35px"
-                              ml="2px"
-                              rounded="7px"
-                              onClick={() => handlePutFile()}
-                            >
-                              <Trans>done</Trans>
-                            </Button>
+                      {validToken && (
+                        <Box mx="auto">
+                          <Box
+                            bg="#262626"
+                            h="448px"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                          >
+                            <SvgBluePluse />
                           </Box>
-                        )}
-                      </Box>
+                          <Box
+                            bg="#141414"
+                            rounded="5px"
+                            px="4px"
+                            mb="7px"
+                            mt="7px"
+                          >
+                            <Input
+                              borderBottom="1px solid #343434"
+                              borderRight="transparent"
+                              borderLeft="transparent"
+                              borderTop="transparent"
+                              defaultValue={title}
+                              placeholder="Titel"
+                              fontFamily="inter"
+                              textColor="white"
+                              bg="transparent"
+                              fontWeight="700"
+                              fontSize="15px"
+                              outline="black"
+                              rounded="0px"
+                              name="text"
+                              w="100%"
+                              mb="5px"
+                              h="37px"
+                              pl="10px"
+                              onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <Input
+                              placeholder="Beschreibung"
+                              borderColor="transparent"
+                              defaultValue={text}
+                              fontFamily="inter"
+                              textColor="white"
+                              bg="transparent"
+                              fontWeight="300"
+                              fontSize="15px"
+                              outline="black"
+                              rounded="0px"
+                              name="text"
+                              pl="10px"
+                              w="100%"
+                              mb="7px"
+                              h="37px"
+                              onChange={(e) => setText(e.target.value)}
+                            />
+                          </Box>
+                          {deleteImg && (
+                            <Box display="flex" w="100%">
+                              <Button
+                                color="black"
+                                fontSize="13px"
+                                fontWeight="700"
+                                fontFamily="inter"
+                                bg="white"
+                                w="50%"
+                                h="35px"
+                                ml="2px"
+                                rounded="7px"
+                                onClick={() => {
+                                  ActionFilesId("");
+                                  ActionActiveSubtrac(true);
+                                  ActionActiveProfile(false);
+                                  ActionActiveModalMedia(true);
+                                }}
+                              >
+                                <Trans>addMore</Trans>
+                              </Button>
+                              <Button
+                                color="white"
+                                fontSize="13px"
+                                fontWeight="700"
+                                fontFamily="inter"
+                                bg="#0B6CFF"
+                                w="100%"
+                                h="35px"
+                                ml="2px"
+                                rounded="7px"
+                                onClick={() => handlePutFile()}
+                              >
+                                <Trans>done</Trans>
+                              </Button>
+                            </Box>
+                          )}
+                        </Box>
+                      )}
                     </Slider>
                   </Box>
                 </Box>

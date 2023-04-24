@@ -9,7 +9,7 @@ import Slider from "react-slick";
 import Card from "../../Components/Ui/Card/Card";
 import MyButton from "../../Components/Ui/Button/Button";
 import SvgDot from "../../assets/svg/SvgDot";
-import API from "../../Api";
+import API, { API_ADDRESS } from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
@@ -29,6 +29,7 @@ import PopupForMessage from "../../Components/Ui/popups/PopupForMessage";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import { tokenVerification } from "../../Components/Helpers/action";
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
+import axios from "axios";
 
 interface IGroupsTypes {
   id: string;
@@ -67,6 +68,8 @@ export default function Notfall() {
   const { loading: loaderForile, group } = useAppSelector(
     (state) => state.filesReducer
   );
+
+  const guest_id = sessionStorage.getItem("guestId") as string;
 
   const { id } = useParams<string>();
   const [idFile, setIdFile] = useState("");
@@ -177,6 +180,22 @@ export default function Notfall() {
     setText("");
   };
 
+  const handleViewImage = (id: string) => {
+    let idGroup = sessionStorage.getItem(`${id}`);
+
+    Number(idGroup) === Number(id)
+      ? console.log("Block")
+      : axios.post(`${API_ADDRESS}groups/${id}/view/?g_id=${guest_id}`);
+
+    setTimeout(() => {
+      sessionStorage.setItem(`${id}`, id);
+    }, 500);
+
+    setTimeout(() => {
+      sessionStorage.removeItem(`${idGroup}`);
+    }, 60 * 60 * 1000);
+  };
+
   const listInput = [
     {
       item: "emergencyContact",
@@ -275,12 +294,12 @@ export default function Notfall() {
                 <Box w="50%">
                   <Text
                     color="gray"
-                    fontSize="10px"
+                    fontSize="14px"
                     fontWeight="700"
                     fontFamily="inter"
                     mb="3px"
                   >
-                    <Trans>fristName</Trans>
+                    <Trans>firstName</Trans>
                   </Text>
                   <textarea
                     onChange={(e) =>
@@ -563,6 +582,11 @@ export default function Notfall() {
                                 </Box>
                               )}
                               <Box w="100%">
+                                w="100%"
+                                mb="7px"
+                                onClick={() => handleViewImage(el.id)}
+                              >
+
                                 <Card key={index} el={item} />
                               </Box>
                             </Box>
@@ -575,7 +599,7 @@ export default function Notfall() {
                               rounded="5px"
                               px="4px"
                               mb="7px"
-                              mt="7px"
+                              mt="14px"
                             >
                               <Input
                                 borderBottom="1px solid #343434"

@@ -230,7 +230,7 @@ export default function Registration() {
                   fontFamily="inter"
                   mb="32px"
                 >
-                  ANMELDUNG
+                  <Trans>register</Trans>
                 </Text>
 
                 {loading ? (
@@ -369,7 +369,7 @@ export default function Registration() {
                         type="submit"
                         mb="48px"
                       >
-                        Registrieren
+                        <Trans>register</Trans>
                       </Button>
                     </Box>
                   </form>
@@ -390,12 +390,14 @@ export default function Registration() {
                   <Box mb="3px" w="70vw">
                     <Text
                       fontFamily="inter"
-                      fontWeight="200"
+                      fontWeight="300"
                       textColor="white"
                       textAlign="center"
                       mb="29px"
+                      fontSize="15"
+
                     >
-                      ANMELDUNG
+                      Welcome to your medicalswitzerland HealthCard 
                     </Text>
                     <Box position="relative">
                       <Input

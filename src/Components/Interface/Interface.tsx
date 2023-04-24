@@ -413,7 +413,7 @@ export default function Interface({ children }: IInterfaceProps) {
                     justifyContent="space-between"
                     mx="auto"
                     gap="2px"
-                    mt="20px"
+                    mt="30px"
                   >
                     <Button
                       textColor="white"
@@ -425,7 +425,7 @@ export default function Interface({ children }: IInterfaceProps) {
                       rounded="7px"
                       onClick={distributionFunction}
                     >
-                      {!cropData ? "Crop Avatart" : "Save Avatar"}
+                      {!cropData ? "Crop Avatar" : "Save Avatar"}
                     </Button>
                   </Box>
                 </Box>

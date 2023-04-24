@@ -46,8 +46,6 @@ export default function Tabs({ akte, notfall }: ITabs) {
   const isAkte = isActive === TabTypes.AKTE;
 
   const guest_id = sessionStorage.getItem("guestId") as string;
-  console.log(guest_id);
-  console.log(idGuest);
 
   const handleActiveAuth = () => {
     if (user.is_first_time || !validToken) {

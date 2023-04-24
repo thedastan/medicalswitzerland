@@ -1,12 +1,12 @@
 // External dependencies
 import { Box, Image } from "@chakra-ui/react";
-
+import { useState } from "react";
 import SvgPdf from "../../../assets/svg/SvgPdf";
-import { IGroupsTypes } from "../../Interface/redux-image/types/Types";
-import { API_ADDRESS } from "../../../Api";
 import SvgView from "../../../assets/svg/SvgView";
+import { API_ADDRESS } from "../../../Api";
 import "./style.css";
 import { useState } from "react";
+
 
 interface IElement {
   id: string;
@@ -25,6 +25,7 @@ export default function Card({ el }: ICardProps) {
     <Box h="auto">
       {el.file_url?.slice(-3) === "png" ? (
         <Box position="relative">
+        <Box>
           <Image
             w="100%"
             h="auto"
@@ -51,6 +52,23 @@ export default function Card({ el }: ICardProps) {
               </Box>
             </Box>
           )}
+          <Box
+            top="0"
+            left="0"
+            right="0"
+            bottom="0"
+            display="flex"
+            className={`image ${!blur && "active"}`}
+            position="absolute"
+            alignItems="center"
+            justifyContent="center"
+            bg="rgba(0, 0, 0, 0.8)"
+            onClick={() => setBlur(!blur)}
+          >
+            <Box zIndex="11">
+              <SvgView />
+            </Box>
+          </Box>
         </Box>
       ) : (
         <a
