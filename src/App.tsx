@@ -9,6 +9,7 @@ import Tabs from "./Components/Ui/Tab/Tabs";
 import Notfall from "./Containers/Notfall/Notfall";
 import WelcomePage from "./Components/WelcomePage/WelcomePage";
 import ResetPassword from "./Containers/reset/Reset";
+import NotFound from "./Containers/notFound/NotFound";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           }
         />
         <Route path="/reset/*" element={<ResetPassword />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Box>
   );

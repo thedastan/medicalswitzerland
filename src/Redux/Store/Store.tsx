@@ -10,6 +10,7 @@ import { userReducer } from "../../Components/Interface/redux/reducer/Reducer";
 import { modalReducer } from "../../Components/Interface/popup/redux-for-modal/reducer/Reducer";
 import { messageReducer } from "../../Components/Ui/popups/redux/reducer/Reducer";
 import { guestReducer } from "../../Components/GuestMode/redux/reducer/Reducer";
+import { errorsReducer } from "../../Containers/errors/redux/reducer/Reducer";
 
 const rootReducer = combineReducers({
   authReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   modalReducer,
   messageReducer,
   guestReducer,
+  errorsReducer,
 });
 
 export const setUpStore = () => {
