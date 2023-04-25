@@ -597,7 +597,6 @@ export default function Akte() {
                                 </Text>
                               </Box>
                             )}
-                            <Card key={index} el={item} />
                             <Box
                               onClick={() => handleViewImage(el.id)}
                               mb="7px"
@@ -686,6 +685,11 @@ export default function Akte() {
                             display="flex"
                             alignItems="center"
                             justifyContent="center"
+                            onClick={() => {
+                              ActionActiveModalMedia(true);
+                              ActionActiveSubtrac(true);
+                              ActionActiveProfile(false);
+                            }}
                           >
                             <SvgBluePluse />
                           </Box>

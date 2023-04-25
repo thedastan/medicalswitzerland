@@ -1,6 +1,6 @@
 /* External dependencies */
 import axios from "axios";
-import { Box, Button, Image, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Image, Text } from "@chakra-ui/react";
 import { createRef, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { Cropper, ReactCropperElement } from "react-cropper";
