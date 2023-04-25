@@ -26,6 +26,16 @@ i18n.use(initReactI18next).init({
         signOut: "Sign out",
         changePassword: "Change password",
 
+        //success-m
+        updateAvatar: "Avatar updated successfully",
+        selectedFile: "Selected file deleted successfully",
+
+        //error-m
+        wrongEmail: "you entered the wrong email",
+        filedToSend: "Failed to send data, please try again",
+        emailNotForForgotPassword: "Email not for forgot password",
+        thereIsNoSuch: "There is no such thing active account",
+
         //notfall
         allergies: "ALLERGIES",
         dateOfBrith: "DATE OF BIRTH",
@@ -35,10 +45,10 @@ i18n.use(initReactI18next).init({
         importTantInfo: "IMPORTTANT INFORMATION / OR MEDICATIONS",
 
         //akte
-        diagnosen: "DIAGNOSEN",
-        operationen: "OPERATIONEN",
-        medicamentPlan: "MEDIKAMENTEN PLAN",
-        nebenDiagnosen: "NEBENDIAGNOSEN",
+        diagnosen: "DIAGNOSES",
+        operationen: "OPERATIONS",
+        medicamentPlan: "MEDICATION PLAN",
+        nebenDiagnosen: "SECONDARY DIAGNOSIS",
         location: "LOCATION",
 
         //guest
@@ -53,6 +63,7 @@ i18n.use(initReactI18next).init({
         wellDone: "Well Done",
         descWellDone: "New password created successfully",
         sayHello: "Say Hello to your Personal HealthCard ",
+        uploadTitle: "File Successfully Uploaded",
         yourRegistration: "Your Registration was successful ",
         resetYourPasword: "Reset Your Password",
         descReset:
@@ -79,6 +90,17 @@ i18n.use(initReactI18next).init({
         signOut: "Austragen",
         changePassword: "Kennwort ändern",
 
+        //success-m
+        updateAvatar: "Avatar erfolgreich aktualisiert",
+        selectedFile: "Ausgewählte Datei erfolgreich gelöscht",
+
+        //errors-m
+        wrongEmail: "Sie haben die falsche E-Mail-Adresse eingegeben",
+        filedToSend:
+          "Daten konnten nicht gesendet werden, bitte versuchen Sie es erneut",
+        emailNotForForgotPassword: "E-Mail nicht für vergessenes Passwort",
+        thereIsNoSuch: "Es gibt kein aktives Konto",
+
         //notfall
         allergies: "ALLERGIE",
         dateOfBrith: "GEBURTSDATUM",
@@ -101,6 +123,16 @@ i18n.use(initReactI18next).init({
         desc: "Geben Sie das Passwort ein, das wir an Ihre E-Mail-Adresse gesendet haben",
         next: "nächste",
         register: "Registrieren",
+
+        //popup-m
+        wellDone: "Gut gemacht",
+        descWellDone: "Neues Passwort erfolgreich erstellt",
+        sayHello: "Begrüßen Sie Ihre Persönliche GesundheitsCard",
+        uploadTitle: "Datei erfolgreich hochgeladen",
+        yourRegistration: "Your Registration was successful ",
+        resetYourPasword: "Ihre Registrierung war erfolgreich",
+        descReset:
+          "Link zum Zurücksetzen des Passworts an Ihre registrierte E-Mail-Adresse gesendet. Bitte überprüfen Sie Ihren Posteingang oder Spam-Ordner",
       },
     },
   },

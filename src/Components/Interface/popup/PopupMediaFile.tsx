@@ -314,7 +314,7 @@ export default function PopupMediaFile() {
       })
       .catch(() => {
         ActionError(true);
-        ActionErrorMessenger("Email not for forgot password");
+        ActionErrorMessenger("emailNotForForgotPassword");
       });
   };
 

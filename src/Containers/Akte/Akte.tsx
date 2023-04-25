@@ -614,7 +614,7 @@ export default function Akte() {
                             rounded="5px"
                             px="4px"
                             mb="7px"
-                            mt="7px"
+                            mt="25px"
                           >
                             <Input
                               borderBottom="1px solid #343434"
