@@ -475,7 +475,7 @@ export default function Registration() {
                       </Box>
                     </Box>
                     <Text
-                      w="50%"
+                      w="65%"
                       ml="auto"
                       fontWeight="500"
                       mt="5px"
