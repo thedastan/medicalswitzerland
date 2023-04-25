@@ -298,7 +298,7 @@ export default function Notfall() {
                 <Box w="100%">
                   <Text
                     color="gray"
-                    fontSize="12px"
+                    fontSize="14px"
                     fontWeight="700"
                     fontFamily="inter"
                     mb="3px"
@@ -328,7 +328,7 @@ export default function Notfall() {
               <Box gap="7px" w="100% ">
                 <Text
                   color="gray"
-                  fontSize="12px"
+                  fontSize="14px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -376,7 +376,7 @@ export default function Notfall() {
             ))}
             <Text
               color="gray"
-              fontSize="12px"
+              fontSize="14px"
               fontWeight="700"
               fontFamily="inter"
               mb="3px"
