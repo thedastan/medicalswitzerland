@@ -5,41 +5,56 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* Local dependencies */
-import SvgClose from "../../../assets/svg/SvgClose";
-import { useActionsUser } from "../../../Hooks/useActions";
-import API from "../../../Api";
+import SvgClose from "../../../../assets/svg/SvgClose";
+import {
+  useActionsFile,
+  useActionsForMessage,
+  useActionsUser,
+} from "../../../../Hooks/useActions";
+import API from "../../../../Api";
 import "./style.scss";
+import { IInfoList } from "../../../Interface/redux-image/types/Types";
+import { useAppSelector } from "../../../../Hooks/Hooks";
 
 interface IPopupProps {
-  signOut?: boolean;
+  id: string;
   modal: boolean;
   setModal: (value: boolean) => void;
+  idInfo?: string;
 }
 
-export default function Popup({ signOut, modal, setModal }: IPopupProps) {
-  const { ActionGetUser } = useActionsUser();
+export default function PopupForCard({
+  modal,
+  setModal,
+  idInfo,
+  id,
+}: IPopupProps) {
+  const { ActionAllGroups } = useActionsFile();
+  const {
+    ActionError,
+    ActionErrorMessenger,
+    ActionSuccess,
+    ActionSuccessMessenger,
+  } = useActionsForMessage();
+
   const [success, setSuccess] = useState(false);
 
-  const destroyUser = async () => {
-    try {
-      const response = await API.delete("/users/destroy/");
-
-      ActionGetUser(window.location.pathname.slice(6));
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("accessToken");
-      window.location.reload();
-      setSuccess(true);
-    } catch (e) {
-      setSuccess(false);
-    }
-  };
-
-  const signOutFn = async () => {
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("accessToken");
-    window.location.reload();
-    setSuccess(true);
-  };
+  function deletedImage() {
+    API.delete(`groups/${id}/info/${idInfo}/`)
+      .then(() => {
+        ActionAllGroups();
+        setModal(false);
+        ActionSuccess(true);
+        ActionSuccessMessenger({
+          title: "Selected file deleted successfully",
+          desc: "",
+        });
+      })
+      .catch((e) => {
+        ActionError(true);
+        ActionErrorMessenger(e);
+      });
+  }
 
   return (
     <AnimatePresence>
@@ -122,9 +137,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                       textAlign="center"
                       color="white"
                     >
-                      {signOut
-                        ? "Are you sure you want to get out of your profile?"
-                        : "Do you want to delete your medicalswitzerland Profil ?"}
+                      Are you sure you want to delete ?
                     </Text>
                     <Box>
                       <Button
@@ -136,7 +149,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                         fontSize="10px"
                         color="white"
                         _focus={{ bg: "#202020" }}
-                        onClick={() => (signOut ? signOutFn() : destroyUser())}
+                        onClick={() => deletedImage()}
                       >
                         YES
                       </Button>

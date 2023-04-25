@@ -46,8 +46,13 @@ export default function Registration() {
 
   const { ActionGetUser } = useActionsUser();
   const { LoginPost, ActiveModalRegistration } = useActionsAuth();
-  const { ActionReset, ActionError, ActionErrorMessenger } =
-    useActionsForMessage();
+  const {
+    ActionReset,
+    ActionError,
+    ActionSuccess,
+    ActionErrorMessenger,
+    ActionSuccessMessenger,
+  } = useActionsForMessage();
   const { loading, loginLoder } = useAppSelector((state) => state.authReducer);
   const { user } = useAppSelector((state) => state.userReducer);
 
@@ -143,6 +148,11 @@ export default function Registration() {
         location: "",
         full_name: "",
       });
+      ActionSuccess(true);
+      ActionSuccessMessenger({
+        title: "Say Hello to your Personal HealthCard",
+        desc: "Your Registration was successful ",
+      });
       ActiveModalRegistration(false);
       ActionGetUser(window.location.pathname.slice(6));
     }
@@ -212,17 +222,19 @@ export default function Registration() {
         >
           <Box bg="#272727" h="auto" rounded="12px" zIndex="6">
             <Box
+              px="30px"
               w="17px"
               h="17px"
               ml="auto"
               pr="25px"
               pt="4px"
               cursor="pointer"
+              mb="10px"
               onClick={() => ActiveModalRegistration(false)}
             >
               <SvgClose />
             </Box>
-            {user.is_first_time ? (
+            {!user.is_first_time ? (
               <>
                 <Text
                   color="white"
@@ -231,13 +243,13 @@ export default function Registration() {
                   textAlign="center"
                   fontFamily="inter"
                   mb="32px"
-                  px="32px"
+                  px="42px"
                 >
                   Welcome to your medicalswitzerland HealthCard
                   {/* <Trans>register</Trans> */}
                 </Text>
 
-                <Image src={ImageForm} maxW="344px" mb="30px" />
+                <Image src={ImageForm} maxW="344px" mb="30px" h="auto" />
 
                 {loading ? (
                   <Text>Loading...</Text>
@@ -393,7 +405,7 @@ export default function Registration() {
                     Loading...
                   </Text>
                 ) : (
-                  <Box mb="3px" w="70vw">
+                  <Box mb="3px" w="70vw" px="30px">
                     <Text
                       fontFamily="inter"
                       fontWeight="300"

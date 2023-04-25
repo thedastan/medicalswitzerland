@@ -31,6 +31,8 @@ import SvgBluePluse from "../../assets/svg/SvgBluePlus";
 import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import { tokenVerification } from "../../Components/Helpers/action";
 import axios from "axios";
+import PopupForCard from "../../Components/Ui/Card/popyp/PopupForCard";
+import PopupForMessage from "../../Components/Ui/popups/PopupForMessage";
 
 interface IGroupType {
   id: string;
@@ -51,7 +53,6 @@ export default function Akte() {
   } = useActionsForModal();
   const { ActionGetUser, ActionPutUser, ActionBearbeitenAkte } =
     useActionsUser();
-  const { ActionError, ActionErrorMessenger } = useActionsForMessage();
   const {
     ActionAllGroups,
     ActionAllGroupsPut,
@@ -79,6 +80,7 @@ export default function Akte() {
   const [deleteImg, setDeleteImg] = useState(false);
   const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [validToken, setValidToken] = useState(false);
+  const [popup, setPopup] = useState(false);
 
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
@@ -158,20 +160,12 @@ export default function Akte() {
   }
 
   function deletedImage(data: IGroupType, idInfo?: string) {
-    API.delete(`groups/${data?.id}/info/${idInfo}/`)
-      .then(() => {
-        ActionGetUser(id);
-        ActionAllGroups();
-        ActionGroups(data?.id);
-      })
-      .catch((e) => {
-        ActionError(true);
-        ActionErrorMessenger(e);
-      });
+    setPopup(true);
+    setIdFile(idInfo ? idInfo : "");
+    setIdFiles(data.id);
   }
 
   function handleClickPut() {
-    alert("POST");
     ActionBearbeitenAkte(!bearbeitenAkte);
     ActionPutUser(window.location.pathname.slice(6), {
       allergies: dataPost.allergies || user.allergies,
@@ -788,6 +782,13 @@ export default function Akte() {
           </Box>
         )}
       </Box>
+      <PopupForCard
+        id={idFiles}
+        modal={popup}
+        setModal={setPopup}
+        idInfo={idFile}
+      />
+      <PopupForMessage />
     </Fragment>
   );
 }
