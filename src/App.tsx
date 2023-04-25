@@ -1,6 +1,7 @@
 /* External dependencies */
 import { Box } from "@chakra-ui/layout";
 import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
 
 /* Local dependencies */
 import Akte from "./Containers/Akte/Akte";
@@ -10,8 +11,17 @@ import Notfall from "./Containers/Notfall/Notfall";
 import WelcomePage from "./Components/WelcomePage/WelcomePage";
 import ResetPassword from "./Containers/reset/Reset";
 import NotFound from "./Containers/notFound/NotFound";
+import i18n from "./i18n/I18n";
 
 function App() {
+  const language = localStorage.getItem("language");
+
+  useEffect(() => {
+    if (language) {
+      i18n.changeLanguage(language);
+    }
+    console.log("DE");
+  }, []);
   return (
     <Box bg="black" pos="relative">
       <WelcomePage />

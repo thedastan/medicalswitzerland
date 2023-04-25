@@ -88,6 +88,7 @@ export default function Akte() {
   const [groupId, setGroupId] = useState("");
 
   const guest_id = sessionStorage.getItem("guestId") as string;
+  let idGroup: any;
 
   const dots: any[] = [];
 
@@ -241,11 +242,13 @@ export default function Akte() {
   };
 
   const handleViewImage = (id: string) => {
-    let idGroup = sessionStorage.getItem(`${id}`);
+    if (user.guest_mode && !validToken) {
+      idGroup = sessionStorage.getItem(`${id}`);
 
-    Number(idGroup) === Number(id)
-      ? console.log("Block")
-      : axios.post(`${API_ADDRESS}groups/${id}/view/?g_id=${guest_id}`);
+      Number(idGroup) === Number(id)
+        ? console.log("Block")
+        : axios.post(`${API_ADDRESS}groups/${id}/view/?g_id=${guest_id}`);
+    }
 
     setTimeout(() => {
       sessionStorage.setItem(`${id}`, id);
@@ -255,6 +258,14 @@ export default function Akte() {
       sessionStorage.removeItem(`${idGroup}`);
     }, 60 * 60 * 1000);
   };
+
+  useEffect(() => {
+    if (idGroup) {
+      setTimeout(() => {
+        sessionStorage.removeItem(`${idGroup}`);
+      }, 60 * 60 * 1000);
+    }
+  });
 
   useEffect(() => {
     ActionGetUser(id);
@@ -328,24 +339,22 @@ export default function Akte() {
           borderBottom="1px solid #454545"
           mb="29px"
         >
-
+          {validToken && (
             <MyButton
-                   color="white"
-                   fontSize="13px"
-                   fontFamily="inter"
-                   bg="#0B6CFF"
-                   w="100%"
-                   h="35px"
-                   ml="2px"
-                   rounded="7px"
-                  onClick={() =>
-              !bearbeitenAkte
-                ? console.log("beiten")
-                : ActionBearbeitenAkte(!bearbeitenAkte)
-            }
-          >
-            {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
-           </MyButton>
+              typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
+              fontFamily="commissioner"
+              marginRight="16px"
+              color={!bearbeitenAkte ? "black" : "white"}
+              onClick={() =>
+                !bearbeitenAkte
+                  ? console.log("beiten")
+                  : ActionBearbeitenAkte(!bearbeitenAkte)
+              }
+            >
+              {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
+            </MyButton>
+          )}
+
         </Box>
 
         <Box px="12px">
