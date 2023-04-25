@@ -38,7 +38,12 @@ export default function Interface({ children }: IInterfaceProps) {
   const { t } = useTranslation();
 
   const { ActionGetUser, ActionPutUser } = useActionsUser();
-  const { ActionError, ActionErrorMessenger } = useActionsForMessage();
+  const {
+    ActionError,
+    ActionErrorMessenger,
+    ActionSuccess,
+    ActionSuccessMessenger,
+  } = useActionsForMessage();
   const {
     ActionActiveSubtrac,
     ActionActiveProfile,
@@ -115,7 +120,26 @@ export default function Interface({ children }: IInterfaceProps) {
     await API.post("users/upload/", formData)
       .then(({ data }) => {
         if (data) {
-          ActionPutUser(window.location.pathname.slice(6), {
+          // ActionPutUser(window.location.pathname.slice(6), {
+          //   allergies: user.allergies,
+          //   allergies_text: user.allergies_text,
+          //   avatar: data?.path.slice(6) || user.avatar,
+          //   birth_date: user.birth_date || null,
+          //   card_id: user.card_id,
+          //   contact: user.contact || "",
+          //   email: user.email,
+          //   emergency_contact: user.emergency_contact || "",
+          //   location: user.location || "",
+          //   medications: user.medications,
+          //   operation: user.operation,
+          //   particularities: user.particularities,
+          //   profession: user.profession,
+          //   username: user.username || "",
+          //   full_name: user.full_name || "",
+          //   why_diagnose: user.why_diagnose,
+          //   guest_mode: false,
+          // });
+          API.put(`users/`, {
             allergies: user.allergies,
             allergies_text: user.allergies_text,
             avatar: data?.path.slice(6) || user.avatar,
@@ -133,10 +157,21 @@ export default function Interface({ children }: IInterfaceProps) {
             full_name: user.full_name || "",
             why_diagnose: user.why_diagnose,
             guest_mode: false,
-          });
-          setImageFile("");
-          setCropData("");
-          ActionGetUser(id);
+          })
+            .then(() => {
+              setImageFile("");
+              setCropData("");
+              ActionGetUser(id);
+              ActionSuccess(true);
+              ActionSuccessMessenger({
+                title: "Avatar updated successfully",
+                desc: "",
+              });
+            })
+            .catch(() => {
+              ActionError(true);
+              ActionErrorMessenger("Failed to send data, please try again");
+            });
         }
       })
       .catch((e) => {

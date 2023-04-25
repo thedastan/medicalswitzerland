@@ -30,6 +30,7 @@ import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import { tokenVerification } from "../../Components/Helpers/action";
 import SvgBluePluse from "../../assets/svg/SvgBluePlus";
 import axios from "axios";
+import PopupForCard from "../../Components/Ui/Card/popyp/PopupForCard";
 
 interface IGroupsTypes {
   id: string;
@@ -82,6 +83,7 @@ export default function Notfall() {
   const [validToken, setValidToken] = useState(false);
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [groupId, setGroupId] = useState("");
+  const [popup, setPopup] = useState(false);
 
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
@@ -107,16 +109,10 @@ export default function Notfall() {
     });
   }
 
-  function deletedImage(data?: IGroupsTypes, idInfo?: string) {
-    API.delete(`groups/${data?.id}/info/${idInfo}/`)
-      .then(() => {
-        ActionGetUser(id);
-        ActionAllGroups();
-      })
-      .catch((e) => {
-        ActionError(true);
-        ActionErrorMessenger(e);
-      });
+  function deletedImage(data: IGroupsTypes, idInfo?: string) {
+    setPopup(true);
+    setIdFile(idInfo ? idInfo : "");
+    setIdFiles(data.id);
   }
 
   async function handleClickPut() {
@@ -271,7 +267,13 @@ export default function Notfall() {
 
   return (
     <Fragment>
-      <Box pos="relative">
+      <PopupForCard
+        id={idFiles}
+        modal={popup}
+        setModal={setPopup}
+        idInfo={idFile}
+      />
+      <Box>
         <Box display="flex" justifyContent="end">
           {validToken && (
             <MyButton

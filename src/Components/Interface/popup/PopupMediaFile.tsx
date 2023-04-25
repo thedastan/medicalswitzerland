@@ -42,9 +42,9 @@ export default function PopupMediaFile() {
 
   //Actions
   const dispatch = useAppDispatch();
-  const { ActionActiveModalMedia, ActionFilesId } = useActionsForModal();
   const { ActionUpload, ActionError, ActionErrorMessenger, ActionReset } =
     useActionsForMessage();
+  const { ActionActiveModalMedia, ActionFilesId } = useActionsForModal();
   const { ActionAllGroups } = useActionsFile();
   const { ActionPutUser } = useActionsUser();
 
@@ -78,6 +78,7 @@ export default function PopupMediaFile() {
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState("");
   const [filePdf, setFilePdf] = useState<any>();
+  const [signOut, setSignOut] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
   const [pdfIncludes, setPdfIncludes] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -86,6 +87,7 @@ export default function PopupMediaFile() {
   const handleClickForDeleteProfile = async () => {
     if (getAccessToken()) {
       setOpenPopup(true);
+      setSignOut(false);
       ActionActiveModalMedia(false);
     }
   };
@@ -99,7 +101,6 @@ export default function PopupMediaFile() {
     } else if (!text.length) {
       setTextValidate(true);
     } else {
-      alert("No");
       if (typeof cropperRef.current?.cropper !== "undefined") {
         setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
         setValidate(true);
@@ -107,7 +108,6 @@ export default function PopupMediaFile() {
     }
 
     if (filesId) {
-      alert(`id: ${filesId}`);
       if (typeof cropperRef.current?.cropper !== "undefined") {
         setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
         setRenderMore(true);
@@ -658,9 +658,9 @@ export default function PopupMediaFile() {
                     bg="#1F1F1F"
                     textAlign="center"
                     onClick={() => {
-                      localStorage.removeItem("refreshToken");
-                      localStorage.removeItem("accessToken");
-                      window.location.reload();
+                      ActionActiveModalMedia(false);
+                      setOpenPopup(true);
+                      setSignOut(true);
                     }}
                   >
                     <Box
@@ -851,7 +851,7 @@ export default function PopupMediaFile() {
           </motion.div>
         </>
       )}
-      <Popup modal={openPopup} setModal={setOpenPopup} />
+      <Popup modal={openPopup} setModal={setOpenPopup} signOut={signOut} />
       {imageFile && (
         <Box
           pos="fixed"
