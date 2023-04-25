@@ -1,17 +1,18 @@
 /* External dependencies */
+import axios from "axios";
 import { Box, Text } from "@chakra-ui/layout";
 import { Input } from "@chakra-ui/input";
 import { Button } from "@chakra-ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { Trans, useTranslation } from "react-i18next";
 
 /* Local dependencies */
 import SvgEyePassword from "../../assets/svg/SvgEyePassword";
 import SvgClose from "../../assets/svg/SvgClose";
 import SvgEye from "../../assets/svg/SvgEye";
+import ImageForm from "../../assets/Image/authImage.png";
 import "./style.scss";
 
 import { useAppSelector } from "../../Hooks/Hooks";
@@ -21,6 +22,7 @@ import {
   useActionsUser,
 } from "../../Hooks/useActions";
 import API, { API_ADDRESS } from "../../Api";
+import { Image } from "@chakra-ui/react";
 
 interface IAuthPostData {
   email: string;
@@ -225,13 +227,17 @@ export default function Registration() {
                 <Text
                   color="white"
                   fontSize="15px"
-                  fontWeight="200"
+                  fontWeight="400"
                   textAlign="center"
                   fontFamily="inter"
                   mb="32px"
+                  px="32px"
                 >
-                  <Trans>register</Trans>
+                  Welcome to your medicalswitzerland HealthCard
+                  {/* <Trans>register</Trans> */}
                 </Text>
+
+                <Image src={ImageForm} maxW="344px" mb="30px" />
 
                 {loading ? (
                   <Text>Loading...</Text>
@@ -393,11 +399,20 @@ export default function Registration() {
                       fontWeight="300"
                       textColor="white"
                       textAlign="center"
-                      mb="29px"
+                      mb="13px"
                       fontSize="15"
-
                     >
-                      Welcome to your medicalswitzerland HealthCard 
+                      Welcome Back
+                    </Text>
+                    <Text
+                      fontFamily="inter"
+                      fontWeight="700"
+                      textColor="white"
+                      textAlign="center"
+                      mb="22px"
+                      fontSize="15"
+                    >
+                      {user.full_name?.split(" ")[0]}
                     </Text>
                     <Box position="relative">
                       <Input
@@ -438,17 +453,19 @@ export default function Registration() {
                       </Box>
                     </Box>
                     <Text
+                      w="50%"
+                      ml="auto"
                       fontWeight="500"
                       mt="5px"
                       color="#6A6A6A"
                       fontSize="12px"
                       mb="8px"
-                      textAlign="end"
+                      textAlign="start"
                       fontFamily="inter"
                       cursor="pointer"
                       onClick={forgotPassword}
                     >
-                      passwort vergessen?
+                      Click if you don’t remember your password
                     </Text>
                     {validate.password && (
                       <Text
@@ -476,7 +493,8 @@ export default function Registration() {
                       mb="51px"
                       onClick={handleAuthPost}
                     >
-                      <Trans>login</Trans>
+                      Enter into your Personal Health
+                      {/* <Trans>login</Trans> */}
                     </Button>
                   </Box>
                 )}

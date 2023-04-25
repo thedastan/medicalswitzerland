@@ -4,9 +4,15 @@ export enum PopupTypesFormEssage {
   SUCCESS = "SUCCESS",
   RESSET_PASSWORD = "RESSET_PASSWORD",
   ERROR_MESSENGERS = "ERROR_MESSENGERS",
+  SUCCESS_MESSENGERS = "SUCCESS_MESSENGERS",
 }
 
+export interface ISuccessMessengers {
+  title: string;
+  desc: string;
+}
 export interface initialPopupMessageState {
+  successMessenger: ISuccessMessengers;
   reset_password: boolean;
   errorMessenger: string;
   success: boolean;
@@ -39,9 +45,15 @@ interface IActionPopupErrorsMessenger {
   payload: string;
 }
 
+interface IActionPopupSuccessMessengers {
+  type: PopupTypesFormEssage.SUCCESS_MESSENGERS;
+  payload: ISuccessMessengers;
+}
+
 export type ActionTypesPopupMessage =
   | IActionPopupMessageError
   | IActionPopupMessageResetPassword
   | IActionPopupMessageSuccess
   | IActionPopupMessageUpload
-  | IActionPopupErrorsMessenger;
+  | IActionPopupErrorsMessenger
+  | IActionPopupSuccessMessengers;

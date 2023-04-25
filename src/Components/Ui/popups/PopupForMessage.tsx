@@ -15,18 +15,30 @@ export default function PopupForMessage() {
     ActionSuccess,
     ActionErrorMessenger,
   } = useActionsForMessage();
-  const { success, error, reset_password, upload, errorMessenger } =
-    useAppSelector((state) => state.messageReducer);
+  const {
+    success,
+    error,
+    reset_password,
+    upload,
+    errorMessenger,
+    successMessenger,
+  } = useAppSelector((state) => state.messageReducer);
+
+  useEffect(() => {
+    setTimeout(() => {
+      ActionUpload(false);
+      ActionSuccess(false);
+    }, 3000);
+  }, [success, upload]);
 
   useEffect(() => {
     setTimeout(() => {
       ActionError(false);
       ActionReset(false);
       ActionUpload(false);
-      ActionSuccess(false);
       ActionErrorMessenger("");
-    }, 3000);
-  }, [success, upload, reset_password, error]);
+    }, 4500);
+  }, [upload, reset_password, error]);
 
   return (
     <>
@@ -79,7 +91,7 @@ export default function PopupForMessage() {
                   fontFamily="inter"
                   textAlign="center"
                 >
-                  Als du
+                  {successMessenger.title}
                 </Text>
                 <Box mb="9px">
                   <SvgSuccess />
@@ -90,7 +102,7 @@ export default function PopupForMessage() {
                   fontWeight="300"
                   fontFamily="inter"
                 >
-                  Registrierung erfolgreich
+                  {successMessenger.desc}
                 </Text>
               </Box>
             )}

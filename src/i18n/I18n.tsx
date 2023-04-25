@@ -47,7 +47,16 @@ i18n.use(initReactI18next).init({
         enterEmail: "Enter email",
         desc: "Enter the password we sent to your email adress ",
         next: "Next",
-        register:"Register"
+        register: "Register",
+
+        //popup-messengers
+        wellDone: "Well Done",
+        descWellDone: "New password created successfully",
+        sayHello: "Say Hello to your Personal HealthCard ",
+        yourRegistration: "Your Registration was successful ",
+        resetYourPasword: "Reset Your Password",
+        descReset:
+          "Password reset link sent to your registered email address. Please check your inbox or spam folder",
       },
     },
     de: {
@@ -91,7 +100,7 @@ i18n.use(initReactI18next).init({
         enterEmail: "Email eingeben",
         desc: "Geben Sie das Passwort ein, das wir an Ihre E-Mail-Adresse gesendet haben",
         next: "nächste",
-        register:"Registrieren"
+        register: "Registrieren",
       },
     },
   },

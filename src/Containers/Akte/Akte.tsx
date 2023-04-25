@@ -83,6 +83,7 @@ export default function Akte() {
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
+  const [groupId, setGroupId] = useState("");
 
   const guest_id = sessionStorage.getItem("guestId") as string;
 
@@ -170,6 +171,7 @@ export default function Akte() {
   }
 
   function handleClickPut() {
+    alert("POST");
     ActionBearbeitenAkte(!bearbeitenAkte);
     ActionPutUser(window.location.pathname.slice(6), {
       allergies: dataPost.allergies || user.allergies,
@@ -191,6 +193,11 @@ export default function Akte() {
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: dataPost.location || user.location || "",
     });
+    setTimeout(() => {
+      ActionActiveModalMedia(true);
+      ActionActiveSubtrac(true);
+      ActionActiveProfile(false);
+    }, 500);
   }
 
   const BackSpaceFn = (e: any) => {
@@ -331,21 +338,19 @@ export default function Akte() {
           borderBottom="1px solid #454545"
           mb="29px"
         >
-          {validToken && (
-            <MyButton
-              typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
-              fontFamily="commissioner"
-              marginRight="16px"
-              color={!bearbeitenAkte ? "black" : "white"}
-              onClick={() =>
-                !bearbeitenAkte
-                  ? console.log("beiten")
-                  : ActionBearbeitenAkte(!bearbeitenAkte)
-              }
-            >
-              {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
-            </MyButton>
-          )}
+          <MyButton
+            typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
+            fontFamily="commissioner"
+            marginRight="16px"
+            color={!bearbeitenAkte ? "black" : "white"}
+            onClick={() =>
+              !bearbeitenAkte
+                ? console.log("beiten")
+                : ActionBearbeitenAkte(!bearbeitenAkte)
+            }
+          >
+            {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
+          </MyButton>
         </Box>
 
         <Box px="12px">
@@ -354,10 +359,10 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="14px"
+                  fontSize="10px"
                   fontWeight="700"
                   fontFamily="inter"
-                  mb="10px"
+                  mb="3px"
                 >
                   <Trans>fristName</Trans>
                 </Text>
@@ -380,10 +385,10 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="14px"
+                  fontSize="10px"
                   fontWeight="700"
                   fontFamily="inter"
-                  mb="10px"
+                  mb="3px"
                 >
                   <Trans>lastName</Trans>
                 </Text>
@@ -407,10 +412,10 @@ export default function Akte() {
               <Box borderBottom="1px solid #454545" marginBottom="29px">
                 <Text
                   color="gray"
-                  fontSize="14px"
+                  fontSize="10px"
                   fontWeight="700"
                   fontFamily="inter"
-                  mb="10px"
+                  mb="3px"
                   textAlign="center"
                 >
                   NAME
@@ -421,7 +426,6 @@ export default function Akte() {
                   disabled={bearbeitenAkte}
                   onChange={(e) => inputChange(e)}
                   defaultValue={user.full_name ? user.full_name : ""}
-                  placeholder={!bearbeitenAkte ? "Name hinzufugen" : ""}
                   className={`textarea--akte ${
                     !bearbeitenAkte ? "active" : ""
                   }`}
@@ -433,10 +437,10 @@ export default function Akte() {
           <Box>
             <Text
               color="gray"
-              fontSize="14px"
+              fontSize="10px"
               fontWeight="700"
               fontFamily="inter"
-              mb="10px"
+              mb="3px"
               textAlign="center"
             >
               <Trans>dateOfBrith</Trans>
@@ -451,7 +455,6 @@ export default function Akte() {
               }
               maxLength={10}
               disabled={bearbeitenAkte}
-              placeholder={!bearbeitenAkte ? "Geburtsdatum hinzufugen" : ""}
               className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
               onChange={(e) => handleBirthDateChange(e)}
               onKeyDown={(e) => BackSpaceFn(e)}
@@ -468,7 +471,7 @@ export default function Akte() {
             >
               <Text
                 color="gray"
-                fontSize="14px"
+                fontSize="10px"
                 fontWeight="700"
                 fontFamily="inter"
                 mb="15px"
@@ -483,7 +486,6 @@ export default function Akte() {
                 disabled={bearbeitenAkte}
                 onChange={(e) => inputChange(e)}
                 defaultValue={el.value ? el.value : ""}
-                placeholder={!bearbeitenAkte ? "Allergie hinzufugen" : ""}
                 className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
               />
             </Box>
@@ -512,18 +514,21 @@ export default function Akte() {
                                 position="absolute"
                                 display="flex"
                                 w="30px"
-                                h="14px"
+                                h="10px"
                                 px="0"
                                 ml="auto"
                                 top="17px"
                                 right="11px"
                                 zIndex="5"
-                                onClick={() => handleClick(el.id, item.id, el)}
+                                onClick={() => {
+                                  handleClick(el.id, item.id, el);
+                                  setGroupId(el.id);
+                                }}
                               >
                                 {dots}
                               </Button>
                             )}
-                            {deleteImg && (
+                            {groupId === el.id && deleteImg && (
                               <Box
                                 bg="rgba(57, 57, 57, 0.5)"
                                 w="64px"
@@ -597,10 +602,9 @@ export default function Akte() {
                                 </Text>
                               </Box>
                             )}
-                            <Card key={index} el={item} />
                             <Box
+                              w="100%"
                               onClick={() => handleViewImage(el.id)}
-                              mb="7px"
                             >
                               <Card key={index} el={item} />
                             </Box>
@@ -614,7 +618,7 @@ export default function Akte() {
                             rounded="5px"
                             px="4px"
                             mb="7px"
-                            mt="14px"
+                            mt="7px"
                           >
                             <Input
                               borderBottom="1px solid #343434"
@@ -658,7 +662,7 @@ export default function Akte() {
                               onChange={(e) => setText(e.target.value)}
                             />
                           </Box>
-                          {deleteImg && (
+                          {groupId === el.id && deleteImg && (
                             <Box display="flex" w="100%">
                               <Button
                                 color="white"
@@ -678,7 +682,7 @@ export default function Akte() {
                           )}
                         </Box>
                       ))}
-                      {validToken && (
+                      {deleteImg && (
                         <Box mx="auto">
                           <Box
                             bg="#262626"
@@ -686,6 +690,12 @@ export default function Akte() {
                             display="flex"
                             alignItems="center"
                             justifyContent="center"
+                            onClick={() => {
+                              ActionFilesId(groupId);
+                              ActionActiveModalMedia(true);
+                              ActionActiveSubtrac(true);
+                              ActionActiveProfile(false);
+                            }}
                           >
                             <SvgBluePluse />
                           </Box>
@@ -696,27 +706,6 @@ export default function Akte() {
                             mb="7px"
                             mt="7px"
                           >
-                            <Input
-                              borderBottom="1px solid #343434"
-                              borderRight="transparent"
-                              borderLeft="transparent"
-                              borderTop="transparent"
-                              defaultValue={title}
-                              placeholder="Titel"
-                              fontFamily="inter"
-                              textColor="white"
-                              bg="transparent"
-                              fontWeight="700"
-                              fontSize="15px"
-                              outline="black"
-                              rounded="0px"
-                              name="text"
-                              w="100%"
-                              mb="5px"
-                              h="37px"
-                              pl="10px"
-                              onChange={(e) => setTitle(e.target.value)}
-                            />
                             <Input
                               placeholder="Beschreibung"
                               borderColor="transparent"
@@ -736,43 +725,43 @@ export default function Akte() {
                               onChange={(e) => setText(e.target.value)}
                             />
                           </Box>
-                          {deleteImg && (
-                            <Box display="flex" w="100%">
-                              <Button
-                                color="black"
-                                fontSize="13px"
-                                fontWeight="700"
-                                fontFamily="inter"
-                                bg="white"
-                                w="50%"
-                                h="35px"
-                                ml="2px"
-                                rounded="7px"
-                                onClick={() => {
-                                  ActionFilesId("");
-                                  ActionActiveSubtrac(true);
-                                  ActionActiveProfile(false);
-                                  ActionActiveModalMedia(true);
-                                }}
-                              >
-                                <Trans>addMore</Trans>
-                              </Button>
-                              <Button
-                                color="white"
-                                fontSize="13px"
-                                fontWeight="700"
-                                fontFamily="inter"
-                                bg="#0B6CFF"
-                                w="100%"
-                                h="35px"
-                                ml="2px"
-                                rounded="7px"
-                                onClick={() => handlePutFile()}
-                              >
-                                <Trans>done</Trans>
-                              </Button>
-                            </Box>
-                          )}
+                          {/* {deleteImg && (
+                          <Box display="flex" w="100%">
+                            <Button
+                              color="black"
+                              fontSize="13px"
+                              fontWeight="700"
+                              fontFamily="inter"
+                              bg="white"
+                              w="50%"
+                              h="35px"
+                              ml="2px"
+                              rounded="7px"
+                              onClick={() => {
+                                ActionFilesId("");
+                                ActionActiveSubtrac(true);
+                                ActionActiveProfile(false);
+                                ActionActiveModalMedia(true);
+                              }}
+                            >
+                              <Trans>addMore</Trans>
+                            </Button>
+                            <Button
+                              color="white"
+                              fontSize="13px"
+                              fontWeight="700"
+                              fontFamily="inter"
+                              bg="#0B6CFF"
+                              w="50%"
+                              h="35px"
+                              ml="2px"
+                              rounded="7px"
+                              onClick={() => handlePutFile()}
+                            >
+                              <Trans>done</Trans>
+                            </Button>
+                          </Box>
+                        )} */}
                         </Box>
                       )}
                     </Slider>

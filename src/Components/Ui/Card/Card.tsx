@@ -1,12 +1,14 @@
 // External dependencies
 import { Box, Image } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import SvgPdf from "../../../assets/svg/SvgPdf";
 import SvgView from "../../../assets/svg/SvgView";
 import { API_ADDRESS } from "../../../Api";
-import "./style.css";
-import { useState } from "react";
-
+import "./style.scss";
+import { tokenVerification } from "../../Helpers/action";
+import { useAppSelector } from "../../../Hooks/Hooks";
+import { useActionsUser } from "../../../Hooks/useActions";
 
 interface IElement {
   id: string;
@@ -19,12 +21,19 @@ interface ICardProps {
 }
 
 export default function Card({ el }: ICardProps) {
+  const { ActionGetUser } = useActionsUser();
+  const { user } = useAppSelector((state) => state.userReducer);
+
   const [blur, setBlur] = useState(true);
+  const [validToken, setValidToken] = useState<boolean>(false);
+
+  useEffect(() => {
+    tokenVerification(setValidToken);
+  }, []);
 
   return (
-    <Box h="auto">
+    <Box h="auto" w="100%">
       {el.file_url?.slice(-3) === "png" ? (
-        <Box position="relative">
         <Box>
           <Image
             w="100%"
@@ -33,18 +42,18 @@ export default function Card({ el }: ICardProps) {
             objectFit="cover"
             src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
           />
-          {blur && (
+          {user.guest_mode && validToken && blur && (
             <Box
               top="0"
               left="0"
               right="0"
               bottom="0"
               display="flex"
-              className="image"
+              className={`image ${!blur && "active"}`}
               position="absolute"
               alignItems="center"
               justifyContent="center"
-              bg="rgba(0, 0, 0, 0.8)"
+              bg="rgba(0, 0, 0, 0.2)"
               onClick={() => setBlur(!blur)}
             >
               <Box zIndex="11">
@@ -52,23 +61,6 @@ export default function Card({ el }: ICardProps) {
               </Box>
             </Box>
           )}
-          <Box
-            top="0"
-            left="0"
-            right="0"
-            bottom="0"
-            display="flex"
-            className={`image ${!blur && "active"}`}
-            position="absolute"
-            alignItems="center"
-            justifyContent="center"
-            bg="rgba(0, 0, 0, 0.8)"
-            onClick={() => setBlur(!blur)}
-          >
-            <Box zIndex="11">
-              <SvgView />
-            </Box>
-          </Box>
         </Box>
       ) : (
         <a

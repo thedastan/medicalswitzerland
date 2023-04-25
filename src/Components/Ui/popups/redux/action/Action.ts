@@ -1,4 +1,8 @@
-import { ActionTypesPopupMessage, PopupTypesFormEssage } from "../types/Types";
+import {
+  ActionTypesPopupMessage,
+  ISuccessMessengers,
+  PopupTypesFormEssage,
+} from "../types/Types";
 
 export const ActionSuccess = (payload: boolean): ActionTypesPopupMessage => {
   return { type: PopupTypesFormEssage.SUCCESS, payload };
@@ -20,4 +24,10 @@ export const ActionErrorMessenger = (
   payload: string
 ): ActionTypesPopupMessage => {
   return { type: PopupTypesFormEssage.ERROR_MESSENGERS, payload };
+};
+
+export const ActionSuccessMessenger = (
+  payload: ISuccessMessengers
+): ActionTypesPopupMessage => {
+  return { type: PopupTypesFormEssage.SUCCESS_MESSENGERS, payload };
 };

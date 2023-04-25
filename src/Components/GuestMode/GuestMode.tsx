@@ -14,7 +14,7 @@ import PopupSuccessFull from "./popup/PopupSuccessFull";
 import { Trans, useTranslation } from "react-i18next";
 
 export default function GeustMode() {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const { ActionGroupsForGuest } = useActionsFile();
   const { ActionGetUser } = useActionsUser();
   const {
@@ -151,7 +151,7 @@ export default function GeustMode() {
                   fontWeight="200"
                   textColor="#7C7575"
                   rounded="4px"
-                  defaultValue={codeStrig}
+                  value={codeStrig}
                   maxLength={6}
                   boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                   h="50px"
@@ -192,7 +192,7 @@ export default function GeustMode() {
             ) : (
               <Box>
                 <Input
-                className="input-guest"
+                  className="input-guest"
                   placeholder="Your name"
                   textAlign="center"
                   color="#fff"
@@ -205,7 +205,6 @@ export default function GeustMode() {
                   bg="#303030"
                   type="email"
                   mb="8px"
-                  
                   border={validate.name ? "1px solid red" : "1px solid #303030"}
                   onChange={(e) =>
                     setDataPost({ ...dataPost, name: e.target.value })
