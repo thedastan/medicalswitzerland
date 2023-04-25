@@ -39,7 +39,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
           "N:Mrs. Jennifer Urwyler;\n" +
           "ORG:Medical Switzerland\n" +
           "TEL;TYPE=WORK,VOICE:+41797545136\n" +
-          "URL;TYPE=WORK:www.medicalswitzerland.ch"\"+ 
+          "URL;TYPE=WORK:www.medicalswitzerland.ch\n"+ 
           "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n" +
           "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n"+
           "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n"+
