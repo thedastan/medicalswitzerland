@@ -99,7 +99,7 @@ i18n.use(initReactI18next).init({
         changePassword: "Kennwort ändern",
 
         //save-contact
-        saveContact: "Speichern Sie unsere Kontakte",
+        saveContact: "Kontakt speichern",
 
         //success-m
         updateAvatar: "Avatar erfolgreich aktualisiert",
