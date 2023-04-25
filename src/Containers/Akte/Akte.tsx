@@ -328,10 +328,31 @@ export default function Akte() {
           borderBottom="1px solid #454545"
           mb="29px"
         >
+
+            <Button
+                   color="white"
+                   fontSize="13px"
+                   fontWeight="700"
+                   fontFamily="inter"
+                   bg="#0B6CFF"
+                   w="100%"
+                   h="35px"
+                   ml="2px"
+                   rounded="7px"
+                   onClick={() => handlePutFile()}
+                     >
+                  <Trans>done</Trans>
+           </Button>
           <MyButton
-            typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
-            fontFamily="commissioner"
-            marginRight="16px"
+            typeColor={!bearbeitenAkte ? "transparent" : "#0B6CFF"}
+            fontSize="13px"
+            fontWeight="700"
+            fontFamily="inter"
+            bg="#0B6CFF"
+            w="100%"
+            h="35px"
+            ml="2px"
+            rounded="7px"
             color={!bearbeitenAkte ? "black" : "white"}
             onClick={() =>
               !bearbeitenAkte
