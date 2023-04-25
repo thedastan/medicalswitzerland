@@ -6,6 +6,7 @@ import { useAppSelector } from "../../../Hooks/Hooks";
 import { useActionsForMessage } from "../../../Hooks/useActions";
 import SvgKey from "../../../assets/svg/SvgKey";
 import "./style.scss";
+import { Trans } from "react-i18next";
 
 export default function PopupForMessage() {
   const {
@@ -91,7 +92,7 @@ export default function PopupForMessage() {
                   fontFamily="inter"
                   textAlign="center"
                 >
-                  {successMessenger.title}
+                  <Trans>{successMessenger.title}</Trans>
                 </Text>
                 <Box mb="9px">
                   <SvgSuccess />
@@ -102,7 +103,7 @@ export default function PopupForMessage() {
                   fontWeight="300"
                   fontFamily="inter"
                 >
-                  {successMessenger.desc}
+                  <Trans>{successMessenger.desc}</Trans>
                 </Text>
               </Box>
             )}
@@ -120,7 +121,7 @@ export default function PopupForMessage() {
                   fontWeight="500"
                   fontFamily="inter"
                 >
-                  Passwort zurücksetzen
+                  <Trans>resetYourPasword</Trans>
                 </Text>
                 <SvgKey />
                 <Text
@@ -130,18 +131,16 @@ export default function PopupForMessage() {
                   fontWeight="200"
                   fontFamily="inter"
                 >
-                  Link zum Zurücksetzen des Passworts an Ihre registrierte
-                  E-Mail-Adresse gesendet. Bitte überprüfen Sie den Posteingang
-                  oder den Spam-Ordner
+                  <Trans>descReset</Trans>
                 </Text>
-                <Text
+                {/* <Text
                   color="white"
                   fontSize="10px"
                   fontWeight="200"
                   fontFamily="inter"
                 >
                   Please check inbox or spam folder
-                </Text>
+                </Text> */}
               </Box>
             )}
             {upload && (
@@ -159,7 +158,7 @@ export default function PopupForMessage() {
                   fontFamily="inter"
                   textAlign="center"
                 >
-                  File Successfully Uploaded
+                  <Trans>uploadTitle</Trans>
                 </Text>
                 <Box>
                   <SvgSuccess />
@@ -180,7 +179,7 @@ export default function PopupForMessage() {
                   textAlign="center"
                   fontFamily="inter"
                 >
-                  {errorMessenger}
+                  <Trans>{errorMessenger}</Trans>
                 </Text>
               </Box>
             )}

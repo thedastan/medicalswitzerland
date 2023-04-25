@@ -121,7 +121,7 @@ export default function Registration() {
         });
     } else {
       ActionError(true);
-      ActionErrorMessenger("There is no such thing active account");
+      ActionErrorMessenger("thereIsNoSuch");
     }
   };
 
@@ -150,8 +150,8 @@ export default function Registration() {
       });
       ActionSuccess(true);
       ActionSuccessMessenger({
-        title: "Say Hello to your Personal HealthCard",
-        desc: "Your Registration was successful ",
+        title: "sayHello",
+        desc: "yourRegistration",
       });
       ActiveModalRegistration(false);
       ActionGetUser(window.location.pathname.slice(6));
@@ -170,7 +170,7 @@ export default function Registration() {
       })
       .catch(() => {
         ActionError(true);
-        ActionErrorMessenger("Email not for forgot password");
+        ActionErrorMessenger("emailNotForForgotPassword");
       });
   };
 

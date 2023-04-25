@@ -164,13 +164,13 @@ export default function Interface({ children }: IInterfaceProps) {
               ActionGetUser(id);
               ActionSuccess(true);
               ActionSuccessMessenger({
-                title: "Avatar updated successfully",
+                title: "updateAvatar",
                 desc: "",
               });
             })
             .catch(() => {
               ActionError(true);
-              ActionErrorMessenger("Failed to send data, please try again");
+              ActionErrorMessenger("filedToSend");
             });
         }
       })
