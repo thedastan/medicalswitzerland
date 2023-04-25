@@ -353,7 +353,7 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="15px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -379,7 +379,7 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="15px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -406,7 +406,7 @@ export default function Akte() {
               <Box borderBottom="1px solid #454545" marginBottom="29px">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="15px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -431,7 +431,7 @@ export default function Akte() {
           <Box>
             <Text
               color="gray"
-              fontSize="10px"
+              fontSize="15px"
               fontWeight="700"
               fontFamily="inter"
               mb="3px"
@@ -465,7 +465,7 @@ export default function Akte() {
             >
               <Text
                 color="gray"
-                fontSize="10px"
+                fontSize="15px"
                 fontWeight="700"
                 fontFamily="inter"
                 mb="15px"
