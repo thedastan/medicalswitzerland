@@ -301,15 +301,17 @@ export default function Interface({ children }: IInterfaceProps) {
                   rounded="50%"
                   objectFit="cover"
                 />
-                <Box
-                  pos="absolute"
-                  top="10px"
-                  right="-9px"
-                  cursor="pointer"
-                  onClick={handleActiveAuthAvatart}
-                >
-                  <SvgAdded />
-                </Box>
+                {validToken && (
+                  <Box
+                    pos="absolute"
+                    top="10px"
+                    right="-9px"
+                    cursor="pointer"
+                    onClick={handleActiveAuthAvatart}
+                  >
+                    <SvgAdded />
+                  </Box>
+                )}
               </Box>
             </>
           ) : (
@@ -333,15 +335,17 @@ export default function Interface({ children }: IInterfaceProps) {
                 pos="relative"
               >
                 <SvgDefaultAvatar />
-                <Box
-                  pos="absolute"
-                  top="10px"
-                  right="-9px"
-                  cursor="pointer"
-                  onClick={handleActiveAuthAvatart}
-                >
-                  <SvgAdded />
-                </Box>
+                {validToken && (
+                  <Box
+                    pos="absolute"
+                    top="10px"
+                    right="-9px"
+                    cursor="pointer"
+                    onClick={handleActiveAuthAvatart}
+                  >
+                    <SvgAdded />
+                  </Box>
+                )}
               </Box>
             </Box>
           )}
