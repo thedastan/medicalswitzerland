@@ -335,15 +335,15 @@ export default function Akte() {
           display="flex"
           justifyContent="center"
           pb="11px"
-          mx="13px"
           borderBottom="1px solid #454545"
           mb="29px"
         >
           {validToken && (
             <MyButton
-              typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
+              typeColor={!bearbeitenAkte ? "transparent" : "#0B6CFF"}
               fontFamily="commissioner"
-              marginRight="16px"
+              fontSize="16px"
+              w="100%"
               color={!bearbeitenAkte ? "black" : "white"}
               onClick={() =>
                 !bearbeitenAkte
