@@ -126,7 +126,13 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
         >
           <Box roundedTop="10px" bg="white">
             <Box w="100%" position="relative">
-              <Image src={Medical} w="100%" h="217px" roundedTop="10px" />
+              <Image
+                src={Medical}
+                w="100%"
+                objectFit="cover"
+                h="217px"
+                roundedTop="10px"
+              />
               <Text
                 position="absolute"
                 fontFamily="Helvetica"
@@ -144,7 +150,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
               display="flex"
               justifyContent="space-between"
             >
-              <Box w="50%">
+              <Box w="45%">
                 <Text fontSize="22px" textColor="middleGray" h="25px">
                   medical
                 </Text>
@@ -155,7 +161,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   </span>
                 </Text>
 
-                <Box display="flex" flexWrap="wrap" gap="22px">
+                <Box display="flex" flexWrap="wrap" gap="14px">
                   {listSvg.map((el, index) => (
                     <a href={el.link} target="_blank">
                       <Box
@@ -174,9 +180,9 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   ))}
                 </Box>
               </Box>
-              <Box w="50%">
+              <Box w="53%">
                 <Box mb="13px">
-                  <Image src={Map} w="93%" ml="auto" />
+                  <Image src={Map} w="93%" ml="auto" objectFit="cover" />
                 </Box>
 
                 <Box
@@ -186,28 +192,35 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   alignItems={"center"}
                 >
                   <Button
+                    w="176px"
                     position="static"
-                    fontSize="13px"
+                    fontSize="12px"
                     fontWeight="700"
                     bg="#0B6CFF"
                     rounded="5px"
-                    h="38px"
+                    h="44px"
                     color="white"
                     mt="35px"
                     onClick={handleDownload}
+                    display="flex"
+                    justifyContent="space-between"
                   >
-                    Save our contacts
-                    <Box
-                      bg="white"
-                      rounded="50%"
-                      w="24px"
-                      h="24px"
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      ml="4px"
-                    >
-                      <SvgSaveContact />
+                    <Text w="70%" textAlign="start">
+                      Save our contacts
+                    </Text>
+                    <Box w="30%">
+                      <Box
+                        ml="auto"
+                        bg="white"
+                        rounded="50%"
+                        w="24px"
+                        h="24px"
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <SvgSaveContact />
+                      </Box>
                     </Box>
                   </Button>
                 </Box>

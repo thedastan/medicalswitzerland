@@ -295,10 +295,10 @@ export default function Notfall() {
           <Box px="41px" mb="76px">
             {!bearbeitenNotfall ? (
               <Box display="flex" gap="7px">
-                <Box w="50%">
+                <Box w="100%">
                   <Text
                     color="gray"
-                    fontSize="14px"
+                    fontSize="15px"
                     fontWeight="700"
                     fontFamily="inter"
                     mb="3px"
@@ -323,40 +323,12 @@ export default function Notfall() {
                     style={{ textAlign: "center", paddingTop: "17px" }}
                   />
                 </Box>
-                <Box w="50%">
-                  <Text
-                    color="gray"
-                    fontSize="10px"
-                    fontWeight="700"
-                    fontFamily="inter"
-                    mb="3px"
-                  >
-                    <Trans>lastName</Trans>
-                  </Text>
-                  <textarea
-                    onChange={(e) =>
-                      changeForName(names.vorname, e.target.value)
-                    }
-                    defaultValue={
-                      dataPost.full_name?.split(" ")[1] ||
-                      user.full_name?.split(" ")[1]
-                        ? dataPost.full_name?.split(" ")[1] ||
-                          user.full_name?.split(" ")[1]
-                        : names.nachname
-                    }
-                    disabled={bearbeitenNotfall}
-                    className={`textarea--notfall ${
-                      !bearbeitenNotfall ? "active" : ""
-                    }`}
-                    style={{ textAlign: "center", paddingTop: "17px" }}
-                  />
-                </Box>
               </Box>
             ) : (
               <Box gap="7px" w="100% ">
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="15px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -379,59 +351,11 @@ export default function Notfall() {
                 />
               </Box>
             )}
-
-            {bearbeitenNotfall
-              ? listInput?.slice(0, 2).map((el, index) => (
-                  <Box key={index}>
-                    <Text
-                      color="gray"
-                      fontSize="10px"
-                      fontWeight="700"
-                      fontFamily="inter"
-                      mb="3px"
-                    >
-                      <Trans>{el.item}</Trans>
-                    </Text>
-                    <textarea
-                      name={el.name}
-                      onChange={(e) => inputChangeTextArea(e)}
-                      defaultValue={el.value ? el.value : ""}
-                      disabled={bearbeitenNotfall}
-                      placeholder={!bearbeitenNotfall ? el.placeholder : ""}
-                      className={`textarea--notfall ${
-                        !bearbeitenNotfall ? "active" : ""
-                      }`}
-                    />
-                  </Box>
-                ))
-              : listInput?.slice(1, 2).map((el, index) => (
-                  <Box key={index}>
-                    <Text
-                      color="gray"
-                      fontSize="10px"
-                      fontWeight="700"
-                      fontFamily="inter"
-                      mb="3px"
-                    >
-                      <Trans>{el.item}</Trans>
-                    </Text>
-                    <textarea
-                      name={el.name}
-                      onChange={(e) => inputChangeTextArea(e)}
-                      defaultValue={el.value ? el.value : ""}
-                      disabled={bearbeitenNotfall}
-                      placeholder={!bearbeitenNotfall ? el.placeholder : ""}
-                      className={`textarea--notfall ${
-                        !bearbeitenNotfall ? "active" : ""
-                      }`}
-                    />
-                  </Box>
-                ))}
-            {listInput?.slice(2).map((el, index) => (
+            {listInput?.map((el, index) => (
               <Box key={index}>
                 <Text
                   color="gray"
-                  fontSize="10px"
+                  fontSize="15px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -452,7 +376,7 @@ export default function Notfall() {
             ))}
             <Text
               color="gray"
-              fontSize="10px"
+              fontSize="15px"
               fontWeight="700"
               fontFamily="inter"
               mb="3px"
