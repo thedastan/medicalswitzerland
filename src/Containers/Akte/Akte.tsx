@@ -309,7 +309,7 @@ export default function Akte() {
           textAlign="center"
           mt="48px"
           mb="6px"
-          fontSize="15px"
+          fontSize="18px"
           fontWeight="700"
         >
           <Trans>patientRecord</Trans>
@@ -322,7 +322,7 @@ export default function Akte() {
 
         <Box
           display="flex"
-          justifyContent="end"
+          justifyContent="center"
           pb="11px"
           mx="13px"
           borderBottom="1px solid #454545"
