@@ -355,7 +355,7 @@ export default function Notfall() {
               <Box key={index}>
                 <Text
                   color="gray"
-                  fontSize="12px"
+                  fontSize="14px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
