@@ -2,6 +2,7 @@
 import { Box, Button, Image, Text } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
+import { Trans, useTranslation } from "react-i18next";
 
 /* Local dependencies */
 import SvgMore from "../../../assets/svg/SvgMore";
@@ -29,6 +30,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
   const handleCloseModal = () => {
     setModal(false);
   };
+  const { t } = useTranslation();
 
  const handleDownload = () => {
     const vcfData = 
