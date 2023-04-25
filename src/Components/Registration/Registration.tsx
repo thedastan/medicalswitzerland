@@ -222,7 +222,7 @@ export default function Registration() {
             >
               <SvgClose />
             </Box>
-            {!user.is_first_time ? (
+            {user.is_first_time ? (
               <>
                 <Text
                   color="white"
