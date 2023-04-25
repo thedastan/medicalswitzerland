@@ -33,8 +33,7 @@ i18n.use(initReactI18next).init({
 
         //save-contact
         saveContact: "Save our contacts",
-        
-        
+
         //success-m
         updateAvatar: "Avatar updated successfully",
         selectedFile: "Selected file deleted successfully",

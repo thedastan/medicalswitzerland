@@ -278,7 +278,7 @@ export default function PopupMediaFile() {
   const onChange = (event: string) => {
     setLanguage(event);
     i18n.changeLanguage(event);
-    localStorage.setItem("language", JSON.stringify(event));
+    localStorage.setItem("language", event);
     ActionGetUser(window.location.pathname.slice(6));
   };
 
