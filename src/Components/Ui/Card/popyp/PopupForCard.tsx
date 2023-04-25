@@ -46,7 +46,7 @@ export default function PopupForCard({
         setModal(false);
         ActionSuccess(true);
         ActionSuccessMessenger({
-          title: "Selected file deleted successfully",
+          title: "selectedFile",
           desc: "",
         });
       })

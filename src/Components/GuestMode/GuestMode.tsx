@@ -58,7 +58,7 @@ export default function GeustMode() {
           });
       } else {
         ActionError(true);
-        ActionErrorMessenger("вы ввели неправильно электронную почту");
+        ActionErrorMessenger("wrongEmail");
       }
     }
   }
