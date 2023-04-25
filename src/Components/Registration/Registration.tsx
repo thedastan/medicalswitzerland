@@ -475,11 +475,11 @@ export default function Registration() {
                       </Box>
                     </Box>
                     <Text
-                      w="65%"
+                      w="85%"
                       ml="auto"
                       fontWeight="500"
                       mt="5px"
-                      color="#6A6A6A"
+                      color="#0B6CFF"
                       fontSize="12px"
                       mb="8px"
                       textAlign="start"
