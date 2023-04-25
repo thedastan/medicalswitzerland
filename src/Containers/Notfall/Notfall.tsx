@@ -81,6 +81,7 @@ export default function Notfall() {
   const [deleteImg, setDeleteImg] = useState(false);
   const [validToken, setValidToken] = useState(false);
   const [disabledFiles, setDisabledFiles] = useState(false);
+  const [groupId, setGroupId] = useState("");
 
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
@@ -152,6 +153,7 @@ export default function Notfall() {
   }
 
   const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
+    setGroupId(id);
     ActionFilesId(id);
     setIdFiles(id);
     setIdFile(idInfo);
@@ -369,7 +371,6 @@ export default function Notfall() {
                     user.full_name?.split(" ")[0] ||
                     ""
                   }
-                  placeholder={!bearbeitenNotfall ? "Name hinzufugen" : ""}
                   className={`textarea--notfall ${
                     !bearbeitenNotfall ? "active" : ""
                   }`}
@@ -462,7 +463,6 @@ export default function Notfall() {
               onChange={(e) => inputChangeTextArea(e)}
               defaultValue={user.allergies_text ? user.allergies_text : ""}
               disabled={bearbeitenNotfall}
-              placeholder={!bearbeitenNotfall ? "Allergie hinzufugen" : ""}
               className={`textarea--allergia ${
                 !bearbeitenNotfall ? "active" : ""
               }`}
@@ -498,16 +498,15 @@ export default function Notfall() {
                                   w="30px"
                                   h="10px"
                                   px="0"
-                                  onClick={() =>
-                                    validToken
-                                      ? handleClick(el.id, item.id, el)
-                                      : ActiveModalRegistration(true)
-                                  }
+                                  onClick={() => {
+                                    handleClick(el.id, item.id, el);
+                                    setGroupId(el.id);
+                                  }}
                                 >
                                   {dots}
                                 </Button>
                               )}
-                              {deleteImg && (
+                              {groupId === el.id && deleteImg && (
                                 <Box
                                   bg="rgba(57, 57, 57, 0.5)"
                                   w="64px"
@@ -642,7 +641,7 @@ export default function Notfall() {
                                 onChange={(e) => setText(e.target.value)}
                               />
                             </Box>
-                            {deleteImg && (
+                            {groupId === el.id && deleteImg && (
                               <Box display="flex" w="100%">
                                 <Button
                                   color="white"
@@ -662,6 +661,51 @@ export default function Notfall() {
                             )}
                           </Box>
                         ))}
+                        {deleteImg && (
+                          <Box mx="auto">
+                            <Box
+                              bg="#262626"
+                              h="448px"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="center"
+                              onClick={() => {
+                                ActionFilesId(groupId);
+                                ActionActiveModalMedia(true);
+                                ActionActiveSubtrac(true);
+                                ActionActiveProfile(false);
+                              }}
+                            >
+                              <SvgBluePluse />
+                            </Box>
+                            <Box
+                              bg="#141414"
+                              rounded="5px"
+                              px="4px"
+                              mb="7px"
+                              mt="7px"
+                            >
+                              <Input
+                                placeholder="Beschreibung"
+                                borderColor="transparent"
+                                defaultValue={text}
+                                fontFamily="inter"
+                                textColor="white"
+                                bg="transparent"
+                                fontWeight="300"
+                                fontSize="15px"
+                                outline="black"
+                                rounded="0px"
+                                name="text"
+                                pl="10px"
+                                w="100%"
+                                mb="7px"
+                                h="37px"
+                                onChange={(e) => setText(e.target.value)}
+                              />
+                            </Box>
+                          </Box>
+                        )}
                       </Slider>
                     </Box>
                   </Box>

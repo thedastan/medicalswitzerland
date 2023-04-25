@@ -16,6 +16,7 @@ import "./style.css";
 
 import { useAppSelector } from "../../../Hooks/Hooks";
 import { useActionsUser } from "../../../Hooks/useActions";
+import SvgSaveContact from "../../../assets/svg/SvgSaveContact";
 
 interface IPopupMoreProps {
   setModal: (value: boolean) => void;
@@ -30,18 +31,19 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
   };
 
   const handleDownload = () => {
-    const vcfData = "BEGIN:VCARD\n" +
-                    "VERSION:3.0\n" +
-                    "ORG:Medical Switzerland\n" +
-                    "TEL;TYPE=WORK,VOICE:(111) 555-1212\n" +
-                    "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n" +
-                    "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n"+
-                    "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n"+
-                    "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n"+
-                    "URL;WORK:=www.medicalswitzerland.ch\n"+
-                    "X-SOCIALPROFILE;TYPE=wa.me/+41797545136\n"+
-                    "END:VCARD";
-                   
+    const vcfData =
+      "BEGIN:VCARD\n" +
+      "VERSION:3.0\n" +
+      "ORG:Medical Switzerland\n" +
+      "TEL;TYPE=WORK,VOICE:(111) 555-1212\n" +
+      "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n" +
+      "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n" +
+      "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n" +
+      "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n" +
+      "URL;WORK:=www.medicalswitzerland.ch\n" +
+      "X-SOCIALPROFILE;TYPE=wa.me/+41797545136\n" +
+      "END:VCARD";
+
     const element = document.createElement("a");
     const file = new Blob([vcfData], { type: "text/vcard" });
     element.href = URL.createObjectURL(file);
@@ -123,8 +125,18 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
           className="modal-content"
         >
           <Box roundedTop="10px" bg="white">
-            <Box w="100%">
+            <Box w="100%" position="relative">
               <Image src={Medical} w="100%" h="217px" roundedTop="10px" />
+              <Text
+                position="absolute"
+                fontFamily="Helvetica"
+                fontSize="18px"
+                textAlign="center"
+                right="40px"
+                bottom="10px"
+              >
+                Your personal <br /> Contact
+              </Text>
             </Box>
             <Box
               px="13px"
@@ -166,16 +178,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 <Box mb="13px">
                   <Image src={Map} w="93%" ml="auto" />
                 </Box>
-                <Text
-                  fontFamily="Helvetica"
-                  fontSize="18px"
-                  textAlign="center"
-                  w="80%"
-                  mx="auto"
-                  mb="28px"
-                >
-                  Your personal <br /> Contact
-                </Text>
+
                 <Box
                   mx="auto"
                   display={"flex"}
@@ -184,15 +187,28 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 >
                   <Button
                     position="static"
-                    fontSize="10px"
-                    fontWeight="300"
+                    fontSize="13px"
+                    fontWeight="700"
                     bg="#0B6CFF"
                     rounded="5px"
                     h="38px"
                     color="white"
+                    mt="35px"
                     onClick={handleDownload}
                   >
-                    Save contact
+                    Save our contacts
+                    <Box
+                      bg="white"
+                      rounded="50%"
+                      w="24px"
+                      h="24px"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      ml="4px"
+                    >
+                      <SvgSaveContact />
+                    </Box>
                   </Button>
                 </Box>
               </Box>

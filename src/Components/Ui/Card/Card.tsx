@@ -32,7 +32,7 @@ export default function Card({ el }: ICardProps) {
   }, []);
 
   return (
-    <Box h="auto">
+    <Box h="auto" w="100%">
       {el.file_url?.slice(-3) === "png" ? (
         <Box>
           <Image

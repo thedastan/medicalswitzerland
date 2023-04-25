@@ -3,14 +3,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { createRef, useEffect, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
-import {
-  Button,
-  Image,
-  Input,
-  Select,
-  Spinner,
-  Switch,
-} from "@chakra-ui/react";
+import { Button, Image, Input, Spinner, Switch } from "@chakra-ui/react";
 import { Trans, useTranslation } from "react-i18next";
 import "cropperjs/dist/cropper.css";
 
@@ -42,6 +35,7 @@ import { ActionGetUser } from "../redux/action/Action";
 import SvgAvatarDefault from "../../../assets/svg/SvgAvatartDefault";
 import SvgChange from "../../../assets/svg/SvgChange";
 import axios from "axios";
+import Select from "../../Ui/Select/Select";
 
 export default function PopupMediaFile() {
   const { t } = useTranslation();
@@ -86,6 +80,7 @@ export default function PopupMediaFile() {
   const [filePdf, setFilePdf] = useState<any>();
   const [openPopup, setOpenPopup] = useState(false);
   const [pdfIncludes, setPdfIncludes] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   //functions
   const handleClickForDeleteProfile = async () => {
@@ -104,6 +99,7 @@ export default function PopupMediaFile() {
     } else if (!text.length) {
       setTextValidate(true);
     } else {
+      alert("No");
       if (typeof cropperRef.current?.cropper !== "undefined") {
         setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
         setValidate(true);
@@ -111,11 +107,13 @@ export default function PopupMediaFile() {
     }
 
     if (filesId) {
+      alert(`id: ${filesId}`);
       if (typeof cropperRef.current?.cropper !== "undefined") {
         setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
         setRenderMore(true);
       }
     }
+    setChecked(!checked);
   };
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -335,7 +333,7 @@ export default function PopupMediaFile() {
         setTextValidate(true);
       }
     }
-  }, [renderMore]);
+  }, [renderMore, checked]);
 
   useEffect(() => {
     ActionGetUser(window.location.pathname.slice(6));
@@ -716,28 +714,17 @@ export default function PopupMediaFile() {
                       display="flex"
                       alignItems="center"
                       justifyContent="start"
+                      pr="20px"
                     >
                       <Select
-                        paddingLeft="0px"
-                        borderColor="transparent"
-                        placeholder={
-                          language === "en"
-                            ? "English"
-                            : "Deutsch" || "langauge"
-                        }
-                        color="white"
-                        fontWeight="300"
-                        fontSize="13px"
-                        fontFamily="inter"
-                        onChange={(e) => onChange(e.target.value)}
-                      >
-                        <option value="en" style={{ color: "black" }}>
-                          English
-                        </option>
-                        <option value="de" style={{ color: "black" }}>
-                          Deutsch
-                        </option>
-                      </Select>
+                        onChange={onChange}
+                        defaultValue="Language"
+                        options={[
+                          { value: "en", name: "English" },
+                          { value: "de", name: "Deutsch" },
+                        ]}
+                        value={language}
+                      />
                     </Box>
                   </Box>
 
@@ -811,7 +798,7 @@ export default function PopupMediaFile() {
                         fontFamily="inter"
                         textAlign="center"
                       >
-                        Gast Login aktivieren
+                        <Trans>guestLogin</Trans>
                       </Text>
                       <Switch
                         isChecked={isChecked}

@@ -332,7 +332,6 @@ export default function Interface({ children }: IInterfaceProps) {
           <div key={index}>{el.content}</div>
         ))}
       </Box>
-      {/* {popup && <PopupFiles modal={popup} setModal={setPopup} />} */}
       {popupMore && <PopupMore setModal={setPopupMore} />}
       {modal && <Registration />}
       {imageFile && (

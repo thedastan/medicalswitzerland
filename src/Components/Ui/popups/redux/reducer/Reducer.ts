@@ -6,6 +6,10 @@ import {
 
 const initialState: initialPopupMessageState = {
   reset_password: false,
+  successMessenger: {
+    desc: "",
+    title: "",
+  },
   errorMessenger: "",
   success: false,
   upload: false,
@@ -31,6 +35,9 @@ export const messageReducer = (
 
     case PopupTypesFormEssage.ERROR_MESSENGERS:
       return { ...state, errorMessenger: action.payload };
+
+    case PopupTypesFormEssage.SUCCESS_MESSENGERS:
+      return { ...state, successMessenger: action.payload };
 
     default:
       return state;
