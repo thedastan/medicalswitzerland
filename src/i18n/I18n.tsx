@@ -30,6 +30,10 @@ i18n.use(initReactI18next).init({
         signOut: "Sign out",
         changePassword: "Change password",
 
+        //save-contact
+        saveContact: "Save our contacts",
+        
+        
         //success-m
         updateAvatar: "Avatar updated successfully",
         selectedFile: "Selected file deleted successfully",
@@ -93,6 +97,9 @@ i18n.use(initReactI18next).init({
         medicalRecord: "PATIENTENAKTE",
         signOut: "Austragen",
         changePassword: "Kennwort ändern",
+
+        //save-contact
+        saveContact: "Speichern Sie unsere Kontakte",
 
         //success-m
         updateAvatar: "Avatar erfolgreich aktualisiert",
