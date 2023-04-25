@@ -187,11 +187,6 @@ export default function Akte() {
       why_diagnose: dataPost.why_diagnose || user.why_diagnose,
       location: dataPost.location || user.location || "",
     });
-    setTimeout(() => {
-      ActionActiveModalMedia(true);
-      ActionActiveSubtrac(true);
-      ActionActiveProfile(false);
-    }, 500);
   }
 
   const BackSpaceFn = (e: any) => {
@@ -329,6 +324,7 @@ export default function Akte() {
           display="flex"
           justifyContent="end"
           pb="11px"
+          mx="13px"
           borderBottom="1px solid #454545"
           mb="29px"
         >
@@ -353,7 +349,7 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="15px"
+                  fontSize="12px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -364,10 +360,10 @@ export default function Akte() {
                   onChange={(e) =>
                     changeForName(e.target.value, names.nachname)
                   }
-                  defaultValue={
-                    user.full_name?.split(" ")[0]
-                      ? user.full_name?.split(" ")[0]
-                      : names.vorname
+                  value={
+                    names.vorname
+                      ? names.vorname
+                      : user.full_name?.split(" ")[0]
                   }
                   disabled={bearbeitenAkte}
                   className={`textarea--notfall ${
@@ -379,7 +375,7 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="15px"
+                  fontSize="12px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -406,7 +402,7 @@ export default function Akte() {
               <Box borderBottom="1px solid #454545" marginBottom="29px">
                 <Text
                   color="gray"
-                  fontSize="15px"
+                  fontSize="12px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -419,7 +415,13 @@ export default function Akte() {
                   ref={textareaRef}
                   disabled={bearbeitenAkte}
                   onChange={(e) => inputChange(e)}
-                  defaultValue={user.full_name ? user.full_name : ""}
+                  value={
+                    names.vorname
+                      ? `${names.vorname} ${names.nachname}`
+                      : user.full_name
+                      ? user.full_name
+                      : ""
+                  }
                   className={`textarea--akte ${
                     !bearbeitenAkte ? "active" : ""
                   }`}
@@ -431,7 +433,7 @@ export default function Akte() {
           <Box>
             <Text
               color="gray"
-              fontSize="15px"
+              fontSize="12px"
               fontWeight="700"
               fontFamily="inter"
               mb="3px"
@@ -465,7 +467,7 @@ export default function Akte() {
             >
               <Text
                 color="gray"
-                fontSize="15px"
+                fontSize="13px"
                 fontWeight="700"
                 fontFamily="inter"
                 mb="15px"

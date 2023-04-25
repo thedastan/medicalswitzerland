@@ -249,8 +249,19 @@ export default function Registration() {
                   {/* <Trans>register</Trans> */}
                 </Text>
 
-                <Image src={ImageForm} maxW="344px" mb="30px" h="auto" />
-
+                <Image src={ImageForm} maxW="344px" mb="10px" h="auto" />
+                <Text
+                  color="white"
+                  fontSize="15px"
+                  fontWeight="400"
+                  textAlign="center"
+                  fontFamily="inter"
+                  mb="13px"
+                  px="42px"
+                >
+                  Lets startwith your registration
+                  {/* <Trans>register</Trans> */}
+                </Text>
                 {loading ? (
                   <Text>Loading...</Text>
                 ) : (
