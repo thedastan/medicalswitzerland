@@ -330,13 +330,13 @@ export default function Akte() {
           medical
           <span style={{ color: "#E11F26" }}>switzerland</span>
         </Text>
-
         <Box
           display="flex"
           justifyContent="center"
           pb="11px"
           borderBottom="1px solid #454545"
           mb="29px"
+          mx="13px"
         >
           {validToken && bearbeitenAkte && (
             <Button
@@ -364,7 +364,7 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="14px"
+                  fontSize="12px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -390,7 +390,7 @@ export default function Akte() {
               <Box w="50%">
                 <Text
                   color="gray"
-                  fontSize="14px"
+                  fontSize="12px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -413,11 +413,15 @@ export default function Akte() {
               </Box>
             </Box>
           ) : (
-            <Box gap="7px" w="100% ">
-              <Box borderBottom="1px solid #454545" marginBottom="29px">
+            <Box gap="7px" w="100%">
+              <Box
+                borderBottom="1px solid #454545"
+                marginBottom="29px"
+                px="13px"
+              >
                 <Text
                   color="gray"
-                  fontSize="14px"
+                  fontSize="12px"
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
@@ -448,7 +452,7 @@ export default function Akte() {
           <Box>
             <Text
               color="gray"
-              fontSize="14px"
+              fontSize="12px"
               fontWeight="700"
               fontFamily="inter"
               mb="3px"
@@ -482,7 +486,7 @@ export default function Akte() {
             >
               <Text
                 color="gray"
-                fontSize="14px"
+                fontSize="12px"
                 fontWeight="700"
                 fontFamily="inter"
                 mb="15px"

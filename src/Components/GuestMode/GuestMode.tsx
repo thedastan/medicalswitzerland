@@ -156,7 +156,6 @@ export default function GeustMode() {
                 <Input
                   placeholder="Enter code"
                   textAlign="center"
-                  color="#7C7575"
                   fontSize="15px"
                   fontWeight="200"
                   textColor="white"
@@ -223,7 +222,6 @@ export default function GeustMode() {
                 <Input
                   placeholder="Enter Email"
                   textAlign="center"
-                  color="#7C7575"
                   fontSize="15px"
                   fontWeight="200"
                   textColor="#fff"

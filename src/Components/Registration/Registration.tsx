@@ -386,12 +386,12 @@ export default function Registration() {
                       )}
                       <Button
                         fontFamily="inter"
-                        fontSize="10px"
+                        fontSize="15px"
                         w="100%"
                         h="40px"
                         bg="#0B6CFF"
                         textColor="white"
-                        fontWeight="500"
+                        fontWeight="700"
                         border="1px solid #0B6CFF"
                         rounded="5px"
                         mx="auto"
@@ -503,12 +503,12 @@ export default function Registration() {
                     )}
                     <Button
                       fontFamily="inter"
-                      fontSize="13px"
+                      fontSize="15px"
                       w="100%"
                       h="40px"
                       bg="#0B6CFF"
                       textColor="white"
-                      fontWeight="500"
+                      fontWeight="700"
                       border="1px solid #0B6CFF"
                       rounded="5px"
                       mx="auto"

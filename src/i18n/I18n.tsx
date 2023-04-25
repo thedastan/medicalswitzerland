@@ -29,6 +29,7 @@ i18n.use(initReactI18next).init({
         medicalRecord: "MEDICAL RECORD",
         signOut: "Sign out",
         changePassword: "Change password",
+        create: "Create",
 
         //save-contact
         saveContact: "Save our contacts",
@@ -97,6 +98,7 @@ i18n.use(initReactI18next).init({
         medicalRecord: "PATIENTENAKTE",
         signOut: "Austragen",
         changePassword: "Kennwort ändern",
+        create: "Erstellen",
 
         //save-contact
         saveContact: "Kontakt speichern",
