@@ -21,7 +21,6 @@ interface ICardProps {
 }
 
 export default function Card({ el }: ICardProps) {
-  const { ActionGetUser } = useActionsUser();
   const { user } = useAppSelector((state) => state.userReducer);
 
   const [blur, setBlur] = useState(true);
@@ -42,12 +41,12 @@ export default function Card({ el }: ICardProps) {
             objectFit="cover"
             src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
           />
-          {user.guest_mode && validToken && blur && (
+          {user.guest_mode && !validToken && blur && (
             <Box
               top="0"
               left="0"
               right="0"
-              bottom="0"
+              bottom="-20px"
               display="flex"
               className={`image ${!blur && "active"}`}
               position="absolute"

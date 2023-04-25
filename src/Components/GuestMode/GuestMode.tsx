@@ -93,7 +93,7 @@ export default function GeustMode() {
         sessionStorage.removeItem("active");
       }, 60 * 60 * 1000);
     }
-  }, [code]);
+  });
 
   return (
     <Box>
@@ -159,7 +159,7 @@ export default function GeustMode() {
                   color="#7C7575"
                   fontSize="15px"
                   fontWeight="200"
-                  textColor="#7C7575"
+                  textColor="white"
                   rounded="4px"
                   value={codeStrig}
                   maxLength={6}
@@ -226,7 +226,7 @@ export default function GeustMode() {
                   color="#7C7575"
                   fontSize="15px"
                   fontWeight="200"
-                  textColor="#7C7575"
+                  textColor="#fff"
                   rounded="4px"
                   boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                   h="50px"

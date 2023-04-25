@@ -1,9 +1,13 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
+const language = localStorage.getItem("language");
+
+let lang = language || "en";
+
 i18n.use(initReactI18next).init({
   fallbackLng: "en",
-  lng: "en",
+  lng: lang,
   interpolation: { escapeValue: false },
   resources: {
     en: {
@@ -71,7 +75,7 @@ i18n.use(initReactI18next).init({
         deleteProfile: "Profil löschen",
         editProfile: "Bearbeiten",
         emergency: "Notfall",
-        medicall: "akte",
+        medicall: "Akte",
         patientRecord: "PATIENTENAKTE",
         profile: "Profil",
         photo: "Bilder ",
