@@ -342,8 +342,6 @@ export default function Akte() {
             <MyButton
               typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
               fontFamily="commissioner"
-              fontSize="16px"
-              w="100%"
               color={!bearbeitenAkte ? "black" : "white"}
               onClick={() =>
                 !bearbeitenAkte
