@@ -896,7 +896,7 @@ export default function PopupMediaFile() {
                         style={{ width: "100%", height: "448px" }}
                       />
                     )}
-                    <Box bg="#141414" mt="20px">
+                    <Box bg="#141414" mt="20px" rounded="5px">
                       {!filesId && (
                         <Input
                           defaultValue={title}
@@ -958,7 +958,7 @@ export default function PopupMediaFile() {
                       rounded="7px"
                       onClick={() => getCropData()}
                     >
-                      Speichern
+                      <Trans>done</Trans>
                     </Button>
                   </Box>
                 </Box>
@@ -986,7 +986,7 @@ export default function PopupMediaFile() {
                 <SvgExet />
               </Box>
             </Box>
-            <Box maxW="428px" mx="auto" px="13px">
+            <Box maxW="428px" mx="auto" px="13px" rounded="5px">
               <Box
                 h="237px"
                 display="flex"
@@ -997,16 +997,15 @@ export default function PopupMediaFile() {
               >
                 <SvgPdf />
               </Box>
-              <Box mx="auto">
+              <Box mx="auto" bg="#141414" mt="20px" rounded="5px">
                 {!filesId && (
                   <Input
                     defaultValue={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    bg="transparent"
-                    color="white"
                     fontSize="15px"
                     placeholder="Title..."
-                    rounded="0px"
+                    textColor="white"
+                    roundedTop="5px"
                     fontWeight="700"
                     fontFamily="inter"
                     h="37px"
@@ -1024,12 +1023,16 @@ export default function PopupMediaFile() {
                 <Input
                   defaultValue={text}
                   onChange={(e) => setText(e.target.value)}
-                  bg="white"
-                  fontSize="12px"
+                  bg="transparent"
+                  textColor="white"
+                  fontSize="15px"
+                  placeholder="comentarie..."
+                  roundedBottom="5pxpx"
+                  fontWeight="300"
                   fontFamily="inter"
-                  rounded="0"
-                  placeholder="Beschreibung..."
-                  border={textVaildate ? "1px solid #FF0000" : "1px solid"}
+                  border={
+                    textVaildate ? "1px solid #FF0000" : "1px solid #141414"
+                  }
                 />
               </Box>
 
@@ -1050,10 +1053,10 @@ export default function PopupMediaFile() {
                   h="35px"
                   rounded="7px"
                   onClick={() =>
-                    filesId ? handlePostMoreFiles() : handlePostFiles
+                    filesId ? handlePostMoreFiles() : handlePostFiles()
                   }
                 >
-                  <Trans>done</Trans>
+                  <Trans>done</Trans>!
                 </Button>
               </Box>
             </Box>

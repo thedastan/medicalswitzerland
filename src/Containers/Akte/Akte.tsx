@@ -215,7 +215,7 @@ export default function Akte() {
     setDeleteImg(!deleteImg);
     setIdFile(idInfo);
     ActionFilesId(id);
-    setIdFiles(id);
+    setIdFiles(data.id);
   };
 
   const handlePutFile = () => {
@@ -600,6 +600,7 @@ export default function Akte() {
                                     ActionActiveModalMedia(true);
                                     ActionActiveSubtrac(true);
                                     ActionActiveProfile(false);
+                                    ActionFilesId(el.id);
                                   }}
                                 >
                                   <SvgBluePluse />

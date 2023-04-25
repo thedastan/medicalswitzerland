@@ -150,11 +150,11 @@ export default function Notfall() {
 
   const handleClick = (id: string, idInfo: string, data: IGroupsTypes) => {
     setGroupId(id);
-    ActionFilesId(id);
     setIdFiles(id);
     setIdFile(idInfo);
-    ActionGroup(data.id, idInfo);
+    ActionFilesId(data.id);
     setDeleteImg(!deleteImg);
+    ActionGroup(data.id, idInfo);
     setDisabledFiles(!disabledFiles);
   };
 
@@ -493,6 +493,7 @@ export default function Notfall() {
                                       ActionActiveModalMedia(true);
                                       ActionActiveProfile(false);
                                       ActionActiveSubtrac(true);
+                                      ActionFilesId(el.id);
                                     }}
                                   >
                                     <SvgBluePluse />
@@ -527,7 +528,7 @@ export default function Notfall() {
                               rounded="5px"
                               px="4px"
                               mb="7px"
-                              mt="25px"
+                              mt="40px"
                             >
                               <Input
                                 borderBottom="1px solid #343434"
