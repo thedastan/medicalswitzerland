@@ -280,10 +280,9 @@ export default function Registration() {
                           <Input
                             placeholder={el.placeholder}
                             textAlign="center"
-                            color="#7C7575"
                             fontSize="15px"
                             fontWeight="200"
-                            textColor="#7C7575"
+                            textColor="white"
                             rounded="4px"
                             boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                             h="50px"
@@ -320,10 +319,9 @@ export default function Registration() {
                         <Input
                           placeholder="Confirm  password"
                           textAlign="center"
-                          color="#7C7575"
                           fontSize="15px"
                           fontWeight="200"
-                          textColor="#7C7575"
+                          textColor="white"
                           rounded="4px"
                           boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                           h="50px"
@@ -441,11 +439,10 @@ export default function Registration() {
                     </Text>
                     <Box position="relative">
                       <Input
-                        color="#7C7575"
+                        textColor="white"
                         placeholder="Enter password"
                         fontSize="15px"
                         fontWeight="200"
-                        textColor="#7C7575"
                         rounded="4px"
                         boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                         border={
