@@ -30,65 +30,29 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
     setModal(false);
   };
 
-  // const handleDownload = () => {
-  //   const vcfData =
-  //     "BEGIN:VCARD\n" +
-  //     "VERSION:3.0\n" +
-  //     "ORG:Medical Switzerland\n" +
-  //     "TEL;TYPE=WORK,VOICE:(111) 555-1212\n" +
-  //     "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n" +
-  //     "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n" +
-  //     "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n" +
-  //     "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n" +
-  //     "URL;WORK:=www.medicalswitzerland.ch\n" +
-  //     "X-SOCIALPROFILE;TYPE=wa.me/+41797545136\n" +
-  //     "END:VCARD";
-
-  //   const element = document.createElement("a");
-  //   const file = new Blob([vcfData], { type: "text/vcard" });
-  //   element.href = URL.createObjectURL(file);
-  //   element.download = "medicalswitzerland.vcf";
-  //   document.body.appendChild(element);
-  //   element.click();
-  //   document.body.removeChild(element);
-  // };
-
-  const handleDownload = () => {
-    // создание vCard файла с данными одного человека
-    const vcfData =
-      "BEGIN:VCARD\n" +
-      "VERSION:3.0\n" +
-      "N:Lastname;Firstname;;;\n" +
-      "FN:Firstname Lastname\n" +
-      "ORG:Medical Switzerland\n" +
-      "TEL;TYPE=WORK,VOICE:(111) 555-1212\n" +
-      "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n" +
-      "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n" +
-      "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n" +
-      "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n" +
-      "URL;WORK:=www.medicalswitzerland.ch\n" +
-      "X-SOCIALPROFILE;TYPE=wa.me/+41797545136\n" +
-      "END:VCARD";
-
-    // создание объекта Blob для данных
-    const blob = new Blob([vcfData], { type: "text/vcard" });
-
-    // создание объекта URL для Blob
-    const url = window.URL.createObjectURL(blob);
-
-    // создание ссылки для скачивания файла
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "contact.vcf";
-
-    // добавление ссылки в DOM и автоматический клик на ней
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    // очистка URL-объекта
-    window.URL.revokeObjectURL(url);
-  };
+ const handleDownload = () => {
+    const vcfData = 
+          "BEGIN:VCARD\n" +
+          "VERSION:3.0\n" +
+          "N:Medical Switzerland;;Mr.;\n" +
+          "ORG:Medical Switzerland.\n" +
+          "TEL;TYPE=WORK,VOICE:(111) 555-1212\n" +
+          "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n" +
+          "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n"+
+          "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n"+
+          "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n"+
+          "X-SOCIALPROFILE;TYPE=https://www.medicalswitzerland.ch/:https://wa.me/+41797545136\n"+
+          "END:VCARD";
+                    
+    const element = document.createElement("a");
+    const file = new Blob([vcfData], {type: 'text/vcard'});
+    element.href = URL.createObjectURL(file);
+    element.download = "medicalswitzerland.vcf";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+  
 
   const listSvg = [
     {
@@ -243,7 +207,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                     justifyContent="space-between"
                   >
                     <Text w="70%" textAlign="start">
-                      Save our contacts
+                      <Trans>saveContact</Trans>
                     </Text>
                     <Box w="30%">
                       <Box
