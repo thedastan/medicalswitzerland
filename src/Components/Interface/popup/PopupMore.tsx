@@ -205,7 +205,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                     display="flex"
                     justifyContent="space-between"
                   >
-                    <Text w="70%" textAlign="start">
+                    <Text  onClick={handleDownload} w="70%" textAlign="start">
                       Save our contacts
                     </Text>
                     <Box w="30%">
@@ -216,6 +216,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                         w="24px"
                         h="24px"
                         display="flex"
+                        onClick={handleDownload}
                         justifyContent="center"
                         alignItems="center"
                       >
