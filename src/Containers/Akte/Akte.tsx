@@ -329,7 +329,7 @@ export default function Akte() {
           mb="29px"
         >
 
-            <Button
+            <MyButton
                    color="white"
                    fontSize="13px"
                    fontWeight="700"
@@ -339,30 +339,15 @@ export default function Akte() {
                    h="35px"
                    ml="2px"
                    rounded="7px"
-                   onClick={() => handlePutFile()}
-                     >
-                  <Trans>done</Trans>
-           </Button>
-          <MyButton
-            typeColor={!bearbeitenAkte ? "transparent" : "#0B6CFF"}
-            fontSize="13px"
-            fontWeight="700"
-            fontFamily="inter"
-            bg="#0B6CFF"
-            w="100%"
-            h="35px"
-            ml="2px"
-            rounded="7px"
-            color={!bearbeitenAkte ? "black" : "white"}
-            onClick={() =>
+                  onClick={() =>
               !bearbeitenAkte
                 ? console.log("beiten")
                 : ActionBearbeitenAkte(!bearbeitenAkte)
             }
           >
             {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
-          </MyButton>
-        </Box>
+           </MyButton>
+      
 
         <Box px="12px">
           {!bearbeitenAkte ? (
