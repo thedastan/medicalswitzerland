@@ -332,7 +332,6 @@ export default function Akte() {
             <MyButton
                    color="white"
                    fontSize="13px"
-                   fontWeight="700"
                    fontFamily="inter"
                    bg="#0B6CFF"
                    w="100%"
