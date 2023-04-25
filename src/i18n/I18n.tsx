@@ -29,6 +29,7 @@ i18n.use(initReactI18next).init({
         medicalRecord: "MEDICAL RECORD",
         signOut: "Sign out",
         changePassword: "Change password",
+        create: "Create",
 
         //success-m
         updateAvatar: "Avatar updated successfully",
@@ -93,6 +94,7 @@ i18n.use(initReactI18next).init({
         medicalRecord: "PATIENTENAKTE",
         signOut: "Austragen",
         changePassword: "Kennwort ändern",
+        create: "Erstellen",
 
         //success-m
         updateAvatar: "Avatar erfolgreich aktualisiert",

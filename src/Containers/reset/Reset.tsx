@@ -6,6 +6,7 @@ import SvgEye from "../../assets/svg/SvgEye";
 import SvgEyePassword from "../../assets/svg/SvgEyePassword";
 import { API_ADDRESS } from "../../Api";
 import { useActionsForMessage } from "../../Hooks/useActions";
+import { Trans } from "react-i18next";
 
 export default function ResetPassword() {
   const { ActionErrorMessenger, ActionError } = useActionsForMessage();
@@ -20,9 +21,7 @@ export default function ResetPassword() {
     password: false,
   });
 
-  const navigateUser = `${window.location.hostname}:${
-    window.location.port
-  }/user/${window.location.href.slice(-32)}`;
+  const navigateUser = `${API_ADDRESS}/user/${window.location.href.slice(-32)}`;
 
   function postResetUser() {
     if (dataPost.password) {
@@ -32,6 +31,7 @@ export default function ResetPassword() {
             password: dataPost.password,
           })
           .then(() => {
+            window.location.reload();
             window.location.href = navigateUser;
           })
           .catch((e) => {
@@ -74,10 +74,9 @@ export default function ResetPassword() {
               value={dataPost.password}
               placeholder="New password"
               textAlign="center"
-              color="#7C7575"
               fontSize="15px"
               fontWeight="200"
-              textColor="#7C7575"
+              textColor="white"
               rounded="4px"
               boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
               h="50px"
@@ -107,10 +106,9 @@ export default function ResetPassword() {
               value={dataPost.confirm}
               placeholder="Confirm password"
               textAlign="center"
-              color="#7C7575"
               fontSize="15px"
               fontWeight="200"
-              textColor="#7C7575"
+              textColor="white"
               rounded="4px"
               boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
               h="50px"
@@ -161,12 +159,12 @@ export default function ResetPassword() {
             border="1px solid #0B6CFF"
             rounded="4px"
             fontFamily="inter"
-            fontWeight="300"
+            fontWeight="700"
             fontSize="20px"
             bg="#0B6CFF"
             onClick={postResetUser}
           >
-            Erstellen
+            <Trans>create</Trans>
           </Button>
         </Box>
       </Box>

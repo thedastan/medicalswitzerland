@@ -361,7 +361,7 @@ export default function Interface({ children }: IInterfaceProps) {
         boxShadow="2px 4px 4px 2px #FFFFFF"
         mb="auto"
         w="100%"
-        h="59px"
+        h="75px"
         bottom="0"
         left="0"
         right="0"
