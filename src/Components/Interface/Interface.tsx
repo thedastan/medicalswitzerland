@@ -72,6 +72,7 @@ export default function Interface({ children }: IInterfaceProps) {
     } else if (!user.is_first_time && !validToken) {
       ActiveModalRegistration(true);
     } else {
+      ActionFilesId("");
       ActiveModalRegistration(false);
       ActionActiveModalMedia(true);
       ActionActiveProfile(false);
