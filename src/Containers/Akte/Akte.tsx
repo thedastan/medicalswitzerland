@@ -340,7 +340,7 @@ export default function Akte() {
         >
           {validToken && (
             <MyButton
-              typeColor={!bearbeitenAkte ? "transparent" : "#darkGrey"}
+              typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
               fontFamily="commissioner"
               fontSize="16px"
               w="100%"
