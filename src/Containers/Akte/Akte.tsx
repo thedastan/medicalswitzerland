@@ -347,7 +347,7 @@ export default function Akte() {
           >
             {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
            </MyButton>
-      
+        </Box>
 
         <Box px="12px">
           {!bearbeitenAkte ? (
