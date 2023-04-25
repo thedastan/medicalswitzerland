@@ -335,7 +335,6 @@ export default function Akte() {
           display="flex"
           justifyContent="center"
           pb="11px"
-          mx="13px"
           borderBottom="1px solid #454545"
           mb="29px"
         >
@@ -370,7 +369,7 @@ export default function Akte() {
                   fontFamily="inter"
                   mb="3px"
                 >
-                  <Trans>fristName</Trans>
+                  <Trans>firstName</Trans>
                 </Text>
                 <textarea
                   onChange={(e) =>

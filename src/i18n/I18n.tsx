@@ -44,7 +44,7 @@ i18n.use(initReactI18next).init({
         allergies: "ALLERGIES",
         dateOfBrith: "DATE OF BIRTH",
         emergencyContact: "EMERGENCY CONTACT",
-        firstName: "FRIST NAME",
+        firstName: "FIRST NAME",
         lastName: "LAST NAME",
         importTantInfo: "IMPORTTANT INFORMATION / OR MEDICATIONS",
 
