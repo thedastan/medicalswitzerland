@@ -274,13 +274,17 @@ export default function Notfall() {
         idInfo={idFile}
       />
       <Box>
-        <Box display="flex" justifyContent="end">
-          {validToken && (
-            <MyButton
-              typeColor={!bearbeitenNotfall ? "transparent" : "darkGrey"}
-              fontFamily="commissioner"
-              marginRight="30px"
-              color={!bearbeitenNotfall ? "black" : "white"}
+        <Box display="flex" justifyContent="center" px="41px">
+          {validToken && bearbeitenNotfall && (
+            <Button
+              bg="#0B6CFF"
+              fontSize="16px"
+              fontFamily="inter"
+              rounded="7px"
+              h="37px"
+              w="100%"
+              color="white"
+              mb="7px"
               onClick={() => {
                 !bearbeitenNotfall
                   ? console.log("beiten")
@@ -288,7 +292,7 @@ export default function Notfall() {
               }}
             >
               <Trans>editProfile</Trans>
-            </MyButton>
+            </Button>
           )}
         </Box>
         <Box>

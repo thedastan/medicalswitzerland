@@ -338,21 +338,24 @@ export default function Akte() {
           borderBottom="1px solid #454545"
           mb="29px"
         >
-          {validToken && (
-            <MyButton
-              typeColor={!bearbeitenAkte ? "transparent" : "darkGrey"}
-              fontFamily="commissioner"
-              color={!bearbeitenAkte ? "black" : "white"}
+          {validToken && bearbeitenAkte && (
+            <Button
+              bg="#0B6CFF"
+              fontSize="16px"
+              fontFamily="inter"
+              rounded="7px"
+              h="37px"
+              w="100%"
+              color="white"
               onClick={() =>
                 !bearbeitenAkte
                   ? console.log("beiten")
                   : ActionBearbeitenAkte(!bearbeitenAkte)
               }
             >
-              {!bearbeitenAkte ? "SAVE" : <Trans>editProfile</Trans>}
-            </MyButton>
+              <Trans>editProfile</Trans>
+            </Button>
           )}
-
         </Box>
 
         <Box px="12px">

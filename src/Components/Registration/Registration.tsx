@@ -220,7 +220,7 @@ export default function Registration() {
           className="modal--content__wrapper"
           key={3}
         >
-          <Box bg="#272727" h="auto" rounded="12px" w="80vw" zIndex="6">
+          <Box bg="#272727" h="auto" rounded="12px" w="90vw" zIndex="6">
             <Box
               px="30px"
               w="17px"
@@ -234,7 +234,7 @@ export default function Registration() {
             >
               <SvgClose />
             </Box>
-            {user.is_first_time ? (
+            {!user.is_first_time ? (
               <>
                 <Text
                   color="white"
@@ -249,7 +249,9 @@ export default function Registration() {
                   {/* <Trans>register</Trans> */}
                 </Text>
 
-                <Image src={ImageForm} maxW="344px" mb="10px" h="auto" />
+                <Box maxW="344px" mb="10px">
+                  <Image src={ImageForm} w="100%" h="auto" />
+                </Box>
                 <Text
                   color="white"
                   fontSize="15px"
