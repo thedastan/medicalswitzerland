@@ -286,7 +286,7 @@ export default function PopupMediaFile() {
     ActionPutUser(window.location.pathname.slice(6), {
       allergies: user.allergies,
       allergies_text: user.allergies_text,
-      avatar: user.avatar?.slice(6),
+      avatar: user.avatar?.slice(6) || "",
       birth_date: user.birth_date,
       card_id: user.card_id,
       contact: user.contact,

@@ -42,7 +42,7 @@ i18n.use(initReactI18next).init({
         location: "LOCATION",
 
         //guest
-        guestLogin: "Activate Guest Login",
+        guestLogin: "Guest Login",
         yourName: "Your name",
         enterEmail: "Enter email",
         desc: "Enter the password we sent to your email adress ",
@@ -95,7 +95,7 @@ i18n.use(initReactI18next).init({
         location: "LOCATION",
 
         //guest
-        guestLogin: "Gast-Login aktivieren",
+        guestLogin: "Gast-Login",
         yourName: "Ihren Namen",
         enterEmail: "Email eingeben",
         desc: "Geben Sie das Passwort ein, das wir an Ihre E-Mail-Adresse gesendet haben",

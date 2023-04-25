@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import SvgClose from "../../assets/svg/SvgClose";
 import {
   useActionsFile,
+  useActionsForMessage,
   useActionsGuest,
   useActionsUser,
 } from "../../Hooks/useActions";
@@ -16,6 +17,7 @@ import { Trans, useTranslation } from "react-i18next";
 export default function GeustMode() {
   const { t } = useTranslation();
   const { ActionGroupsForGuest } = useActionsFile();
+  const { ActionError, ActionErrorMessenger } = useActionsForMessage();
   const { ActionGetUser } = useActionsUser();
   const {
     ActionGetGuestId,
@@ -36,20 +38,28 @@ export default function GeustMode() {
     if (!dataPost.name.length && !dataPost.email.length) {
       setValidate({ ...validate, email: true, name: true });
     } else if (!dataPost.email.length) {
-      setValidate({ ...validate, email: true });
+      setValidate({ ...validate, email: true, name: false });
     } else if (!dataPost.name.length) {
-      setValidate({ ...validate, name: true });
+      setValidate({ ...validate, name: true, email: false });
     } else {
-      axios
-        .post(
-          `${API_ADDRESS}users/${window.location.pathname.slice(6)}/guest/`,
-          { name: dataPost.name, email: dataPost.email }
-        )
-        .then(() => {
-          setCode(true);
-          sessionStorage.setItem("active", "true");
-          ActionGuestActiveSuccessModal(true);
-        });
+      if (dataPost.email.slice(-10) === "@gmail.com") {
+        axios
+          .post(
+            `${API_ADDRESS}users/${window.location.pathname.slice(6)}/guest/`,
+            {
+              name: dataPost.name,
+              email: dataPost.email,
+            }
+          )
+          .then(() => {
+            setCode(true);
+            sessionStorage.setItem("active", "true");
+            ActionGuestActiveSuccessModal(true);
+          });
+      } else {
+        ActionError(true);
+        ActionErrorMessenger("вы ввели неправильно электронную почту");
+      }
     }
   }
 
@@ -119,7 +129,7 @@ export default function GeustMode() {
             justifyContent="center"
           >
             <Box
-              w="30px"
+              w="25px"
               h="30px"
               ml="auto"
               display="flex"
@@ -245,7 +255,31 @@ export default function GeustMode() {
                 >
                   <Trans>next</Trans>
                 </Button>
-                {validate.name && (
+                {validate.email && validate.name && (
+                  <Text
+                    color="#FF0000"
+                    fontSize="10px"
+                    fontWeight="200"
+                    fontFamily="inter"
+                    mb="43px"
+                    textAlign="center"
+                  >
+                    Fill in all fields, they are both required
+                  </Text>
+                )}
+                {!validate.email && validate.name && (
+                  <Text
+                    color="#FF0000"
+                    fontSize="10px"
+                    fontWeight="200"
+                    fontFamily="inter"
+                    mb="43px"
+                    textAlign="center"
+                  >
+                    Fill in all fields, they are both required
+                  </Text>
+                )}
+                {validate.email && !validate.name && (
                   <Text
                     color="#FF0000"
                     fontSize="10px"
