@@ -366,7 +366,7 @@ export default function Akte() {
                   fontFamily="inter"
                   mb="3px"
                 >
-                  <Trans>fristName</Trans>
+                  <Trans>firstName</Trans>
                 </Text>
                 <textarea
                   onChange={(e) =>
