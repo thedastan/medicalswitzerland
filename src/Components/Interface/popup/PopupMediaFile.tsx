@@ -948,7 +948,7 @@ export default function PopupMediaFile() {
                         color="white"
                         fontSize="15px"
                         placeholder={`${
-                          lang === "de" ? "Kommentar" : "comentarie..."
+                          lang === "de" ? "Kommentar" : "Comment"
                         }`}
                         rounded="0px"
                         fontWeight="300"
@@ -1049,7 +1049,7 @@ export default function PopupMediaFile() {
                   textColor="white"
                   fontSize="15px"
                   placeholder={`${
-                    lang === "de" ? "Kommentar" : "comentarie..."
+                    lang === "de" ? "Kommentar" : "Comment"
                   }`}
                   roundedBottom="5pxpx"
                   fontWeight="300"
