@@ -1,8 +1,10 @@
-export default function SvgMore() {
+import { IProps } from "./Types";
+
+export default function SvgMore({ heigth, width }: IProps) {
   return (
     <svg
-      width="19"
-      height="19"
+      width={width ? width : "19"}
+      height={heigth ? heigth : "19"}
       viewBox="0 0 19 19"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
