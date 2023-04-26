@@ -94,6 +94,7 @@ i18n.use(initReactI18next).init({
         passwordDoesNot: "Password does not match",
         fieldPasswordRequired: "Field password required",
         passwordsMustMatch: "passwords must match",
+        takenEmail: "* The e-mail address you entered is already taken",
       },
     },
     de: {
@@ -183,6 +184,7 @@ i18n.use(initReactI18next).init({
         passwordDoesNot: "Passwort stimmt nicht überein",
         fieldPasswordRequired: "Feldpasswort erforderlich",
         passwordsMustMatch: "Die Passwörter müssen übereinstimmen",
+        takenEmail: "* Die eingegebene e mail Adresse ist bereits vergeben.",
       },
     },
   },

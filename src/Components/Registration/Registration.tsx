@@ -56,7 +56,7 @@ export default function Registration() {
     ActionSuccessMessenger,
   } = useActionsForMessage();
   const { loading, loginLoder } = useAppSelector((state) => state.authReducer);
-  const { user } = useAppSelector((state) => state.userReducer);
+  const { user, error } = useAppSelector((state) => state.userReducer);
 
   const [dataPost, setDataPost] = useState<IAuthPostData>({
     confirm: "",
@@ -68,6 +68,7 @@ export default function Registration() {
     email: false,
     password: false,
   });
+  const [takenEmail, setTakenEmail] = useState(false);
   const [eye, setEye] = useState({ password: false, confirm: false });
 
   const listInput = [
@@ -135,31 +136,42 @@ export default function Registration() {
     if (dataPost.password !== dataPost.confirm) {
       setValidate({ ...validate, confirm: true });
     } else {
-      LoginPost(window.location.pathname.slice(6), {
-        email: dataPost.email,
-        password: dataPost.password,
-        username: "",
-        avatar: "",
-        contact: "",
-        birth_date: null,
-        allergies: "",
-        emergency_contact: "",
-        particularities: "",
-        operation: "",
-        allergies_text: "",
-        medications: "",
-        why_diagnose: "",
-        profession: "",
-        card_id: user.card_id,
-        location: "",
-        full_name: "",
-      });
-      ActionSuccess(true);
-      ActionSuccessMessenger({
-        title: "sayHello",
-        desc: "yourRegistration",
-      });
-      ActiveModalRegistration(false);
+      axios
+        .put(
+          `${API_ADDRESS}users/?card_id=${window.location.pathname.slice(6)}`,
+          {
+            email: dataPost.email,
+            password: dataPost.password,
+            username: "",
+            avatar: "",
+            contact: "",
+            birth_date: null,
+            allergies: "",
+            emergency_contact: "",
+            particularities: "",
+            operation: "",
+            allergies_text: "",
+            medications: "",
+            why_diagnose: "",
+            profession: "",
+            card_id: user.card_id,
+            location: "",
+            full_name: "",
+          }
+        )
+        .then(() => {
+          ActionSuccess(true);
+          ActionSuccessMessenger({
+            title: "sayHello",
+            desc: "yourRegistration",
+          });
+          setTakenEmail(false);
+          ActiveModalRegistration(false);
+        })
+        .catch(() => {
+          ActiveModalRegistration(true);
+          setTakenEmail(true);
+        });
       ActionGetUser(window.location.pathname.slice(6));
     }
   };
@@ -297,7 +309,11 @@ export default function Registration() {
                               pattern: el.pattern,
                             })}
                             border={
-                              el.errors ? "1px solid red" : "1px solid #303030"
+                              takenEmail && index === 0
+                                ? "1px solid red"
+                                : el.errors
+                                ? "1px solid red"
+                                : "1px solid #303030"
                             }
                             defaultValue={el.value}
                             onChange={(e) => inputChange(e, el.name)}
@@ -392,6 +408,19 @@ export default function Registration() {
                           <Trans>passwordDoesNot</Trans>
                         </Text>
                       )}
+
+                      {takenEmail && (
+                        <Text
+                          color="#FF0000"
+                          fontSize="10px"
+                          fontWeight="200"
+                          fontFamily="inter"
+                          mb="7px"
+                        >
+                          <Trans>takenEmail</Trans>
+                        </Text>
+                      )}
+
                       <Button
                         fontFamily="inter"
                         fontSize="15px"
