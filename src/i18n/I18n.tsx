@@ -89,7 +89,7 @@ i18n.use(initReactI18next).init({
           "Click if you don’t remember your password",
         welcome: "Welcome back",
         welcomeToYour: "Welcome to your medicalswitzerland HealthCard",
-        wrongEmailAdress: "* The e-mail address you entered is already taken.",
+        wrongEmailAdress: "Wrong email address",
         letsStartWith: "Lets startwith your registration",
         requiredFields: "Required fields",
         passwordDoesNot: "Password does not match",
@@ -179,7 +179,7 @@ i18n.use(initReactI18next).init({
         welcome: "Willkommen zurück",
         welcomeToYour:
           "Willkommen auf Ihrer medicalswitzerland GesundheitsCard",
-        wrongEmailAdress: "* Die eingegebene email Adresse ist bereits vergeben.",
+        wrongEmailAdress: "falsche E-Mail Adresse",
         letsStartWith: "Beginnen wir mit Ihrer Registrierung",
         requiredFields: "Benötigte Felder",
         passwordDoesNot: "Passwort stimmt nicht überein",
