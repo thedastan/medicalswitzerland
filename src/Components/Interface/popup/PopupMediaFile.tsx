@@ -406,7 +406,7 @@ export default function PopupMediaFile() {
               <Text
                 color="white"
                 fontWeight="300"
-                fontSize="13px"
+                fontSize="16px"
                 fontFamily="inter"
               >
                 {user.emergency_contact}
@@ -453,7 +453,7 @@ export default function PopupMediaFile() {
               <Text
                 color="white"
                 fontWeight="300"
-                fontSize="13px"
+                fontSize="16px"
                 fontFamily="inter"
               >
                 {user.email}
@@ -492,7 +492,7 @@ export default function PopupMediaFile() {
             <Text
               color="white"
               fontWeight="300"
-              fontSize="13px"
+              fontSize="16px"
               fontFamily="inter"
             >
               {user.location}
@@ -701,7 +701,7 @@ export default function PopupMediaFile() {
                       <Text
                         color="white"
                         fontWeight="300"
-                        fontSize="13px"
+                        fontSize="16px"
                         fontFamily="inter"
                       >
                         <Trans>signOut</Trans>
@@ -775,7 +775,7 @@ export default function PopupMediaFile() {
                       <Text
                         color="white"
                         fontWeight="300"
-                        fontSize="13px"
+                        fontSize="16px"
                         fontFamily="inter"
                       >
                         <Trans>changePassword</Trans>
@@ -812,7 +812,7 @@ export default function PopupMediaFile() {
                       <Text
                         color="white"
                         fontWeight="300"
-                        fontSize="13px"
+                        fontSize="16px"
                         fontFamily="inter"
                         textAlign="center"
                       >
@@ -858,7 +858,7 @@ export default function PopupMediaFile() {
                       <Text
                         color="white"
                         fontWeight="300"
-                        fontSize="13px"
+                        fontSize="16px"
                         fontFamily="inter"
                       >
                         <Trans>deleteProfile</Trans>
