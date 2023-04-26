@@ -131,7 +131,7 @@ export default function PopupForCard({
                       <span style={{ color: "#E11F26" }}>switzerland</span>
                     </Text>
                     <Text
-                      fontSize="12px"
+                      fontSize="15px"
                       fontFamily="inter"
                       mb="27px"
                       textAlign="center"
