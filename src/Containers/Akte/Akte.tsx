@@ -42,6 +42,8 @@ interface IGroupType {
 }
 
 export default function Akte() {
+  const language = localStorage.getItem("language") as string;
+
   const { t } = useTranslation();
   const textareaRef = useRef(null);
 
@@ -449,7 +451,7 @@ export default function Akte() {
             </Box>
           )}
 
-          <Box>
+          <Box borderBottom="1px solid #454545" px="13px">
             <Text
               color="gray"
               fontSize="12px"
@@ -660,7 +662,11 @@ export default function Akte() {
                             />
                             <Input
                               disabled={!disabledFiles || idFiles !== el.id}
-                              placeholder="Beschreibung"
+                              placeholder={`${
+                                language === "de"
+                                  ? "Beschreibung"
+                                  : "Description"
+                              }`}
                               defaultValue={item.text}
                               borderColor="transparent"
                               fontFamily="inter"
@@ -723,7 +729,11 @@ export default function Akte() {
                             mt="7px"
                           >
                             <Input
-                              placeholder="Beschreibung"
+                              placeholder={`${
+                                language === "de"
+                                  ? "Beschreibung"
+                                  : "Description"
+                              }`}
                               borderColor="transparent"
                               defaultValue={text}
                               fontFamily="inter"

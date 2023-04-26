@@ -1,8 +1,8 @@
 export default function SVgContact() {
   return (
     <svg
-      width="29"
-      height="29"
+      width="30"
+      height="30"
       viewBox="0 0 38 29"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

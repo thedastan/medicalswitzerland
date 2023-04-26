@@ -40,6 +40,8 @@ interface IGroupsTypes {
 }
 
 export default function Notfall() {
+  const language = localStorage.getItem("language") as string;
+
   const { t } = useTranslation();
 
   const {
@@ -200,14 +202,14 @@ export default function Notfall() {
       name: "emergency_contact",
       value: dataPost.emergency_contact || user.emergency_contact,
       type: "text",
-      placeholder: "Notfallkontact hinzufugen",
+      placeholder: "",
     },
     {
       item: "importTantInfo",
       name: "particularities",
       value: dataPost.particularities || user.particularities,
       type: "text",
-      placeholder: "Besonderheiten hinzufugen",
+      placeholder: "",
     },
   ];
 
@@ -371,7 +373,6 @@ export default function Notfall() {
                   onChange={(e) => inputChangeTextArea(e)}
                   defaultValue={el.value ? el.value : ""}
                   disabled={bearbeitenNotfall}
-                  placeholder={!bearbeitenNotfall ? el.placeholder : ""}
                   className={`textarea--notfall ${
                     !bearbeitenNotfall ? "active" : ""
                   }`}
@@ -554,7 +555,11 @@ export default function Notfall() {
                               />
                               <Input
                                 disabled={!disabledFiles || idFiles !== el.id}
-                                placeholder="Beschreibung"
+                                placeholder={`${
+                                  language === "de"
+                                    ? "Beschreibung"
+                                    : "Description"
+                                }`}
                                 defaultValue={item.text}
                                 borderColor="transparent"
                                 fontFamily="inter"
@@ -617,7 +622,11 @@ export default function Notfall() {
                               mt="7px"
                             >
                               <Input
-                                placeholder="Beschreibung"
+                                placeholder={`${
+                                  language === "de"
+                                    ? "Beschreibung"
+                                    : "Description"
+                                }`}
                                 borderColor="transparent"
                                 defaultValue={text}
                                 fontFamily="inter"

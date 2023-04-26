@@ -30,6 +30,8 @@ i18n.use(initReactI18next).init({
         signOut: "Sign out",
         changePassword: "Change password",
         create: "Create",
+        cropAvatar: "Crop Avatar",
+        saveAvatar: "Save Avatar",
 
         //save-contact
         saveContact: "Save our contacts",
@@ -89,6 +91,8 @@ i18n.use(initReactI18next).init({
         letsStartWith: "Lets startwith your registration",
         requiredFields: "Required fields",
         passwordDoesNot: "Password does not match",
+        fieldPasswordRequired: "Field password required",
+        passwordsMustMatch: "passwords must match",
       },
     },
     de: {
@@ -111,6 +115,8 @@ i18n.use(initReactI18next).init({
         signOut: "Austragen",
         changePassword: "Kennwort ändern",
         create: "Erstellen",
+        cropAvatar: "Avatar zuschneiden",
+        saveAvatar: "Avatar speichern",
 
         //save-contact
         saveContact: "Kontakt speichern",
@@ -173,6 +179,8 @@ i18n.use(initReactI18next).init({
         letsStartWith: "Beginnen wir mit Ihrer Registrierung",
         requiredFields: "Benötigte Felder",
         passwordDoesNot: "Passwort stimmt nicht überein",
+        fieldPasswordRequired: "Feldpasswort erforderlich",
+        passwordsMustMatch: "Die Passwörter müssen übereinstimmen",
       },
     },
   },
