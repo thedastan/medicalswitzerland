@@ -23,7 +23,7 @@ i18n.use(initReactI18next).init({
         deleteProfile: "Delete profile",
         editProfile: "Edit profile",
         emergency: "EMERGENCY",
-        medicall: "MEDICALFILES",
+        medicall: "MEDICAL RECORDS",
         patientRecord: "PATIENT RECORD",
         profile: "Profile",
         photo: "Images",
