@@ -55,11 +55,11 @@ i18n.use(initReactI18next).init({
         importTantInfo: "IMPORTTANT INFORMATION / OR MEDICATIONS",
 
         //akte
-        diagnosen: "DIAGNOSES",
+        diagnosen: "DIAGNOSIS",
         operationen: "OPERATIONS",
         medicamentPlan: "MEDICATION PLAN",
-        nebenDiagnosen: "SECONDARY DIAGNOSIS",
-        location: "LOCATION",
+        nebenDiagnosen: "OCCUPATION",
+        location: "ADDRESS",
 
         //guest
         guestLogin: "Guest Login",
@@ -141,11 +141,11 @@ i18n.use(initReactI18next).init({
         importTantInfo: "BESONDERHEITEN",
 
         //akte
-        diagnosen: "DIAGNOSEN",
+        diagnosen: "DIAGNOSE",
         operationen: "OPERATIONEN",
         medicamentPlan: "MEDIKAMENTEN PLAN",
-        nebenDiagnosen: "NEBENDIAGNOSEN",
-        location: "LOCATION",
+        nebenDiagnosen: "BERUF",
+        location: "ADRESSE",
 
         //guest
         guestLogin: "Gast-Login",
