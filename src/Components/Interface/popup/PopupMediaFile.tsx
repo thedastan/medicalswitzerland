@@ -969,7 +969,7 @@ export default function PopupMediaFile() {
                       rounded="7px"
                       onClick={() => getCropData()}
                     >
-                      <Trans>done</Trans>!
+                      <Trans>upload</Trans>!
                     </Button>
                   </Box>
                 </Box>
@@ -1069,7 +1069,7 @@ export default function PopupMediaFile() {
                     filesId ? handlePostMoreFiles() : handlePostFiles()
                   }
                 >
-                  <Trans>done</Trans>!
+                  <Trans>upload</Trans>!
                 </Button>
               </Box>
             </Box>
