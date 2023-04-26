@@ -20,7 +20,6 @@ function App() {
     if (language) {
       i18n.changeLanguage(language);
     }
-    console.log("DE");
   }, []);
   return (
     <Box bg="black" pos="relative">
@@ -34,7 +33,7 @@ function App() {
             </Interface>
           }
         />
-        <Route path="/reset/*" element={<ResetPassword />} />
+        <Route path="/reset*" element={<ResetPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Box>

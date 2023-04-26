@@ -97,17 +97,13 @@ export default function PopupMediaFile() {
   };
 
   const getCropData = () => {
-    if (!title.length && !text.length) {
-      setTextValidate(true);
+    if (!title.length) {
       setTitleValidate(true);
     } else if (!title.length) {
       setTitleValidate(true);
-    } else if (!text.length) {
-      setTextValidate(true);
     } else {
       if (typeof cropperRef.current?.cropper !== "undefined") {
         setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
-        setValidate(true);
       }
     }
 
@@ -154,7 +150,7 @@ export default function PopupMediaFile() {
           .then(({ data }) => {
             if (data) {
               API.post(`groups/${dataGroup.id}/info/`, {
-                text: text,
+                text: text ? text : "   ",
                 file_url: data.path,
               })
                 .then(() => {
@@ -209,63 +205,59 @@ export default function PopupMediaFile() {
     const formData = new FormData();
     formData.append("file", image);
 
-    if (text.length) {
-      setLoader(true);
-      dispatch({
-        type: InterfaceImageTypes.USER_FILES_LOADER,
-        payload: true,
-      });
-      await API.post("users/upload/", formData)
-        .then(({ data }) => {
-          if (data) {
-            API.post(`groups/${filesId}/info/`, {
-              text: text,
-              file_url: data.path,
-            })
-              .then(() => {
-                dispatch({
-                  type: InterfaceImageTypes.USER_FILES_LOADER,
-                  payload: false,
-                });
-                ActionActiveModalMedia(false);
-                setTextValidate(false);
-                setPdfIncludes(false);
-                ActionUpload(true);
-                setLoader(false);
-                ActionAllGroups();
-                ActionFilesId("");
-                setImageFile("");
-                setCropData("");
-                setText("");
-                setTitle("");
-              })
-              .catch((e) => {
-                dispatch({
-                  type: InterfaceImageTypes.USER_FILES_LOADER,
-                  payload: false,
-                });
-                ActionActiveModalMedia(false);
-                ActionErrorMessenger(e);
-                setTextValidate(false);
-                setPdfIncludes(false);
-                ActionAllGroups();
-                setLoader(false);
-                ActionError(true);
-                setImageFile("");
-                setCropData("");
-                setText("");
-                setTitle("");
+    setLoader(true);
+    dispatch({
+      type: InterfaceImageTypes.USER_FILES_LOADER,
+      payload: true,
+    });
+    await API.post("users/upload/", formData)
+      .then(({ data }) => {
+        if (data) {
+          API.post(`groups/${filesId}/info/`, {
+            text: text ? text : "   ",
+            file_url: data.path,
+          })
+            .then(() => {
+              dispatch({
+                type: InterfaceImageTypes.USER_FILES_LOADER,
+                payload: false,
               });
-          }
-        })
-        .catch((e) => {
-          ActionErrorMessenger(e);
-          ActionError(true);
-          setLoader(false);
-        });
-    } else {
-      setTextValidate(true);
-    }
+              ActionActiveModalMedia(false);
+              setTextValidate(false);
+              setPdfIncludes(false);
+              ActionUpload(true);
+              setLoader(false);
+              ActionAllGroups();
+              ActionFilesId("");
+              setImageFile("");
+              setCropData("");
+              setText("");
+              setTitle("");
+            })
+            .catch((e) => {
+              dispatch({
+                type: InterfaceImageTypes.USER_FILES_LOADER,
+                payload: false,
+              });
+              ActionActiveModalMedia(false);
+              ActionErrorMessenger(e);
+              setTextValidate(false);
+              setPdfIncludes(false);
+              ActionAllGroups();
+              setLoader(false);
+              ActionError(true);
+              setImageFile("");
+              setCropData("");
+              setText("");
+              setTitle("");
+            });
+        }
+      })
+      .catch((e) => {
+        ActionErrorMessenger(e);
+        ActionError(true);
+        setLoader(false);
+      });
   };
 
   const handleCencelCrop = () => {
@@ -326,20 +318,18 @@ export default function PopupMediaFile() {
       });
   };
 
-  //useEffects
+  // useEffects;
   useEffect(() => {
-    if (cropData) {
-      handlePostFiles();
+    if (cropData && title.length) {
+      if (!filesId) {
+        handlePostFiles();
+      }
     }
   }, [validate, checked]);
 
   useEffect(() => {
     if (filesId) {
-      if (text.length) {
-        handlePostMoreFiles();
-      } else {
-        setTextValidate(true);
-      }
+      handlePostMoreFiles();
     }
   }, [renderMore, checked]);
 
@@ -358,8 +348,6 @@ export default function PopupMediaFile() {
   useEffect(() => {
     ActionGetUser(window.location.pathname.slice(6));
   }, [isChecked]);
-
-  console.log(filesId);
 
   useEffect(() => {
     if (user.guest_mode) {
@@ -1048,9 +1036,7 @@ export default function PopupMediaFile() {
                   bg="transparent"
                   textColor="white"
                   fontSize="15px"
-                  placeholder={`${
-                    lang === "de" ? "Kommentar" : "Comment"
-                  }`}
+                  placeholder={`${lang === "de" ? "Kommentar" : "Comment"}`}
                   roundedBottom="5pxpx"
                   fontWeight="300"
                   fontFamily="inter"
@@ -1068,20 +1054,33 @@ export default function PopupMediaFile() {
                 gap="2px"
                 mt="20px"
               >
-                <Button
-                  textColor="white"
-                  bg="#0B6CFF"
-                  fontSize="16px"
-                  fontWeight="600"
-                  w="100%"
-                  h="35px"
-                  rounded="7px"
-                  onClick={() =>
-                    filesId ? handlePostMoreFiles() : handlePostFiles()
-                  }
-                >
-                  <Trans>upload</Trans>
-                </Button>
+                {filesId ? (
+                  <Button
+                    textColor="white"
+                    bg="#0B6CFF"
+                    fontSize="16px"
+                    fontWeight="600"
+                    w="100%"
+                    h="35px"
+                    rounded="7px"
+                    onClick={() => handlePostMoreFiles()}
+                  >
+                    <Trans>upload</Trans>
+                  </Button>
+                ) : (
+                  <Button
+                    textColor="white"
+                    bg="#0B6CFF"
+                    fontSize="16px"
+                    fontWeight="600"
+                    w="100%"
+                    h="35px"
+                    rounded="7px"
+                    onClick={() => handlePostFiles()}
+                  >
+                    <Trans>upload</Trans>
+                  </Button>
+                )}
               </Box>
             </Box>
           </Box>
