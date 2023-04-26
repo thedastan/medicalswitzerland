@@ -811,7 +811,7 @@ export default function PopupMediaFile() {
                         size="lg"
                         isChecked={isChecked}
                         rounded="12px"
-                        colorScheme="#1F61E1"
+                        colorScheme="blue"
                         onChange={(e) => activeGuestMode(e.target.checked)}
                         boxShadow="0px 10px 10px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
                       />
