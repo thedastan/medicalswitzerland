@@ -90,7 +90,7 @@ i18n.use(initReactI18next).init({
         welcome: "Welcome back",
         welcomeToYour: "Welcome to your medicalswitzerland HealthCard",
         wrongEmailAdress: "Wrong email address",
-        letsStartWith: "Lets startwith your registration",
+        letsStartWith: "Let's start with your registration",
         requiredFields: "Required fields",
         passwordDoesNot: "Password does not match",
         fieldPasswordRequired: "Field password required",
