@@ -164,7 +164,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                     color="white"
                     onClick={() => setSuccess(!success)}
                   >
-                    Your profil has been successfully deleted
+                    Your profile has been successfully deleted
                   </Text>
                 )}
               </Box>
