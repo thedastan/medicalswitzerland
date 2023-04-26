@@ -54,7 +54,7 @@ i18n.use(initReactI18next).init({
         emergencyContact: "EMERGENCY CONTACT",
         firstName: "FIRST NAME",
         lastName: "LAST NAME",
-        importTantInfo: "IMPORTTANT INFORMATION / OR MEDICATIONS",
+        importTantInfo: "IMPORTANT INFORMATION / OR MEDICATIONS",
 
         //akte
         diagnosen: "DIAGNOSIS",
