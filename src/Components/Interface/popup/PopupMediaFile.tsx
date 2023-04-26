@@ -169,6 +169,7 @@ export default function PopupMediaFile() {
                   setImageFile("");
                   setCropData("");
                   setText("");
+                  setTitle("");
                 })
                 .catch(() => {
                   dispatch({
@@ -183,6 +184,7 @@ export default function PopupMediaFile() {
                   setImageFile("");
                   setCropData("");
                   setText("");
+                  setTitle("");
                 });
             }
           })
@@ -233,6 +235,7 @@ export default function PopupMediaFile() {
                 setImageFile("");
                 setCropData("");
                 setText("");
+                setTitle("");
               })
               .catch((e) => {
                 dispatch({
@@ -249,6 +252,7 @@ export default function PopupMediaFile() {
                 setImageFile("");
                 setCropData("");
                 setText("");
+                setTitle("");
               });
           }
         })
@@ -325,7 +329,7 @@ export default function PopupMediaFile() {
     if (cropData) {
       handlePostFiles();
     }
-  }, [validate]);
+  }, [validate, checked]);
 
   useEffect(() => {
     if (filesId) {
@@ -352,6 +356,8 @@ export default function PopupMediaFile() {
   useEffect(() => {
     ActionGetUser(window.location.pathname.slice(6));
   }, [isChecked]);
+
+  console.log(filesId);
 
   useEffect(() => {
     if (user.guest_mode) {
@@ -506,6 +512,7 @@ export default function PopupMediaFile() {
         left="0"
         right="0"
         display="flex"
+        zIndex="2"
         justifyContent="center"
         alignItems="center"
       >
@@ -901,7 +908,7 @@ export default function PopupMediaFile() {
                     <Box bg="#141414" mt="20px" rounded="5px">
                       {!filesId && (
                         <Input
-                          defaultValue={title}
+                          value={title}
                           onChange={(e) => setTitle(e.target.value)}
                           bg="transparent"
                           color="white"
@@ -962,7 +969,7 @@ export default function PopupMediaFile() {
                       rounded="7px"
                       onClick={() => getCropData()}
                     >
-                      <Trans>done</Trans>
+                      <Trans>done</Trans>!
                     </Button>
                   </Box>
                 </Box>

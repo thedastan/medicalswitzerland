@@ -290,7 +290,7 @@ export default function Interface({ children }: IInterfaceProps) {
                 medical
                 <span style={{ color: "#E11F26" }}>switzerland</span>
               </Text>
-              <Box pos="relative" zIndex="2" w="100px" h="100px" mx="auto">
+              <Box pos="relative" zIndex="1" w="100px" h="100px" mx="auto">
                 <Image
                   src={`${API_ADDRESS?.substring(0, 35)}${user.avatar.slice(
                     1
