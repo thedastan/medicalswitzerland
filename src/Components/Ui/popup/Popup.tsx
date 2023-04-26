@@ -116,14 +116,14 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                       <span style={{ color: "#E11F26" }}>switzerland</span>
                     </Text>
                     <Text
-                      fontSize="12px"
+                      fontSize="15px"
                       fontFamily="inter"
                       mb="27px"
                       textAlign="center"
                       color="white"
                     >
                       {signOut
-                        ? "Are you sure you want to get out of your profile?"
+                        ? "Sign out?"
                         : "Do you want to delete your medicalswitzerland Profil ?"}
                     </Text>
                     <Box>
