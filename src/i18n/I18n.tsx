@@ -31,8 +31,8 @@ i18n.use(initReactI18next).init({
         signOut: "Sign out",
         changePassword: "Change password",
         create: "Create",
-        cropAvatar: "Crop Avatar",
-        saveAvatar: "Save Avatar",
+        cropAvatar: "Edit Profile Picture",
+        saveAvatar: "Save Profile Avatar",
         fileUpload: "File is uploading...",
 
         //save-contact
@@ -119,8 +119,8 @@ i18n.use(initReactI18next).init({
         signOut: "Austragen",
         changePassword: "Kennwort ändern",
         create: "Erstellen",
-        cropAvatar: "Avatar zuschneiden",
-        saveAvatar: "Avatar speichern",
+        cropAvatar: "Profilbild bearbeiten",
+        saveAvatar: "Profilbild speichern",
         fileUpload: "Datei wird hochgeladen...",
 
         //save-contact
