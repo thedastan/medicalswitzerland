@@ -33,3 +33,24 @@ input::-ms-input-placeholder {
   /* Microsoft Edge */
   color: rgb(255, 255, 255);
 }
+
+textarea::placeholder {
+  color: rgb(255, 255, 255);
+  opacity: 1; /* Firefox */
+}
+
+textarea:-ms-input-placeholder {
+  color: rgb(255, 255, 255);
+  opacity: 1;
+}
+
+textarea::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgb(255, 255, 255);
+  opacity: 1;
+}
+
+textarea[disabled] {
+  opacity: 1;
+  color: rgb(255, 255, 255);
+}
