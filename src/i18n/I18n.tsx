@@ -66,6 +66,8 @@ i18n.use(initReactI18next).init({
         desc: "Enter the password we sent to your email adress ",
         next: "Next",
         register: "Register",
+        fileAnAll: "Fill in all fields, they are both required",
+        thisIsCode: "This code is wrong",
 
         //popup-messengers
         wellDone: "Well Done",
@@ -76,6 +78,17 @@ i18n.use(initReactI18next).init({
         resetYourPasword: "Reset Your Password",
         descReset:
           "Password reset link sent to your registered email address. Please check your inbox or spam folder",
+
+        //registration
+        checkTheUserName: "Mistake!!! Check the username or that password",
+        clickIfYouDontRememberYourPassword:
+          "Click if you don’t remember your password",
+        welcome: "Welcome back",
+        welcomeToYour: "Welcome to your medicalswitzerland HealthCard",
+        wrongEmailAdress: "Wrong email address",
+        letsStartWith: "Lets startwith your registration",
+        requiredFields: "Required fields",
+        passwordDoesNot: "Password does not match",
       },
     },
     de: {
@@ -135,6 +148,8 @@ i18n.use(initReactI18next).init({
         desc: "Geben Sie das Passwort ein, das wir an Ihre E-Mail-Adresse gesendet haben",
         next: "nächste",
         register: "Registrieren",
+        fileAnAll: "Füllen Sie alle Felder aus, beide sind Pflichtfelder",
+        thisIsCode: "Dieser Code ist falsch",
 
         //popup-m
         wellDone: "Gut gemacht",
@@ -145,6 +160,19 @@ i18n.use(initReactI18next).init({
         resetYourPasword: "Ihre Registrierung war erfolgreich",
         descReset:
           "Link zum Zurücksetzen des Passworts an Ihre registrierte E-Mail-Adresse gesendet. Bitte überprüfen Sie Ihren Posteingang oder Spam-Ordner",
+
+        //registration
+        checkTheUserName:
+          "Fehler!!! Überprüfen Sie den Benutzernamen oder das Kennwort",
+        clickIfYouDontRememberYourPassword:
+          "Klicken Sie, wenn Sie sich nicht an Ihr Passwort erinnern",
+        welcome: "Willkommen zurück",
+        welcomeToYour:
+          "Willkommen auf Ihrer medicalswitzerland GesundheitsCard",
+        wrongEmailAdress: "Falsche E-Mail Adresse",
+        letsStartWith: "Beginnen wir mit Ihrer Registrierung",
+        requiredFields: "Benötigte Felder",
+        passwordDoesNot: "Passwort stimmt nicht überein",
       },
     },
   },

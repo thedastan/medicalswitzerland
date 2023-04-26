@@ -194,7 +194,7 @@ export default function GeustMode() {
                     mb="51px"
                     textAlign="center"
                   >
-                    This code is wrong
+                    <Trans>thisIsCode</Trans>
                   </Text>
                 )}
               </Box>
@@ -262,7 +262,7 @@ export default function GeustMode() {
                     mb="43px"
                     textAlign="center"
                   >
-                    Fill in all fields, they are both required
+                    <Trans>fileAnAll</Trans>
                   </Text>
                 )}
                 {!validate.email && validate.name && (
@@ -274,7 +274,7 @@ export default function GeustMode() {
                     mb="43px"
                     textAlign="center"
                   >
-                    Fill in all fields, they are both required
+                    <Trans>fileAnAll</Trans>
                   </Text>
                 )}
                 {validate.email && !validate.name && (
@@ -286,7 +286,7 @@ export default function GeustMode() {
                     mb="43px"
                     textAlign="center"
                   >
-                    Fill in all fields, they are both required
+                    <Trans>fileAnAll</Trans>
                   </Text>
                 )}
               </Box>

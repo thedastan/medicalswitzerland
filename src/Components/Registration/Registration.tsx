@@ -245,8 +245,7 @@ export default function Registration() {
                   mb="32px"
                   px="42px"
                 >
-                  Welcome to your medicalswitzerland HealthCard
-                  {/* <Trans>register</Trans> */}
+                  <Trans>welcomeToYour</Trans>
                 </Text>
 
                 <Box maxW="344px" mb="10px">
@@ -261,8 +260,7 @@ export default function Registration() {
                   mb="13px"
                   px="42px"
                 >
-                  Lets startwith your registration
-                  {/* <Trans>register</Trans> */}
+                  <Trans>letsStartWith</Trans>
                 </Text>
                 {loading ? (
                   <Text>Loading...</Text>
@@ -359,7 +357,7 @@ export default function Registration() {
                           fontFamily="inter"
                           mb="7px"
                         >
-                          Wrong email address
+                          <Trans>wrongEmailAdress</Trans>
                         </Text>
                       )}
                       {errors.password && (
@@ -370,7 +368,7 @@ export default function Registration() {
                           fontFamily="inter"
                           mb="7px"
                         >
-                          Required fields
+                          <Trans>requiredFields</Trans>
                         </Text>
                       )}
                       {validate.confirm && (
@@ -381,7 +379,7 @@ export default function Registration() {
                           fontFamily="inter"
                           mb="7px"
                         >
-                          Password does not match
+                          <Trans>passwordDoesNot</Trans>
                         </Text>
                       )}
                       <Button
@@ -425,7 +423,7 @@ export default function Registration() {
                       mb="13px"
                       fontSize="15"
                     >
-                      Welcome Back
+                      <Trans>welcome</Trans>
                     </Text>
                     <Text
                       fontFamily="inter"
@@ -487,7 +485,7 @@ export default function Registration() {
                       cursor="pointer"
                       onClick={forgotPassword}
                     >
-                      Click if you don’t remember your password
+                      <Trans>clickIfYouDontRememberYourPassword</Trans>
                     </Text>
                     {validate.password && (
                       <Text
@@ -497,8 +495,7 @@ export default function Registration() {
                         fontFamily="inter"
                         mb="7px"
                       >
-                        Fehler!!! Überprüfen Sie den Benutzernamen oder das
-                        Passwort
+                        <Trans>checkTheUserName</Trans>
                       </Text>
                     )}
                     <Button
