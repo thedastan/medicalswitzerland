@@ -40,10 +40,6 @@
     color: white;
 }
 
-input::-webkit-input-placeholder {
-    color: #3D3D3D;
-}
-
 .textarea--notfall {
     text-align: start;
     width: 100%;
@@ -82,4 +78,8 @@ input::-webkit-input-placeholder {
     background-color: #141414;
     color: white;
     text-align: center;
+}
+
+textarea[disabled] {
+    color: #ffffff;
 }
