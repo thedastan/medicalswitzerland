@@ -65,6 +65,7 @@ export default function Interface({ children }: IInterfaceProps) {
   const [imageFile, setImageFile] = useState("");
   const [popupMore, setPopupMore] = useState(false);
   const [validToken, setValidToken] = useState<boolean>(false);
+  const [start, setStart] = useState(false);
 
   const handleActiveAuth = () => {
     if (user.is_first_time && !validToken) {
@@ -266,6 +267,10 @@ export default function Interface({ children }: IInterfaceProps) {
     tokenVerification(setValidToken);
   }, []);
 
+  useEffect(() => {
+    ActionGetUser(window.location.pathname.slice(6));
+  }, [start]);
+
   return (
     <Box minH="100vh" w="100%" position="relative">
       <PopupForMessage />
@@ -332,7 +337,7 @@ export default function Interface({ children }: IInterfaceProps) {
                 h="100px"
                 zIndex="2"
                 mx="auto"
-                mb="10px"
+                mb={user.is_first_time ? "0px" : "10px"}
                 pos="relative"
               >
                 <SvgDefaultAvatar />
@@ -348,6 +353,25 @@ export default function Interface({ children }: IInterfaceProps) {
                   </Box>
                 )}
               </Box>
+              {user.is_first_time && (
+                <Box mx="auto" bottom="100px" px="41px" w="100%">
+                  <Button
+                    bg="#0B6CFF"
+                    fontSize="16px"
+                    fontFamily="inter"
+                    rounded="7px"
+                    h="37px"
+                    w="100%"
+                    color="white"
+                    onClick={() => {
+                      ActiveModalRegistration(true);
+                      setStart(true);
+                    }}
+                  >
+                    START
+                  </Button>
+                </Box>
+              )}
             </Box>
           )}
         </Box>
