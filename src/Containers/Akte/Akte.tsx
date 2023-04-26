@@ -451,7 +451,7 @@ export default function Akte() {
             </Box>
           )}
 
-          <Box borderBottom="1px solid #454545" px="13px">
+          <Box borderBottom="1px solid #454545" px="13px" marginBottom="29px">
             <Text
               color="gray"
               fontSize="13px"
