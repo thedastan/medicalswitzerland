@@ -36,6 +36,8 @@ import SvgAvatarDefault from "../../../assets/svg/SvgAvatartDefault";
 import SvgChange from "../../../assets/svg/SvgChange";
 import axios from "axios";
 import Select from "../../Ui/Select/Select";
+import SvgRedBasket from "../../../assets/svg/SvgRedBasket";
+import BarLoader from "react-spinners/BarLoader";
 
 export default function PopupMediaFile() {
   const lang = localStorage.getItem("language") as string;
@@ -523,12 +525,19 @@ export default function PopupMediaFile() {
           alignItems="center"
           bg="black"
           pb="30px"
-          rounded="20px"
+          rounded="4px"
         >
-          <Text mb="10px" color="white" pt="30px" px="20px">
-            File is uploading...
+          <Text
+            fontSize="14px"
+            fontFamily="inter"
+            color="white"
+            pt="30px"
+            px="20px"
+            mb="20px"
+          >
+            <Trans>fileUpload</Trans>
           </Text>
-          <Spinner color="white" />
+          <BarLoader color="#0B6CFF" width="115px" />
         </Box>
       </Box>
     );
@@ -651,7 +660,7 @@ export default function PopupMediaFile() {
                     fontSize="20px"
                     mb="47px"
                   >
-                    {user.full_name?.split(" ")[0]}
+                    {user.full_name}
                   </Text>
                   {/* <Box zIndex="6" mb="19px">
                     {listProfile.map((el, index) => (
@@ -714,7 +723,7 @@ export default function PopupMediaFile() {
                       justifyContent="center"
                       alignItems="center"
                     >
-                      <SvgMore />
+                      <SvgMore width="22" heigth="22" />
                     </Box>
                     <Box
                       w="90%"
@@ -810,6 +819,8 @@ export default function PopupMediaFile() {
                         <Trans>guestLogin</Trans>
                       </Text>
                       <Switch
+                        w="45px"
+                        size="lg"
                         isChecked={isChecked}
                         rounded="12px"
                         colorScheme="orange"
@@ -833,7 +844,7 @@ export default function PopupMediaFile() {
                       justifyContent="center"
                       alignItems="center"
                     >
-                      <SvgBasket />
+                      <SvgRedBasket width="15" heigth="21" />
                     </Box>
                     <Box
                       w="90%"

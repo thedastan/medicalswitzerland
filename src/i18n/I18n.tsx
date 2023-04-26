@@ -33,6 +33,7 @@ i18n.use(initReactI18next).init({
         create: "Create",
         cropAvatar: "Crop Avatar",
         saveAvatar: "Save Avatar",
+        fileUpload: "File is uploading...",
 
         //save-contact
         saveContact: "Save our contacts",
@@ -119,6 +120,7 @@ i18n.use(initReactI18next).init({
         create: "Erstellen",
         cropAvatar: "Avatar zuschneiden",
         saveAvatar: "Avatar speichern",
+        fileUpload: "Datei wird hochgeladen...",
 
         //save-contact
         saveContact: "Kontakt speichern",

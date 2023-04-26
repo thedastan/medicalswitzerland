@@ -157,7 +157,9 @@ export default function GeustMode() {
                 </Text>
                 <Input
                   placeholder={`${
-                    language === "de" ? "Email eingeben" : "Enter Email"
+                    language === "de"
+                      ? "6 - stelligen Zahlencode eingeben"
+                      : "Enter your 6 Digit Code"
                   }`}
                   textAlign="center"
                   fontSize="15px"

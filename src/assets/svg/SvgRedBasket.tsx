@@ -1,8 +1,10 @@
-export default function SvgRedBasket() {
+import { IProps } from "./Types";
+
+export default function SvgRedBasket({ heigth, width }: IProps) {
   return (
     <svg
-      width="13"
-      height="19"
+      width={width ? width : "13"}
+      height={heigth ? heigth : "19"}
       viewBox="0 0 13 19"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
