@@ -9,6 +9,8 @@ import { useActionsForMessage } from "../../Hooks/useActions";
 import { Trans } from "react-i18next";
 
 export default function ResetPassword() {
+  const language = localStorage.getItem("language") as string;
+
   const { ActionErrorMessenger, ActionError } = useActionsForMessage();
   const [eye, setEye] = useState({ password: false, confirm: false });
 
@@ -72,7 +74,9 @@ export default function ResetPassword() {
           <Box mb="6px" pos="relative">
             <Input
               value={dataPost.password}
-              placeholder="New password"
+              placeholder={`${
+                language === "de" ? "Neues Kennwort" : "New password"
+              }`}
               textAlign="center"
               fontSize="15px"
               fontWeight="200"
@@ -104,7 +108,11 @@ export default function ResetPassword() {
           <Box mb="19px" pos="relative">
             <Input
               value={dataPost.confirm}
-              placeholder="Confirm password"
+              placeholder={`${
+                language === "de"
+                  ? "Bestätige das Passwort"
+                  : "Confirm password"
+              }`}
               textAlign="center"
               fontSize="15px"
               fontWeight="200"
@@ -139,7 +147,7 @@ export default function ResetPassword() {
                 fontWeight="300"
                 color="#FF0000"
               >
-                Field password required
+                <Trans>fieldPasswordRequired</Trans>
               </Text>
             )}
             {validate.confirm && (
@@ -149,7 +157,7 @@ export default function ResetPassword() {
                 fontWeight="300"
                 color="#FF0000"
               >
-                passwords must match
+                <Trans>passwordsMustMatch</Trans>
               </Text>
             )}
           </Box>

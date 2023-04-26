@@ -206,7 +206,7 @@ export default function Interface({ children }: IInterfaceProps) {
           onClick={handleClickModalProfile}
         >
           <SvgProfile />
-          <Text color="white" pt="6px">
+          <Text color="white" fontSize="15px" pt="6px">
             <Trans>profile</Trans>
           </Text>
         </Box>
@@ -228,7 +228,7 @@ export default function Interface({ children }: IInterfaceProps) {
           onClick={handleActiveAuth}
         >
           <SvgSubtract />
-          <Text color="white" pt="6px">
+          <Text color="white" fontSize="15px" pt="6px">
             <Trans>add</Trans>
           </Text>
         </Box>
@@ -250,7 +250,7 @@ export default function Interface({ children }: IInterfaceProps) {
           onClick={handleClickModalMore}
         >
           <SVgContact />
-          <Text color="white">
+          <Text color="white" fontSize="15px">
             <Trans>contact</Trans>
           </Text>
         </Box>
@@ -413,18 +413,18 @@ export default function Interface({ children }: IInterfaceProps) {
               >
                 <Box w="100%" mx="auto">
                   {cropData ? (
-                    <Box w="95px" h="95px" mx="auto">
+                    <Box w="250px" h="250px" mx="auto">
                       <Image
                         src={cropData}
-                        w="95px"
-                        h="95px"
+                        w="250px"
+                        h="250px"
                         objectFit="cover"
                         rounded="50%"
                       />
                     </Box>
                   ) : (
                     <Box
-                      h="180px"
+                      h="310px"
                       pos="relative"
                       w="100%"
                       display="flex"
@@ -433,13 +433,14 @@ export default function Interface({ children }: IInterfaceProps) {
                       <Cropper
                         ref={cropperRef}
                         src={imageFile}
-                        minCropBoxWidth={150}
-                        minCropBoxHeight={150}
-                        minCanvasWidth={150}
-                        minCanvasHeight={150}
+                        guides={false}
+                        minCropBoxWidth={300}
+                        minCropBoxHeight={300}
+                        minCanvasWidth={300}
+                        minCanvasHeight={300}
                         style={{
                           width: "100%",
-                          height: "150px",
+                          height: "300px",
                           display: "flex",
                           justifyContent: "center",
                         }}
@@ -464,7 +465,11 @@ export default function Interface({ children }: IInterfaceProps) {
                       rounded="7px"
                       onClick={distributionFunction}
                     >
-                      {!cropData ? "Crop Avatar" : "Save Avatar"}
+                      {!cropData ? (
+                        <Trans>cropAvatar</Trans>
+                      ) : (
+                        <Trans>saveAvatar</Trans>
+                      )}
                     </Button>
                   </Box>
                 </Box>

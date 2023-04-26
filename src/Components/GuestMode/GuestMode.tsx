@@ -15,6 +15,8 @@ import PopupSuccessFull from "./popup/PopupSuccessFull";
 import { Trans, useTranslation } from "react-i18next";
 
 export default function GeustMode() {
+  const language = localStorage.getItem("language") as string;
+
   const { t } = useTranslation();
   const { ActionGroupsForGuest } = useActionsFile();
   const { ActionError, ActionErrorMessenger } = useActionsForMessage();
@@ -154,7 +156,9 @@ export default function GeustMode() {
                   <Trans>desc</Trans>
                 </Text>
                 <Input
-                  placeholder="Enter code"
+                  placeholder={`${
+                    language === "de" ? "Email eingeben" : "Enter Email"
+                  }`}
                   textAlign="center"
                   fontSize="15px"
                   fontWeight="200"
@@ -202,7 +206,9 @@ export default function GeustMode() {
               <Box>
                 <Input
                   className="input-guest"
-                  placeholder="Your name"
+                  placeholder={`${
+                    language === "de" ? "Ihren Namen" : "Your name"
+                  }`}
                   textAlign="center"
                   color="#fff"
                   fontSize="15px"
@@ -220,7 +226,9 @@ export default function GeustMode() {
                   }
                 />
                 <Input
-                  placeholder="Enter Email"
+                  placeholder={`${
+                    language === "de" ? "Email eingeben" : "Enter Email"
+                  }`}
                   textAlign="center"
                   fontSize="15px"
                   fontWeight="200"

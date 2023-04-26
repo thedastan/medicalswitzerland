@@ -36,6 +36,8 @@ interface Inputs {
 }
 
 export default function Registration() {
+  const language = localStorage.getItem("language") as string;
+
   const { t } = useTranslation();
 
   const {
@@ -71,7 +73,10 @@ export default function Registration() {
   const listInput = [
     {
       id: 1,
-      placeholder: "Enter your email",
+      placeholder:
+        language === "de"
+          ? "Geben sie ihre E-Mail Adresse ein"
+          : "Enter your email",
       name: "email",
       register: "email",
       type: "text",
@@ -83,7 +88,8 @@ export default function Registration() {
     },
     {
       id: 3,
-      placeholder: "Enter new password",
+      placeholder:
+        language === "de" ? "Neues Passwort eingeben" : "Enter new password",
       name: "password",
       register: "password",
       type: eye.password ? "text" : "password",
@@ -315,7 +321,11 @@ export default function Registration() {
                       ))}
                       <Box mb="17px" w="100%" mx="auto" position="relative">
                         <Input
-                          placeholder="Confirm  password"
+                          placeholder={`${
+                            language === "de"
+                              ? "Bestätige das Passwort"
+                              : "Confirm  password"
+                          }`}
                           textAlign="center"
                           fontSize="15px"
                           fontWeight="200"
@@ -438,7 +448,11 @@ export default function Registration() {
                     <Box position="relative">
                       <Input
                         textColor="white"
-                        placeholder="Enter password"
+                        placeholder={`${
+                          language === "de"
+                            ? "Passwort eingeben"
+                            : "Enter Password"
+                        }`}
                         fontSize="15px"
                         fontWeight="200"
                         rounded="4px"
@@ -513,7 +527,6 @@ export default function Registration() {
                       onClick={handleAuthPost}
                     >
                       Enter into your Personal Health
-                      {/* <Trans>login</Trans> */}
                     </Button>
                   </Box>
                 )}

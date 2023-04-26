@@ -38,6 +38,8 @@ import axios from "axios";
 import Select from "../../Ui/Select/Select";
 
 export default function PopupMediaFile() {
+  const lang = localStorage.getItem("language") as string;
+
   const { t } = useTranslation();
 
   //Actions
@@ -927,7 +929,9 @@ export default function PopupMediaFile() {
                         bg="transparent"
                         color="white"
                         fontSize="15px"
-                        placeholder="comentarie..."
+                        placeholder={`${
+                          lang === "de" ? "Kommentar" : "comentarie..."
+                        }`}
                         rounded="0px"
                         fontWeight="300"
                         fontFamily="inter"
@@ -1026,7 +1030,9 @@ export default function PopupMediaFile() {
                   bg="transparent"
                   textColor="white"
                   fontSize="15px"
-                  placeholder="comentarie..."
+                  placeholder={`${
+                    lang === "de" ? "Kommentar" : "comentarie..."
+                  }`}
                   roundedBottom="5pxpx"
                   fontWeight="300"
                   fontFamily="inter"
