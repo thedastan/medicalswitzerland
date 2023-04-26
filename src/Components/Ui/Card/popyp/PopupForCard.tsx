@@ -137,7 +137,7 @@ export default function PopupForCard({
                       textAlign="center"
                       color="white"
                     >
-                      Are you sure you want to delete ?
+                      Delete file?
                     </Text>
                     <Box>
                       <Button
