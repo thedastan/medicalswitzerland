@@ -557,9 +557,9 @@ export default function PopupMediaFile() {
           >
             <motion.div
               key={3}
-              initial={{ x: 100, opacity: 0 }}
+              initial={{ y: 100, opacity: 0 }}
               animate={{
-                x: 0,
+                y: 0,
                 opacity: 1,
                 transition: {
                   delay: 0.3,
