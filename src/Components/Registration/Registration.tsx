@@ -555,7 +555,7 @@ export default function Registration() {
                       mb="51px"
                       onClick={handleAuthPost}
                     >
-                      Enter into your Personal Health
+                      Login
                     </Button>
                   </Box>
                 )}
