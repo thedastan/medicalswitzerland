@@ -200,7 +200,6 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           fontFamily="inter"
           mb="8px"
-          mt="14px"
           cursor="pointer"
           fontSize="10px"
           fontWeight="300"
@@ -222,7 +221,6 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           fontFamily="inter"
           mb="8px"
-          mt="14px"
           cursor="pointer"
           fontSize="10"
           fontWeight="300"
@@ -244,7 +242,6 @@ export default function Interface({ children }: IInterfaceProps) {
           alignItems="center"
           fontFamily="inter"
           mb="8px"
-          mt="14px"
           cursor="pointer"
           fontSize="10"
           fontWeight="300"
@@ -337,7 +334,7 @@ export default function Interface({ children }: IInterfaceProps) {
                 h="100px"
                 zIndex="2"
                 mx="auto"
-                mb={user.is_first_time ? "0px" : "10px"}
+                mb={!validToken ? "0px" : "10px"}
                 pos="relative"
               >
                 <SvgDefaultAvatar />
@@ -372,6 +369,24 @@ export default function Interface({ children }: IInterfaceProps) {
                   </Button>
                 </Box>
               )}
+              {!user.is_first_time && !validToken && (
+                <Box mx="auto" bottom="100px" px="41px" w="100%">
+                  <Button
+                    bg="#0B6CFF"
+                    fontSize="16px"
+                    fontFamily="inter"
+                    rounded="7px"
+                    h="37px"
+                    w="100%"
+                    color="white"
+                    onClick={() => {
+                      ActiveModalRegistration(true);
+                    }}
+                  >
+                    LOGIN
+                  </Button>
+                </Box>
+              )}
             </Box>
           )}
         </Box>
@@ -382,11 +397,12 @@ export default function Interface({ children }: IInterfaceProps) {
         bg="black"
         display="flex"
         justifyContent="space-between"
-        alignItems="center"
+        alignItems="start"
         boxShadow="2px 4px 4px 2px #FFFFFF"
         mb="auto"
         w="100%"
-        h="75px"
+        h="95px"
+        pt="10px"
         bottom="0"
         left="0"
         right="0"
