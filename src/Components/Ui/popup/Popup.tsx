@@ -42,7 +42,6 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
     setTimeout(() => {
       window.location.reload();
     }, 3000);
-    setSuccess(true);
   };
 
   return (
