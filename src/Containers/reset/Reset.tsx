@@ -38,7 +38,7 @@ export default function ResetPassword() {
           )
           .then(() => {
             window.location.reload();
-            window.location.href = `https://medicialswitzerland.vercel.app/user/${
+            window.location.href = `https://medicalswitzerland.vercel.app/user/${
               window.location.href.split("?")[1].split("&&")[1].split("=")[1]
             }`;
             setIsSuccess(true);
@@ -95,7 +95,7 @@ export default function ResetPassword() {
               fontWeight="200"
               textAlign="center"
             >
-              CREATE NEW PASSWORD
+              <Trans>CREATENew</Trans>
             </Text>
             <Box mb="6px" pos="relative">
               <Input
