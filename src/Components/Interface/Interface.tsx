@@ -523,7 +523,7 @@ export default function Interface({ children }: IInterfaceProps) {
                         minCanvasWidth={300}
                         minCanvasHeight={300}
                         style={{
-                          width: "100%",
+                          width: "300px",
                           height: "300px",
                           display: "flex",
                           justifyContent: "center",

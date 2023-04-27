@@ -26,10 +26,6 @@ export default function ResetPassword() {
     password: false,
   });
 
-  const navigateUser = `${API_ADDRESS}user/${
-    window.location.href.split("?")[1]
-  }`;
-
   function postResetUser() {
     if (dataPost.password) {
       if (dataPost.password === dataPost.confirm) {
@@ -42,7 +38,9 @@ export default function ResetPassword() {
           )
           .then(() => {
             window.location.reload();
-            window.location.href = navigateUser;
+            window.location.href = `https://medicialswitzerland.vercel.app/user/${
+              window.location.href.split("?")[1].split("&&")[1].split("=")[1]
+            }`;
             setIsSuccess(true);
           })
           .catch((e) => {
@@ -69,9 +67,9 @@ export default function ResetPassword() {
       >
         {isSuccess ? (
           <NavLink
-            to={`https://medicialswitzerland.vercel.app/user/${window.location.pathname.slice(
-              -32
-            )}`}
+            to={`https://medicialswitzerland.vercel.app/user/${
+              window.location.href.split("?")[1].split("&&")[1].split("=")[1]
+            }`}
           >
             <Button
               h="50px"
