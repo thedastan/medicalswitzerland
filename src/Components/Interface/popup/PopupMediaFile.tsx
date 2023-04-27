@@ -912,7 +912,9 @@ export default function PopupMediaFile() {
                           bg="transparent"
                           color="white"
                           fontSize="15px"
-                          placeholder="Title..."
+                          placeholder={`${
+                          lang === "de" ? "Titel" : "Title"
+                        }`}
                           rounded="0px"
                           fontWeight="700"
                           fontFamily="inter"
@@ -936,7 +938,7 @@ export default function PopupMediaFile() {
                         color="white"
                         fontSize="15px"
                         placeholder={`${
-                          lang === "de" ? "Kommentar" : "Comment"
+                          lang === "de" ? "Kommentieren" : "Comment"
                         }`}
                         rounded="0px"
                         fontWeight="300"
@@ -1065,7 +1067,7 @@ export default function PopupMediaFile() {
                     rounded="7px"
                     onClick={() => handlePostMoreFiles()}
                   >
-                    <Trans>upload</Trans>
+                    <Trans>done</Trans>
                   </Button>
                 ) : (
                   <Button
@@ -1078,7 +1080,7 @@ export default function PopupMediaFile() {
                     rounded="7px"
                     onClick={() => handlePostFiles()}
                   >
-                    <Trans>upload</Trans>
+                    <Trans>done</Trans>
                   </Button>
                 )}
               </Box>
