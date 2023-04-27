@@ -29,6 +29,7 @@ import PopupForMessage from "../Ui/popups/PopupForMessage";
 import SvgExet from "../../assets/svg/SvgExit";
 import { tokenVerification } from "../Helpers/action";
 import { Trans, useTranslation } from "react-i18next";
+import { BarLoader } from "react-spinners";
 
 interface IInterfaceProps {
   children: JSX.Element;
@@ -61,6 +62,7 @@ export default function Interface({ children }: IInterfaceProps) {
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const cropperRef = createRef<ReactCropperElement>();
 
+  const [loader, setLoader] = useState(false);
   const [cropData, setCropData] = useState("");
   const [imageFile, setImageFile] = useState("");
   const [popupMore, setPopupMore] = useState(false);
@@ -119,6 +121,7 @@ export default function Interface({ children }: IInterfaceProps) {
     const formData = new FormData();
     formData.append("file", image);
 
+    setLoader(true);
     await API.post("users/upload/", formData)
       .then(({ data }) => {
         if (data) {
@@ -169,14 +172,18 @@ export default function Interface({ children }: IInterfaceProps) {
                 title: "updateAvatar",
                 desc: "",
               });
+              ActionGetUser(window.location.pathname?.slice(6));
+              setLoader(false);
             })
             .catch(() => {
               ActionError(true);
               ActionErrorMessenger("filedToSend");
+              setLoader(false);
             });
         }
       })
       .catch((e) => {
+        setLoader(false);
         ActionError(true);
         ActionErrorMessenger(e);
       });
@@ -270,6 +277,43 @@ export default function Interface({ children }: IInterfaceProps) {
 
   return (
     <Box minH="100vh" w="100%" position="relative">
+      {loader && (
+        <Box
+          minH="100vh"
+          bg="rgba(0, 0, 0, 0.6)"
+          pos="fixed"
+          top="0"
+          bottom="0"
+          left="0"
+          right="0"
+          display="flex"
+          zIndex="2"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Box
+            display="flex"
+            flexDir="column"
+            justifyContent="center"
+            alignItems="center"
+            bg="black"
+            pb="30px"
+            rounded="4px"
+          >
+            <Text
+              fontSize="14px"
+              fontFamily="inter"
+              color="white"
+              pt="30px"
+              px="20px"
+              mb="20px"
+            >
+              <Trans>fileUpload</Trans>
+            </Text>
+            <BarLoader color="#0B6CFF" width="115px" />
+          </Box>
+        </Box>
+      )}
       <PopupForMessage />
       <input
         style={{ display: "none" }}
