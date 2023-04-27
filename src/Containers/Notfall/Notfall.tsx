@@ -591,7 +591,7 @@ export default function Notfall() {
                                   rounded="7px"
                                   onClick={() => handlePutFile()}
                                 >
-                                  <Trans>upload</Trans>
+                                  <Trans>done</Trans>
                                 </Button>
                               </Box>
                             )}
@@ -663,7 +663,7 @@ export default function Notfall() {
               color="white"
               onClick={() => handleClickPut()}
             >
-              <Trans>upload</Trans>
+              <Trans>done</Trans>
             </Button>
           </Box>
         )}
