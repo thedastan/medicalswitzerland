@@ -26,7 +26,9 @@ export default function ResetPassword() {
     password: false,
   });
 
-  const navigateUser = `${API_ADDRESS}/user/${window.location.href.slice(-32)}`;
+  const navigateUser = `${API_ADDRESS}user/${
+    window.location.href.split("?")[1]
+  }`;
 
   function postResetUser() {
     if (dataPost.password) {
