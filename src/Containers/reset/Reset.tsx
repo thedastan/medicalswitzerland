@@ -67,7 +67,7 @@ export default function ResetPassword() {
       >
         {isSuccess ? (
           <NavLink
-            to={`https://medicialswitzerland.vercel.app/user/${
+            to={`https://medicalswitzerland.vercel.app/user/${
               window.location.href.split("?")[1].split("&&")[1].split("=")[1]
             }`}
           >
