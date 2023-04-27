@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Box, Button, Input, Text } from "@chakra-ui/react";
+import Compressor from "compressorjs";
 import { useState } from "react";
 
 import SvgEye from "../../assets/svg/SvgEye";
@@ -31,9 +32,12 @@ export default function ResetPassword() {
     if (dataPost.password) {
       if (dataPost.password === dataPost.confirm) {
         axios
-          .post(`${API_ADDRESS}users/reset/${window.location.href.slice(44)}`, {
-            password: dataPost.password,
-          })
+          .post(
+            `${API_ADDRESS}users/reset/?${window.location.href.split("?")[1]}`,
+            {
+              password: dataPost.password,
+            }
+          )
           .then(() => {
             window.location.reload();
             window.location.href = navigateUser;
@@ -50,10 +54,6 @@ export default function ResetPassword() {
       setValidate({ ...validate, password: true });
     }
   }
-  // const res =
-  //   "https://medicalswitzerland.vercel.app/reset?rpt=b14bfbd92789e57a904cd9cca69acea4&&uci=f997f3b7026256bb6b66605edf5a8795";
-  // console.log(res.slice(44));
-  // console.log(window.location.href.slice(28), "href");
 
   return (
     <>

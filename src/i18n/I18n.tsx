@@ -18,7 +18,7 @@ i18n.use(initReactI18next).init({
         addMore: "Add more",
         contact: "Contact",
         done: "DONE",
-        upload:"Upload", 
+        upload: "Upload",
         document: "Files",
         deleteProfile: "Delete profile",
         editProfile: "Edit profile",
@@ -82,6 +82,7 @@ i18n.use(initReactI18next).init({
         resetYourPasword: "Reset Your Password",
         descReset:
           "Password reset link sent to your registered email address. Please check your inbox or spam folder",
+        fileABig: "The file is too big",
 
         //registration
         checkTheUserName: "Mistake!!! Check the username or that password",
@@ -105,7 +106,7 @@ i18n.use(initReactI18next).init({
         login: "ANMELDUNG",
         addMore: "Mehr hinzufügen",
         contact: "Kontakt",
-        upload:"Hochladen", 
+        upload: "Hochladen",
         done: "Speichern",
         document: "Berichte",
         deleteProfile: "Profil löschen",
@@ -187,6 +188,7 @@ i18n.use(initReactI18next).init({
         fieldPasswordRequired: "Feldpasswort erforderlich",
         passwordsMustMatch: "Die Passwörter müssen übereinstimmen",
         takenEmail: "* Die eingegebene e mail Adresse ist bereits vergeben.",
+        fileABig: "Die Datei ist zu groß",
       },
     },
   },
