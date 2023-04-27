@@ -116,7 +116,7 @@ i18n.use(initReactI18next).init({
         profile: "Profil",
         photo: "Bilder ",
         medicalRecord: "PATIENTENAKTE",
-        signOut: "Austragen",
+        signOut: "Ausloggen",
         changePassword: "Kennwort ändern",
         create: "Erstellen",
         cropAvatar: "Profilbild bearbeiten",
