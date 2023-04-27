@@ -1,3 +1,4 @@
+import { Dispatch } from "redux";
 import API from "../../Api";
 import { ActionGroupPut } from "../Interface/redux-image/action/Action";
 import { IInfoList } from "../Interface/redux-image/types/Types";
@@ -5,6 +6,8 @@ import {
   ActionError,
   ActionErrorMessenger,
 } from "../Ui/popups/redux/action/Action";
+import imageCompression from "browser-image-compression";
+import { ActionTypesPopupMessage } from "../Ui/popups/redux/types/Types";
 
 interface IHandlePutFilesProps {
   text: string;
@@ -31,7 +34,7 @@ interface IHandlePutFileProps {
   setPdfIncludes: (value: boolean) => void;
 }
 
-export const onChangeImage = (
+export const onChangeImage = async (
   e: React.ChangeEvent<HTMLInputElement>,
   setImageFile: (value: string) => void
 ) => {
@@ -40,12 +43,23 @@ export const onChangeImage = (
   let files: FileList | null | any;
   files = e.target.files;
 
-  const read = new FileReader();
-  read.onload = () => {
-    setImageFile(read.result as string);
+  const options = {
+    maxSizeMB: 0.8,
+    maxWidthOrHeight: 800,
+    useWebWorker: true,
   };
 
-  read.readAsDataURL(files[0]);
+  try {
+    const compressedFile = await imageCompression(files[0], options);
+    const reader = await new FileReader();
+    reader.onload = () => {
+      setImageFile(reader.result as any);
+    };
+    reader.readAsDataURL(compressedFile);
+  } catch (e) {
+    ActionError(true);
+    ActionErrorMessenger("fileABig");
+  }
 };
 
 export function dataURLtoFile(dataurl: any, filename: string) {

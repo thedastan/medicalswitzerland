@@ -3,15 +3,11 @@ import { Box, Text } from "@chakra-ui/layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { createRef, useEffect, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
-import { Button, Image, Input, Spinner, Switch } from "@chakra-ui/react";
+import { Button, Image, Input, Switch } from "@chakra-ui/react";
 import { Trans, useTranslation } from "react-i18next";
 import "cropperjs/dist/cropper.css";
 
 /* Local dependencies */
-import SvgPhoneCall from "../../../assets/svg/SvgPhoneCall";
-import SvgMail from "../../../assets/svg/SvgMail";
-import SvgLocation from "../../../assets/svg/SvgLocation";
-import SvgBasket from "../../../assets/svg/SvgBasket";
 import SvgPdf from "../../../assets/svg/SvgPdf";
 import i18n from "../../../i18n/I18n";
 import API, { API_ADDRESS } from "../../../Api";
@@ -190,8 +186,13 @@ export default function PopupMediaFile() {
           })
           .catch((e) => {
             setLoader(false);
+            ActionActiveModalMedia(false);
+            setTextValidate(false);
+            setPdfIncludes(false);
+            ActionUpload(true);
+            setLoader(false);
             ActionError(true);
-            ActionErrorMessenger(e);
+            ActionErrorMessenger("fileABig");
           });
       }
     } catch (e) {
