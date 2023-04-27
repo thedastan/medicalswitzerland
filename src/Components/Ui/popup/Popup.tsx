@@ -27,7 +27,9 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
       ActionGetUser(window.location.pathname.slice(6));
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("accessToken");
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
       setSuccess(true);
     } catch (e) {
       setSuccess(false);
@@ -37,7 +39,9 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
   const signOutFn = async () => {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("accessToken");
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
     setSuccess(true);
   };
 

@@ -165,6 +165,7 @@ export default function Registration() {
             title: "sayHello",
             desc: "yourRegistration",
           });
+          ActionGetUser(window.location.pathname.slice(6));
           setTakenEmail(false);
           ActiveModalRegistration(false);
         })
@@ -172,7 +173,6 @@ export default function Registration() {
           ActiveModalRegistration(true);
           setTakenEmail(true);
         });
-      ActionGetUser(window.location.pathname.slice(6));
     }
   };
 
