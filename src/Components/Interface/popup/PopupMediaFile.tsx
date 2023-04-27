@@ -169,7 +169,7 @@ export default function PopupMediaFile() {
                   setText("");
                   setTitle("");
                 })
-                .catch(() => {
+                .catch((e) => {
                   dispatch({
                     type: InterfaceImageTypes.USER_FILES_LOADER,
                     payload: false,
@@ -183,6 +183,8 @@ export default function PopupMediaFile() {
                   setCropData("");
                   setText("");
                   setTitle("");
+                  ActionError(true);
+                  ActionErrorMessenger(`${e}`);
                 });
             }
           })
@@ -356,140 +358,6 @@ export default function PopupMediaFile() {
       window.localStorage.setItem("isChecked", JSON.stringify(false));
     }
   });
-
-  //list-profile
-  const listProfile = [
-    {
-      content: user.emergency_contact && (
-        <Box
-          display="flex"
-          alignItems="center"
-          bg="#1F1F1F"
-          textAlign="center"
-          borderTopRadius="5px"
-        >
-          <Box
-            w="18%"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <SvgPhoneCall />
-          </Box>
-          <a
-            href={`tel:${user.emergency_contact}`}
-            style={{ width: "100%" }}
-            target="_blank"
-          >
-            <Box
-              w="100%"
-              mx="auto"
-              h="50px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              borderBottom="1px solid #454545"
-              pr="30"
-            >
-              <Text
-                color="white"
-                fontWeight="300"
-                fontSize="16px"
-                fontFamily="inter"
-              >
-                {user.emergency_contact}
-              </Text>
-            </Box>
-          </a>
-        </Box>
-      ),
-    },
-    {
-      content: user.email && (
-        <Box
-          display="flex"
-          alignItems="center"
-          bg="#1F1F1F"
-          textAlign="center"
-          px="2px"
-          borderTopRadius={!user.emergency_contact ? "5px" : "0px"}
-          borderBottomRadius={!user.location ? "5px" : "0px"}
-        >
-          <Box
-            w="18%"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <SvgMail />
-          </Box>
-          <a
-            href={`mailto:${user.email}`}
-            style={{ width: "100%" }}
-            target="_blank"
-          >
-            <Box
-              w="100%"
-              mx="auto"
-              h="50px"
-              pr="30"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              borderBottom="1px solid #454545"
-            >
-              <Text
-                color="white"
-                fontWeight="300"
-                fontSize="16px"
-                fontFamily="inter"
-              >
-                {user.email}
-              </Text>
-            </Box>
-          </a>
-        </Box>
-      ),
-    },
-    {
-      content: user.location && (
-        <Box
-          display="flex"
-          alignItems="center"
-          bg="#1F1F1F"
-          borderBottomRadius="5px"
-          textAlign="center"
-        >
-          <Box
-            w="18%"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <SvgLocation />
-          </Box>
-          <Box
-            w="90%"
-            mx="auto"
-            h="50px"
-            pr="30"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Text
-              color="white"
-              fontWeight="300"
-              fontSize="16px"
-              fontFamily="inter"
-            >
-              {user.location}
-            </Text>
-          </Box>
-        </Box>
-      ),
-    },
-  ];
 
   if (loader) {
     return (
@@ -912,9 +780,7 @@ export default function PopupMediaFile() {
                           bg="transparent"
                           color="white"
                           fontSize="15px"
-                          placeholder={`${
-                          lang === "de" ? "Titel" : "Title"
-                        }`}
+                          placeholder={`${lang === "de" ? "Titel" : "Title"}`}
                           rounded="0px"
                           fontWeight="700"
                           fontFamily="inter"

@@ -597,55 +597,53 @@ export default function Notfall() {
                             )}
                           </Box>
                         ))}
-                        {deleteImg && (
-                          <Box mx="auto">
-                            <Box
-                              bg="#262626"
-                              h="448px"
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                              onClick={() => {
-                                ActionFilesId(groupId);
-                                ActionActiveModalMedia(true);
-                                ActionActiveSubtrac(true);
-                                ActionActiveProfile(false);
-                              }}
-                            >
-                              <SvgBluePluse />
-                            </Box>
-                            <Box
-                              bg="#141414"
-                              rounded="5px"
-                              px="4px"
-                              mb="7px"
-                              mt="7px"
-                            >
-                              <Input
-                                placeholder={`${
-                                  language === "de"
-                                    ? "Beschreibung"
-                                    : "Description"
-                                }`}
-                                borderColor="transparent"
-                                defaultValue={text}
-                                fontFamily="inter"
-                                textColor="white"
-                                bg="transparent"
-                                fontWeight="300"
-                                fontSize="15px"
-                                outline="black"
-                                rounded="0px"
-                                name="text"
-                                pl="10px"
-                                w="100%"
-                                mb="7px"
-                                h="37px"
-                                onChange={(e) => setText(e.target.value)}
-                              />
-                            </Box>
+                        {/* <Box mx="auto">
+                          <Box
+                            bg="#262626"
+                            h="448px"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            onClick={() => {
+                              ActionFilesId(groupId);
+                              ActionActiveModalMedia(true);
+                              ActionActiveSubtrac(true);
+                              ActionActiveProfile(false);
+                            }}
+                          >
+                            <SvgBluePluse />
                           </Box>
-                        )}
+                          <Box
+                            bg="#141414"
+                            rounded="5px"
+                            px="4px"
+                            mb="7px"
+                            mt="7px"
+                          >
+                            <Input
+                              placeholder={`${
+                                language === "de"
+                                  ? "Beschreibung"
+                                  : "Description"
+                              }`}
+                              borderColor="transparent"
+                              defaultValue={text}
+                              fontFamily="inter"
+                              textColor="white"
+                              bg="transparent"
+                              fontWeight="300"
+                              fontSize="15px"
+                              outline="black"
+                              rounded="0px"
+                              name="text"
+                              pl="10px"
+                              w="100%"
+                              mb="7px"
+                              h="37px"
+                              onChange={(e) => setText(e.target.value)}
+                            />
+                          </Box>
+                        </Box> */}
                       </Slider>
                     </Box>
                   </Box>
