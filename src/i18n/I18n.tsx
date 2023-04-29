@@ -32,7 +32,7 @@ i18n.use(initReactI18next).init({
         changePassword: "Change password",
         create: "Create",
         cropAvatar: "Edit Profile Picture",
-        saveAvatar: "Save Profile Avatar",
+        saveAvatar: "Save Profile Picture",
         fileUpload: "File is uploading...",
         CREATNew:"CREATE NEW PASSWORD",
         //save-contact
@@ -128,7 +128,7 @@ i18n.use(initReactI18next).init({
         saveContact: "Kontakt speichern",
 
         //success-m
-        updateAvatar: "Avatar erfolgreich aktualisiert",
+        updateAvatar: "Profilbild erfolgreich aktualisiert",
         selectedFile: "Ausgewählte Datei erfolgreich gelöscht",
 
         //errors-m
