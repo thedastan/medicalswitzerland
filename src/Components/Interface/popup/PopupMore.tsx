@@ -158,7 +158,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 <Text fontSize="22px" textColor="middleGray" h="25px">
                   medical
                 </Text>
-                <Text fontSize="22px" color="red" mb="26px" w="150%">
+                <Text fontSize="22px" color="red" mb="26px" w="190%">
                   switzerland{" "}
                   <span style={{ color: "black" }}>
                     Hello {user.full_name?.split(" ")[0]}
