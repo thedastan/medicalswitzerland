@@ -155,10 +155,10 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
               justifyContent="space-between"
             >
               <Box w="45%">
-                <Text fontSize="22px" textColor="middleGray" h="25px">
+                <Text fontSize="22px" textColor="middleGray" h="25px" pt="10px">
                   medical
                 </Text>
-                <Text fontSize="22px" color="red" mb="26px" w="190%">
+                <Text fontSize="22px" color="red" mb="6px" w="190%" pt="15px">
                   switzerland{" "}
                   <span style={{ color: "black" }}>
                     Hello {user.full_name?.split(" ")[0]}
