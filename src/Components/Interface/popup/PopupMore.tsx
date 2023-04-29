@@ -143,7 +143,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 fontSize="22px"
                 textAlign="center"
                 right="40px"
-                bottom="10px"
+                bottom="0"
               >
                 Your personal <br /> Contact
               </Text>
