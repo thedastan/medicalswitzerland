@@ -91,7 +91,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
               <Box
                 bg="thirdlittleGray"
                 h="166px"
-                w="75vw"
+                w="88vw"
                 rounded="12px"
                 zIndex="10"
               >
