@@ -34,7 +34,7 @@ i18n.use(initReactI18next).init({
         cropAvatar: "Edit Profile Picture",
         saveAvatar: "Save Profile Picture",
         fileUpload: "File is uploading...",
-        CREATNew:"CREATE NEW PASSWORD",
+        CREATENew:"CREATE NEW PASSWORD",
         //save-contact
         saveContact: "Save our contacts",
 
@@ -97,10 +97,17 @@ i18n.use(initReactI18next).init({
         fieldPasswordRequired: "Field password required",
         passwordsMustMatch: "passwords must match",
         takenEmail: "* The e-mail address you entered is already taken",
+        no:"NO",
+        yes:"YES",
+        SuccessDelete:"Your profile has been  deleted",
+        deleteProfileConfirm:"Do you want to delete your medicalswitzerland Profile?",
       },
     },
     de: {
       translation: {
+        deleteProfileConfirm:"Möchten Sie Ihr medical switzerland Profil löschen",
+
+        SuccessDelete:"Ihr Profil wurde gelöscht",
         //all termin
         add: "Hinzufügen",
         login: "ANMELDUNG",
@@ -123,10 +130,11 @@ i18n.use(initReactI18next).init({
         cropAvatar: "Profilbild bearbeiten",
         saveAvatar: "Profilbild speichern",
         fileUpload: "Datei wird hochgeladen...",
-        CREATNew:"NEUES PASSWORT ERSTELLEN",
+        CREATENew: "NEUES PASSWORT FESTLEGEN",
         //save-contact
         saveContact: "Kontakt speichern",
-
+        no: "Nein",
+        yes: "Ja",
         //success-m
         updateAvatar: "Profilbild erfolgreich aktualisiert",
         selectedFile: "Ausgewählte Datei erfolgreich gelöscht",
@@ -179,10 +187,9 @@ i18n.use(initReactI18next).init({
         clickIfYouDontRememberYourPassword:
           "Klicken Sie, wenn Sie sich nicht an Ihr Passwort erinnern",
         welcome: "Willkommen zurück",
-        welcomeToYour:
-          "Willkommen auf Ihrer medicalswitzerland GesundheitsCard",
+        welcomeToYour: "Willkommen auf Ihrer medicalswitzerland HealthCard",
         wrongEmailAdress: "falsche E-Mail Adresse",
-        letsStartWith: "Beginnen wir mit Ihrer Registrierung",
+        letsStartWith: "Beginnen wir mit der Registrierung",
         requiredFields: "Benötigte Felder",
         passwordDoesNot: "Passwort stimmt nicht überein",
         fieldPasswordRequired: "Feldpasswort erforderlich",

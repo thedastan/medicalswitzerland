@@ -3,6 +3,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Trans, useTranslation } from "react-i18next";
 
 /* Local dependencies */
 import SvgClose from "../../../assets/svg/SvgClose";
@@ -19,6 +20,7 @@ interface IPopupProps {
 export default function Popup({ signOut, modal, setModal }: IPopupProps) {
   const { ActionGetUser } = useActionsUser();
   const [success, setSuccess] = useState(false);
+  const { t } = useTranslation();
 
   const destroyUser = async () => {
     try {
@@ -89,7 +91,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
               <Box
                 bg="thirdlittleGray"
                 h="166px"
-                w="75vw"
+                w="88vw"
                 rounded="12px"
                 zIndex="10"
               >
@@ -125,9 +127,12 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                       textAlign="center"
                       color="white"
                     >
-                      {signOut
-                        ? "Sign out?"
-                        : "Do you want to delete your medicalswitzerland Profil ?"}
+                      {signOut ? (
+                        <Trans>signOut</Trans>
+                      ) : (
+                        <Trans>deleteProfileConfirm</Trans>
+                      )}
+                      ?
                     </Text>
                     <Box>
                       <Button
@@ -141,7 +146,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                         _focus={{ bg: "#202020" }}
                         onClick={() => (signOut ? signOutFn() : destroyUser())}
                       >
-                        YES
+                        <Trans>yes</Trans>
                       </Button>
                       <Button
                         bg="#121212"
@@ -154,7 +159,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                         _focus={{ bg: "#202020" }}
                         onClick={() => setModal(false)}
                       >
-                        NO
+                        <Trans>no</Trans>
                       </Button>
                     </Box>
                   </>
@@ -167,7 +172,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                     color="white"
                     onClick={() => setSuccess(!success)}
                   >
-                    Your profile has been  deleted
+                   <Trans>SuccessDelete</Trans>
                   </Text>
                 )}
               </Box>
