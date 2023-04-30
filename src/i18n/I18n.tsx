@@ -34,11 +34,7 @@ i18n.use(initReactI18next).init({
         cropAvatar: "Edit Profile Picture",
         saveAvatar: "Save Profile Picture",
         fileUpload: "File is uploading...",
-<<<<<<< HEAD
         CREATENew:"CREATE NEW PASSWORD",
-=======
-        CREATENew: "CREATE NEW PASSWORD",
->>>>>>> 74514b669a7eccb9cbe140118f51383d13e91b84
         //save-contact
         saveContact: "Save our contacts",
 
@@ -101,32 +97,17 @@ i18n.use(initReactI18next).init({
         fieldPasswordRequired: "Field password required",
         passwordsMustMatch: "passwords must match",
         takenEmail: "* The e-mail address you entered is already taken",
-<<<<<<< HEAD
         no:"NO",
         yes:"YES",
         SuccessDelete:"Your profile has been  deleted",
         deleteProfileConfirm:"Do you want to delete your medicalswitzerland Profile?",
-
-=======
-        no: "NO",
-        yes: "YES",
-        SuccessDelete: "Your profile has been  deleted",
-        deleteProfileConfirm:
-          "Do you want to delete your medicalswitzerland Profile?",
->>>>>>> 74514b669a7eccb9cbe140118f51383d13e91b84
       },
     },
     de: {
       translation: {
-<<<<<<< HEAD
         deleteProfileConfirm:"Möchten Sie Ihr medical switzerland Profil löschen",
 
         SuccessDelete:"Ihr Profil wurde gelöscht",
-=======
-        deleteProfileConfirm:
-          "Möchten Sie Ihr medicalswitzerland Profil löschen",
-        SuccessDelete: "Ihr Profil wurde gelöscht",
->>>>>>> 74514b669a7eccb9cbe140118f51383d13e91b84
         //all termin
         add: "Hinzufügen",
         login: "ANMELDUNG",
@@ -149,19 +130,11 @@ i18n.use(initReactI18next).init({
         cropAvatar: "Profilbild bearbeiten",
         saveAvatar: "Profilbild speichern",
         fileUpload: "Datei wird hochgeladen...",
-<<<<<<< HEAD
-        CREATENew:"NEUES PASSWORT FESTLEGEN",        //save-contact
-        saveContact: "Kontakt speichern",
-        no:"Nein",
-        yes:"Ja",
-=======
         CREATENew: "NEUES PASSWORT FESTLEGEN",
         //save-contact
         saveContact: "Kontakt speichern",
         no: "Nein",
         yes: "Ja",
->>>>>>> 74514b669a7eccb9cbe140118f51383d13e91b84
-
         //success-m
         updateAvatar: "Profilbild erfolgreich aktualisiert",
         selectedFile: "Ausgewählte Datei erfolgreich gelöscht",

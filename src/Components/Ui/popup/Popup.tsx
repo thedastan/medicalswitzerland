@@ -127,19 +127,12 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                       textAlign="center"
                       color="white"
                     >
-<<<<<<< HEAD
-                      {signOut
-                        ? <Trans>signOut</Trans>
-                        : <Trans>deleteProfileConfirm</Trans>}
-                        ?
-=======
                       {signOut ? (
                         <Trans>signOut</Trans>
                       ) : (
                         <Trans>deleteProfileConfirm</Trans>
                       )}
                       ?
->>>>>>> 74514b669a7eccb9cbe140118f51383d13e91b84
                     </Text>
                     <Box>
                       <Button
@@ -179,11 +172,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                     color="white"
                     onClick={() => setSuccess(!success)}
                   >
-<<<<<<< HEAD
                    <Trans>SuccessDelete</Trans>
-=======
-                    <Trans>SuccessDelete</Trans>
->>>>>>> 74514b669a7eccb9cbe140118f51383d13e91b84
                   </Text>
                 )}
               </Box>
