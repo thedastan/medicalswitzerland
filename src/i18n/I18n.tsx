@@ -106,7 +106,7 @@ i18n.use(initReactI18next).init({
     },
     de: {
       translation: {
-        deleteProfileConfirm:"Möchten Sie Ihr medical switzerland Profil löschen",
+        deleteProfileConfirm:"Möchten Sie Ihr medicalswitzerland Profil löschen",
 
         SuccessDelete:"Ihr Profil wurde gelöscht",
         //all termin
