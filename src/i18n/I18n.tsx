@@ -97,10 +97,18 @@ i18n.use(initReactI18next).init({
         fieldPasswordRequired: "Field password required",
         passwordsMustMatch: "passwords must match",
         takenEmail: "* The e-mail address you entered is already taken",
+        no:"NO",
+        yes:"YES",
+        SuccessDelete:"Your profile has been  deleted",
+        deleteProfileConfirm:"Do you want to delete your medicalswitzerland Profile?",
+
       },
     },
     de: {
       translation: {
+        deleteProfileConfirm:"Möchten Sie Ihr medical switzerland Profil löschen",
+
+        SuccessDelete:"Ihr Profil wurde gelöscht",
         //all termin
         add: "Hinzufügen",
         login: "ANMELDUNG",
@@ -123,9 +131,10 @@ i18n.use(initReactI18next).init({
         cropAvatar: "Profilbild bearbeiten",
         saveAvatar: "Profilbild speichern",
         fileUpload: "Datei wird hochgeladen...",
-        CREATNew:"NEUES PASSWORT ERSTELLEN",
-        //save-contact
+        CREATENew:"NEUES PASSWORT ERSTELLEN",        //save-contact
         saveContact: "Kontakt speichern",
+        no:"Nein",
+        yes:"Ja",
 
         //success-m
         updateAvatar: "Profilbild erfolgreich aktualisiert",
