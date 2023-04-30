@@ -1,4 +1,4 @@
-FROM node:latest AS build
+FROM node:16.0.0 AS build
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm build
+RUN npm run build
 
 FROM linuxserver/swag:latest AS prod
 

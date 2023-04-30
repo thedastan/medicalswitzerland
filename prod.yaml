@@ -4,7 +4,7 @@ services:
 
   web:
     build:
-      context: .
+      context: ./Dockefile.stage
       target: prod
     restart: always
     environment:
