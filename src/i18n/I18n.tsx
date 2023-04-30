@@ -107,7 +107,6 @@ i18n.use(initReactI18next).init({
     de: {
       translation: {
         deleteProfileConfirm:"Möchten Sie Ihr medicalswitzerland Profil löschen",
-
         SuccessDelete:"Ihr Profil wurde gelöscht",
         //all termin
         add: "Hinzufügen",
@@ -131,7 +130,10 @@ i18n.use(initReactI18next).init({
         cropAvatar: "Profilbild bearbeiten",
         saveAvatar: "Profilbild speichern",
         fileUpload: "Datei wird hochgeladen...",
-        CREATENew:"NEUES PASSWORT ERSTELLEN",        //save-contact
+
+        CREATENew:"NEUES PASSWORT FESTLEGEN",    
+        //save-contact
+
         saveContact: "Kontakt speichern",
         no:"Nein",
         yes:"Ja",
