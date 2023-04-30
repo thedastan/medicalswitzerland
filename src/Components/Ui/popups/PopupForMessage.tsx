@@ -25,21 +25,21 @@ export default function PopupForMessage() {
     successMessenger,
   } = useAppSelector((state) => state.messageReducer);
 
-  useEffect(() => {
-    setTimeout(() => {
-      ActionUpload(false);
-      ActionSuccess(false);
-    }, 3000);
-  }, [success, upload]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     ActionUpload(false);
+  //     ActionSuccess(false);
+  //   }, 3000);
+  // }, [success, upload]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      ActionError(false);
-      ActionReset(false);
-      ActionUpload(false);
-      ActionErrorMessenger("");
-    }, 4500);
-  }, [upload, reset_password, error]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     ActionError(false);
+  //     ActionReset(false);
+  //     ActionUpload(false);
+  //     ActionErrorMessenger("");
+  //   }, 4500);
+  // }, [upload, reset_password, error]);
 
   return (
     <>
@@ -127,9 +127,10 @@ export default function PopupForMessage() {
                 <Text
                   mt="10px"
                   color="white"
-                  fontSize="10px"
+                  fontSize="12px"
                   fontWeight="200"
                   fontFamily="inter"
+                  textAlign="center"
                 >
                   <Trans>descReset</Trans>
                 </Text>
