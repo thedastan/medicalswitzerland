@@ -76,7 +76,7 @@ export default function Registration() {
       id: 1,
       placeholder:
         language === "de"
-          ? "Geben sie ihre E-Mail Adresse ein"
+          ? "Geben Sie ihre E-Mail Adresse ein"
           : "Enter your email",
       name: "email",
       register: "email",
@@ -339,7 +339,7 @@ export default function Registration() {
                         <Input
                           placeholder={`${
                             language === "de"
-                              ? "Bestätige das Passwort"
+                              ? "Passwort bestätigen"
                               : "Confirm  password"
                           }`}
                           textAlign="center"

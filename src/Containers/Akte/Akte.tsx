@@ -17,7 +17,6 @@ import "./style.css";
 
 import {
   useActionsFile,
-  useActionsForMessage,
   useActionsForModal,
   useActionsUser,
 } from "../../Hooks/useActions";
@@ -362,7 +361,12 @@ export default function Akte() {
 
         <Box px="12px">
           {!bearbeitenAkte ? (
-            <Box display="flex" gap="7px">
+            <Box
+              display="flex"
+              gap="7px"
+              borderBottom="1px solid #454545"
+              marginBottom="29px"
+            >
               <Box w="50%">
                 <Text
                   color="gray"
@@ -451,7 +455,7 @@ export default function Akte() {
             </Box>
           )}
 
-          <Box borderBottom="1px solid #454545" px="13px" marginBottom="29px">
+          <Box borderBottom="1px solid #454545" marginBottom="29px">
             <Text
               color="gray"
               fontSize="13px"
