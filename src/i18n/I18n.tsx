@@ -131,10 +131,8 @@ i18n.use(initReactI18next).init({
         cropAvatar: "Profilbild bearbeiten",
         saveAvatar: "Profilbild speichern",
         fileUpload: "Datei wird hochgeladen...",
-
         CREATENew: "NEUES PASSWORT FESTLEGEN",
         //save-contact
-
         saveContact: "Kontakt speichern",
         no: "Nein",
         yes: "Ja",
