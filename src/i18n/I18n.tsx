@@ -3,10 +3,10 @@ import { initReactI18next } from "react-i18next";
 
 const language = localStorage.getItem("language");
 
-let lang = language || "en";
+let lang = language || "de";
 
 i18n.use(initReactI18next).init({
-  fallbackLng: "en",
+  fallbackLng: "de",
   lng: lang,
   interpolation: { escapeValue: false },
   resources: {
@@ -34,7 +34,7 @@ i18n.use(initReactI18next).init({
         cropAvatar: "Edit Profile Picture",
         saveAvatar: "Save Profile Picture",
         fileUpload: "File is uploading...",
-        CREATENew:"CREATE NEW PASSWORD",
+        CREATENew: "CREATE NEW PASSWORD",
         //save-contact
         saveContact: "Save our contacts",
 
@@ -97,17 +97,19 @@ i18n.use(initReactI18next).init({
         fieldPasswordRequired: "Field password required",
         passwordsMustMatch: "passwords must match",
         takenEmail: "* The e-mail address you entered is already taken",
-        no:"NO",
-        yes:"YES",
-        SuccessDelete:"Your profile has been  deleted",
-        deleteProfileConfirm:"Do you want to delete your medicalswitzerland Profile?",
+        no: "NO",
+        yes: "YES",
+        SuccessDelete: "Your profile has been  deleted",
+        deleteProfileConfirm:
+          "Do you want to delete your medicalswitzerland Profile?",
       },
     },
     de: {
       translation: {
-        deleteProfileConfirm:"Möchten Sie Ihr medical switzerland Profil löschen",
+        deleteProfileConfirm:
+          "Möchten Sie Ihr medical switzerland Profil löschen",
 
-        SuccessDelete:"Ihr Profil wurde gelöscht",
+        SuccessDelete: "Ihr Profil wurde gelöscht",
         //all termin
         add: "Hinzufügen",
         login: "ANMELDUNG",
