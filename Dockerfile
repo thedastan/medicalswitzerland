@@ -4,14 +4,16 @@ WORKDIR /app
 
 COPY package.json .
 
-RUN npm install
+RUN yarn chache clean & yarn install --ignore-engines
 
 COPY . .
 
-RUN npm run build
+CMD ["yarn", "start"]
 
-FROM linuxserver/swag:latest AS prod
-
-COPY --from=build /app/build/ /usr/share/nginx/html
-
-CMD ["nginx", "-g", "daemon off;"]
+#RUN npm run build
+#
+#FROM linuxserver/swag:latest AS prod
+#
+#COPY --from=build /app/build/ /usr/share/nginx/html
+#
+#CMD ["nginx", "-g", "daemon off;"]
