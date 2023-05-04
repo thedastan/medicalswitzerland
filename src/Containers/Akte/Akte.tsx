@@ -519,7 +519,7 @@ export default function Akte() {
                   className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
               /> : <Box>
                 {el.value ? el.value.split('\n').map((item , index)=> (
-                    <Text textAlign={"center"} style={{color:"white"}} key={index}>{item}</Text>
+                    <Text textAlign={"center"} style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"14px"} lineHeight="16px">{item}</Text>
                 )) : <textarea
                     name={el.name}
                     onChange={(e) => inputChange(e)}
