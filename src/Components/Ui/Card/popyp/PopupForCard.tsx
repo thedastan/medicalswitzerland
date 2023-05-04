@@ -3,24 +3,23 @@ import { Box, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {Trans , useTranslation} from "react-i18next"
 
 /* Local dependencies */
 import SvgClose from "../../../../assets/svg/SvgClose";
 import {
   useActionsFile,
   useActionsForMessage,
-  useActionsUser,
 } from "../../../../Hooks/useActions";
 import API from "../../../../Api";
 import "./style.scss";
-import { IInfoList } from "../../../Interface/redux-image/types/Types";
-import { useAppSelector } from "../../../../Hooks/Hooks";
 
 interface IPopupProps {
   id: string;
   modal: boolean;
   setModal: (value: boolean) => void;
   idInfo?: string;
+  setDeleteCard: (value: boolean) => void;
 }
 
 export default function PopupForCard({
@@ -28,7 +27,10 @@ export default function PopupForCard({
   setModal,
   idInfo,
   id,
+    setDeleteCard
 }: IPopupProps) {
+  const {t} = useTranslation()
+
   const { ActionAllGroups } = useActionsFile();
   const {
     ActionError,
@@ -49,6 +51,7 @@ export default function PopupForCard({
           title: "selectedFile",
           desc: "",
         });
+        setDeleteCard(true)
       })
       .catch((e) => {
         ActionError(true);
@@ -131,13 +134,13 @@ export default function PopupForCard({
                       <span style={{ color: "#E11F26" }}>switzerland</span>
                     </Text>
                     <Text
-                      fontSize="15px"
+                      fontSize="17px"
                       fontFamily="inter"
                       mb="27px"
                       textAlign="center"
                       color="white"
                     >
-                      Delete file?
+                      <Trans>deleteFile</Trans>?
                     </Text>
                     <Box>
                       <Button
@@ -146,12 +149,12 @@ export default function PopupForCard({
                         roundedBottomLeft="12px"
                         roundedTop="0"
                         roundedRight="0"
-                        fontSize="10px"
+                        fontSize="15px"
                         color="white"
                         _focus={{ bg: "#202020" }}
                         onClick={() => deletedImage()}
                       >
-                        YES
+                        <Trans>yes</Trans>
                       </Button>
                       <Button
                         bg="#121212"
@@ -159,12 +162,12 @@ export default function PopupForCard({
                         roundedBottomRight="12px"
                         roundedTop="0"
                         roundedLeft="0"
-                        fontSize="10px"
+                        fontSize="15px"
                         color="white"
                         _focus={{ bg: "#202020" }}
                         onClick={() => setModal(false)}
                       >
-                        NO
+                        <Trans>no</Trans>
                       </Button>
                     </Box>
                   </>
@@ -177,7 +180,7 @@ export default function PopupForCard({
                     color="white"
                     onClick={() => setSuccess(!success)}
                   >
-                    Your profil has been successfully deleted
+                    <Trans>deleteSuccessFile</Trans>
                   </Text>
                 )}
               </Box>

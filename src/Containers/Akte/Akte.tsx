@@ -9,8 +9,7 @@ import { Trans, useTranslation } from "react-i18next";
 /* Local dependencies */
 import SvgDot from "../../assets/svg/SvgDot";
 import Card from "../../Components/Ui/Card/Card";
-import MyButton from "../../Components/Ui/Button/Button";
-import API, { API_ADDRESS } from "../../Api";
+import  { API_ADDRESS } from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
@@ -82,10 +81,11 @@ export default function Akte() {
   const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [validToken, setValidToken] = useState(false);
   const [popup, setPopup] = useState(false);
+  const [deleteCard , setDeleteCard] = useState(false)
 
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("" );
   const [groupId, setGroupId] = useState("");
 
   const guest_id = sessionStorage.getItem("guestId") as string;
@@ -110,32 +110,32 @@ export default function Akte() {
     {
       item: "allergies",
       name: "allergies",
-      value: user.allergies,
+      value: dataPost.allergies || user.allergies,
     },
     {
       item: "diagnosen",
       name: "why_diagnose",
-      value: user.why_diagnose,
+      value: dataPost.why_diagnose || user.why_diagnose,
     },
     {
       item: "operationen",
       name: "operation",
-      value: user.operation,
+      value: dataPost.operation || user.operation,
     },
     {
       item: "medicamentPlan",
       name: "medications",
-      value: user.medications,
+      value: dataPost.medications || user.medications,
     },
     {
       item: "nebenDiagnosen",
       name: "profession",
-      value: user.profession,
+      value: dataPost.profession || user.profession,
     },
     {
       item: "location",
       name: "location",
-      value: user.location,
+      value: dataPost.location || user.location,
     },
   ];
 
@@ -220,12 +220,14 @@ export default function Akte() {
   };
 
   const handlePutFile = () => {
-    ActionAllGroupsPut(idFiles, {
-      id: groups.id,
-      title: title || groups.title,
-      info_list: groups?.info_list.map((el) => el.id),
-      is_akte: true,
-    });
+    if(title){
+      ActionAllGroupsPut(idFiles, {
+        id: groups.id,
+        title: title,
+        info_list: groups?.info_list.map((el) => el.id),
+        is_akte: true,
+      });
+    }
 
     ActionGroupPut(idFiles, group.id, {
       file_url: group.file_url,
@@ -290,6 +292,13 @@ export default function Akte() {
   useEffect(() => {
     ActionGroupsForGuest(window.location.pathname.slice(6), guest_id);
   }, []);
+
+  useEffect(()=>{
+    if(deleteCard){
+      ActionAllGroups()
+      ActionGroups(idFile || groups.id)
+    }
+  }, [deleteCard])
 
   if (loading) {
     return (
@@ -501,14 +510,26 @@ export default function Akte() {
               >
                 <Trans>{el.item}</Trans>
               </Text>
-              <textarea
-                name={el.name}
-                ref={textareaRef}
-                disabled={bearbeitenAkte}
-                onChange={(e) => inputChange(e)}
-                defaultValue={el.value ? el.value : ""}
-                className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
-              />
+              {!bearbeitenAkte ? <textarea
+                  name={el.name}
+                  ref={textareaRef}
+                  disabled={bearbeitenAkte}
+                  onChange={(e) => inputChange(e)}
+                  defaultValue={el.value ? el.value : ""}
+                  className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
+              /> : <Box>
+                {el.value ? el.value.split('\n').map((item , index)=> (
+                    <Text textAlign={"center"} style={{color:"white"}} key={index}>{item}</Text>
+                )) : <textarea
+                    name={el.name}
+                    onChange={(e) => inputChange(e)}
+                    defaultValue={el.value ? el.value : ""}
+                    disabled={bearbeitenAkte}
+                    className={`textarea--notfall ${
+                        !bearbeitenAkte ? "active" : ""
+                    }`}
+                /> }
+              </Box>}
             </Box>
           ))}
 
@@ -526,7 +547,7 @@ export default function Akte() {
                             maxW="426px"
                             mx="auto"
                             h="448px"
-                            bg="#131313"
+                            bg="#000000"
                             display="flex"
                             alignItems="center"
                           >
@@ -569,7 +590,6 @@ export default function Akte() {
                                   pos="absolute"
                                   display="flex"
                                   rounded="50%"
-                                  right="11px"
                                   top="25px"
                                   bg="black"
                                   zIndex="5"
@@ -588,7 +608,7 @@ export default function Akte() {
                                   right="16px"
                                   top="71px"
                                 >
-                                  Delete
+                                  <Trans>delete</Trans>
                                 </Text>
                                 <Box
                                   justifyContent="center"
@@ -617,8 +637,8 @@ export default function Akte() {
                                   textColor="white"
                                   fontFamily="inter"
                                   pos="absolute"
-                                  right="9px"
                                   top="145px"
+                                  textAlign="center"
                                 >
                                   <Trans>addMore</Trans>
                                 </Text>
@@ -649,7 +669,11 @@ export default function Akte() {
                               defaultValue={el.title}
                               borderTop="transparent"
                               disabled={!deleteImg}
-                              placeholder="Titel"
+                              placeholder={disabledFiles && idFiles === el.id ? `${
+                                  language === "de"
+                                      ? "Titel"
+                                      : "Title"
+                              }` : ""}
                               fontFamily="inter"
                               textColor="white"
                               fontWeight="700"
@@ -666,11 +690,11 @@ export default function Akte() {
                             />
                             <Input
                               disabled={!disabledFiles || idFiles !== el.id}
-                              placeholder={`${
+                              placeholder={disabledFiles && idFiles === el.id ? `${
                                 language === "de"
                                   ? "Beschreibung"
                                   : "Description"
-                              }`}
+                              }` : ""}
                               defaultValue={item.text}
                               borderColor="transparent"
                               fontFamily="inter"
@@ -708,51 +732,6 @@ export default function Akte() {
                           )}
                         </Box>
                       ))}
-                      {/* {<Box mx="auto">
-                        <Box
-                          bg="#262626"
-                          h="448px"
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                          onClick={() => {
-                            ActionFilesId(groupId);
-                            ActionActiveModalMedia(true);
-                            ActionActiveSubtrac(true);
-                            ActionActiveProfile(false);
-                          }}
-                        >
-                          <SvgBluePluse />
-                        </Box>
-                        <Box
-                          bg="#141414"
-                          rounded="5px"
-                          px="4px"
-                          mb="7px"
-                          mt="7px"
-                        >
-                          <Input
-                            placeholder={`${
-                              language === "de" ? "Beschreibung" : "Description"
-                            }`}
-                            borderColor="transparent"
-                            defaultValue={text}
-                            fontFamily="inter"
-                            textColor="white"
-                            bg="transparent"
-                            fontWeight="300"
-                            fontSize="15px"
-                            outline="black"
-                            rounded="0px"
-                            name="text"
-                            pl="10px"
-                            w="100%"
-                            mb="7px"
-                            h="37px"
-                            onChange={(e) => setText(e.target.value)}
-                          />
-                        </Box>
-                      </Box>} */}
                     </Slider>
                   </Box>
                 </Box>
@@ -778,6 +757,7 @@ export default function Akte() {
         )}
       </Box>
       <PopupForCard
+          setDeleteCard={setDeleteCard}
         id={idFiles}
         modal={popup}
         setModal={setPopup}

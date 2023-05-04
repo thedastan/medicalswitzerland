@@ -35,6 +35,7 @@ i18n.use(initReactI18next).init({
         saveAvatar: "Save Profile Picture",
         fileUpload: "File is uploading...",
         CREATENew: "CREATE NEW PASSWORD",
+        yourPersonal:"",
         //save-contact
         saveContact: "Save our contacts",
 
@@ -80,6 +81,7 @@ i18n.use(initReactI18next).init({
         uploadTitle: "File Successfully Uploaded",
         yourRegistration: "Your Registration was successful ",
         resetYourPasword: "Reset Your Password",
+        deleteFile:"Delete file",
         descReset:
           "Password reset link sent to your registered email address. Please check your inbox or spam folder",
         fileABig: "The file is too big",
@@ -102,14 +104,20 @@ i18n.use(initReactI18next).init({
         SuccessDelete: "Your profile has been  deleted",
         deleteProfileConfirm:
           "Do you want to delete your medicalswitzerland Profile?",
+        deleteSuccessFile:"Your profile has been successfully deleted",
+        delete:"Delete",
       },
     },
     de: {
       translation: {
+        delete:"Löschen",
         deleteProfileConfirm:
           "Möchten Sie Ihr medical switzerland Profil löschen",
 
-        SuccessDelete: "Ihr Profil wurde gelöscht",
+        SuccessDelete: "Ihr Profil und alle dazugehören Daten und Bilder wurden gelöscht.",
+        deleteFile:"Datei löschen",
+        deleteSuccessFile:"Ihr Profil wurde erfolgreich gelöscht",
+
         //all termin
         add: "Hinzufügen",
         login: "ANMELDUNG",
