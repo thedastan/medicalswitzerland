@@ -141,7 +141,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                         roundedBottomLeft="12px"
                         roundedTop="0"
                         roundedRight="0"
-                        fontSize="10px"
+                        fontSize="15px"
                         color="white"
                         _focus={{ bg: "#202020" }}
                         onClick={() => (signOut ? signOutFn() : destroyUser())}
@@ -154,7 +154,7 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                         roundedBottomRight="12px"
                         roundedTop="0"
                         roundedLeft="0"
-                        fontSize="10px"
+                        fontSize="15px"
                         color="white"
                         _focus={{ bg: "#202020" }}
                         onClick={() => setModal(false)}
@@ -167,11 +167,20 @@ export default function Popup({ signOut, modal, setModal }: IPopupProps) {
                   <Text
                     fontSize="12px"
                     fontFamily="inter"
-                    mt="60px"
+                    mt="30px"
                     textAlign="center"
                     color="white"
                     onClick={() => setSuccess(!success)}
                   >
+                    <Text
+                        color="#C7C4C4"
+                        textAlign="center"
+                        fontSize="18px"
+                        pb="18px"
+                    >
+                      medical
+                      <span style={{ color: "#E11F26" }}>switzerland</span>
+                    </Text>
                    <Trans>SuccessDelete</Trans>
                   </Text>
                 )}

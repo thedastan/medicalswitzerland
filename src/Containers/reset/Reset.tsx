@@ -101,7 +101,7 @@ export default function ResetPassword() {
               <Input
                 value={dataPost.password}
                 placeholder={`${
-                  language === "de" ? "Neues Kennwort" : "New password"
+                  language === "en" ? "New password" : "Neues Kennwort"
                 }`}
                 textAlign="center"
                 fontSize="15px"
@@ -137,7 +137,7 @@ export default function ResetPassword() {
               <Input
                 value={dataPost.confirm}
                 placeholder={`${
-                  language === "de"
+                  language === "en"
                     ? "Bestätige das Passwort"
                     : "Confirm password"
                 }`}
