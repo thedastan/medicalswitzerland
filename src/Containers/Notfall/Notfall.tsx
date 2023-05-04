@@ -392,7 +392,7 @@ export default function Notfall() {
                                         !bearbeitenNotfall ? "active" : ""
                                     }`}
                                 /> : <Box>{el.value ? el.value.split('\n').map((item , index)=> (
-                                    <Text style={{color:"white"}} key={index}>{item}</Text>
+                                    <Text style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"14px"} lineHeight="16px">{item}</Text>
                                 )) : <textarea
                                     name={el.name}
                                     onChange={(e) => inputChangeTextArea(e)}
@@ -425,13 +425,13 @@ export default function Notfall() {
                             }`}
                         /> : <Box>{
                             dataPost.allergies_text ? dataPost.allergies_text?.split("\n").map((item , index)=>(
-                                <Text style={{color:"white"}} key={index}>{item}</Text>
+                                <Text style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"14px"} lineHeight="16px">{item}</Text>
                             )) : user.allergies_text?.split("\n").map((item , index)=>(
-                                <Text style={{color:"white"}} key={index}>{item}</Text>
+                                <Text style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"14px"}  lineHeight="16px">{item}</Text>
                             ))
                         }</Box> }
                     </Box>
-                    <Box px="10px" display="flex" flexDir="column-reverse">
+                    <Box px="10px" display="flex" flexDir="column-reverse" mt={"25px"}>
                         {allGroups
                             .filter((elem) => elem.is_akte === false)
                             .map((el) => (
