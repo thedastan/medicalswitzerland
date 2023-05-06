@@ -433,7 +433,7 @@ export default function Registration() {
                         rounded="5px"
                         mx="auto"
                         type="submit"
-                        mb="48px"
+                        mb="90px"
                       >
                         <Trans>register</Trans>
                       </Button>
