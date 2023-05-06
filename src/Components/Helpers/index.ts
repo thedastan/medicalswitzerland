@@ -1,4 +1,3 @@
-import { Dispatch } from "redux";
 import API from "../../Api";
 import { ActionGroupPut } from "../Interface/redux-image/action/Action";
 import { IInfoList } from "../Interface/redux-image/types/Types";
@@ -6,8 +5,6 @@ import {
   ActionError,
   ActionErrorMessenger,
 } from "../Ui/popups/redux/action/Action";
-import imageCompression from "browser-image-compression";
-import { ActionTypesPopupMessage } from "../Ui/popups/redux/types/Types";
 
 interface IHandlePutFilesProps {
   text: string;
@@ -43,19 +40,12 @@ export const onChangeImage = async (
   let files: FileList | null | any;
   files = e.target.files;
 
-  const options = {
-    maxSizeMB: 0.8,
-    maxWidthOrHeight: 800,
-    useWebWorker: true,
-  };
-
   try {
-    const compressedFile = await imageCompression(files[0], options);
     const reader = await new FileReader();
     reader.onload = () => {
       setImageFile(reader.result as any);
     };
-    reader.readAsDataURL(compressedFile);
+    reader.readAsDataURL(files[0]);
   } catch (e) {
     ActionError(true);
     ActionErrorMessenger("fileABig");
