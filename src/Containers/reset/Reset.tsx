@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Box, Button, Input, Text } from "@chakra-ui/react";
-import Compressor from "compressorjs";
 import { useState } from "react";
 
 import SvgEye from "../../assets/svg/SvgEye";
