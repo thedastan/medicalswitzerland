@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Box, Button, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Image, Text, Square } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -136,6 +136,13 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 h="217px"
                 roundedTop="10px"
               />
+                <Square
+                    position="absolute"
+                    color='white'
+                    size='150'
+                    right="50px"
+                    bottom="40px"
+                    border="3px solid #fff "/>
               <Text
                 position="absolute"
                 fontFamily="Helvetica"
@@ -143,6 +150,8 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 textAlign="center"
                 right="40px"
                 bottom="0"
+                p="4px 15px"
+                border="3px solid #fff "
               >
                 Your personal <br /> Contact
               </Text>
