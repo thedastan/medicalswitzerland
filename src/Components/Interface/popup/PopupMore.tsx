@@ -139,7 +139,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 <div
                     style={{
                         position: 'absolute',
-                        border:"3px solid #fae3e3",
+                        border:"3px solid #F6F4F4",
                         width:'200px',
                         height:"170px",
                         bottom:"32px",
@@ -155,7 +155,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 right="7px"
                 bottom="-14px"
                 p="10px 20px"
-                border="3px solid #fae3e3 "
+                border="3px solid #F6F4F4 "
               >
                 Your personal <br /> Contact
               </Text>
