@@ -141,9 +141,9 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                         position: 'absolute',
                         border:"3px solid #fae3e3",
                         width:'200px',
-                        height:"100px",
+                        height:"170px",
                         bottom:"32px",
-                        right:"50px"
+                        right:"20px"
 
                     }}
                    />
@@ -152,7 +152,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 fontFamily="Helvetica"
                 fontSize="22px"
                 textAlign="center"
-                right="40px"
+                right="7px"
                 bottom="-14px"
                 p="10px 20px"
                 border="3px solid #fae3e3 "
