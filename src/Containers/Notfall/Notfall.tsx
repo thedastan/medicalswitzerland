@@ -392,7 +392,7 @@ export default function Notfall() {
                                         !bearbeitenNotfall ? "active" : ""
                                     }`}
                                 /> : <Box>{el.value ? el.value.split('\n').map((item , index)=> (
-                                    <Text style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"14px"} lineHeight="16px">{item}</Text>
+                                    <Text style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"17px"} lineHeight="20px" >{item}</Text>
                                 )) : <textarea
                                     name={el.name}
                                     onChange={(e) => inputChangeTextArea(e)}
@@ -410,7 +410,7 @@ export default function Notfall() {
                             fontSize="13px"
                             fontWeight="700"
                             fontFamily="inter"
-                            mb="3px"
+                            mb="10px"
                             textAlign="start"
                         >
                             <Trans>allergies</Trans>
@@ -423,11 +423,11 @@ export default function Notfall() {
                             className={`textarea--allergia ${
                                 !bearbeitenNotfall ? "active" : ""
                             }`}
-                        /> : <Box>{
+                        /> : <Box  marginBottom="12px">{
                             dataPost.allergies_text ? dataPost.allergies_text?.split("\n").map((item , index)=>(
-                                <Text style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"14px"} lineHeight="16px">{item}</Text>
+                                <Text style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"17px"} lineHeight="20px" >{item}</Text>
                             )) : user.allergies_text?.split("\n").map((item , index)=>(
-                                <Text style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"14px"}  lineHeight="16px">{item}</Text>
+                                <Text style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"17px"}  lineHeight="20px" >{item}</Text>
                             ))
                         }</Box> }
                     </Box>

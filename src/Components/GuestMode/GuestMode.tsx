@@ -60,7 +60,7 @@ export default function GeustMode() {
           });
       } else {
         ActionError(true);
-        ActionErrorMessenger("wrongEmail");
+        ActionErrorMessenger("wrongEmail")
       }
     }
   }

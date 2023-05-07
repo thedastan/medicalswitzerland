@@ -200,7 +200,6 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 <Box mb="13px">
                   <Image src={Map} w="93%" ml="auto" objectFit="cover" />
                 </Box>
-
                 <Box
                   mx="auto"
                   display={"flex"}
