@@ -1,5 +1,5 @@
 /* External dependencies */
-import {border, Box, Button, Image, Text} from "@chakra-ui/react";
+import { border, Box, Button, Image, Text } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -32,46 +32,34 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
   };
   const { t } = useTranslation();
 
- const handleDownload = () => {
+  const handleDownload = () => {
     const vcfData =
-          "BEGIN:VCARD\n"+
-          "VERSION:3.0\n" +
-          "N:Mrs. Jennifer Urwyler;\n"+
-          "ORG:Medical Switzerland\n" +
-          "TEL;TYPE=WORK,VOICE:+41797545136\n" +
-          "URL;TYPE=WORK:www.medicalswitzerland.ch\n"+
-          "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n"+
-          "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n"+
-          "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n"+
-          "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n"+
-          "URL;TYPE=WhatsApp:wa.me/41797545136\n"+
-          "END:VCARD";
+      "BEGIN:VCARD\n" +
+      "VERSION:3.0\n" +
+      "N:Mrs. Jennifer Urwyler;\n" +
+      "ORG:Medical Switzerland\n" +
+      "TEL;TYPE=WORK,VOICE:+41797545136\n" +
+      "URL;TYPE=WORK:www.medicalswitzerland.ch\n" +
+      "ADR;TYPE=WORK:;;Baar, Switzerland Head Office \n" +
+      "EMAIL;CHARSET=UTF-8;type=WORK,INTERNET:info@medicalswitzerland.ch\n" +
+      "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/jennifer-urwyler-05366884\n" +
+      "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/medicalsswitzerland\n" +
+      "URL;TYPE=WhatsApp:wa.me/41797545136\n" +
+      "END:VCARD";
 
     const element = document.createElement("a");
-    const file = new Blob([vcfData], {type: 'text/vcard'});
+    const file = new Blob([vcfData], { type: "text/vcard" });
     element.href = URL.createObjectURL(file);
     element.download = "medicalswitzerland.vcf";
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-  }
+  };
 
   const listSvg = [
     {
-      svg: <SvgMore />,
-      link: "https://www.medicalswitzerland.ch/",
-    },
-    {
-      svg: <SvgMail />,
-      link: "mailto:info@medicalswitzerland.ch",
-    },
-    {
       svg: <SvgWhatsapp />,
       link: "https://wa.me/+41797545136",
-    },
-    {
-      svg: <SvgPhoneCall />,
-      link: "tel:+41797545136",
     },
     {
       svg: <SvgInstagram />,
@@ -80,6 +68,18 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
     {
       svg: <SvgLinkedin />,
       link: "https://www.linkedin.com/in/jennifer-urwyler-05366884/",
+    },
+    {
+      svg: <SvgMail />,
+      link: "mailto:info@medicalswitzerland.ch",
+    },
+    {
+      svg: <SvgMore />,
+      link: "https://www.medicalswitzerland.ch/",
+    },
+    {
+      svg: <SvgPhoneCall />,
+      link: "tel:+41797545136",
     },
   ];
 
@@ -136,17 +136,16 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                 h="217px"
                 roundedTop="10px"
               />
-                <div
-                    style={{
-                        position: 'absolute',
-                        border:"3px solid #F6F4F4",
-                        width:'200px',
-                        height:"170px",
-                        bottom:"32px",
-                        right:"20px"
-
-                    }}
-                   />
+              <div
+                style={{
+                  position: "absolute",
+                  border: "3px solid #F6F4F4",
+                  width: "200px",
+                  height: "170px",
+                  bottom: "32px",
+                  right: "20px",
+                }}
+              />
               <Text
                 position="absolute"
                 fontFamily="Helvetica"

@@ -180,6 +180,7 @@ export default function Notfall() {
         file_url: group.file_url,
         text: text || group.text,
         id: group.id,
+        created_date: group.created_date,
       },
       setText
     );
@@ -632,7 +633,7 @@ export default function Notfall() {
                               w="100%"
                               mb="5px"
                               h="37px"
-                              pl="10px"
+                              pl="0"
                               onChange={(e) => {
                                 setTitle(e.target.value);
                               }}
@@ -662,7 +663,7 @@ export default function Notfall() {
                               outline="black"
                               rounded="0px"
                               name="text"
-                              pl="10px"
+                              pl="0"
                               w="100%"
                               mb="7px"
                               h="37px"
@@ -671,6 +672,14 @@ export default function Notfall() {
                                 setDataPost({ ...dataPost, id: item.id });
                               }}
                             />
+                            <Text
+                              textColor="#EB8E8E"
+                              fontFamily="commissioner"
+                              fontSize="10px"
+                              fontWeight="300"
+                            >
+                              {item.created_date}
+                            </Text>
                           </Box>
                           {groupId === el.id && deleteImg && (
                             <Box display="flex" w="100%">

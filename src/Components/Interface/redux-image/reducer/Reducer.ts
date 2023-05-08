@@ -11,6 +11,7 @@ const initalStateImages: IGroupsStateTypes = {
     id: "",
     file_url: "",
     text: "",
+    created_date: "",
   },
   groups: {
     id: "",

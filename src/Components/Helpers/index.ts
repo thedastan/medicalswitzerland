@@ -101,6 +101,7 @@ export const handlePutFiles = async ({
               file_url: data.path || group.file_url,
               text: text || group.text,
               id: group.id,
+              created_date: group.created_date,
             },
             setText
           );
@@ -127,6 +128,7 @@ export const handlePutFiles = async ({
         file_url: group.file_url,
         text: text || group.text,
         id: group.id,
+        created_date: group.created_date,
       },
       setText
     );
@@ -151,6 +153,7 @@ export const handlePutFile = ({
       file_url: group.file_url,
       text: text || group.text,
       id: group.id,
+      created_date: group.created_date,
     },
     setText
   );

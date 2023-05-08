@@ -476,6 +476,9 @@ export default function Registration() {
                     </Text>
                     <Box position="relative">
                       <Input
+                        focusBorderColor={
+                          validate.password ? "#FF0000" : "#303030"
+                        }
                         textColor="white"
                         placeholder={`${
                           language === "de"
