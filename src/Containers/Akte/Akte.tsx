@@ -580,13 +580,17 @@ export default function Akte() {
                               <Button
                                 position="absolute"
                                 display="flex"
-                                w="30px"
-                                h="10px"
-                                px="0"
-                                ml="auto"
-                                top="17px"
                                 right="11px"
+                                rounded="1px"
+                                top="17px"
                                 zIndex="5"
+                                border="1px solid #fff"
+                                p="4px"
+                                ml="3px"
+                                w="50px"
+                                h="20px"
+                                px="0"
+                                gap={"6px"}
                                 onClick={() => {
                                   handleClick(el.id, item.id, el);
                                   setGroupId(el.id);
