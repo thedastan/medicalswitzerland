@@ -129,7 +129,10 @@ export const ActionGroup = (id?: string, idInfo?: string) => {
   };
 };
 
-export const ActionAllGroupsPut = (id: string, dataPost: IGroupType) => {
+export const ActionAllGroupsPut = (
+  id: string,
+  dataPost: IGroupType,
+) => {
   return async (dispatch: Dispatch<ActionsGroup>) => {
     try {
       dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: true });
@@ -150,7 +153,8 @@ export const ActionAllGroupsPut = (id: string, dataPost: IGroupType) => {
 export const ActionGroupPut = (
   id: string,
   idInfo: string,
-  dataPost: IInfoList
+  dataPost: IInfoList,
+  setText: (value: string) => void
 ) => {
   return async (dispatch: Dispatch<ActionsGroup>) => {
     try {
@@ -161,9 +165,11 @@ export const ActionGroupPut = (
       dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
       dispatch({ type: InterfaceImageTypes.USER_FILE, payload: data });
       dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
+      setText("");
     } catch (e) {
       dispatch({ type: InterfaceImageTypes.USER_FILES_LOADER, payload: false });
       dispatch({ type: InterfaceImageTypes.USER_FILES_ERROR, payload: e });
+      setText("");
     }
   };
 };

@@ -9,7 +9,7 @@ import { Trans, useTranslation } from "react-i18next";
 /* Local dependencies */
 import SvgDot from "../../assets/svg/SvgDot";
 import Card from "../../Components/Ui/Card/Card";
-import  { API_ADDRESS } from "../../Api";
+import { API_ADDRESS } from "../../Api";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
@@ -81,11 +81,11 @@ export default function Akte() {
   const [names, setNames] = useState({ vorname: "", nachname: "" });
   const [validToken, setValidToken] = useState(false);
   const [popup, setPopup] = useState(false);
-  const [deleteCard , setDeleteCard] = useState(false)
+  const [deleteCard, setDeleteCard] = useState(false);
 
   const [disabledFiles, setDisabledFiles] = useState(false);
   const [text, setText] = useState("");
-  const [title, setTitle] = useState("" );
+  const [title, setTitle] = useState("");
   const [groupId, setGroupId] = useState("");
 
   const guest_id = sessionStorage.getItem("guestId") as string;
@@ -220,7 +220,7 @@ export default function Akte() {
   };
 
   const handlePutFile = () => {
-    if(title){
+    if (title) {
       ActionAllGroupsPut(idFiles, {
         id: groups.id,
         title: title,
@@ -229,11 +229,16 @@ export default function Akte() {
       });
     }
 
-    ActionGroupPut(idFiles, group.id, {
-      file_url: group.file_url,
-      text: text || group.text,
-      id: group.id,
-    });
+    ActionGroupPut(
+      idFiles,
+      group.id,
+      {
+        file_url: group.file_url,
+        text: text || group.text,
+        id: group.id,
+      },
+      setText
+    );
 
     setDisabledFiles(!disabledFiles);
     setDeleteImg(!deleteImg);
@@ -241,7 +246,6 @@ export default function Akte() {
     ActionAllGroups();
     setIdFiles("");
     setIdFile("");
-    setText("");
   };
 
   const handleViewImage = (id: string) => {
@@ -293,12 +297,12 @@ export default function Akte() {
     ActionGroupsForGuest(window.location.pathname.slice(6), guest_id);
   }, []);
 
-  useEffect(()=>{
-    if(deleteCard){
-      ActionAllGroups()
-      ActionGroups(idFile || groups.id)
+  useEffect(() => {
+    if (deleteCard) {
+      ActionAllGroups();
+      ActionGroups(idFile || groups.id);
     }
-  }, [deleteCard])
+  }, [deleteCard]);
 
   if (loading) {
     return (
@@ -510,26 +514,46 @@ export default function Akte() {
               >
                 <Trans>{el.item}</Trans>
               </Text>
-              {!bearbeitenAkte ? <textarea
+              {!bearbeitenAkte ? (
+                <textarea
                   name={el.name}
                   ref={textareaRef}
                   disabled={bearbeitenAkte}
                   onChange={(e) => inputChange(e)}
                   defaultValue={el.value ? el.value : ""}
-                  className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
-              /> : <Box>
-                {el.value ? el.value.split('\n').map((item , index)=> (
-                    <Text textAlign={"center"} style={{color:"white"}} key={index} fontFamily={"inter"} fontSize={"17px"} marginBottom={'10px'} lineHeight="16px">{item}</Text>
-                )) : <textarea
-                    name={el.name}
-                    onChange={(e) => inputChange(e)}
-                    defaultValue={el.value ? el.value : ""}
-                    disabled={bearbeitenAkte}
-                    className={`textarea--notfall ${
+                  className={`textarea--akte ${
+                    !bearbeitenAkte ? "active" : ""
+                  }`}
+                />
+              ) : (
+                <Box>
+                  {el.value ? (
+                    el.value.split("\n").map((item, index) => (
+                      <Text
+                        textAlign={"center"}
+                        style={{ color: "white" }}
+                        key={index}
+                        fontFamily={"inter"}
+                        fontSize={"17px"}
+                        marginBottom={"10px"}
+                        lineHeight="16px"
+                      >
+                        {item}
+                      </Text>
+                    ))
+                  ) : (
+                    <textarea
+                      name={el.name}
+                      onChange={(e) => inputChange(e)}
+                      defaultValue={el.value ? el.value : ""}
+                      disabled={bearbeitenAkte}
+                      className={`textarea--notfall ${
                         !bearbeitenAkte ? "active" : ""
-                    }`}
-                /> }
-              </Box>}
+                      }`}
+                    />
+                  )}
+                </Box>
+              )}
             </Box>
           ))}
 
@@ -669,11 +693,11 @@ export default function Akte() {
                               defaultValue={el.title}
                               borderTop="transparent"
                               disabled={!deleteImg}
-                              placeholder={disabledFiles && idFiles === el.id ? `${
-                                  language === "de"
-                                      ? "Titel"
-                                      : "Title"
-                              }` : ""}
+                              placeholder={
+                                disabledFiles && idFiles === el.id
+                                  ? `${language === "de" ? "Titel" : "Title"}`
+                                  : ""
+                              }
                               fontFamily="inter"
                               textColor="white"
                               fontWeight="700"
@@ -690,12 +714,20 @@ export default function Akte() {
                             />
                             <Input
                               disabled={!disabledFiles || idFiles !== el.id}
-                              placeholder={disabledFiles && idFiles === el.id ? `${
-                                language === "de"
-                                  ? "Beschreibung"
-                                  : "Description"
-                              }` : ""}
-                              defaultValue={item.text}
+                              placeholder={
+                                disabledFiles && idFiles === el.id
+                                  ? `${
+                                      language === "de"
+                                        ? "Beschreibung"
+                                        : "Description"
+                                    }`
+                                  : ""
+                              }
+                              value={
+                                dataPost.id === item.id
+                                  ? text || item.text
+                                  : item.text
+                              }
                               borderColor="transparent"
                               fontFamily="inter"
                               textColor="white"
@@ -709,7 +741,10 @@ export default function Akte() {
                               w="100%"
                               mb="7px"
                               h="37px"
-                              onChange={(e) => setText(e.target.value)}
+                              onChange={(e) => {
+                                setText(e.target.value);
+                                setDataPost({ ...dataPost, id: item.id });
+                              }}
                             />
                           </Box>
                           {groupId === el.id && deleteImg && (
@@ -757,7 +792,7 @@ export default function Akte() {
         )}
       </Box>
       <PopupForCard
-          setDeleteCard={setDeleteCard}
+        setDeleteCard={setDeleteCard}
         id={idFiles}
         modal={popup}
         setModal={setPopup}

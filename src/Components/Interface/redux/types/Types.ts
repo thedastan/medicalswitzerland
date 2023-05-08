@@ -8,6 +8,7 @@ export enum InterfaceUserTypes {
 }
 
 export interface IInterfaceUser {
+  id?:number | string;
   email?: string | null;
   username?: string | null;
   avatar?: string | null;

@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {Trans , useTranslation} from "react-i18next"
+import { Trans, useTranslation } from "react-i18next";
 
 /* Local dependencies */
 import SvgClose from "../../../../assets/svg/SvgClose";
@@ -27,9 +27,9 @@ export default function PopupForCard({
   setModal,
   idInfo,
   id,
-    setDeleteCard
+  setDeleteCard,
 }: IPopupProps) {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const { ActionAllGroups } = useActionsFile();
   const {
@@ -51,10 +51,11 @@ export default function PopupForCard({
           title: "selectedFile",
           desc: "",
         });
-        setDeleteCard(true)
+        setDeleteCard(true);
       })
       .catch((e) => {
         ActionError(true);
+        setDeleteCard(true);
         ActionErrorMessenger(e);
       });
   }
