@@ -94,12 +94,16 @@ export const handlePutFiles = async ({
     await API.post("users/upload/", formData)
       .then(({ data }) => {
         if (data) {
-          ActionGroupPut(idFile, group.id, {
-            file_url: data.path || group.file_url,
-            text: text || group.text,
-            id: group.id,
-          });
-          setText("");
+          ActionGroupPut(
+            idFile,
+            group.id,
+            {
+              file_url: data.path || group.file_url,
+              text: text || group.text,
+              id: group.id,
+            },
+            setText
+          );
           setCropData("");
           setImageFile("");
           setLoader(false);
@@ -116,13 +120,17 @@ export const handlePutFiles = async ({
         ActionErrorMessenger(e);
       });
   } else {
-    ActionGroupPut(idFile, group.id, {
-      file_url: group.file_url,
-      text: text || group.text,
-      id: group.id,
-    });
+    ActionGroupPut(
+      idFile,
+      group.id,
+      {
+        file_url: group.file_url,
+        text: text || group.text,
+        id: group.id,
+      },
+      setText
+    );
     ActionAllGroups();
-    setText("");
   }
 };
 
@@ -136,15 +144,19 @@ export const handlePutFile = ({
   setImageFile,
   idFile,
 }: IHandlePutFileProps) => {
-  ActionGroupPut(idFile, group.id, {
-    file_url: group.file_url,
-    text: text || group.text,
-    id: group.id,
-  });
+  ActionGroupPut(
+    idFile,
+    group.id,
+    {
+      file_url: group.file_url,
+      text: text || group.text,
+      id: group.id,
+    },
+    setText
+  );
   ActionAllGroups();
   setCropData("");
   setImageFile("");
-  setText("");
   // setDeleteCenceled(false);
   setPdfIncludes(false);
 };
