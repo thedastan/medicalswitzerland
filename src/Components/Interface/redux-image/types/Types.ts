@@ -11,6 +11,7 @@ export interface IInfoList {
   id: string;
   text: string;
   file_url: string;
+  created_date: string;
 }
 
 export interface IGroupsTypes {
