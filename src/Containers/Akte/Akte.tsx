@@ -560,7 +560,7 @@ export default function Akte() {
 
           <Box display="flex" flexDir="column-reverse">
             {allGroups
-              .filter((elem) => elem.is_akte === true)
+              .filter((elem) => elem.is_akte)
               .map((el) => (
                 <Box key={el.id} maxW="372px" mx="auto">
                   <Box mb="50px">

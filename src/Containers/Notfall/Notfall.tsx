@@ -482,7 +482,7 @@ export default function Notfall() {
           </Box>
           <Box px="10px" display="flex" flexDir="column-reverse" mt={"25px"}>
             {allGroups
-              .filter((elem) => elem.is_akte === false)
+              .filter((elem) => !elem.is_akte)
               .map((el) => (
                 <Box key={el.id} maxW="352px" mx="auto">
                   <Box mb="53px">
