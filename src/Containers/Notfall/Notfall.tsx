@@ -378,7 +378,7 @@ export default function Notfall() {
               </Box>
             )}
             {listInput?.map((el, index) => (
-              <Box key={index}>
+              <Box key={index} minH="82px" mb="5px">
                 <Text
                   color="gray"
                   fontSize="13px"
