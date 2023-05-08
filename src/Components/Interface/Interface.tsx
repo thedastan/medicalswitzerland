@@ -38,7 +38,7 @@ interface IInterfaceProps {
 export default function Interface({ children }: IInterfaceProps) {
   const { t } = useTranslation();
 
-  const { ActionGetUser, ActionPutUser } = useActionsUser();
+  const { ActionGetUser } = useActionsUser();
   const {
     ActionError,
     ActionErrorMessenger,

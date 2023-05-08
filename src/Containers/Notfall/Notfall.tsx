@@ -265,6 +265,9 @@ export default function Notfall() {
     arrows: false,
   };
 
+  const p = user.allergies_text?.split("\n");
+  console.log(p?.map((el) => (el === "" ? "  " : el)));
+
   if (loading || loaderForile) {
     return (
       <Box textColor="white" display="flex" justifyContent="center">
@@ -409,7 +412,7 @@ export default function Notfall() {
                           fontSize={"17px"}
                           lineHeight="20px"
                         >
-                          {item}
+                          {item === "" ? <Box h="10px" /> : item}
                         </Text>
                       ))
                     ) : (
@@ -460,7 +463,7 @@ export default function Notfall() {
                         fontSize={"17px"}
                         lineHeight="20px"
                       >
-                        {item}
+                        {item === "" ? <Box h="10px" /> : item}
                       </Text>
                     ))
                   : user.allergies_text?.split("\n").map((item, index) => (
@@ -471,7 +474,7 @@ export default function Notfall() {
                         fontSize={"17px"}
                         lineHeight="20px"
                       >
-                        {item}
+                        {item === "" ? <Box h="10px" /> : item}
                       </Text>
                     ))}
               </Box>
@@ -678,7 +681,10 @@ export default function Notfall() {
                               fontSize="10px"
                               fontWeight="300"
                             >
-                              {item.created_date}
+                              {`${item.created_date
+                                .split("-")
+                                .reverse()
+                                .join("-")}`}
                             </Text>
                           </Box>
                           {groupId === el.id && deleteImg && (

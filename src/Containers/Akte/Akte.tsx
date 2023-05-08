@@ -539,7 +539,7 @@ export default function Akte() {
                         marginBottom={"10px"}
                         lineHeight="16px"
                       >
-                        {item}
+                        {item === "" ? <Box h="10px" /> : item}
                       </Text>
                     ))
                   ) : (
@@ -757,7 +757,10 @@ export default function Akte() {
                               fontSize="10px"
                               fontWeight="300"
                             >
-                              {item.created_date}
+                              {`${item.created_date
+                                .split("-")
+                                .reverse()
+                                .join("-")}`}
                             </Text>
                           </Box>
                           {groupId === el.id && deleteImg && (
