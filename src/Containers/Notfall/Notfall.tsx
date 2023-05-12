@@ -512,7 +512,7 @@ export default function Notfall() {
                                   display="flex"
                                   right="11px"
                                   rounded="1px"
-                                  top="17px"
+                                  top="14px"
                                   zIndex="5"
                                   border="1px solid #fff"
                                   p="4px"
@@ -520,7 +520,7 @@ export default function Notfall() {
                                   w="50px"
                                   h="20px"
                                   px="0"
-                                  gap={"6px"}
+                                  gap={"4px"}
                                   onClick={() => {
                                     handleClick(el.id, item.id, el);
                                     setGroupId(el.id);

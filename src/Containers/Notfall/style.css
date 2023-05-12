@@ -1,10 +1,14 @@
 .slick-dots {
-    bottom: 130px;
+    bottom: 150px;
+}
+
+.slick-dots li {
+    margin: 0 0 !important;
 }
 
 .slick-dots li button:before {
     font-family: 'slick';
-    font-size: 6px;
+    font-size: 11px;
     line-height: 20px;
     position: absolute;
     top: 0;
