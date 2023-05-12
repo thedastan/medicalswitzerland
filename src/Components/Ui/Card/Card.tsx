@@ -1,6 +1,9 @@
 // External dependencies
 import { Box, Image } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Fancybox as NativeFancybox } from "@fancyapps/ui";
+import { ComponentOptionsType as FancyboxOptionsType } from "@fancyapps/ui/types/Fancybox/options";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import SvgPdf from "../../../assets/svg/SvgPdf";
 import SvgView from "../../../assets/svg/SvgView";
@@ -8,8 +11,6 @@ import { API_ADDRESS } from "../../../Api";
 import "./style.scss";
 import { tokenVerification } from "../../Helpers/action";
 import { useAppSelector } from "../../../Hooks/Hooks";
-import { useActionsUser } from "../../../Hooks/useActions";
-
 interface IElement {
   id: string;
   file_url?: string;
@@ -34,13 +35,18 @@ export default function Card({ el }: ICardProps) {
     <Box h="auto" w="100%">
       {el.file_url?.slice(-3) === "png" ? (
         <Box>
-          <Image
-            w="100%"
-            h="auto"
-            alt="exemple"
-            objectFit="cover"
-            src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
-          />
+          <a
+            data-fancybox="gallery"
+            href={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
+          >
+            <Image
+              w="100%"
+              h="auto"
+              alt="exemple"
+              objectFit="cover"
+              src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
+            />
+          </a>
           {user.guest_mode && !validToken && blur && (
             <Box
               top="0"
