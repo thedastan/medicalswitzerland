@@ -73,6 +73,7 @@ export default function Akte() {
   );
 
   const { id } = useParams<string>();
+  const ref = useRef() as any;
   const [idFile, setIdFile] = useState("");
   const [idFiles, setIdFiles] = useState("");
   const [back, setBack] = useState(false);
@@ -88,6 +89,7 @@ export default function Akte() {
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [groupId, setGroupId] = useState("");
+  const [fancyIndex, setFancyIndex] = useState<null | number>(null);
 
   const guest_id = sessionStorage.getItem("guestId") as string;
   let idGroup: any;
@@ -305,6 +307,14 @@ export default function Akte() {
       ActionGroups(idFile || groups.id);
     }
   }, [deleteCard]);
+
+  const handleClickFancy = (index: number) => {
+    setFancyIndex(null);
+    setTimeout(() => {
+      setFancyIndex(index);
+      ref?.current?.click();
+    }, 300);
+  };
 
   if (loading) {
     return (
@@ -562,238 +572,251 @@ export default function Akte() {
           <Box display="flex" flexDir="column-reverse">
             {allGroups
               .filter((elem) => elem.is_akte)
-              .map((el) => (
+              .map((el, idx) => (
                 <Box key={el.id} maxW="372px" mx="auto">
                   <Box mb="50px">
-                    {/* <Fancybox
-                      options={{
-                        Carousel: {
-                          infinite: false,
-                        },
-                      }}
-                    >
-                      <Slider {...settings}>
-                        {el?.info_list.map((item, index) => (
-                          <Box>
-                            <Box
-                              position="relative"
-                              maxW="426px"
-                              mx="auto"
-                              h="448px"
-                              bg="#000000"
-                              display="flex"
-                              alignItems="center"
-                            >
-                              {validToken && (
-                                <Button
-                                  position="absolute"
-                                  display="flex"
-                                  right="11px"
-                                  rounded="1px"
-                                  top="17px"
-                                  zIndex="5"
-                                  border="1px solid #fff"
-                                  p="4px"
-                                  ml="3px"
-                                  w="50px"
-                                  h="20px"
-                                  px="0"
-                                  gap={"6px"}
-                                  onClick={() => {
-                                    handleClick(el.id, item.id, el);
-                                    setGroupId(el.id);
-                                  }}
-                                >
-                                  {dots}
-                                </Button>
-                              )}
-                              {groupId === el.id && deleteImg && (
+                    <Slider {...settings}>
+                      {el?.info_list.map((item, index) => (
+                        <Box>
+                          <Box
+                            position="relative"
+                            maxW="426px"
+                            mx="auto"
+                            h="448px"
+                            bg="#000000"
+                            display="flex"
+                            alignItems="center"
+                          >
+                            {validToken && (
+                              <Button
+                                position="absolute"
+                                display="flex"
+                                right="11px"
+                                rounded="1px"
+                                top="17px"
+                                zIndex="5"
+                                border="1px solid #fff"
+                                p="4px"
+                                ml="3px"
+                                w="50px"
+                                h="20px"
+                                px="0"
+                                gap={"6px"}
+                                onClick={() => {
+                                  handleClick(el.id, item.id, el);
+                                  setGroupId(el.id);
+                                }}
+                              >
+                                {dots}
+                              </Button>
+                            )}
+                            {groupId === el.id && deleteImg && (
+                              <Box
+                                bg="rgba(57, 57, 57, 0.5)"
+                                w="64px"
+                                h="190px"
+                                alignItems="center"
+                                pos="absolute"
+                                display="flex"
+                                flexDir="column"
+                                rounded="5px"
+                                right="5px"
+                                top="40px"
+                                zIndex="5"
+                              >
                                 <Box
-                                  bg="rgba(57, 57, 57, 0.5)"
-                                  w="64px"
-                                  h="190px"
+                                  justifyContent="center"
                                   alignItems="center"
                                   pos="absolute"
                                   display="flex"
-                                  flexDir="column"
-                                  rounded="5px"
-                                  right="5px"
-                                  top="40px"
+                                  rounded="50%"
+                                  top="25px"
+                                  bg="black"
                                   zIndex="5"
+                                  w="39px"
+                                  h="39px"
+                                  onClick={() => deletedImage(el, item.id)}
                                 >
-                                  <Box
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    pos="absolute"
-                                    display="flex"
-                                    rounded="50%"
-                                    top="25px"
-                                    bg="black"
-                                    zIndex="5"
-                                    w="39px"
-                                    h="39px"
-                                    onClick={() => deletedImage(el, item.id)}
-                                  >
-                                    <SvgRedBasket />
-                                  </Box>
-                                  <Text
-                                    fontSize="10px"
-                                    fontWeight="300"
-                                    textColor="white"
-                                    fontFamily="inter"
-                                    pos="absolute"
-                                    right="16px"
-                                    top="71px"
-                                  >
-                                    <Trans>delete</Trans>
-                                  </Text>
-                                  <Box
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    pos="absolute"
-                                    display="flex"
-                                    rounded="50%"
-                                    right="11px"
-                                    top="100px"
-                                    bg="black"
-                                    zIndex="5"
-                                    w="39px"
-                                    h="39px"
-                                    onClick={() => {
-                                      ActionActiveModalMedia(true);
-                                      ActionActiveProfile(false);
-                                      ActionActiveSubtrac(true);
-                                      ActionFilesId(el.id);
-                                    }}
-                                  >
-                                    <SvgBluePluse />
-                                  </Box>
-                                  <Text
-                                    fontSize="10px"
-                                    fontWeight="300"
-                                    textColor="white"
-                                    fontFamily="inter"
-                                    pos="absolute"
-                                    top="145px"
-                                    textAlign="center"
-                                  >
-                                    <Trans>addMore</Trans>
-                                  </Text>
+                                  <SvgRedBasket />
                                 </Box>
-                              )}
-                              <Box
-                                w="100%"
-                                onClick={() => handleViewImage(el.id)}
-                              >
-                                <Card key={index} el={item} />
-                              </Box>
-                            </Box>
-                            <Box
-                              bg={
-                                disabledFiles && idFiles === el.id
-                                  ? "#141414"
-                                  : "black"
-                              }
-                              rounded="5px"
-                              px="4px"
-                              mb="7px"
-                              mt="25px"
-                            >
-                              <Input
-                                borderBottom="1px solid #343434"
-                                borderRight="transparent"
-                                borderLeft="transparent"
-                                defaultValue={el.title}
-                                borderTop="transparent"
-                                disabled={!deleteImg}
-                                placeholder={
-                                  disabledFiles && idFiles === el.id
-                                    ? `${language === "de" ? "Titel" : "Title"}`
-                                    : ""
-                                }
-                                fontFamily="inter"
-                                textColor="white"
-                                fontWeight="700"
-                                bg="transparent"
-                                fontSize="15px"
-                                outline="black"
-                                rounded="0px"
-                                name="text"
-                                mt={'-7px'}
-                                w="100%"
-                                mb="5px"
-                                h="37px"
-                                pl="0"
-                                onChange={(e) => setTitle(e.target.value)}
-                              />
-                              <Input
-                                disabled={!disabledFiles || idFiles !== el.id}
-                                placeholder={
-                                  disabledFiles && idFiles === el.id
-                                    ? `${
-                                        language === "de"
-                                          ? "Beschreibung"
-                                          : "Description"
-                                      }`
-                                    : ""
-                                }
-                                value={
-                                  dataPost.id === item.id
-                                    ? text || item.text
-                                    : item.text
-                                }
-                                borderColor="transparent"
-                                fontFamily="inter"
-                                textColor="white"
-                                bg="transparent"
-                                fontWeight="300"
-                                fontSize="15px"
-                                outline="black"
-                                rounded="0px"
-                                name="text"
-                                pl="0"
-                                w="100%"
-                                mb="7px"
-                                h="37px"
-                                onChange={(e) => {
-                                  setText(e.target.value);
-                                  setDataPost({ ...dataPost, id: item.id });
-                                }}
-                              />
-                              <Text
-                                textColor="#EB8E8E"
-                                fontFamily="commissioner"
-                                fontSize="10px"
-                                fontWeight="300"
-                              >
-                                {`${item.created_date
-                                  .split("-")
-                                  .reverse()
-                                  .join(".")}`}
-                              </Text>
-                            </Box>
-                            {groupId === el.id && deleteImg && (
-                              <Box display="flex" w="100%">
-                                <Button
-                                  color="white"
-                                  fontSize="13px"
-                                  fontWeight="700"
+                                <Text
+                                  fontSize="10px"
+                                  fontWeight="300"
+                                  textColor="white"
                                   fontFamily="inter"
-                                  bg="#0B6CFF"
-                                  w="100%"
-                                  h="35px"
-                                  ml="2px"
-                                  rounded="7px"
-                                  onClick={() => handlePutFile()}
+                                  pos="absolute"
+                                  right="16px"
+                                  top="71px"
                                 >
-                                  <Trans>done</Trans>
-                                </Button>
+                                  <Trans>delete</Trans>
+                                </Text>
+                                <Box
+                                  justifyContent="center"
+                                  alignItems="center"
+                                  pos="absolute"
+                                  display="flex"
+                                  rounded="50%"
+                                  right="11px"
+                                  top="100px"
+                                  bg="black"
+                                  zIndex="5"
+                                  w="39px"
+                                  h="39px"
+                                  onClick={() => {
+                                    ActionActiveModalMedia(true);
+                                    ActionActiveProfile(false);
+                                    ActionActiveSubtrac(true);
+                                    ActionFilesId(el.id);
+                                  }}
+                                >
+                                  <SvgBluePluse />
+                                </Box>
+                                <Text
+                                  fontSize="10px"
+                                  fontWeight="300"
+                                  textColor="white"
+                                  fontFamily="inter"
+                                  pos="absolute"
+                                  top="145px"
+                                  textAlign="center"
+                                >
+                                  <Trans>addMore</Trans>
+                                </Text>
                               </Box>
                             )}
+                            <Box
+                              w="100%"
+                              onClick={() => handleViewImage(el.id)}
+                            >
+                              {el?.info_list?.length > 1 ? (
+                                <Box
+                                  onClick={() => {
+                                    handleClickFancy(idx);
+                                  }}
+                                >
+                                  <Card key={index} el={item} />
+                                </Box>
+                              ) : (
+                                <a
+                                  data-fancybox="gallery"
+                                  href={`${API_ADDRESS?.substring(0, 34)}${
+                                    item.file_url
+                                  }`}
+                                  onClick={() => ref?.current?.click()}
+                                >
+                                  <Box>
+                                    <Card key={index} el={item} />
+                                  </Box>
+                                </a>
+                              )}
+                            </Box>
                           </Box>
-                        ))}
-                      </Slider>
-                    </Fancybox> */}
+                          <Box
+                            mx="10px"
+                            bg={
+                              disabledFiles && idFiles === el.id
+                                ? "#141414"
+                                : "black"
+                            }
+                            rounded="5px"
+                            px="4px"
+                            mb="7px"
+                            mt="25px"
+                          >
+                            <Input
+                              borderBottom="1px solid #343434"
+                              borderRight="transparent"
+                              borderLeft="transparent"
+                              defaultValue={el.title}
+                              borderTop="transparent"
+                              disabled={!deleteImg}
+                              placeholder={
+                                disabledFiles && idFiles === el.id
+                                  ? `${language === "de" ? "Titel" : "Title"}`
+                                  : ""
+                              }
+                              fontFamily="inter"
+                              textColor="white"
+                              fontWeight="700"
+                              bg="transparent"
+                              fontSize="15px"
+                              outline="black"
+                              rounded="0px"
+                              name="text"
+                              mt={"-7px"}
+                              w="100%"
+                              mb="5px"
+                              h="37px"
+                              pl="0"
+                              onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <Input
+                              disabled={!disabledFiles || idFiles !== el.id}
+                              placeholder={
+                                disabledFiles && idFiles === el.id
+                                  ? `${
+                                      language === "de"
+                                        ? "Beschreibung"
+                                        : "Description"
+                                    }`
+                                  : ""
+                              }
+                              value={
+                                dataPost.id === item.id
+                                  ? text || item.text
+                                  : item.text
+                              }
+                              borderColor="transparent"
+                              fontFamily="inter"
+                              textColor="white"
+                              bg="transparent"
+                              fontWeight="300"
+                              fontSize="15px"
+                              outline="black"
+                              rounded="0px"
+                              name="text"
+                              pl="0"
+                              w="100%"
+                              mb="7px"
+                              h="37px"
+                              onChange={(e) => {
+                                setText(e.target.value);
+                                setDataPost({ ...dataPost, id: item.id });
+                              }}
+                            />
+                            <Text
+                              textColor="#EB8E8E"
+                              fontFamily="commissioner"
+                              fontSize="10px"
+                              fontWeight="300"
+                            >
+                              {`${item.created_date
+                                .split("-")
+                                .reverse()
+                                .join(".")}`}
+                            </Text>
+                          </Box>
+                          {groupId === el.id && deleteImg && (
+                            <Box display="flex" w="100%">
+                              <Button
+                                color="white"
+                                fontSize="13px"
+                                fontWeight="700"
+                                fontFamily="inter"
+                                bg="#0B6CFF"
+                                w="100%"
+                                h="35px"
+                                ml="2px"
+                                rounded="7px"
+                                onClick={() => handlePutFile()}
+                              >
+                                <Trans>done</Trans>
+                              </Button>
+                            </Box>
+                          )}
+                        </Box>
+                      ))}
+                    </Slider>
                   </Box>
                 </Box>
               ))}
@@ -817,6 +840,42 @@ export default function Akte() {
           </Box>
         )}
       </Box>
+      {fancyIndex && (
+        <Box display="none">
+          <Fancybox
+            options={{
+              Carousel: {
+                infinite: false,
+              },
+              Fullscreen: {
+                autoStart: false,
+              },
+              Slideshow: false,
+              Toolbar: false,
+            }}
+          >
+            {allGroups
+              .filter((elem) => elem.is_akte)
+              [fancyIndex]?.info_list.map((item, index) => (
+                <Box>
+                  <Box key={index}>
+                    <Box w="100%" mb="7px">
+                      <a
+                        data-fancybox="gallery"
+                        href={`${API_ADDRESS?.substring(0, 34)}${
+                          item.file_url
+                        }`}
+                        ref={ref}
+                      >
+                        <Card key={index} el={item} />
+                      </a>
+                    </Box>
+                  </Box>
+                </Box>
+              ))}
+          </Fancybox>
+        </Box>
+      )}
       <PopupForCard
         setDeleteCard={setDeleteCard}
         id={idFiles}

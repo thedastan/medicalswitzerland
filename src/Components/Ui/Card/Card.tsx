@@ -32,12 +32,12 @@ export default function Card({ el }: ICardProps) {
   }, []);
 
   return (
-    <Box h="auto" w="100%">
+    <Box maxH="448px" w="100%">
       {el.file_url?.slice(-3) === "png" ? (
         <Box>
           <Image
             w="100%"
-            h="auto"
+            maxH="448px"
             alt="exemple"
             objectFit="cover"
             src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}

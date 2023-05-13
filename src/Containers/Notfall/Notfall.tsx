@@ -488,11 +488,11 @@ export default function Notfall() {
               </Box>
             )}
           </Box>
-          <Box px="10px" display="flex" flexDir="column-reverse" mt={"25px"}>
+          <Box display="flex" flexDir="column-reverse" mt={"25px"}>
             {allGroups
               .filter((elem) => !elem.is_akte)
               .map((el, idx) => (
-                <Box key={el.id} maxW="352px" mx="auto">
+                <Box key={el.id} w="100%" mx="auto">
                   <Box mb="53px">
                     <Fancybox
                       options={{
@@ -640,6 +640,7 @@ export default function Notfall() {
                               </Box>
                             </Box>
                             <Box
+                              mx="10px"
                               bg={
                                 disabledFiles && idFiles === el.id
                                   ? "#141414"
@@ -789,6 +790,11 @@ export default function Notfall() {
               Carousel: {
                 infinite: false,
               },
+              Fullscreen: {
+                autoStart: false,
+              },
+              Slideshow: false,
+              Toolbar: false,
             }}
           >
             {allGroups
