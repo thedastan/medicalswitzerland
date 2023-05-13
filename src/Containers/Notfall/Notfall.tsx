@@ -621,7 +621,7 @@ export default function Notfall() {
                               rounded="5px"
                               px="4px"
                               mb="7px"
-                              mt="40px"
+                              mt="5px"
                             >
                               <Input
                                 borderBottom="1px solid #343434"
@@ -643,6 +643,7 @@ export default function Notfall() {
                                 outline="black"
                                 rounded="0px"
                                 name="text"
+                                mt={"-7px"}
                                 w="100%"
                                 mb="5px"
                                 h="37px"
@@ -694,7 +695,7 @@ export default function Notfall() {
                                 {`${item.created_date
                                   .split("-")
                                   .reverse()
-                                  .join("-")}`}
+                                  .join(".")}`}
                               </Text>
                             </Box>
                             {groupId === el.id && deleteImg && (

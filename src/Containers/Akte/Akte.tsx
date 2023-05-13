@@ -719,6 +719,7 @@ export default function Akte() {
                                 outline="black"
                                 rounded="0px"
                                 name="text"
+                                mt={'-7px'}
                                 w="100%"
                                 mb="5px"
                                 h="37px"
@@ -768,7 +769,7 @@ export default function Akte() {
                                 {`${item.created_date
                                   .split("-")
                                   .reverse()
-                                  .join("-")}`}
+                                  .join(".")}`}
                               </Text>
                             </Box>
                             {groupId === el.id && deleteImg && (
