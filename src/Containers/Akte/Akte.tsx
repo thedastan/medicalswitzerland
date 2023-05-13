@@ -565,7 +565,7 @@ export default function Akte() {
               .map((el) => (
                 <Box key={el.id} maxW="372px" mx="auto">
                   <Box mb="50px">
-                    <Fancybox
+                    {/* <Fancybox
                       options={{
                         Carousel: {
                           infinite: false,
@@ -793,7 +793,7 @@ export default function Akte() {
                           </Box>
                         ))}
                       </Slider>
-                    </Fancybox>
+                    </Fancybox> */}
                   </Box>
                 </Box>
               ))}

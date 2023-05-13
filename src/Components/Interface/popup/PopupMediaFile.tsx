@@ -520,12 +520,6 @@ export default function PopupMediaFile() {
                   >
                     {user.full_name}
                   </Text>
-                  {/* <Box zIndex="6" mb="19px">
-                    {listProfile.map((el, index) => (
-                      <Box key={index}>{el.content}</Box>
-                    ))}
-                  </Box> */}
-
                   <Box
                     mb="19px"
                     rounded="5px"

@@ -1,7 +1,7 @@
 /* External dependencies */
 import axios from "axios";
 import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useRef, Key } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import Slider from "react-slick";
@@ -74,6 +74,7 @@ export default function Notfall() {
   const guest_id = sessionStorage.getItem("guestId") as string;
 
   const { id } = useParams<string>();
+  const ref = useRef() as any;
   const [idFile, setIdFile] = useState("");
   const [idFiles, setIdFiles] = useState("");
 
@@ -89,6 +90,7 @@ export default function Notfall() {
 
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
+  const [fancyIndex, setFancyIndex] = useState<null | number>(null);
 
   const dots: any = [];
 
@@ -257,6 +259,14 @@ export default function Notfall() {
     }
   }, [deleteCard]);
 
+  const handleClickFancy = (index: number) => {
+    setFancyIndex(null);
+    setTimeout(() => {
+      setFancyIndex(index);
+      ref?.current?.click();
+    }, 300);
+  };
+
   const settings = {
     dots: true,
     infinite: true,
@@ -265,9 +275,6 @@ export default function Notfall() {
     slidesToScroll: 1,
     arrows: false,
   };
-
-  const p = user.allergies_text?.split("\n");
-  console.log(p?.map((el) => (el === "" ? "  " : el)));
 
   if (loading || loaderForile) {
     return (
@@ -484,7 +491,7 @@ export default function Notfall() {
           <Box px="10px" display="flex" flexDir="column-reverse" mt={"25px"}>
             {allGroups
               .filter((elem) => !elem.is_akte)
-              .map((el) => (
+              .map((el, idx) => (
                 <Box key={el.id} maxW="352px" mx="auto">
                   <Box mb="53px">
                     <Fancybox
@@ -609,7 +616,27 @@ export default function Notfall() {
                                   handleViewImage(el.id);
                                 }}
                               >
-                                <Card key={index} el={item} />
+                                {el?.info_list?.length > 1 ? (
+                                  <Box
+                                    onClick={() => {
+                                      handleClickFancy(idx);
+                                    }}
+                                  >
+                                    <Card key={index} el={item} />
+                                  </Box>
+                                ) : (
+                                  <a
+                                    data-fancybox="gallery"
+                                    href={`${API_ADDRESS?.substring(0, 34)}${
+                                      item.file_url
+                                    }`}
+                                    onClick={() => ref?.current?.click()}
+                                  >
+                                    <Box>
+                                      <Card key={index} el={item} />
+                                    </Box>
+                                  </a>
+                                )}
                               </Box>
                             </Box>
                             <Box
@@ -753,6 +780,37 @@ export default function Notfall() {
           alignItems="center"
         >
           <Registration />
+        </Box>
+      )}
+      {fancyIndex && (
+        <Box display="none">
+          <Fancybox
+            options={{
+              Carousel: {
+                infinite: false,
+              },
+            }}
+          >
+            {allGroups
+              .filter((elem) => !elem.is_akte)
+              [fancyIndex]?.info_list.map((item, index) => (
+                <Box>
+                  <Box key={index}>
+                    <Box w="100%" mb="7px">
+                      <a
+                        data-fancybox="gallery"
+                        href={`${API_ADDRESS?.substring(0, 34)}${
+                          item.file_url
+                        }`}
+                        ref={ref}
+                      >
+                        <Card key={index} el={item} />
+                      </a>
+                    </Box>
+                  </Box>
+                </Box>
+              ))}
+          </Fancybox>
         </Box>
       )}
       {successPopup && <PopupForMessage />}

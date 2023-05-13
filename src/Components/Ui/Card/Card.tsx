@@ -35,18 +35,13 @@ export default function Card({ el }: ICardProps) {
     <Box h="auto" w="100%">
       {el.file_url?.slice(-3) === "png" ? (
         <Box>
-          <a
-            data-fancybox="gallery"
-            href={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
-          >
-            <Image
-              w="100%"
-              h="auto"
-              alt="exemple"
-              objectFit="cover"
-              src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
-            />
-          </a>
+          <Image
+            w="100%"
+            h="auto"
+            alt="exemple"
+            objectFit="cover"
+            src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
+          />
           {user.guest_mode && !validToken && blur && (
             <Box
               top="0"

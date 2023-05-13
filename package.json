@@ -7,6 +7,7 @@
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@fancyapps/fancybox": "^3.5.7",
     "@fancyapps/ui": "^5.0.17",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -66,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "@types/fancybox": "^3.5.3",
     "@types/react-input-mask": "^3.0.2",
     "@types/react-slick": "^0.23.10"
   }
