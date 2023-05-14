@@ -785,7 +785,7 @@ export default function Akte() {
                               }}
                             />
                             <Text
-                              textColor="#EB8E8E"
+                              textColor="#fff"
                               fontFamily="commissioner"
                               fontSize="10px"
                               fontWeight="300"
