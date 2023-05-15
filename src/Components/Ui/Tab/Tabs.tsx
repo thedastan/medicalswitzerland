@@ -86,15 +86,14 @@ export default function Tabs({ akte, notfall }: ITabs) {
 
   return (
     <Box>
-      <Box maxW="900px" mx="auto" display="flex" mb="24px">
+      <Box maxW="900px" mx="auto" mt="10px"  p="0 10px" display="flex" justifyContent="space-between"  mb="24px">
         <Button
-          bg="littleBlack"
-          w="50%"
+          bg="#1A1A1A"
+          w="48%"
           textColor="white"
           display="flex"
-          flexDir="column"
-          h="53px"
-          rounded="0px"
+          h="44px"
+          rounded="0"
           position="static"
           pt="5px"
           boxShadow={"inset 0px 2px 2px rgba(31, 31, 31, 0.44)"}
@@ -102,18 +101,18 @@ export default function Tabs({ akte, notfall }: ITabs) {
           borderBottom={isNotfall ? "0.5px solid white" : "0.5px solid black"}
         >
           <SvgPhone />
-          <Text pt="4px" fontFamily="Calibri" fontSize="10px" fontWeight="300">
+          <Text pt="4px" ml="5px" letterSpacing="1px" fontFamily="Helvetica" fontSize="15px" fontWeight="600">
             <Trans>emergency</Trans>
           </Text>
+
         </Button>
         <Button
-          bg="littleBlack"
-          w="50%"
+          bg="#1A1A1A"
+          w="48%"
           textColor="white"
           display="flex"
-          flexDir="column"
-          h="53px"
-          rounded="0px"
+          h="44px"
+          rounded="0"
           position="static"
           pt="5px"
           boxShadow={"inset 0px 2px 2px rgba(31, 31, 31, 0.44)"}
@@ -121,7 +120,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           borderBottom={isAkte ? "0.5px solid white" : "0.5px solid black"}
         >
           <SvgAkte />
-          <Text pt="4px" fontFamily="Calibri" fontSize="10px" fontWeight="300">
+          <Text pt="4px" ml="5px" letterSpacing="1px" fontFamily="Helvetica" fontSize="15px" fontWeight="600">
             <Trans>medicall</Trans>
           </Text>
         </Button>
