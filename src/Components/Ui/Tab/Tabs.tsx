@@ -86,7 +86,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
 
   return (
     <Box>
-      <Box maxW="900px" mx="auto" mt="10px"  p="0 10px" display="flex" justifyContent="space-between"  mb="24px">
+      <Box maxW="900px" mx="auto" mt="10px"  p="0 15px" display="flex" justifyContent="space-between"  mb="24px">
         <Button
           bg="#1A1A1A"
           w="48%"
