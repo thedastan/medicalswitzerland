@@ -93,7 +93,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           textColor="white"
           display="flex"
           h="44px"
-          rounded="7px 7px 0 0"
+          rounded="7px"
           position="static"
           pt="5px"
           boxShadow={"inset 0px 2px 2px rgba(31, 31, 31, 0.44)"}
@@ -112,7 +112,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           textColor="white"
           display="flex"
           h="44px"
-          rounded="7px 7px 0 0"
+          rounded="7px"
           position="static"
           pt="5px"
           boxShadow={"inset 0px 2px 2px rgba(31, 31, 31, 0.44)"}
