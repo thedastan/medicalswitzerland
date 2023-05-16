@@ -384,7 +384,7 @@ export default function Akte() {
                     )}
                 </Box>
 
-                <Box px="12px">
+                <Box px="0">
                     {!bearbeitenAkte ? (
                         <Box
                             display="flex"
@@ -448,7 +448,7 @@ export default function Akte() {
                             <Box
                                 borderBottom="1px solid #454545"
                                 marginBottom="29px"
-                                px="13px"
+                                mx="13px"
                             >
                                 <Text
                                     color="gray"
@@ -480,7 +480,7 @@ export default function Akte() {
                         </Box>
                     )}
 
-                    <Box borderBottom="1px solid #454545" marginBottom="29px">
+                    <Box borderBottom="1px solid #454545" marginBottom="29px" mx={"13px"}>
                         <Text
                             color="gray"
                             fontSize="13px"
@@ -514,6 +514,7 @@ export default function Akte() {
                                 listInput.length - 1 === index ? "0px" : "1px solid #454545"
                             }
                             marginBottom="29px"
+                            mx="13px"
                         >
                             <Text
                                 color="gray"

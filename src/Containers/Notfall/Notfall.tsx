@@ -492,7 +492,7 @@ export default function Notfall() {
                         {allGroups
                             .filter((elem) => !elem.is_akte)
                             .map((el, idx) => (
-                                <Box key={el.id} w="100%" mx="auto">
+                                <Box key={el.id} w="100%" mx="auto" >
                                     <Box mb="53px">
                                         <Fancybox
                                             options={{
@@ -537,6 +537,78 @@ export default function Notfall() {
                                                                 </Button>
                                                             )}
                                                             {groupId === el.id && deleteImg && (
+                                                                <Box
+                                                                    bg="rgba(57, 57, 57, 0.5)"
+                                                                    w="64px"
+                                                                    h="190px"
+                                                                    alignItems="center"
+                                                                    pos="absolute"
+                                                                    display="flex"
+                                                                    flexDir="column"
+                                                                    rounded="5px"
+                                                                    right="5px"
+                                                                    top="40px"
+                                                                    zIndex="5"
+                                                                >
+                                                                    <Box
+                                                                        justifyContent="center"
+                                                                        alignItems="center"
+                                                                        pos="absolute"
+                                                                        display="flex"
+                                                                        rounded="50%"
+                                                                        right="11px"
+                                                                        top="25px"
+                                                                        bg="black"
+                                                                        zIndex="5"
+                                                                        w="39px"
+                                                                        h="39px"
+                                                                        onClick={() => deletedImage(el, item.id)}
+                                                                    >
+                                                                        <SvgRedBasket/>
+                                                                    </Box>
+                                                                    <Text
+                                                                        fontSize="10px"
+                                                                        fontWeight="300"
+                                                                        textColor="white"
+                                                                        fontFamily="inter"
+                                                                        pos="absolute"
+                                                                        right="16px"
+                                                                        top="71px"
+                                                                    >
+                                                                        <Trans>delete</Trans>
+                                                                    </Text>
+                                                                    <Box
+                                                                        justifyContent="center"
+                                                                        alignItems="center"
+                                                                        pos="absolute"
+                                                                        display="flex"
+                                                                        rounded="50%"
+                                                                        top="100px"
+                                                                        bg="black"
+                                                                        zIndex="5"
+                                                                        p="10px"
+                                                                        onClick={() => {
+                                                                            ActionActiveModalMedia(true);
+                                                                            ActionActiveProfile(false);
+                                                                            ActionActiveSubtrac(true);
+                                                                            ActionFilesId(el.id);
+                                                                        }}
+                                                                    >
+                                                                        <SvgBluePluse/>
+                                                                    </Box>
+                                                                    <Text
+                                                                        fontSize="10px"
+                                                                        fontWeight="300"
+                                                                        textColor="white"
+                                                                        fontFamily="inter"
+                                                                        pos="absolute"
+                                                                        top="145px"
+                                                                        textAlign="center"
+                                                                    >
+                                                                        <Trans>addMore</Trans>
+                                                                    </Text>
+                                                                </Box>
+                                                            )}           {groupId === el.id && deleteImg && (
                                                                 <Box
                                                                     bg="rgba(57, 57, 57, 0.5)"
                                                                     w="64px"
@@ -727,7 +799,7 @@ export default function Notfall() {
                                                             </Text>
                                                         </Box>
                                                         {groupId === el.id && deleteImg && (
-                                                            <Box display="flex" w="100%">
+                                                            <Box display="flex" justifyContent={'center'} position="relative" mx={"13px"}>
                                                                 <Button
                                                                     color="white"
                                                                     fontSize="13px"
@@ -739,6 +811,8 @@ export default function Notfall() {
                                                                     ml="2px"
                                                                     rounded="7px"
                                                                     onClick={() => handlePutFile()}
+                                                                    pos={"absolute"}
+                                                                    bottom={'0'}
                                                                 >
                                                                     <Trans>done</Trans>
                                                                 </Button>
