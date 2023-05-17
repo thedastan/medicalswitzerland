@@ -1,8 +1,9 @@
 .slick-dots {
-    bottom: 130px !important;
+    bottom: 180px;
 }
+
 .slick-dots li button:before {
-    font-family: 'slick',sans-serif;
+    font-family: 'slick', sans-serif;
     font-size: 9px;
     line-height: 20px;
     position: absolute;

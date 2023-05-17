@@ -603,12 +603,11 @@ export default function Akte() {
               .filter((elem) => elem.is_akte)
               .map((el, idx) => (
                 <Box key={el.id} w="100%" mx="auto">
-                  <Box mb="50px">
+                  <Box>
                     <Slider {...settings}>
                       {el?.info_list.map((item, index) => (
-                        <Box>
+                        <Box key={index} h="620px" position="relative">
                           <Box
-                            position="relative"
                             maxW="426px"
                             mx="auto"
                             h="448px"

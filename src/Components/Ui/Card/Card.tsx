@@ -64,7 +64,7 @@ export default function Card({ el }: ICardProps) {
         >
           <Box
             w="100%"
-            h="auto"
+            h="448px"
             display="flex"
             alignItems="center"
             justifyContent="center"

@@ -475,7 +475,7 @@ export default function Notfall() {
               .filter((elem) => !elem.is_akte)
               .map((el, idx) => (
                 <Box key={el.id} w="100%" mx="auto">
-                  <Box mb="53px">
+                  <Box>
                     <Fancybox
                       options={{
                         Carousel: {
@@ -485,7 +485,7 @@ export default function Notfall() {
                     >
                       <Slider {...settings}>
                         {el?.info_list.map((item, index) => (
-                          <Box key={index}>
+                          <Box key={index} position="relative" h="620px">
                             <Box
                               position="relative"
                               alignItems="center"
@@ -493,7 +493,6 @@ export default function Notfall() {
                               bg="#000000"
                               maxW="426px"
                               mx="auto"
-                              h="448px"
                             >
                               {verifay && (
                                 <Button
@@ -800,7 +799,7 @@ export default function Notfall() {
                                   rounded="7px"
                                   onClick={() => handlePutFile()}
                                   pos={"absolute"}
-                                  bottom={"0"}
+                                  bottom={"-35px"}
                                 >
                                   <Trans>done</Trans>
                                 </Button>
