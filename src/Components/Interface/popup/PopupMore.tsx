@@ -58,7 +58,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
 
   const listSvg = [
     {
-      svg: <SvgWhatsapp />,
+      svg: <SvgWhatsapp width="39px" heigth="39px" />,
       link: "https://wa.me/+41797545136",
     },
     {
@@ -176,13 +176,13 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
                   </span>
                 </Text>
 
-                <Box display="flex" flexWrap="wrap" gap="14px">
+                <Box display="flex" flexWrap="wrap" gap="10px">
                   {listSvg.map((el, index) => (
                     <a href={el.link} target="_blank">
                       <Box
                         key={index}
-                        w="35.75px"
-                        h="35.75px"
+                        w="38px"
+                        h="38px"
                         bg="black"
                         display="flex"
                         justifyContent="center"

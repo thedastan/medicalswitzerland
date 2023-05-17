@@ -567,7 +567,7 @@ export default function Akte() {
                   }`}
                 />
               ) : (
-                <Box>
+                <Box mb="50px">
                   {el.value ? (
                     el.value.split("\n").map((item, index) => (
                       <Text

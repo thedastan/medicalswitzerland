@@ -401,8 +401,13 @@ export default function Notfall() {
                           fontFamily={"inter"}
                           fontSize={"17px"}
                           lineHeight="20px"
+                          mb={
+                            el.value?.split("\n").length === index + 1
+                              ? "25px"
+                              : "0"
+                          }
                         >
-                          {item === "" ? <Box h="10px" /> : item}
+                          {item === "" ? <Box h="10px" /> : item}!!!
                         </Text>
                       ))
                     ) : (
@@ -463,6 +468,12 @@ export default function Notfall() {
                         fontFamily={"inter"}
                         fontSize={"17px"}
                         lineHeight="20px"
+                        mb={
+                          dataPost.allergies_text?.split("\n").length ===
+                          index + 1
+                            ? "25px"
+                            : "0"
+                        }
                       >
                         {item === "" ? <Box h="10px" /> : item}
                       </Text>
@@ -470,7 +481,7 @@ export default function Notfall() {
               </Box>
             )}
           </Box>
-          <Box display="flex" flexDir="column-reverse" mt={"25px"}>
+          <Box display="flex" flexDir="column-reverse" mt="25px">
             {allGroups
               .filter((elem) => !elem.is_akte)
               .map((el, idx) => (
@@ -487,6 +498,7 @@ export default function Notfall() {
                         {el?.info_list.map((item, index) => (
                           <Box key={index} position="relative" h="620px">
                             <Box
+                              h="448px"
                               position="relative"
                               alignItems="center"
                               display="flex"
@@ -749,6 +761,7 @@ export default function Notfall() {
                                     ? text || item.text
                                     : item.text
                                 }
+                                opacity="1"
                                 borderColor="transparent"
                                 fontFamily="inter"
                                 textColor="white"
@@ -788,7 +801,7 @@ export default function Notfall() {
                               >
                                 <Button
                                   color="white"
-                                  fontSize="13px"
+                                  fontSize="16px"
                                   fontWeight="700"
                                   fontFamily="inter"
                                   bg="#0B6CFF"

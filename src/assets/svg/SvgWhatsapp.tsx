@@ -1,8 +1,10 @@
-export default function SvgWhatsapp() {
+import { IProps } from "./Types";
+
+export default function SvgWhatsapp({ width = "36", heigth = "36" }: IProps) {
   return (
     <svg
-      width="36"
-      height="36"
+      width={width}
+      height={heigth}
       viewBox="0 0 36 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -1,8 +1,10 @@
-export default function SvgMail() {
+import { IProps } from "./Types";
+
+export default function SvgMail({ width = "24", heigth = "15" }: IProps) {
   return (
     <svg
-      width="24"
-      height="15"
+      width={width}
+      height={heigth}
       viewBox="0 0 24 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
