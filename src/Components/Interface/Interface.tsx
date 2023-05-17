@@ -23,11 +23,11 @@ import {
   useActionsForModal,
   useActionsUser,
   useActionsForMessage,
+  useActionsHelpers,
 } from "../../Hooks/useActions";
 import { dataURLtoFile, onChangeImage } from "../Helpers";
 import PopupForMessage from "../Ui/popups/PopupForMessage";
 import SvgExet from "../../assets/svg/SvgExit";
-import { tokenVerification } from "../Helpers/action";
 import { Trans, useTranslation } from "react-i18next";
 import { BarLoader } from "react-spinners";
 
@@ -52,8 +52,11 @@ export default function Interface({ children }: IInterfaceProps) {
     ActionFilesId,
   } = useActionsForModal();
   const { ActiveModalRegistration } = useActionsAuth();
+  const { ActionsHelpersVerifay } = useActionsHelpers();
+
   const { user } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
+  const { verifay } = useAppSelector((state) => state.reducerHelpers);
   const { subtract, more, profile } = useAppSelector(
     (state) => state.modalReducer
   );
@@ -66,13 +69,12 @@ export default function Interface({ children }: IInterfaceProps) {
   const [cropData, setCropData] = useState("");
   const [imageFile, setImageFile] = useState("");
   const [popupMore, setPopupMore] = useState(false);
-  const [validToken, setValidToken] = useState<boolean>(false);
   const [start, setStart] = useState(false);
 
   const handleActiveAuth = () => {
-    if (user.is_first_time && !validToken) {
+    if (user.is_first_time && !verifay) {
       ActiveModalRegistration(true);
-    } else if (!user.is_first_time && !validToken) {
+    } else if (!user.is_first_time && !verifay) {
       ActiveModalRegistration(true);
     } else {
       ActionFilesId("");
@@ -88,7 +90,7 @@ export default function Interface({ children }: IInterfaceProps) {
   };
 
   const handleClickModalProfile = () => {
-    if (validToken) {
+    if (verifay) {
       ActionFilesId("");
       ActionActiveProfile(true);
       ActionActiveSubtrac(false);
@@ -99,7 +101,7 @@ export default function Interface({ children }: IInterfaceProps) {
   };
 
   const handleActiveAuthAvatart = () => {
-    if (!user.is_first_time && validToken) {
+    if (!user.is_first_time && verifay) {
       ActiveModalRegistration(false);
       ref.current?.click();
     } else {
@@ -268,7 +270,7 @@ export default function Interface({ children }: IInterfaceProps) {
   }, [subtract, profile, more]);
 
   useEffect(() => {
-    tokenVerification(setValidToken);
+    ActionsHelpersVerifay();
   }, []);
 
   useEffect(() => {
@@ -348,7 +350,7 @@ export default function Interface({ children }: IInterfaceProps) {
                   rounded="50%"
                   objectFit="cover"
                 />
-                {validToken && (
+                {verifay && (
                   <Box
                     pos="absolute"
                     top="10px"
@@ -378,11 +380,11 @@ export default function Interface({ children }: IInterfaceProps) {
                 h="100px"
                 zIndex="2"
                 mx="auto"
-                mb={!validToken ? "0px" : "10px"}
+                mb={!verifay ? "0px" : "10px"}
                 pos="relative"
               >
                 <SvgDefaultAvatar />
-                {validToken && (
+                {verifay && (
                   <Box
                     pos="absolute"
                     top="10px"
@@ -413,7 +415,7 @@ export default function Interface({ children }: IInterfaceProps) {
                   </Button>
                 </Box>
               )}
-              {!user.is_first_time && !validToken && (
+              {!user.is_first_time && !verifay && (
                 <Box mx="auto" bottom="100px" px="41px" w="100%">
                   <Button
                     bg="#0B6CFF"

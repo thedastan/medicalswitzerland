@@ -13,7 +13,6 @@ import {
   useActionsUser,
 } from "../../../Hooks/useActions";
 import { useAppSelector } from "../../../Hooks/Hooks";
-import { tokenVerification } from "../../Helpers/action";
 import { Trans, useTranslation } from "react-i18next";
 import GeustMode from "../../GuestMode/GuestMode";
 
@@ -38,9 +37,9 @@ export default function Tabs({ akte, notfall }: ITabs) {
   const { user } = useAppSelector((state) => state.userReducer);
   const { modal } = useAppSelector((state) => state.authReducer);
   const { idGuest } = useAppSelector((state) => state.guestReducer);
+  const { verifay } = useAppSelector((state) => state.reducerHelpers);
 
   const [isActive, setActive] = useState(TabTypes.NOTFALL);
-  const [validToken, setValidToken] = useState<boolean>(true);
 
   const isNotfall = isActive === TabTypes.NOTFALL;
   const isAkte = isActive === TabTypes.AKTE;
@@ -48,7 +47,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
   const guest_id = sessionStorage.getItem("guestId") as string;
 
   const handleActiveAuth = () => {
-    if (user.is_first_time || !validToken) {
+    if (user.is_first_time || !verifay) {
       if (user.guest_mode) {
         if (idGuest || guest_id) {
           setActive(TabTypes.AKTE);
@@ -73,10 +72,6 @@ export default function Tabs({ akte, notfall }: ITabs) {
   useEffect(() => {
     ActionGetUser(window.location.pathname.slice(6));
   }, []);
-
-  useEffect(() => {
-    tokenVerification(setValidToken);
-  }, [modal]);
 
   useEffect(() => {
     setTimeout(() => {
