@@ -827,7 +827,7 @@ export default function Akte() {
                             <Box display="flex" w="100%">
                               <Button
                                 color="white"
-                                fontSize="13px"
+                                fontSize="16px"
                                 fontWeight="700"
                                 fontFamily="inter"
                                 bg="#0B6CFF"
