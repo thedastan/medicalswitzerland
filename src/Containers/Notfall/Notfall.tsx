@@ -502,7 +502,6 @@ export default function Notfall() {
                                   rounded="1px"
                                   top="14px"
                                   zIndex="5"
-                                  border="1px solid #fff"
                                   p="4px"
                                   ml="3px"
                                   w="50px"

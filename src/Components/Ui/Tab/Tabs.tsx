@@ -95,7 +95,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           borderBottom={isNotfall ? "0.5px solid white" : "0.5px solid black"}
         >
           <SvgPhone />
-          <Text  ml="5px" letterSpacing="1px" fontFamily="Helvetica" fontSize="15px" fontWeight="500">
+          <Text  ml="5px" letterSpacing="1px" fontFamily="Helvetica" fontSize="11px" fontWeight="500">
             <Trans>emergency</Trans>
           </Text>
 
@@ -108,12 +108,14 @@ export default function Tabs({ akte, notfall }: ITabs) {
           h="44px"
           rounded="7px"
           position="static"
+          whiteSpace="initial"
+          p="0 5px"
           boxShadow={"inset 0px 2px 2px rgba(31, 31, 31, 0.44)"}
           onClick={handleActiveAuth}
           borderBottom={isAkte ? "0.5px solid white" : "0.5px solid black"}
         >
           <SvgAkte />
-          <Text  ml="5px" letterSpacing="1px" fontFamily="Helvetica" fontSize="15px" fontWeight="500">
+          <Text  ml="5px" letterSpacing="1px" fontFamily="Helvetica" fontSize="11px" fontWeight="500">
             <Trans>medicall</Trans>
           </Text>
         </Button>

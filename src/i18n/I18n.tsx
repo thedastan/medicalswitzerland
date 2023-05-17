@@ -103,7 +103,7 @@ i18n.use(initReactI18next).init({
         yes: "YES",
         SuccessDelete: "Your profile has been  deleted",
         deleteProfileConfirm:
-          "Do you want to delete your medicalswitzerland Profile?",
+          "Do you want to delete your medicalswitzerland Profile",
         deleteSuccessFile:"Your profile has been successfully deleted",
         delete:"Delete",
       },
@@ -112,7 +112,7 @@ i18n.use(initReactI18next).init({
       translation: {
         delete:"Löschen",
         deleteProfileConfirm:
-          "Möchten Sie Ihr medical switzerland Profil löschen",
+          "Möchten Sie Ihr medicalswitzerland Profil löschen",
 
         SuccessDelete: "Ihr Profil und alle dazugehören Daten und Bilder wurden gelöscht.",
         deleteFile:"Datei löschen",
@@ -165,7 +165,7 @@ i18n.use(initReactI18next).init({
         importTantInfo: "BESONDERHEITEN",
 
         //akte
-        diagnosen: "DIAGNOSE",
+        diagnosen: "DIAGNOSEN",
         operationen: "OPERATIONEN",
         medicamentPlan: "MEDIKAMENTEN PLAN",
         nebenDiagnosen: "BERUF",
