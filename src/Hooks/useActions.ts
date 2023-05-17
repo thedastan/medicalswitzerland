@@ -10,6 +10,7 @@ import ActionsModal from "../Components/Interface/popup/redux-for-modal/action/I
 import ActionsMessage from "../Components/Ui/popups/redux/action/Index";
 import ActionGuest from "../Components/GuestMode/redux/action/Index";
 import ActionsError from "../Containers/errors/redux/action/Index";
+import ActionHelpers from "../Components/Helpers/Redux/Action/Index";
 
 export const useActionsUser = () => {
   const dispatch = useDispatch();
@@ -44,4 +45,9 @@ export const useActionsGuest = () => {
 export const useActionsErrors = () => {
   const dispatch = useDispatch();
   return bindActionCreators(ActionsError, dispatch);
+};
+
+export const useActionsHelpers = () => {
+  const dispatch = useDispatch();
+  return bindActionCreators(ActionHelpers, dispatch);
 };

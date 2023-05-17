@@ -9,7 +9,6 @@ import SvgPdf from "../../../assets/svg/SvgPdf";
 import SvgView from "../../../assets/svg/SvgView";
 import { API_ADDRESS } from "../../../Api";
 import "./style.scss";
-import { tokenVerification } from "../../Helpers/action";
 import { useAppSelector } from "../../../Hooks/Hooks";
 interface IElement {
   id: string;
@@ -23,13 +22,9 @@ interface ICardProps {
 
 export default function Card({ el }: ICardProps) {
   const { user } = useAppSelector((state) => state.userReducer);
+  const { verifay } = useAppSelector((state) => state.reducerHelpers);
 
   const [blur, setBlur] = useState(true);
-  const [validToken, setValidToken] = useState<boolean>(false);
-
-  useEffect(() => {
-    tokenVerification(setValidToken);
-  }, []);
 
   return (
     <Box maxH="448px" w="100%">
@@ -42,7 +37,7 @@ export default function Card({ el }: ICardProps) {
             objectFit="cover"
             src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
           />
-          {user.guest_mode && !validToken && blur && (
+          {user.guest_mode && !verifay && blur && (
             <Box
               top="0"
               left="0"
@@ -69,7 +64,7 @@ export default function Card({ el }: ICardProps) {
         >
           <Box
             w="100%"
-            h="auto"
+            h="448px"
             display="flex"
             alignItems="center"
             justifyContent="center"
