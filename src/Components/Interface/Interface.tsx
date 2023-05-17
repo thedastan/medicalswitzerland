@@ -324,7 +324,7 @@ export default function Interface({ children }: IInterfaceProps) {
         accept="image/png,image/jpeg"
         onChange={(e) => onChangeImage(e, setImageFile)}
       />
-      <Box pt="40px" px="16px">
+      <Box pt="40px" px="16px" p="0">
         <Box mx="auto" maxW="361px" minH="274px" bg="white" pt="80px">
           {user?.avatar ? (
             <>
