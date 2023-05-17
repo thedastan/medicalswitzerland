@@ -346,7 +346,7 @@ export default function Akte() {
                     textAlign="center"
                     mt="48px"
                     mb="6px"
-                    fontSize="18px"
+                    fontSize="24px"
                     fontWeight="700"
                 >
                     <Trans>patientRecord</Trans>
@@ -596,7 +596,6 @@ export default function Akte() {
                                                                 rounded="1px"
                                                                 top="17px"
                                                                 zIndex="5"
-                                                                border="1px solid #fff"
                                                                 p="4px"
                                                                 ml="3px"
                                                                 w="50px"
