@@ -1,8 +1,10 @@
-export default function SvgPhoneCall() {
+import { IProps } from "./Types";
+
+export default function SvgPhoneCall({ width = "22", heigth = "20" }: IProps) {
   return (
     <svg
-      width="22"
-      height="20"
+      width={width}
+      height={heigth}
       viewBox="0 0 22 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
