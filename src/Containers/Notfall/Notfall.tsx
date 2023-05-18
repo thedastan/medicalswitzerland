@@ -407,7 +407,7 @@ export default function Notfall() {
                               : "0"
                           }
                         >
-                          {item === "" ? <Box h="10px" /> : item}!!!
+                          {item === "" ? <Box h="10px" /> : item}
                         </Text>
                       ))
                     ) : (
