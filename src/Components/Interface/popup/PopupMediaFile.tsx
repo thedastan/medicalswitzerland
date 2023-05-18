@@ -800,7 +800,7 @@ export default function PopupMediaFile() {
                         color="white"
                         fontSize="15px"
                         placeholder={`${
-                          lang === "de" ? "Kommentieren" : "Comment"
+                          lang === "de" ? "Kommentar" : "Comment"
                         }`}
                         rounded="0px"
                         fontWeight="300"

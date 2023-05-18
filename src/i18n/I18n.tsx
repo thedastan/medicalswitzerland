@@ -114,7 +114,7 @@ i18n.use(initReactI18next).init({
         deleteProfileConfirm:
           "Möchten Sie Ihr medicalswitzerland Profil löschen",
 
-        SuccessDelete: "Ihr Profil und alle dazugehören Daten und Bilder wurden gelöscht.",
+        SuccessDelete: "Ihr Profil und alle dazugehörigen Daten und Bilder wurden gelöscht.",
         deleteFile:"Datei löschen",
         deleteSuccessFile:"Ihr Profil wurde erfolgreich gelöscht",
 
