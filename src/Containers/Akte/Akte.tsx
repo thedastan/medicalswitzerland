@@ -203,9 +203,9 @@ export default function Akte() {
     let value = e.target.value;
 
     if (value === "" || regex.test(value)) {
-      if (value.length === 4 && back === false) {
+      if (value.length === 4 && !back) {
         value += "-";
-      } else if (value.length === 7 && back === false) {
+      } else if (value.length === 7 && !back) {
         value += "-";
       }
     }
@@ -275,7 +275,9 @@ export default function Akte() {
   }, [idFile]);
 
   useEffect(() => {
-    ActionGroupsForGuest(window.location.pathname.slice(6), guest_id);
+    if(user.guest_mode && guest_id !== null || undefined){
+      ActionGroupsForGuest(window.location.pathname.slice(6), guest_id);
+    }
   }, []);
 
   useEffect(() => {
@@ -286,7 +288,7 @@ export default function Akte() {
   }, [deleteCard]);
 
   const handleViewImage = (id: string) => {
-    if (user.guest_mode && !verifay) {
+    if (user.guest_mode && guest_id !== null || undefined) {
       idGroup = sessionStorage.getItem(`${id}`);
 
       Number(idGroup) === Number(id)
@@ -325,10 +327,6 @@ export default function Akte() {
       ActionGroupsForAkte(idFile);
     }
   }, [idFile]);
-
-  useEffect(() => {
-    ActionGroupsForGuest(window.location.pathname.slice(6), guest_id);
-  }, []);
 
   useEffect(() => {
     if (deleteCard) {
@@ -713,7 +711,7 @@ export default function Akte() {
                             )}
                             <Box
                               w="100%"
-                              onClick={() => handleViewImage(el.id)}
+                              onClick={() => user.guest_mode ? handleViewImage(el.id) : console.log('not active guest mode')}
                             >
                               {el?.info_list?.length > 1 ? (
                                 <Box
@@ -884,8 +882,7 @@ export default function Akte() {
             {allGroups
               .filter((elem) => elem.is_akte)
               [fancyIndex]?.info_list.map((item, index) => (
-                <Box>
-                  <Box key={index}>
+                <Box key={index}>
                     <Box w="100%" mb="7px">
                       <a
                         data-fancybox="gallery"
@@ -897,7 +894,6 @@ export default function Akte() {
                         <Card key={index} el={item} />
                       </a>
                     </Box>
-                  </Box>
                 </Box>
               ))}
           </Fancybox>
