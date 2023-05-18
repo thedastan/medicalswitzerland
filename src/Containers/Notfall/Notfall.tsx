@@ -677,8 +677,8 @@ export default function Notfall() {
                               <Box
                                 w="100%"
                                 mb="7px"
-                                onClick={() => {
-                                  handleViewImage(el.id);
+                                onClick={() => { user.guest_mode ?
+                                  handleViewImage(el.id) : console.log('not active guest mode')
                                 }}
                               >
                                 {el?.info_list?.length > 1 ? (
@@ -873,8 +873,7 @@ export default function Notfall() {
             {allGroups
               .filter((elem) => !elem.is_akte)
               [fancyIndex]?.info_list.map((item, index) => (
-                <Box>
-                  <Box key={index}>
+                <Box key={index}>
                     <Box w="100%" mb="7px">
                       <a
                         data-fancybox="gallery"
@@ -886,7 +885,6 @@ export default function Notfall() {
                         <Card key={index} el={item} />
                       </a>
                     </Box>
-                  </Box>
                 </Box>
               ))}
           </Fancybox>
