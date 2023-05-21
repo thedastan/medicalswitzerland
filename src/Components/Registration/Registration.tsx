@@ -23,6 +23,7 @@ import {
 } from "../../Hooks/useActions";
 import API, { API_ADDRESS } from "../../Api";
 import { Image } from "@chakra-ui/react";
+import Loading from "../Ui/Loading";
 
 interface IAuthPostData {
   email: string;
@@ -69,6 +70,7 @@ export default function Registration() {
     password: false,
   });
   const [takenEmail, setTakenEmail] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
   const [eye, setEye] = useState({ password: false, confirm: false });
 
   const listInput = [
@@ -109,7 +111,10 @@ export default function Registration() {
     setDataPost({ ...dataPost, [`${keys}`]: e.target.value });
   };
 
-  const handleAuthPost = () => {
+  const handleAuthPost = (e: any) => {
+    e.preventDefault();
+    setLoginLoading(true);
+
     if (user.email) {
       axios
         .post(`${API_ADDRESS}users/auth/`, {
@@ -122,13 +127,16 @@ export default function Registration() {
           ActiveModalRegistration(false);
           ActionGetUser(window.location.pathname.slice(6));
           window.location.reload();
+          setLoginLoading(false);
         })
         .catch((e) => {
           setValidate({ ...validate, password: true });
+          setLoginLoading(false);
         });
     } else {
       ActionError(true);
       ActionErrorMessenger("thereIsNoSuch");
+      setLoginLoading(false);
     }
   };
 
@@ -474,92 +482,107 @@ export default function Registration() {
                     >
                       {user.full_name?.split(" ")[0]}
                     </Text>
-                    <Box position="relative">
-                      <Input
-                        focusBorderColor={
-                          validate.password ? "#FF0000" : "#303030"
-                        }
-                        textColor="white"
-                        placeholder={`${
-                          language === "de"
-                            ? "Passwort eingeben"
-                            : "Enter Password"
-                        }`}
-                        fontSize="15px"
-                        fontWeight="200"
-                        rounded="4px"
-                        boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        border={
-                          validate.password
-                            ? "1px solid #FF0000"
-                            : "1px solid #303030"
-                        }
-                        h="50px"
-                        bg="#303030"
-                        textAlign="center"
-                        type={eye.password ? "text" : "password"}
-                        onChange={(e) =>
-                          setDataPost({ ...dataPost, password: e.target.value })
-                        }
-                      />
-                      <Box
-                        pos="absolute"
-                        zIndex="8"
-                        right="12px"
-                        top="0"
-                        bottom="0"
-                        display="flex"
-                        alignItems="center"
-                        cursor="pointer"
-                        onClick={() =>
-                          setEye({ ...eye, password: !eye.password })
-                        }
-                      >
-                        {eye.password ? <SvgEye /> : <SvgEyePassword />}
-                      </Box>
-                    </Box>
-                    <Text
-                      w="85%"
-                      ml="auto"
-                      fontWeight="500"
-                      mt="5px"
-                      color="#0B6CFF"
-                      fontSize="12px"
-                      mb="8px"
-                      textAlign="start"
-                      fontFamily="inter"
-                      cursor="pointer"
-                      onClick={forgotPassword}
-                    >
-                      <Trans>clickIfYouDontRememberYourPassword</Trans>
-                    </Text>
-                    {validate.password && (
-                      <Text
-                        color="#FF0000"
-                        fontSize="10px"
-                        fontWeight="200"
-                        fontFamily="inter"
-                        mb="7px"
-                      >
-                        <Trans>checkTheUserName</Trans>
-                      </Text>
-                    )}
-                    <Button
-                      fontFamily="inter"
-                      fontSize="15px"
-                      w="100%"
-                      h="40px"
-                      bg="#0B6CFF"
-                      textColor="white"
-                      fontWeight="700"
-                      border="1px solid #0B6CFF"
-                      rounded="5px"
-                      mx="auto"
-                      mb="51px"
-                      onClick={handleAuthPost}
-                    >
-                      Login
-                    </Button>
+
+                    <form onSubmit={handleAuthPost}>
+                      {loginLoading ? (
+                        <Box p="20px">
+                          <Loading />
+                        </Box>
+                      ) : (
+                        <>
+                          <Box position="relative">
+                            <Input
+                              focusBorderColor={
+                                validate.password ? "#FF0000" : "#303030"
+                              }
+                              textColor="white"
+                              placeholder={`${
+                                language === "de"
+                                  ? "Passwort eingeben"
+                                  : "Enter Password"
+                              }`}
+                              fontSize="15px"
+                              fontWeight="200"
+                              rounded="4px"
+                              boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+                              border={
+                                validate.password
+                                  ? "1px solid #FF0000"
+                                  : "1px solid #303030"
+                              }
+                              h="50px"
+                              bg="#303030"
+                              textAlign="center"
+                              type={eye.password ? "text" : "password"}
+                              onChange={(e) =>
+                                setDataPost({
+                                  ...dataPost,
+                                  password: e.target.value,
+                                })
+                              }
+                            />
+                            <Box
+                              pos="absolute"
+                              zIndex="8"
+                              right="12px"
+                              top="0"
+                              bottom="0"
+                              display="flex"
+                              alignItems="center"
+                              cursor="pointer"
+                              onClick={() =>
+                                setEye({ ...eye, password: !eye.password })
+                              }
+                            >
+                              {eye.password ? <SvgEye /> : <SvgEyePassword />}
+                            </Box>
+                          </Box>
+                          <Text
+                            w="85%"
+                            ml="auto"
+                            fontWeight="500"
+                            mt="5px"
+                            color="#0B6CFF"
+                            fontSize="12px"
+                            mb="8px"
+                            textAlign="start"
+                            fontFamily="inter"
+                            cursor="pointer"
+                            onClick={forgotPassword}
+                          >
+                            <Trans>clickIfYouDontRememberYourPassword</Trans>
+                          </Text>
+                          {validate.password && (
+                            <Text
+                              color="#FF0000"
+                              fontSize="10px"
+                              fontWeight="200"
+                              fontFamily="inter"
+                              mb="7px"
+                            >
+                              <Trans>checkTheUserName</Trans>
+                            </Text>
+                          )}
+                          <Button
+                            fontFamily="inter"
+                            fontSize="15px"
+                            w="100%"
+                            h="40px"
+                            bg="#0B6CFF"
+                            textColor="white"
+                            fontWeight="700"
+                            border="1px solid #0B6CFF"
+                            rounded="5px"
+                            mx="auto"
+                            mb="51px"
+                            type="submit"
+                            onClick={handleAuthPost}
+                          >
+                            Login
+                          </Button>
+                        </>
+                      )}
+                    </form>
                   </Box>
                 )}
               </Box>
