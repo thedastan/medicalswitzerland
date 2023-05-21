@@ -33,6 +33,7 @@ import SvgRedBasket from "../../assets/svg/SvgRedBasket";
 import PopupForCard from "../../Components/Ui/Card/popyp/PopupForCard";
 import PopupForMessage from "../../Components/Ui/popups/PopupForMessage";
 import Fancybox from "../../Components/Fancybox/Fancybox";
+import axios from "axios";
 
 interface IGroupType {
   id: string;
@@ -88,7 +89,6 @@ export default function Akte() {
   const guest_id = sessionStorage.getItem("guestId") as string;
   let idGroup: any;
   const dots: any[] = [];
-  const [fancyboxData, setFancyBoxData] = useState<any>({});
 
   for (let i = 0; i < 3; i++) {
     dots.push(<SvgDot key={i} />);
@@ -204,6 +204,22 @@ export default function Akte() {
     setIdFile(idInfo);
     ActionFilesId(id);
     setIdFiles(data.id);
+  };
+
+  const handleViewImage = (id: string) => {
+    let idGroup = sessionStorage.getItem(`${id}`);
+
+    Number(idGroup) === Number(id)
+      ? console.log("Block")
+      : axios.post(`${API_ADDRESS}groups/${id}/view/?g_id=${guest_id}`);
+
+    setTimeout(() => {
+      sessionStorage.setItem(`${id}`, id);
+    }, 500);
+
+    setTimeout(() => {
+      sessionStorage.removeItem(`${idGroup}`);
+    }, 60 * 60 * 1000);
   };
 
   const handlePutFile = () => {
@@ -534,6 +550,9 @@ export default function Akte() {
                     <Box>
                       <Fancybox
                         options={{
+                          Carousel: {
+                            infinite: false,
+                          },
                           Fullscreen: {
                             autoStart: false,
                           },
@@ -674,21 +693,27 @@ export default function Akte() {
                                         </Box>
                                       )}
                                       <Box w="100%">
-                                        <Box>
-                                          <Box>
-                                            <Box w="100%" mb="7px">
-                                              <a
-                                                data-fancybox={"gallery"}
-                                                href={`${API_ADDRESS?.substring(
-                                                  0,
-                                                  34
-                                                )}${item.file_url}`}
-                                                ref={ref}
-                                              >
-                                                <Card key={index} el={item} />
-                                              </a>
-                                            </Box>
-                                          </Box>
+                                        <Box
+                                          w="100%"
+                                          mb="7px"
+                                          onClick={() => {
+                                            user.guest_mode
+                                              ? handleViewImage(el.id)
+                                              : console.log(
+                                                  "not active guest mode"
+                                                );
+                                          }}
+                                        >
+                                          <a
+                                            data-fancybox={"gallery"}
+                                            href={`${API_ADDRESS?.substring(
+                                              0,
+                                              34
+                                            )}${item.file_url}`}
+                                            ref={ref}
+                                          >
+                                            <Card key={index} el={item} />
+                                          </a>
                                         </Box>
                                       </Box>
                                     </Box>
@@ -836,35 +861,6 @@ export default function Akte() {
           </Box>
         )}
       </Box>
-
-      {fancyboxData && (
-        <Fancybox
-          options={{
-            Carousel: {
-              infinite: false,
-            },
-            Fullscreen: {
-              autoStart: false,
-            },
-            Slideshow: false,
-            Toolbar: false,
-          }}
-        >
-          {fancyboxData?.info_list?.map((item: any, index: any) => (
-            <Box key={index}>
-              <Box w="100%" mb="7px">
-                <a
-                  data-fancybox="gallery"
-                  href={`${API_ADDRESS?.substring(0, 34)}${item.file_url}`}
-                  ref={ref}
-                >
-                  <Card key={index} el={item} />
-                </a>
-              </Box>
-            </Box>
-          ))}
-        </Fancybox>
-      )}
 
       <PopupForCard
         setDeleteCard={setDeleteCard}
