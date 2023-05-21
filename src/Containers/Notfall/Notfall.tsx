@@ -292,7 +292,6 @@ export default function Notfall() {
               fontFamily="inter"
               rounded="7px"
               h="37px"
-              zIndex="100"
               w="100%"
               color="white"
               mb="7px"
@@ -864,7 +863,7 @@ export default function Notfall() {
           </Box>
         </Box>
         {!bearbeitenNotfall && (
-          <Box position="fixed" mx="auto" bottom="100px" px="41px" w="100%">
+          <Box position="fixed" mx="auto" bottom="100px" px="41px" w="100%" zIndex="100">
             <Button
               bg="#0B6CFF"
               fontSize="16px"
