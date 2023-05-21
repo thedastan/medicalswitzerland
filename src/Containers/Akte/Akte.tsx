@@ -806,6 +806,7 @@ export default function Akte() {
                                         fontFamily="commissioner"
                                         fontSize="10px"
                                         fontWeight="300"
+                                        textAlign="start"
                                       >
                                         {`${item.created_date
                                           .split("-")
