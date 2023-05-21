@@ -295,6 +295,7 @@ export default function Notfall() {
               w="100%"
               color="white"
               mb="7px"
+              zIndex="9"
               onClick={() => {
                 !bearbeitenNotfall
                   ? console.log("beiten")
