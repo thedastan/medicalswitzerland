@@ -292,7 +292,7 @@ export default function Notfall() {
               fontFamily="inter"
               rounded="7px"
               h="37px"
-              zIndex="100"
+              zIndex="9"
               w="100%"
               color="white"
               mb="7px"
