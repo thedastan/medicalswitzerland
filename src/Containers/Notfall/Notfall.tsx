@@ -292,6 +292,7 @@ export default function Notfall() {
               fontFamily="inter"
               rounded="7px"
               h="37px"
+              zIndex="100"
               w="100%"
               color="white"
               mb="7px"
@@ -756,7 +757,7 @@ export default function Notfall() {
                                             : ""
                                         }
                                         fontFamily="inter"
-                                        textColor="white"
+                                        textColor="#fff"
                                         fontWeight="700"
                                         bg="transparent"
                                         fontSize="15px"
@@ -793,7 +794,7 @@ export default function Notfall() {
                                         opacity="1"
                                         borderColor="transparent"
                                         fontFamily="inter"
-                                        textColor="white"
+                                        textColor="#fff"
                                         bg="transparent"
                                         fontWeight="300"
                                         fontSize="15px"
@@ -817,6 +818,7 @@ export default function Notfall() {
                                         fontFamily="commissioner"
                                         fontSize="10px"
                                         fontWeight="300"
+                                        textAlign={"start"}
                                       >
                                         {`${item.created_date
                                           .split("-")
