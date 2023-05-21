@@ -187,13 +187,12 @@ i18n.use(initReactI18next).init({
         sayHello: "Begrüßen Sie Ihre Persönliche GesundheitsCard",
         uploadTitle: "Datei erfolgreich hochgeladen",
         yourRegistration: "Your Registration was successful ",
-        resetYourPasword: "Ihre Registrierung war erfolgreich",
+        resetYourPasword: "Ihre Anfrage war erfolgreich",
         descReset:
           "Link zum Zurücksetzen des Passworts an Ihre registrierte E-Mail-Adresse gesendet. Bitte überprüfen Sie Ihren Posteingang oder Spam-Ordner",
 
         //registration
-        checkTheUserName:
-          "Fehler!!! Überprüfen Sie den Benutzernamen oder das Kennwort",
+        checkTheUserName:"Überprüfen Sie den Benutzernamen und geben Sie das korrekte Passwort ein.",
         clickIfYouDontRememberYourPassword:
           "Klicken Sie, wenn Sie sich nicht an Ihr Passwort erinnern",
         welcome: "Willkommen zurück",
