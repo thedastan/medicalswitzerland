@@ -479,7 +479,7 @@ export default function Notfall() {
           </Box>
           <Box display="flex" flexDir="column-reverse" mt="25px">
             {allGroups
-              .filter((elem) => elem.is_akte)
+              .filter((elem) => !elem.is_akte)
               .map((el) => {
                 const smm = Math.ceil(el?.info_list.length / 2);
 
