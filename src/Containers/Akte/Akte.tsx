@@ -338,7 +338,6 @@ export default function Akte() {
                 fontSize="16px"
                 fontFamily="inter"
                 rounded="7px"
-                zIndex="9"
                 h="37px"
                 w="100%"
                 color="white"
