@@ -325,7 +325,7 @@ export default function Interface({ children }: IInterfaceProps) {
         onChange={(e) => onChangeImage(e, setImageFile)}
       />
       <Box pt="40px" px="16px" p="0">
-        <Box mx="auto"  minH="274px" bg="white" pt="80px">
+        <Box mx="auto" minH="274px" bg="white" pt="80px">
           {user?.avatar ? (
             <>
               <Text
@@ -453,6 +453,7 @@ export default function Interface({ children }: IInterfaceProps) {
         left="0"
         right="0"
         px="31px"
+        zIndex={1}
       >
         {listNavigation.map((el, index) => (
           <div key={index}>{el.content}</div>
