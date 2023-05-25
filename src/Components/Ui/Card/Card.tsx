@@ -1,8 +1,6 @@
 // External dependencies
 import { Box, Image } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import { Fancybox as NativeFancybox } from "@fancyapps/ui";
-import { ComponentOptionsType as FancyboxOptionsType } from "@fancyapps/ui/types/Fancybox/options";
+import { useState } from "react";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import SvgPdf from "../../../assets/svg/SvgPdf";

@@ -295,7 +295,7 @@ export default function Notfall() {
               w="100%"
               color="white"
               mb="7px"
-              zIndex="9"
+              zIndex="5"
               onClick={() => {
                 !bearbeitenNotfall
                   ? console.log("beiten")
@@ -864,7 +864,7 @@ export default function Notfall() {
           </Box>
         </Box>
         {!bearbeitenNotfall && (
-          <Box position="fixed" mx="auto" bottom="100px" px="41px" w="100%" zIndex="100">
+          <Box position="fixed" mx="auto" bottom="100px" px="41px" w="100%" zIndex="5">
             <Button
               bg="#0B6CFF"
               fontSize="16px"
