@@ -6,6 +6,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
+import SvgPdf from "../../assets/svg/SvgPdf";
 
 /* Local dependencies */
 import Card from "../../Components/Ui/Card/Card";
@@ -716,6 +717,8 @@ export default function Notfall() {
                                               );
                                         }}
                                       >
+                                        {item.file_url?.slice(-3) === "png" || item.file_url?.slice(-3) === "pdf" ?
+
                                         <a
                                           data-fancybox={"gallery"}
                                           href={`${API_ADDRESS?.substring(
@@ -726,6 +729,23 @@ export default function Notfall() {
                                         >
                                           <Card key={index} el={item} />
                                         </a>
+                                         : 
+                                        <a
+                                        href={`${API_ADDRESS?.substring(0, 34)}${item.file_url}`}
+                                        target="_blank"
+                                      >
+                                        <Box
+                                          w="100%"
+                                          h="448px"
+                                          display="flex"
+                                          alignItems="center"
+                                          justifyContent="center"
+                                        >
+                                          <SvgPdf />
+                                        </Box>
+                                        </a>
+
+                                      }
                                       </Box>
                                     </Box>
                                     <Box
