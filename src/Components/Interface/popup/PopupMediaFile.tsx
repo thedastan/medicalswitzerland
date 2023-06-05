@@ -443,6 +443,7 @@ export default function PopupMediaFile() {
               onClick={(e) => e.stopPropagation()}
               className="modal-content"
             >
+          
               {subtract && (
                 <Box zIndex="6">
                   <Text
@@ -470,9 +471,9 @@ export default function PopupMediaFile() {
                   <input
                     type="file"
                     style={{ display: "none" }}
-                    accept="application / pdf, application / vnd.ms - excel"
+                    accept="application/pdf, application/vnd.ms-excel, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     ref={fileRef}
-                    onChange={(e) => handleFile(e)}
+                    onChange={handleFile}
                   />
                   <Text
                     cursor="pointer"
