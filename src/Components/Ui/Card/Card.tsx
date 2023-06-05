@@ -25,8 +25,7 @@ export default function Card({ el }: ICardProps) {
 
   const [blur, setBlur] = useState(true);
 
-  console.log("sddress:", `${API_ADDRESS?.substring(0, 34)}${el.file_url}`);
-  
+
   return (
     <Box maxH="448px" w="100%">
       {el.file_url?.slice(-3) === "png" ? (
