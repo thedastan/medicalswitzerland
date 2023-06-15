@@ -77,6 +77,13 @@ export default function Notfall() {
   );
 
   const guest_id = sessionStorage.getItem("guestId") as string;
+  const allergiesH = localStorage.getItem("allergiesH") as string;
+  const exampleH = localStorage.getItem("exampleH") as string;
+  const emergency_contactH = localStorage.getItem(
+    "emergency_contactH"
+  ) as string;
+  // const allergiesH = localStorage.getItem("allergiesH") as string;
+  // const allergiesH = localStorage.getItem("allergiesH") as string;
 
   const { id } = useParams<string>();
   const ref = useRef() as any;
@@ -101,9 +108,13 @@ export default function Notfall() {
     dots.push(<SvgDot key={i} />);
   }
 
-  const inputChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const inputChangeTextArea = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+    name: string
+  ) => {
     e.target.style.height = "auto";
-    e.target.style.height = `${e.target.scrollHeight}px`;
+    e.target.style.height = `${e?.target?.scrollHeight}px`;
+    localStorage.setItem(`${name + "H"}`, `${e?.target?.scrollHeight}`);
 
     setDataPost({ ...dataPost, [e.target.name]: e.target.value });
   };
@@ -222,6 +233,7 @@ export default function Notfall() {
       value: dataPost.emergency_contact || user.emergency_contact,
       type: "text",
       placeholder: "",
+      height: exampleH,
     },
     {
       item: "importTantInfo",
@@ -229,6 +241,7 @@ export default function Notfall() {
       value: dataPost.particularities || user.particularities,
       type: "text",
       placeholder: "",
+      height: emergency_contactH,
     },
   ];
 
@@ -321,6 +334,7 @@ export default function Notfall() {
                   >
                     <Trans>firstName</Trans>
                   </Text>
+
                   <textarea
                     onChange={(e) =>
                       changeForName(e.target.value, names.nachname)
@@ -355,7 +369,7 @@ export default function Notfall() {
                 <textarea
                   name="full_name"
                   disabled={bearbeitenNotfall}
-                  onChange={(e) => inputChangeTextArea(e)}
+                  onChange={(e) => inputChangeTextArea(e, "username")}
                   defaultValue={
                     dataPost.full_name?.split(" ")[0] ||
                     user.full_name?.split(" ")[0] ||
@@ -381,12 +395,13 @@ export default function Notfall() {
                 {!bearbeitenNotfall ? (
                   <textarea
                     name={el.name}
-                    onChange={(e) => inputChangeTextArea(e)}
+                    onChange={(e) => inputChangeTextArea(e, `${el.name}`)}
                     defaultValue={el.value ? el.value : ""}
                     disabled={bearbeitenNotfall}
                     className={`textarea--notfall ${
                       !bearbeitenNotfall ? "active" : ""
                     }`}
+                    style={{ height: `${el.height}px` }}
                   />
                 ) : (
                   <Box>
@@ -410,12 +425,13 @@ export default function Notfall() {
                     ) : (
                       <textarea
                         name={el.name}
-                        onChange={(e) => inputChangeTextArea(e)}
+                        onChange={(e) => inputChangeTextArea(e, `${el.name}`)}
                         defaultValue={el.value ? el.value : ""}
                         disabled={bearbeitenNotfall}
                         className={`textarea--notfall ${
                           !bearbeitenNotfall ? "active" : ""
                         }`}
+                        style={{ height: `${el.height}px` }}
                       />
                     )}
                   </Box>
@@ -435,7 +451,7 @@ export default function Notfall() {
             {!bearbeitenNotfall ? (
               <textarea
                 name="allergies_text"
-                onChange={(e) => inputChangeTextArea(e)}
+                onChange={(e) => inputChangeTextArea(e, "allergies")}
                 defaultValue={
                   dataPost.allergies_text || user.allergies_text || ""
                 }
@@ -443,6 +459,9 @@ export default function Notfall() {
                 className={`textarea--allergia ${
                   !bearbeitenNotfall ? "active" : ""
                 }`}
+                style={{
+                  height: `${allergiesH}px`,
+                }}
               />
             ) : (
               <Box marginBottom="12px">
@@ -717,35 +736,37 @@ export default function Notfall() {
                                               );
                                         }}
                                       >
-                                        {item.file_url?.slice(-3) === "png" || item.file_url?.slice(-3) === "pdf" ?
-
-                                        <a
-                                          data-fancybox={"gallery"}
-                                          href={`${API_ADDRESS?.substring(
-                                            0,
-                                            34
-                                          )}${item.file_url}`}
-                                          ref={ref}
-                                        >
-                                          <Card key={index} el={item} />
-                                        </a>
-                                         : 
-                                        <a
-                                        href={`${API_ADDRESS?.substring(0, 34)}${item.file_url}`}
-                                        target="_blank"
-                                      >
-                                        <Box
-                                          w="100%"
-                                          h="448px"
-                                          display="flex"
-                                          alignItems="center"
-                                          justifyContent="center"
-                                        >
-                                          <SvgPdf />
-                                        </Box>
-                                        </a>
-
-                                      }
+                                        {item.file_url?.slice(-3) === "png" ||
+                                        item.file_url?.slice(-3) === "pdf" ? (
+                                          <a
+                                            data-fancybox={"gallery"}
+                                            href={`${API_ADDRESS?.substring(
+                                              0,
+                                              34
+                                            )}${item.file_url}`}
+                                            ref={ref}
+                                          >
+                                            <Card key={index} el={item} />
+                                          </a>
+                                        ) : (
+                                          <a
+                                            href={`${API_ADDRESS?.substring(
+                                              0,
+                                              34
+                                            )}${item.file_url}`}
+                                            target="_blank"
+                                          >
+                                            <Box
+                                              w="100%"
+                                              h="448px"
+                                              display="flex"
+                                              alignItems="center"
+                                              justifyContent="center"
+                                            >
+                                              <SvgPdf />
+                                            </Box>
+                                          </a>
+                                        )}
                                       </Box>
                                     </Box>
                                     <Box
@@ -884,7 +905,14 @@ export default function Notfall() {
           </Box>
         </Box>
         {!bearbeitenNotfall && (
-          <Box position="fixed" mx="auto" bottom="100px" px="41px" w="100%" zIndex="5">
+          <Box
+            position="fixed"
+            mx="auto"
+            bottom="100px"
+            px="41px"
+            w="100%"
+            zIndex="5"
+          >
             <Button
               bg="#0B6CFF"
               fontSize="16px"
