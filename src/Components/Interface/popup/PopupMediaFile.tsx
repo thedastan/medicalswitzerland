@@ -593,6 +593,7 @@ export default function PopupMediaFile() {
                         options={[
                           { value: "en", name: "English" },
                           { value: "de", name: "Deutsch" },
+                          { value: "fr", name: "French" },
                         ]}
                         value={language}
                       />
