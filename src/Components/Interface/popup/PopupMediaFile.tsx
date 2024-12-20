@@ -64,7 +64,8 @@ export default function PopupMediaFile() {
   //useStates
   const [accept, setAccept] = useState("");
   const [loader, setLoader] = useState(false);
-  const [cropData, setCropData] = useState("");
+  const [resultFile, setResultFile] = useState<File | null>(null);
+
   const [imageFile, setImageFile] = useState("");
   const [validate, setValidate] = useState(false);
   const [isChecked, setIsChecked] = useState(
@@ -93,22 +94,38 @@ export default function PopupMediaFile() {
     }
   };
 
-  const getCropData = () => {
+  // const getCropData = () => {
+  //   if (!title.length) {
+  //     setTitleValidate(true);
+  //   } else if (!title.length) {
+  //     setTitleValidate(true);
+  //   } else {
+  //     if (typeof cropperRef.current?.cropper !== "undefined") {
+  //       setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+  //     }
+  //   }
+
+  //   if (filesId) {
+  //     if (typeof cropperRef.current?.cropper !== "undefined") {
+  //       setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+  //       setRenderMore(true);
+  //     }
+  //   }
+  //   setChecked(!checked);
+  // };
+
+  const upload = () => {
     if (!title.length) {
       setTitleValidate(true);
-    } else if (!title.length) {
-      setTitleValidate(true);
     } else {
-      if (typeof cropperRef.current?.cropper !== "undefined") {
-        setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
-      }
+      console.log("resultFile:", filesId);
+
+      // handlePostFiles();
     }
 
     if (filesId) {
-      if (typeof cropperRef.current?.cropper !== "undefined") {
-        setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
-        setRenderMore(true);
-      }
+      //
+      setRenderMore(true);
     }
     setChecked(!checked);
   };
@@ -131,9 +148,7 @@ export default function PopupMediaFile() {
       });
       const dataGroup = response.data;
 
-      const image = cropData
-        ? dataURLtoFile(cropData, `${Math.floor(Math.random() * 100000)}.png`)
-        : filePdf;
+      const image = resultFile ? resultFile : filePdf;
       const formData = new FormData();
       formData.append("file", image);
 
@@ -162,7 +177,7 @@ export default function PopupMediaFile() {
                   setLoader(false);
                   ActionAllGroups();
                   setImageFile("");
-                  setCropData("");
+                  setResultFile(null);
                   setText("");
                   setTitle("");
                 })
@@ -177,7 +192,7 @@ export default function PopupMediaFile() {
                   setLoader(false);
                   ActionAllGroups();
                   setImageFile("");
-                  setCropData("");
+                  setResultFile(null);
                   setText("");
                   setTitle("");
                   ActionError(true);
@@ -203,9 +218,7 @@ export default function PopupMediaFile() {
   };
 
   const handlePostMoreFiles = async () => {
-    const image = cropData
-      ? dataURLtoFile(cropData, `${Math.floor(Math.random() * 100000)}.png`)
-      : filePdf;
+    const image = resultFile ? resultFile : filePdf;
     const formData = new FormData();
     formData.append("file", image);
 
@@ -234,7 +247,7 @@ export default function PopupMediaFile() {
               ActionAllGroups();
               ActionFilesId("");
               setImageFile("");
-              setCropData("");
+              setResultFile(null);
               setText("");
               setTitle("");
             })
@@ -251,7 +264,7 @@ export default function PopupMediaFile() {
               setLoader(false);
               ActionError(true);
               setImageFile("");
-              setCropData("");
+              setResultFile(null);
               setText("");
               setTitle("");
             });
@@ -268,7 +281,7 @@ export default function PopupMediaFile() {
     ActionActiveModalMedia(false);
     ActionFilesId("");
     setImageFile("");
-    setCropData("");
+    setResultFile(null);
     setText("");
   };
 
@@ -324,7 +337,7 @@ export default function PopupMediaFile() {
 
   // useEffects;
   useEffect(() => {
-    if (cropData && title.length) {
+    if (resultFile && title.length) {
       if (!filesId) {
         handlePostFiles();
       }
@@ -443,7 +456,6 @@ export default function PopupMediaFile() {
               onClick={(e) => e.stopPropagation()}
               className="modal-content"
             >
-          
               {subtract && (
                 <Box zIndex="6">
                   <Text
@@ -454,7 +466,7 @@ export default function PopupMediaFile() {
                     textAlign="center"
                     roundedTop="7px"
                     onClick={() => {
-                      setAccept("image/png, image/gif, image/jpeg");
+                      setAccept("image/png, image/gif, image/jpeg, .HEIC");
                       imageRef.current?.click();
                     }}
                     fontFamily="inter"
@@ -466,7 +478,9 @@ export default function PopupMediaFile() {
                     style={{ display: "none" }}
                     accept={accept}
                     ref={imageRef}
-                    onChange={(e) => onChangeImage(e, setImageFile)}
+                    onChange={(e) =>
+                      onChangeImage(e, setImageFile, setResultFile, setLoader)
+                    }
                   />
                   <input
                     type="file"
@@ -751,9 +765,9 @@ export default function PopupMediaFile() {
               >
                 <Box px="20px">
                   <Box h="auto" pos="relative" maxW="428px">
-                    {cropData ? (
+                    {/* {resultFile ? (
                       <Image
-                        src={cropData}
+                        src={resultFile}
                         w="100%"
                         h="448px"
                         objectFit="cover"
@@ -769,7 +783,13 @@ export default function PopupMediaFile() {
                         minCanvasHeight={448}
                         style={{ width: "100%", height: "448px" }}
                       />
-                    )}
+                    )} */}
+                    <Image
+                      src={imageFile}
+                      w="100%"
+                      h="448px"
+                      objectFit="cover"
+                    />
                     <Box bg="#141414" mt="20px" rounded="5px">
                       {!filesId && (
                         <Input
@@ -832,7 +852,8 @@ export default function PopupMediaFile() {
                       w="100%"
                       h="35px"
                       rounded="7px"
-                      onClick={() => getCropData()}
+                      onClick={upload}
+                      // onClick={() => getCropData()}
                     >
                       <Trans>upload</Trans>
                     </Button>

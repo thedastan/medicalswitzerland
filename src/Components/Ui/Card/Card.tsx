@@ -18,17 +18,15 @@ interface ICardProps {
   el: IElement;
 }
 
-
 export default function Card({ el }: ICardProps) {
   const { user } = useAppSelector((state) => state.userReducer);
   const { verifay } = useAppSelector((state) => state.reducerHelpers);
 
   const [blur, setBlur] = useState(true);
 
-
   return (
     <Box maxH="448px" w="100%">
-      {el.file_url?.slice(-3) === "png" ? (
+      {el.file_url?.slice(-1) === "g" ? (
         <Box>
           <Image
             w="100%"
@@ -57,7 +55,8 @@ export default function Card({ el }: ICardProps) {
             </Box>
           )}
         </Box>
-      ) : <a
+      ) : (
+        <a
           href={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
           target="_blank"
         >
@@ -71,7 +70,7 @@ export default function Card({ el }: ICardProps) {
             <SvgPdf />
           </Box>
         </a>
-  }
+      )}
     </Box>
   );
 }

@@ -66,7 +66,7 @@ export default function Interface({ children }: IInterfaceProps) {
   const cropperRef = createRef<ReactCropperElement>();
 
   const [loader, setLoader] = useState(false);
-  const [cropData, setCropData] = useState("");
+  const [resultFile, setResultFile] = useState<null | File>(null);
   const [imageFile, setImageFile] = useState("");
   const [popupMore, setPopupMore] = useState(false);
   const [start, setStart] = useState(false);
@@ -110,18 +110,19 @@ export default function Interface({ children }: IInterfaceProps) {
   };
 
   const getCropData = async () => {
-    if (typeof cropperRef.current?.cropper !== "undefined") {
-      setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
-    }
+    // if (typeof cropperRef.current?.cropper !== "undefined") {
+    //   setResultFile(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+    // }
   };
 
   const handlePostFiles = async () => {
-    const image =
-      cropData &&
-      dataURLtoFile(cropData, `${Math.floor(Math.random() * 100000)}.png`);
+    if (!resultFile) return;
+    // const image =
+    //   resultFile &&
+    //   dataURLtoFile(resultFile, `${Math.floor(Math.random() * 100000)}.png`);
 
     const formData = new FormData();
-    formData.append("file", image);
+    formData.append("file", resultFile);
 
     setLoader(true);
     await API.post("users/upload/", formData)
@@ -167,7 +168,7 @@ export default function Interface({ children }: IInterfaceProps) {
           })
             .then(() => {
               setImageFile("");
-              setCropData("");
+              setResultFile(null);
               ActionGetUser(id);
               ActionSuccess(true);
               ActionSuccessMessenger({
@@ -192,11 +193,13 @@ export default function Interface({ children }: IInterfaceProps) {
   };
 
   const distributionFunction = async () => {
-    if (!cropData) {
-      await getCropData();
-    } else {
-      handlePostFiles();
-    }
+    // if (!resultFile) {
+    //   await getCropData();
+    // } else {
+    //   handlePostFiles();
+    // }
+
+    handlePostFiles();
   };
 
   const listNavigation = [
@@ -321,8 +324,10 @@ export default function Interface({ children }: IInterfaceProps) {
         style={{ display: "none" }}
         ref={ref}
         type="file"
-        accept="image/png,image/jpeg"
-        onChange={(e) => onChangeImage(e, setImageFile)}
+        accept="image/png,image/jpeg, .HEIC"
+        onChange={(e) =>
+          onChangeImage(e, setImageFile, setResultFile, setLoader)
+        }
       />
       <Box pt="40px" px="16px" p="0">
         <Box mx="auto" minH="274px" bg="white" pt="80px">
@@ -480,7 +485,7 @@ export default function Interface({ children }: IInterfaceProps) {
                 mb="30px"
                 onClick={() => {
                   setImageFile("");
-                  setCropData("");
+                  setResultFile(null);
                 }}
               >
                 <Box w="30px" h="30px">
@@ -499,10 +504,19 @@ export default function Interface({ children }: IInterfaceProps) {
                 px="13px"
               >
                 <Box w="100%" mx="auto">
-                  {cropData ? (
+                  <Box w="250px" h="250px" mx="auto">
+                    <Image
+                      src={imageFile}
+                      w="250px"
+                      h="250px"
+                      objectFit="cover"
+                      rounded="50%"
+                    />
+                  </Box>
+                  {/* {resultFile ? (
                     <Box w="250px" h="250px" mx="auto">
                       <Image
-                        src={cropData}
+                        src={resultFile}
                         w="250px"
                         h="250px"
                         objectFit="cover"
@@ -533,7 +547,7 @@ export default function Interface({ children }: IInterfaceProps) {
                         }}
                       />
                     </Box>
-                  )}
+                  )} */}
                   <Box
                     maxW="500px"
                     display="flex"
@@ -552,11 +566,12 @@ export default function Interface({ children }: IInterfaceProps) {
                       rounded="7px"
                       onClick={distributionFunction}
                     >
-                      {!cropData ? (
+                      {/* {!resultFile ? (
                         <Trans>cropAvatar</Trans>
                       ) : (
                         <Trans>saveAvatar</Trans>
-                      )}
+                      )} */}
+                      <Trans>saveAvatar</Trans>
                     </Button>
                   </Box>
                 </Box>
