@@ -1,6 +1,6 @@
 /* External dependencies */
 import axios from "axios";
-import { Box, Text } from "@chakra-ui/layout";
+import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Input } from "@chakra-ui/input";
 import { Button } from "@chakra-ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,8 +22,19 @@ import {
   useActionsUser,
 } from "../../Hooks/useActions";
 import API, { API_ADDRESS } from "../../Api";
-import { Image } from "@chakra-ui/react";
+import {
+  Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 import Loading from "../Ui/Loading";
+import { Link } from "react-router-dom";
 
 interface IAuthPostData {
   email: string;
@@ -38,6 +49,7 @@ interface Inputs {
 
 export default function Registration() {
   const language = localStorage.getItem("language") as string;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { t } = useTranslation();
 
@@ -184,6 +196,15 @@ export default function Registration() {
     }
   };
 
+  ///
+
+  const [checkboxChecked, setCheckboxChecked] = useState(false);
+
+  const handleCheckboxChange = (e: any) => {
+    setCheckboxChecked(e.target.checked);
+  };
+
+  ///
   const changeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDataPost({ ...dataPost, confirm: e.target.value });
   };
@@ -274,9 +295,11 @@ export default function Registration() {
                   <Trans>welcomeToYour</Trans>
                 </Text>
 
-                <Box maxW="344px" mb="10px">
-                  <Image src={ImageForm} w="100%" h="auto" />
-                </Box>
+                <Flex w="100%" justifyContent="center" mb="10px">
+                  <Box maxW="250px">
+                    <Image src={ImageForm} w="100%" h="auto" />
+                  </Box>
+                </Flex>
                 <Text
                   color="white"
                   fontSize="15px"
@@ -343,6 +366,7 @@ export default function Registration() {
                           </Box>
                         </Box>
                       ))}
+
                       <Box mb="17px" w="100%" mx="auto" position="relative">
                         <Input
                           placeholder={`${
@@ -383,6 +407,140 @@ export default function Registration() {
                           {eye.confirm ? <SvgEye /> : <SvgEyePassword />}
                         </Box>
                       </Box>
+
+                      {/* /// */}
+
+                      <Box>
+                        {/* <Text
+													color="white"
+													cursor="pointer"
+													fontSize={18}
+													onClick={onOpen}>
+													{t("Terms")}
+												</Text> */}
+
+                        {/* <Modal  isOpen={isOpen} onClose={onClose}>
+													<ModalOverlay />
+													<ModalContent
+														mt={40}
+														color="white"
+														boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+														bg="#303030">
+														<ModalHeader color="white">{t("Terms")}</ModalHeader>
+														<ModalCloseButton />
+														<ModalBody>
+															<Text
+																fontSize="14px"
+																fontWeight="400"
+																color="white">
+																 
+																{t("TermsDesc1")}
+																<Link
+																	to={"https://example.com/terms"}
+																	target={"_blank"}>
+																	<span
+																		style={{
+																			color: "#0B6CFF",
+																			borderBottom: "solid 1px #0B6CFF",
+																			padding:"0 6px"
+																		}}>
+																			{t("TermsDesc2")}
+																		 
+																	</span>
+																</Link>
+																{t("TermsDesc3")}
+																
+																<Link
+																	to={"https://example.com/privacy"}
+																	target={"_blank"}>
+																	<span
+																		style={{
+																			color: "#0B6CFF",
+																			borderBottom: "solid 1px #0B6CFF",
+																			padding:"0 6px"
+																		}}>
+																		 
+																		{t("TermsDesc4")}
+																	</span>
+																</Link>
+																 
+																{t("TermsDesc5")}
+															</Text>
+														</ModalBody>
+
+														<ModalFooter>
+															<Button
+																fontFamily="Inter"
+																fontSize="15px"
+																w="100%"
+																h="40px"
+																bg="#0B6CFF"
+																textColor="white"
+																fontWeight="700"
+																border="1px solid #0B6CFF"
+																rounded="5px"
+																mx="auto"
+																type="button"
+																onClick={onClose}>
+																{t("Continue")}
+															</Button>
+														</ModalFooter>
+													</ModalContent>
+												</Modal> */}
+
+                        <Box>
+                          <Text fontSize="13px" fontWeight="400" color="white">
+                            {t("TermsDesc1")}
+                            <Link to={"/Прайс_сайт.xlsx.pdf"} target={"_blank"}>
+                              <span
+                                style={{
+                                  color: "#0B6CFF",
+                                  borderBottom: "solid 1px #0B6CFF",
+                                  padding: "0 6px",
+                                }}
+                              >
+                                {t("TermsDesc2")}
+                              </span>
+                            </Link>
+                            {t("TermsDesc3")}
+
+                            <Link to={"/Прайс_сайт.xlsx.pdf"} target={"_blank"}>
+                              <span
+                                style={{
+                                  color: "#0B6CFF",
+                                  borderBottom: "solid 1px #0B6CFF",
+                                  padding: "0 6px",
+                                }}
+                              >
+                                {t("TermsDesc4")}
+                              </span>
+                            </Link>
+
+                            {t("TermsDesc5")}
+                          </Text>
+                        </Box>
+
+                        <Flex
+                          py={4}
+                          gap={4}
+                          justifyContent="start"
+                          alignItems="start"
+                        >
+                          <input
+                            style={{ width: "20px", height: "20px" }}
+                            type="checkbox"
+                            required
+                            checked={checkboxChecked}
+                            onChange={handleCheckboxChange}
+                          />
+
+                          <Text fontSize="13px" fontWeight="400" color="white">
+                            {t("acquainted")}
+                          </Text>
+                        </Flex>
+                      </Box>
+
+                      {/* /// */}
                       {errors.email && (
                         <Text
                           color="#FF0000"
@@ -441,7 +599,7 @@ export default function Registration() {
                         rounded="5px"
                         mx="auto"
                         type="submit"
-                        mb="90px"
+                        mb="50px"
                       >
                         <Trans>register</Trans>
                       </Button>

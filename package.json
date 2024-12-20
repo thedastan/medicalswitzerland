@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.10.6",
     "@fancyapps/fancybox": "^3.5.7",
     "@fancyapps/ui": "^5.0.17",
+    "@redux-devtools/extension": "^3.3.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -45,10 +46,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "craco eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "dev": "react-scripts start"
   },
   "eslintConfig": {
     "extends": [
