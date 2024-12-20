@@ -292,7 +292,7 @@ export default function Registration() {
 								</Text>
 
 								<Flex w="100%" justifyContent="center" mb="10px">
-									<Box maxW="304px">
+									<Box maxW="250px">
 										<Image src={ImageForm} w="100%" h="auto" />
 									</Box>
 								</Flex>
@@ -402,19 +402,16 @@ export default function Registration() {
 
 											{/* /// */}
 
-											 
-
 											<Box>
-												<Text
+												{/* <Text
 													color="white"
 													cursor="pointer"
 													fontSize={18}
 													onClick={onOpen}>
-													{/* Условия использования */}
 													{t("Terms")}
-												</Text>
+												</Text> */}
 
-												<Modal  isOpen={isOpen} onClose={onClose}>
+												{/* <Modal  isOpen={isOpen} onClose={onClose}>
 													<ModalOverlay />
 													<ModalContent
 														mt={40}
@@ -481,12 +478,46 @@ export default function Registration() {
 															</Button>
 														</ModalFooter>
 													</ModalContent>
-												</Modal>
+												</Modal> */}
+
+												<Box>
+													<Text fontSize="13px" fontWeight="400" color="white">
+														{t("TermsDesc1")}
+														<Link
+															to={"/Прайс_сайт.xlsx.pdf"}
+															target={"_blank"}>
+															<span
+																style={{
+																	color: "#0B6CFF",
+																	borderBottom: "solid 1px #0B6CFF",
+																	padding: "0 6px",
+																}}>
+																{t("TermsDesc2")}
+															</span>
+														</Link>
+														{t("TermsDesc3")}
+
+														<Link
+															to={"/Прайс_сайт.xlsx.pdf"}
+															target={"_blank"}>
+															<span
+																style={{
+																	color: "#0B6CFF",
+																	borderBottom: "solid 1px #0B6CFF",
+																	padding: "0 6px",
+																}}>
+																{t("TermsDesc4")}
+															</span>
+														</Link>
+
+														{t("TermsDesc5")}
+													</Text>
+												</Box>
 
 												<Flex
 													py={4}
 													gap={4}
-													justifyContent="center"
+													justifyContent="start"
 													alignItems="start">
 													<input
 														style={{ width: "20px", height: "20px" }}
@@ -496,7 +527,7 @@ export default function Registration() {
 														onChange={handleCheckboxChange}
 													/>
 
-													<Text fontSize="14px" fontWeight="400" color="white">
+													<Text fontSize="13px" fontWeight="400" color="white">
 														{t("acquainted")}
 													</Text>
 												</Flex>
