@@ -26,7 +26,7 @@ export default function Card({ el }: ICardProps) {
 
   return (
     <Box maxH="448px" w="100%">
-      {el.file_url?.slice(-1) === "g" ? (
+      {el.file_url?.slice(-1).toLocaleLowerCase() === "g" ? (
         <Box>
           <Image
             w="100%"

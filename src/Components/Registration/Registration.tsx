@@ -286,7 +286,7 @@ export default function Registration() {
                   fontSize="15px"
                   fontWeight="400"
                   textAlign="center"
-                  fontFamily="inter"
+                  fontFamily="Helvetica"
                   mb="32px"
                   px="42px"
                 >

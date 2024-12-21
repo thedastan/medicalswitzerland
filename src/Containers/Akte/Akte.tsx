@@ -577,7 +577,7 @@ export default function Akte() {
                           Fullscreen: {
                             autoStart: false,
                           },
-                                                    //@ts-ignore
+                          //@ts-ignore
 
                           Slideshow: false,
                           Toolbar: false,
@@ -727,7 +727,9 @@ export default function Akte() {
                                                 );
                                           }}
                                         >
-                                          {item.file_url?.slice(-1) === "g" ||
+                                          {item.file_url
+                                            ?.slice(-1)
+                                            .toLocaleLowerCase() === "g" ||
                                           item.file_url?.slice(-3) === "pdf" ? (
                                             <a
                                               data-fancybox={"gallery"}

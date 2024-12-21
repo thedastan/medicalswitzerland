@@ -737,7 +737,9 @@ export default function Notfall() {
                                               );
                                         }}
                                       >
-                                        {item.file_url?.slice(-1) === "g" ||
+                                        {item.file_url
+                                          ?.slice(-1)
+                                          .toLocaleLowerCase() === "g" ||
                                         item.file_url?.slice(-3) === "pdf" ? (
                                           <a
                                             data-fancybox={"gallery"}
