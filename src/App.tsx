@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Box } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 

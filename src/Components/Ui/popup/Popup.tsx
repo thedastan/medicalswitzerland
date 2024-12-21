@@ -1,6 +1,5 @@
 /* External dependencies */
-import { Box, Text } from "@chakra-ui/layout";
-import { Button } from "@chakra-ui/button";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";

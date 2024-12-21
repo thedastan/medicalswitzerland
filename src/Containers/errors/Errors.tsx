@@ -1,5 +1,4 @@
-import { Button } from "@chakra-ui/button";
-import { Box, Text } from "@chakra-ui/layout";
+import { Box, Text, Button} from "@chakra-ui/react";
 import SvgExet from "../../assets/svg/SvgExit";
 
 export default function Errors() {

@@ -1,8 +1,6 @@
 /* External dependencies */
 import axios from "axios";
-import { Box, Flex, Text } from "@chakra-ui/layout";
-import { Input } from "@chakra-ui/input";
-import { Button } from "@chakra-ui/button";
+import { Box, Flex, Text, Input, Button } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

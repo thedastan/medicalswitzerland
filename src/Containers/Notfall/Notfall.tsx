@@ -514,6 +514,7 @@ export default function Notfall() {
                           Fullscreen: {
                             autoStart: false,
                           },
+                          //@ts-ignore
                           Slideshow: false,
                           Toolbar: false,
                         }}

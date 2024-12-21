@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Box, Text } from "@chakra-ui/layout";
+import { Box, Text } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createRef, useEffect, useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";

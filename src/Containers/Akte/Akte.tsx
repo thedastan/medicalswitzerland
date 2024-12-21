@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Box, Text } from "@chakra-ui/layout";
+import { Box, Text } from "@chakra-ui/react";
 import { Button, Input, Spinner } from "@chakra-ui/react";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
@@ -577,6 +577,8 @@ export default function Akte() {
                           Fullscreen: {
                             autoStart: false,
                           },
+                                                    //@ts-ignore
+
                           Slideshow: false,
                           Toolbar: false,
                         }}
