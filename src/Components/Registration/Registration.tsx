@@ -265,7 +265,7 @@ export default function Registration() {
           className="modal--content__wrapper"
           key={3}
         >
-          <Box bg="#272727" h="auto" rounded="12px" w="90vw" zIndex="6">
+          <Box bg="#000" h="auto" rounded="12px" w="90vw" zIndex="6">
             <Box
               px="30px"
               w="17px"
@@ -292,12 +292,6 @@ export default function Registration() {
                 >
                   <Trans>welcomeToYour</Trans>
                 </Text>
-
-                <Flex w="100%" justifyContent="center" mb="10px">
-                  <Box maxW="250px">
-                    <Image src={ImageForm} w="100%" h="auto" />
-                  </Box>
-                </Flex>
                 <Text
                   color="white"
                   fontSize="15px"
@@ -501,24 +495,38 @@ export default function Registration() {
 
               <Flex justifyContent="center" alignItems="center" gap={1}>
                 <Text fontSize="12px" fontWeight="400" color="white">
-                   {t("Terms")}
-                <Link
-                  to={"/UpdatedTermsandCondidtions.pdf"}
-                  target={"_blank"}>
-                  <Box as="span"
-                    fontSize="12px"
-                    padding="0 3px"
-                    fontWeight="400"
-                    color="#0B6CFF"
-                    borderBottom="solid 1px #0B6CFF">
-                      {t("TermsLink")}
-                  </Box>
-                </Link>
-              </Text>
+                   {t("Terms1")}
+                 <Link
+                    to={"/UpdatedTermsandCondidtions.pdf"}
+                    target={"_blank"}>
+                    <Box as="span"
+                      fontSize="12px"
+                      padding="0 3px"
+                      fontWeight="400"
+                      color="#0B6CFF"
+                      borderBottom="solid 1px #0B6CFF">
+                      {t("TermsLink1")}
+                    </Box>
+                  </Link>
+                  {t("Terms2")}
+                  <Link
+                    to={"/UpdatedTermsandCondidtions.pdf"}
+                    target={"_blank"}>
+                    <Box as="span"
+                      fontSize="12px"
+                      padding="0 3px"
+                      fontWeight="400"
+                      color="#0B6CFF"
+                      borderBottom="solid 1px #0B6CFF">
+                      {t("TermsLink2")}
+                    </Box>
+                  </Link>
+                  .
+               </Text>
               </Flex>
-          </Flex>
+            </Flex>
           
-                      </Box>
+          </Box>
 
                       {/* /// */}
                       {errors.email && (

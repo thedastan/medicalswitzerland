@@ -74,9 +74,9 @@ i18n.use(initReactI18next).init({
 				clickIfYouDontRememberYourPassword:
 					"Click if you don’t remember your password",
 				welcome: "Welcome back",
-				welcomeToYour: "Welcome to your medicalswitzerland HealthCard",
+				welcomeToYour: "Welcome",
 				wrongEmailAdress: "Wrong email address",
-				letsStartWith: "Let's start with your registration",
+				letsStartWith: "Register",
 				requiredFields: "Required fields",
 				passwordDoesNot: "Password does not match",
 				fieldPasswordRequired: "Field password required",
@@ -90,8 +90,11 @@ i18n.use(initReactI18next).init({
 				deleteSuccessFile: "Your profile has been successfully deleted",
 				delete: "Delete",
 
-				Terms: "I have read and accept the",
-                TermsLink: "terms and conditions",
+				Terms1: "I agree to the",
+				Terms2: "and",
+				TermsLink1: "Terms of Service",
+				TermsLink2: "Privacy Policy",
+
 			},
 		},
 		de: {
@@ -159,9 +162,9 @@ i18n.use(initReactI18next).init({
 				clickIfYouDontRememberYourPassword:
 					"Klicken Sie, wenn Sie sich nicht an Ihr Passwort erinnern",
 				welcome: "Willkommen zurück",
-				welcomeToYour: "Willkommen auf Ihrer medicalswitzerland HealthCard",
+				welcomeToYour: "Willkommen",
 				wrongEmailAdress: "falsche E-Mail Adresse",
-				letsStartWith: "Beginnen wir mit der Registrierung",
+				letsStartWith: "Registrieren",
 				requiredFields: "Benötigte Felder",
 				passwordDoesNot: "Passwort stimmt nicht überein",
 				fieldPasswordRequired: "Feldpasswort erforderlich",
@@ -176,8 +179,11 @@ i18n.use(initReactI18next).init({
 				deleteSuccessFile: "Ihr Profil wurde erfolgreich gelöscht",
 				delete: "Löschen",
 
-				Terms: "Ich habe gelesen und akzeptiere die",
-				TermsLink: "Allgemeinen Geschäftsbedingungen",
+				Terms1: "Ich akzeptiere die",
+				Terms2: "und die",
+				TermsLink1: "Nutzungsbedingungen",
+				TermsLink2: "Datenschutzrichtlinie",
+
 			},
 		},
 		fr: {
@@ -245,9 +251,9 @@ i18n.use(initReactI18next).init({
 				clickIfYouDontRememberYourPassword:
 					"Cliquez si vous ne vous souvenez plus de votre mot de passe",
 				welcome: "Bienvenue à nouveau",
-				welcomeToYour: "Bienvenue sur votre carte médicale de santé",
+				welcomeToYour: "Bienvenue",
 				wrongEmailAdress: "Adresse e-mail incorrecte",
-				letsStartWith: "Commençons par votre inscription",
+				letsStartWith: "Inscription",
 				requiredFields: "Champs requis",
 				passwordDoesNot: "Le mot de passe ne correspond pas",
 				fieldPasswordRequired: "Champ de mot de passe requis",
@@ -260,8 +266,11 @@ i18n.use(initReactI18next).init({
 					"Souhaitez-vous supprimer votre profil medicalswitzerland ?",
 				deleteSuccessFile: "Votre profil a été supprimé avec succès",
 				delete: "Supprimer",
-				Terms: "J'ai lu et j'accepte les",
-    			TermsLink: "termes et conditions",
+		
+				Terms1: "J'ai lu et j'accepte les",
+				Terms2: "et la",
+				TermsLink1: "Conditions d'utilisation",
+				TermsLink2: "Politique de confidentialite",
 			},
 		},
 	},
