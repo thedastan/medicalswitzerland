@@ -90,15 +90,8 @@ i18n.use(initReactI18next).init({
 				deleteSuccessFile: "Your profile has been successfully deleted",
 				delete: "Delete",
 
-				Terms: "Terms of Use",
-				TermsDesc1: "Before continuing, please read our",
-				TermsDesc2: "Terms of use",
-				TermsDesc3: "and",
-				TermsDesc4: "Privacy Policy",
-				TermsDesc5:
-					". This is necessary to continue working with our application.",
-				Continue: "Continue",
-				acquainted: "I have read the terms and conditions and accept them",
+				Terms: "I have read and accept the",
+                TermsLink: "terms and conditions",
 			},
 		},
 		de: {
@@ -183,15 +176,8 @@ i18n.use(initReactI18next).init({
 				deleteSuccessFile: "Ihr Profil wurde erfolgreich gelöscht",
 				delete: "Löschen",
 
-				Terms: "Nutzungsbedingungen",
-				TermsDesc1: "Bitte lesen Sie vor dem Fortfahren unsere",
-				TermsDesc2: "Nutzungsbedingungen",
-				TermsDesc3: "und",
-				TermsDesc4: "Datenschutzrichtlinie",
-				TermsDesc5:
-					". Dies ist erforderlich, um unsere Anwendung weiterhin zu nutzen.",
-				Continue: "Weiter",
-				acquainted: "Ich habe die Bedingungen gelesen und akzeptiere sie",
+				Terms: "Ich habe gelesen und akzeptiere die",
+				TermsLink: "Allgemeinen Geschäftsbedingungen",
 			},
 		},
 		fr: {
@@ -274,16 +260,8 @@ i18n.use(initReactI18next).init({
 					"Souhaitez-vous supprimer votre profil medicalswitzerland ?",
 				deleteSuccessFile: "Votre profil a été supprimé avec succès",
 				delete: "Supprimer",
-
-				Terms: "Conditions d'utilisation",
-				TermsDesc1: "Avant de continuer, veuillez lire nos",
-				TermsDesc2: "Conditions d'utilisation",
-				TermsDesc3: "et",
-				TermsDesc4: "Politique de confidentialité",
-				TermsDesc5:
-					". Cela est nécessaire pour continuer à utiliser notre application.",
-				Continue: "Continuer",
-				acquainted: "J'ai lu et j'accepte les conditions générales",
+				Terms: "J'ai lu et j'accepte les",
+    			TermsLink: "termes et conditions",
 			},
 		},
 	},
