@@ -272,7 +272,7 @@ export default function Registration() {
           className="modal--content__wrapper"
           key={3}
         >
-          <Box bg="#000" h="auto" rounded="12px" w="90vw" zIndex="6">
+          <Box bg="#272727" h="auto" rounded="12px" w="90vw" zIndex="6">
             <Box
               px="30px"
               w="17px"
@@ -293,7 +293,6 @@ export default function Registration() {
                   fontSize="15px"
                   fontWeight="400"
                   textAlign="center"
-                  fontFamily="HelveticaNeueLT"
                   mb="32px"
                   px="42px"
                 >
@@ -314,7 +313,7 @@ export default function Registration() {
                   <Text>Loading...</Text>
                 ) : (
                   <form onSubmit={handleSubmit(handleLoginUser)}>
-                    <Box display="flex" flexDir="column" fontFamily='HelveticaNeueLT' maxW="300px" mx="auto">
+                    <Box display="flex" flexDir="column" maxW="300px" mx="auto">
                       {listInput.map((el, index) => (
                         <Box
                           key={el.id}
