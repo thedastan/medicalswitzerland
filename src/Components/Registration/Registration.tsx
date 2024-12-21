@@ -486,57 +486,41 @@ export default function Registration() {
 													</ModalContent>
 												</Modal> */}
 
-                        <Box>
-                          <Text fontSize="13px" fontWeight="400" color="white">
-                            {t("TermsDesc1")}
-                            <Link to={"/Прайс_сайт.xlsx.pdf"} target={"_blank"}>
-                              <span
-                                style={{
-                                  color: "#0B6CFF",
-                                  borderBottom: "solid 1px #0B6CFF",
-                                  padding: "0 6px",
-                                }}
-                              >
-                                {t("TermsDesc2")}
-                              </span>
-                            </Link>
-                            {t("TermsDesc3")}
+<Flex
+             py={4}
+             gap={2}
+             justifyContent="start"
+             alignItems="start">
+             <input
+              style={{ width: "20px", height: "20px" }}
+              type="checkbox"
+              required
+              checked={checkboxChecked}
+              onChange={handleCheckboxChange}
+             />
 
-                            <Link to={"/Прайс_сайт.xlsx.pdf"} target={"_blank"}>
-                              <span
-                                style={{
-                                  color: "#0B6CFF",
-                                  borderBottom: "solid 1px #0B6CFF",
-                                  padding: "0 6px",
-                                }}
-                              >
-                                {t("TermsDesc4")}
-                              </span>
-                            </Link>
+              <Flex whiteSpace={'nowrap'} justifyContent="center" alignItems="center" gap={1}>
+                <Text fontSize="12px" fontWeight="400" color="white">
+                   {t("Terms")}
+                </Text>
 
-                            {t("TermsDesc5")}
-                          </Text>
-                        </Box>
-
-                        <Flex
-                          py={4}
-                          gap={4}
-                          justifyContent="start"
-                          alignItems="start"
-                        >
-                          <input
-                            style={{ width: "20px", height: "20px" }}
-                            type="checkbox"
-                            required
-                            checked={checkboxChecked}
-                            onChange={handleCheckboxChange}
-                          />
-
-                          <Text fontSize="13px" fontWeight="400" color="white">
-                            {t("acquainted")}
-                          </Text>
-                        </Flex>
-                      </Box>
+                <Link
+                  to={"/UpdatedTermsandCondidtions.pdf"}
+                  target={"_blank"}>
+                  <Text
+                    fontSize="12px"
+                    whiteSpace={'nowrap'}
+                    padding="0 3px"
+                    fontWeight="400"
+                    color="#0B6CFF"
+                    borderBottom="solid 1px #0B6CFF">
+                      {t("TermsLink")}
+                  </Text>
+                </Link>
+              </Flex>
+            </Flex>
+          
+          </Box>
 
                       {/* /// */}
                       {errors.email && (
