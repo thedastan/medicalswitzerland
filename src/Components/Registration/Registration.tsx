@@ -486,7 +486,7 @@ export default function Registration() {
 													</ModalContent>
 												</Modal> */}
 
-<Flex
+          <Flex
              py={4}
              gap={2}
              justifyContent="start"
@@ -499,28 +499,26 @@ export default function Registration() {
               onChange={handleCheckboxChange}
              />
 
-              <Flex whiteSpace={'nowrap'} justifyContent="center" alignItems="center" gap={1}>
+              <Flex justifyContent="center" alignItems="center" gap={1}>
                 <Text fontSize="12px" fontWeight="400" color="white">
                    {t("Terms")}
-                </Text>
-
                 <Link
                   to={"/UpdatedTermsandCondidtions.pdf"}
                   target={"_blank"}>
-                  <Text
+                  <Box as="span"
                     fontSize="12px"
-                    whiteSpace={'nowrap'}
                     padding="0 3px"
                     fontWeight="400"
                     color="#0B6CFF"
                     borderBottom="solid 1px #0B6CFF">
                       {t("TermsLink")}
-                  </Text>
+                  </Box>
                 </Link>
+              </Text>
               </Flex>
-            </Flex>
+          </Flex>
           
-          </Box>
+                      </Box>
 
                       {/* /// */}
                       {errors.email && (
