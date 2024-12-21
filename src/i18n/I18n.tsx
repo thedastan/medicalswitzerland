@@ -12,6 +12,7 @@ i18n.use(initReactI18next).init({
 	resources: {
 		en: {
 			translation: {
+				yourPersonalClinics:`${'Your personal <br/> Clinics'}`,
 				add: "Add",
 				start:"START",
 				login: "Login",
@@ -100,6 +101,7 @@ i18n.use(initReactI18next).init({
 		},
 		de: {
 			translation: {
+				yourPersonalClinics:`${'Ihre persönlichen <br/> Kliniken'}`,
 				start:"STARTEN",
 				add: "Hinzufügen",
 				login: "ANMELDUNG",
@@ -190,6 +192,7 @@ i18n.use(initReactI18next).init({
 		},
 		fr: {
 			translation: {
+				yourPersonalClinics:`${'Vos cliniques <br/> personnelles'}`,
 				start:"DÉPART",
 				add: "Ajouter",
 				login: "Se connecter",

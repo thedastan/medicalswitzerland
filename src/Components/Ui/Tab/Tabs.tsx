@@ -95,7 +95,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           borderBottom={isNotfall ? "0.5px solid white" : "0.5px solid black"}
         >
           <SvgPhone />
-          <Text  ml="5px" letterSpacing="1px" fontFamily="HelveticaNeueLT" fontSize="11px" fontWeight="500">
+          <Text  ml="5px" letterSpacing="1px" fontSize="11px" fontWeight="500">
             <Trans>emergency</Trans>
           </Text>
 
@@ -115,7 +115,7 @@ export default function Tabs({ akte, notfall }: ITabs) {
           borderBottom={isAkte ? "0.5px solid white" : "0.5px solid black"}
         >
           <SvgAkte />
-          <Text  ml="5px" letterSpacing="1px" fontFamily="HelveticaNeueLT" fontSize="11px" fontWeight="500">
+          <Text  ml="5px" letterSpacing="1px" fontSize="11px" fontWeight="500">
             <Trans>medicall</Trans>
           </Text>
         </Button>
