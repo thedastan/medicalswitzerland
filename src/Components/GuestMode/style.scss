@@ -1,4 +1,22 @@
-$transitionTime: "1" ".5", "2" ".7", "3" "1", "4" "1.2", "5" "1.5";
+$transitionTime: (
+  "1": 0.5s,
+  "2": 0.7s,
+  "3": 1s,
+  "4": 1.2s,
+  "5": 1.5s
+);
+
+// Анимация для появления модального окна сверху
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 
 .bg--popup {
   position: fixed;
@@ -6,33 +24,38 @@ $transitionTime: "1" ".5", "2" ".7", "3" "1", "4" "1.2", "5" "1.5";
   bottom: 0;
   left: 0;
   right: 0;
-  animation: scaleUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-  display: none;
+  display: none; // По умолчанию скрыто
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.6);
+
+  // Центрируем содержимое по вертикали и горизонтали
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // Отступ сверху для дополнительного пространства
+  padding-top: 100px;
 
   &.active {
-    animation: scaleUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-    display: block;
-    background: rgba(0, 0, 0, 0.6);
+    display: flex; // Показываем, если активен
   }
 }
 
-.popupMessage .input-guest::placeholder div {
-  color: #fff;
-}
 .popupMessage {
-  transform: translateX(150vw);
-  transition: all 0.55s;
-  opacity: 0;
+  opacity: 0; // Начальное значение прозрачности
+  transform: translateY(-100%); // Начальное положение за экраном сверху
+  transition: all 0.55s ease; // Плавный переход для всех свойств
+  animation: slideDown 0.55s ease forwards; // Анимация появления сверху
 
   &.transform {
-    transform: translateX(0);
     opacity: 1;
-    top: "50px";
+    transform: translateY(0); // Возвращаем в исходное положение
   }
 
+  // Стиль для ссылки внутри сообщения
   &-link {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end; // Ставим текст справа
     font-size: 24px;
     margin-bottom: 46px;
     font-weight: 600;
@@ -42,5 +65,10 @@ $transitionTime: "1" ".5", "2" ".7", "3" "1", "4" "1.2", "5" "1.5";
       background: rgba(255, 255, 255, 0.15);
       padding: 20px;
     }
+  }
+
+  // Стили для placeholder
+  .input-guest::placeholder {
+    color: #fff;
   }
 }
