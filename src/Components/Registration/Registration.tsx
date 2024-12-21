@@ -89,6 +89,8 @@ export default function Registration() {
       placeholder:
         language === "de"
           ? "Geben Sie ihre E-Mail Adresse ein"
+          : language === "fr"
+          ? "Adresse e-mail"
           : "Enter your email",
       name: "email",
       register: "email",
@@ -102,7 +104,11 @@ export default function Registration() {
     {
       id: 3,
       placeholder:
-        language === "de" ? "Neues Passwort eingeben" : "Enter new password",
+        language === "de"
+          ? "Neues Passwort eingeben"
+          : language === "fr"
+          ? "Mot de passe"
+          : "Enter new password",
       name: "password",
       register: "password",
       type: eye.password ? "text" : "password",
@@ -111,7 +117,8 @@ export default function Registration() {
       required: true,
       errors: errors.password,
       eye: <Box>{eye.password ? <SvgEye /> : <SvgEyePassword />}</Box>,
-    },
+    }
+    
   ];
 
   const inputChange = (
@@ -286,7 +293,7 @@ export default function Registration() {
                   fontSize="15px"
                   fontWeight="400"
                   textAlign="center"
-                  fontFamily="Helvetica"
+                  fontFamily="HelveticaNeueLT"
                   mb="32px"
                   px="42px"
                 >
@@ -307,7 +314,7 @@ export default function Registration() {
                   <Text>Loading...</Text>
                 ) : (
                   <form onSubmit={handleSubmit(handleLoginUser)}>
-                    <Box display="flex" flexDir="column" maxW="300px" mx="auto">
+                    <Box display="flex" flexDir="column" fontFamily='HelveticaNeueLT' maxW="300px" mx="auto">
                       {listInput.map((el, index) => (
                         <Box
                           key={el.id}
@@ -364,8 +371,11 @@ export default function Registration() {
                           placeholder={`${
                             language === "de"
                               ? "Passwort bestätigen"
-                              : "Confirm  password"
+                              : language === "fr"
+                              ? "Confirmer le mot de passe"
+                              : "Confirm password"
                           }`}
+                          
                           textAlign="center"
                           fontSize="15px"
                           fontWeight="200"
@@ -589,7 +599,7 @@ export default function Registration() {
                         type="submit"
                         mb="50px"
                       >
-                        <Trans>register</Trans>
+                        <Trans>next</Trans>
                       </Button>
                     </Box>
                   </form>

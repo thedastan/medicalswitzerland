@@ -416,7 +416,7 @@ export default function Interface({ children }: IInterfaceProps) {
                       setStart(true);
                     }}
                   >
-                    START
+                    <Trans>start</Trans>
                   </Button>
                 </Box>
               )}

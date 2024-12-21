@@ -148,7 +148,7 @@ export default function PopupMore({ setModal }: IPopupMoreProps) {
               />
               <Text
                 position="absolute"
-                fontFamily="Helvetica"
+                fontFamily="HelveticaNeueLT"
                 fontSize="22px"
                 textAlign="center"
                 right="7px"

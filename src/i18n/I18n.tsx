@@ -13,6 +13,7 @@ i18n.use(initReactI18next).init({
 		en: {
 			translation: {
 				add: "Add",
+				start:"START",
 				login: "Login",
 				addMore: "Add more",
 				contact: "Contact",
@@ -99,6 +100,7 @@ i18n.use(initReactI18next).init({
 		},
 		de: {
 			translation: {
+				start:"STARTEN",
 				add: "Hinzufügen",
 				login: "ANMELDUNG",
 				addMore: "Mehr hinzufügen",
@@ -144,7 +146,7 @@ i18n.use(initReactI18next).init({
 				yourName: "Ihren Namen",
 				enterEmail: "Email eingeben",
 				desc: "Geben Sie das Passwort ein, das wir an Ihre E-Mail-Adresse gesendet haben",
-				next: "nächste",
+				next: "Weiter",
 				register: "Registrieren",
 				fileAnAll: "Füllen Sie alle Felder aus, beide sind Pflichtfelder",
 				thisIsCode: "Dieser Code ist falsch",
@@ -188,6 +190,7 @@ i18n.use(initReactI18next).init({
 		},
 		fr: {
 			translation: {
+				start:"DÉPART",
 				add: "Ajouter",
 				login: "Se connecter",
 				addMore: "Ajouter plus",

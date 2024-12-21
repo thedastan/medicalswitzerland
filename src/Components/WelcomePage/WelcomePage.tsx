@@ -53,7 +53,7 @@ export default function WelcomePage() {
           textColor="#C7C4C4"
           textAlign="center"
           fontSize="28.5px"
-          fontFamily="Helvetica"
+          fontFamily="HelveticaNeueLT"
           fontWeight="400"
         >
           <Trans>medicalRecord</Trans>
