@@ -88,7 +88,7 @@ export default function Registration() {
       id: 1,
       placeholder:
         language === "de"
-          ? "Geben Sie ihre E-Mail Adresse ein"
+          ? "E-Mail Adresse"
           : language === "fr"
           ? "Adresse e-mail"
           : "Enter your email",
@@ -272,7 +272,7 @@ export default function Registration() {
           className="modal--content__wrapper"
           key={3}
         >
-          <Box bg="#272727" h="auto" rounded="12px" w="90vw" zIndex="6">
+          <Box bg="#000" h="auto" rounded="12px" w="90vw" zIndex="6">
             <Box
               px="30px"
               w="17px"
@@ -378,7 +378,7 @@ export default function Registration() {
                           textAlign="center"
                           fontSize="15px"
                           fontWeight="200"
-                          textColor="white"
+                          textColor="grey"
                           rounded="4px"
                           boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
                           h="50px"
