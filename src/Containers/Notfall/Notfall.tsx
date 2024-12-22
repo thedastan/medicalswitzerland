@@ -1,6 +1,6 @@
 /* External dependencies */
 import axios from "axios";
-import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
+import { Box,Flex, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { Fragment, useState, useEffect, useRef, Key } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -298,7 +298,7 @@ export default function Notfall() {
         idInfo={idFile}
       />
       <Box>
-        <Box display="flex" justifyContent="center" px="41px">
+        <Flex justifyContent="center" px="41px">
           {verifay && bearbeitenNotfall && (
             <Button
               bg="#0B6CFF"
@@ -319,11 +319,11 @@ export default function Notfall() {
               <Trans>editProfile</Trans>
             </Button>
           )}
-        </Box>
+        </Flex>
         <Box>
           <Box px="41px">
             {!bearbeitenNotfall ? (
-              <Box display="flex" gap="7px">
+              <Box display="flex" gap="7px" justifyContent={'center'}>
                 <Box w="100%">
                   <Text
                     color="gray"
@@ -362,7 +362,7 @@ export default function Notfall() {
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
-                  textAlign="start"
+                  textAlign="center"
                 >
                   NAME
                 </Text>
@@ -389,6 +389,8 @@ export default function Notfall() {
                   fontWeight="700"
                   fontFamily="inter"
                   mb="3px"
+                  textAlign="center"
+
                 >
                   <Trans>{el.item}</Trans>
                 </Text>
@@ -413,6 +415,8 @@ export default function Notfall() {
                           fontFamily={"inter"}
                           fontSize={"17px"}
                           lineHeight="20px"
+                          textAlign="center"
+
                           mb={
                             el.value?.split("\n").length === index + 1
                               ? "25px"
@@ -444,7 +448,7 @@ export default function Notfall() {
               fontWeight="700"
               fontFamily="inter"
               mb="10px"
-              textAlign="start"
+              textAlign="center"
             >
               <Trans>allergies</Trans>
             </Text>
@@ -473,6 +477,8 @@ export default function Notfall() {
                         fontFamily={"inter"}
                         fontSize={"17px"}
                         lineHeight="20px"
+                        textAlign="center"
+
                       >
                         {item === "" ? <Box h="10px" /> : item}
                       </Text>
@@ -483,6 +489,8 @@ export default function Notfall() {
                         key={index}
                         fontFamily={"inter"}
                         fontSize={"17px"}
+                        textAlign="center"
+
                         lineHeight="20px"
                         mb={
                           dataPost.allergies_text?.split("\n").length ===
