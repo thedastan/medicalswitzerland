@@ -123,7 +123,7 @@ i18n.use(initReactI18next).init({
 				create: "Erstellen",
 				cropAvatar: "Profilbild bearbeiten",
 				saveAvatar: "Profilbild speichern",
-				fileUpload: "Entsendung...",
+				fileUpload: "Wird hochgeladen...",
 				CREATENew: "NEUES PASSWORT FESTLEGEN",
 				saveContact: "Kontakt speichern",
 				updateAvatar: "Profilbild erfolgreich aktualisiert",
@@ -158,6 +158,7 @@ i18n.use(initReactI18next).init({
 				uploadTitle: "Datei erfolgreich hochgeladen",
 				yourRegistration: "Your Registration was successful",
 				resetYourPasword: "Ihre Anfrage war erfolgreich",
+				deleteFile: "Datei löschen",
 				descReset:
 					"Link zum Zurücksetzen des Passworts an Ihre registrierte E-Mail-Adresse gesendet. Bitte überprüfen Sie Ihren Posteingang oder Spam-Ordner",
 				fileABig: "Die Datei ist zu groß",
@@ -214,7 +215,7 @@ i18n.use(initReactI18next).init({
 				create: "Créer",
 				cropAvatar: "Modifier la photo de profil",
 				saveAvatar: "Enregistrer la photo de profil",
-				fileUpload: "Détachement...",
+				fileUpload: "Téléchargement en cours...",
 				CREATENew: "CRÉER UN NOUVEAU MOT DE PASSE",
 				saveContact: "Enregistrer nos contacts",
 				updateAvatar: "Avatar mis à jour avec succès",
@@ -249,6 +250,7 @@ i18n.use(initReactI18next).init({
 				uploadTitle: "Fichier téléchargé avec succès",
 				yourRegistration: "Votre inscription a réussi",
 				resetYourPasword: "Réinitialiser votre mot de passe",
+				deleteFile: "Supprimer le fichier",
 				descReset:
 					"Le lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail enregistrée. Veuillez vérifier votre boîte de réception ou votre dossier de courrier indésirable.",
 				fileABig: "Le fichier est trop grand",

@@ -1,7 +1,7 @@
 /* External dependencies */
 import axios from "axios";
 import { Box,Flex, Button, Input, Spinner, Text } from "@chakra-ui/react";
-import { Fragment, useState, useEffect, useRef, Key } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { Swiper, SwiperSlide } from "swiper/react";
