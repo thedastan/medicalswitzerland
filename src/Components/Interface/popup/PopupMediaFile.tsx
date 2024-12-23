@@ -14,7 +14,12 @@ import API, { API_ADDRESS } from "../../../Api";
 import Popup from "../../Ui/popup/Popup";
 import "./style.css";
 
-import { dataURLtoFile, getAccessToken, onChangeImage } from "../../Helpers";
+import {
+  avatarImageFix,
+  dataURLtoFile,
+  getAccessToken,
+  onChangeImage,
+} from "../../Helpers";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hooks";
 import {
   useActionsFile,
@@ -512,7 +517,7 @@ export default function PopupMediaFile() {
                   <Box display="flex" justifyContent="center" mb="12px">
                     {user.avatar ? (
                       <Image
-                        src={user.avatar}
+                        src={avatarImageFix(user.avatar)}
                         alt="avatar"
                         w="49px"
                         h="49px"

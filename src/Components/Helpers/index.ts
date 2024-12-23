@@ -261,3 +261,11 @@ export const handlePutFile = ({
   // setDeleteCenceled(false);
   setPdfIncludes(false);
 };
+
+export function avatarImageFix(link: string): string {
+  const base_url = "/medical-media.s3.amazonaws.com";
+  const arr = link.split(base_url);
+  if (arr.length === 3) {
+    return link.replace(base_url, "");
+  } else return link;
+}

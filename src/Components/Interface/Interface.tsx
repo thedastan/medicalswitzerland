@@ -25,7 +25,7 @@ import {
   useActionsForMessage,
   useActionsHelpers,
 } from "../../Hooks/useActions";
-import { dataURLtoFile, onChangeImage } from "../Helpers";
+import { avatarImageFix, dataURLtoFile, onChangeImage } from "../Helpers";
 import PopupForMessage from "../Ui/popups/PopupForMessage";
 import SvgExet from "../../assets/svg/SvgExit";
 import { Trans, useTranslation } from "react-i18next";
@@ -345,7 +345,7 @@ export default function Interface({ children }: IInterfaceProps) {
               </Text>
               <Box pos="relative" zIndex="1" w="100px" h="100px" mx="auto">
                 <Image
-                  src={user.avatar}
+                  src={avatarImageFix(user.avatar)}
                   alt="avatar"
                   w="100px"
                   h="100px"
