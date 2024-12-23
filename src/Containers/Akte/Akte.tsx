@@ -373,197 +373,523 @@ export default function Akte() {
         </Box>
 
         <Box px="10px">
-  {!bearbeitenAkte ? (
-    <Box
-      display="flex"
-      gap="7px"
-      borderBottom="1px solid #454545"
-      marginBottom="29px"
-    >
-      <Box w="50%">
-        <Text
-          color="gray"
-          fontSize="13px"
-          fontWeight="700"
-          fontFamily="inter"
-          mb="3px"
-        >
-          <Trans>firstName</Trans>
-        </Text>
-        <textarea
-          onChange={(e) =>
-            changeForName(e.target.value, names.nachname)
-          }
-          value={
-            names.vorname
-              ? names.vorname
-              : user.full_name?.split(" ")[0]
-          }
-          disabled={bearbeitenAkte}
-          className={`textarea--notfall ${
-            !bearbeitenAkte ? "active" : ""
-          }`}
-          style={{ textAlign: "center", paddingTop: "25px" }}
-        />
-      </Box>
-      <Box w="50%">
-        <Text
-          color="gray"
-          fontSize="13px"
-          fontWeight="700"
-          fontFamily="inter"
-          mb="3px"
-        >
-          <Trans>lastName</Trans>
-        </Text>
-        <textarea
-          onChange={(e) => changeForName(names.vorname, e.target.value)}
-          defaultValue={
-            user.full_name?.split(" ")[1]
-              ? user.full_name?.split(" ")[1]
-              : names.nachname
-          }
-          disabled={bearbeitenAkte}
-          className={`textarea--notfall ${!bearbeitenAkte ? "active" : ""}`}
-          style={{ textAlign: "center", paddingTop: "25px" }}
-          onInput={(e) => {
-            const target = e.target as HTMLTextAreaElement; // Приведение типа
-            target.style.height = "auto"; // Сбросить высоту
-            target.style.height = `${target.scrollHeight}px`; // Установить высоту, равную содержимому
-          }}
-        />
-      </Box>
-    </Box>
-  ) : (
-    <Box gap="7px" w="100%">
-      <Box
-        borderBottom="1px solid #454545"
-        marginBottom="29px"
-        mx="13px"
-      >
-        <Text
-          color="gray"
-          fontSize="13px"
-          fontWeight="700"
-          fontFamily="inter"
-          mb="3px"
-          textAlign="center"
-        >
-          NAME
-        </Text>
-        <textarea
-          name="full_name"
-          ref={textareaRef}
-          disabled={bearbeitenAkte}
-          onChange={(e) => inputChange(e, `full_name`)}
-          value={
-            names.vorname
-              ? `${names.vorname} ${names.nachname}`
-              : user.full_name
-              ? user.full_name
-              : ""
-          }
-          className={`textarea--akte ${
-            !bearbeitenAkte ? "active" : ""
-          }`}
-        />
-      </Box>
-    </Box>
-  )}
-
-  <Box borderBottom="1px solid #454545" marginBottom="29px" mx={"13px"}>
-    <Text
-      color="gray"
-      fontSize="13px"
-      fontWeight="700"
-      fontFamily="inter"
-      mb="3px"
-      textAlign="center"
-    >
-      <Trans>dateOfBrith</Trans>
-    </Text>
-
-    <textarea
-      name="birth_date"
-      defaultValue={
-        dataPost.birth_date
-          ? dataPost.birth_date
-          : user.birth_date || ""
-      }
-      maxLength={10}
-      disabled={bearbeitenAkte}
-      className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
-      onChange={(e) => handleBirthDateChange(e)}
-      onKeyDown={(e) => BackSpaceFn(e)}
-    />
-  </Box>
-
-  {listInput.map((el, index) => (
-    <Box
-      key={index}
-      borderBottom={
-        listInput.length - 1 === index ? "0px" : "1px solid #454545"
-      }
-      marginBottom="29px"
-      mx="13px"
-    >
-      <Text
-        color="gray"
-        fontSize="13px"
-        fontWeight="700"
-        fontFamily="inter"
-        mb="15px"
-        mt="10px"
-        textAlign="center"
-      >
-        <Trans>{el.item}</Trans>
-      </Text>
-      {!bearbeitenAkte ? (
-        <textarea
-          name={el.name}
-          ref={textareaRef}
-          disabled={bearbeitenAkte}
-          onChange={(e) => inputChange(e, `${el.name}`)}
-          defaultValue={el.value ? el.value : ""}
-          className={`textarea--akte ${
-            !bearbeitenAkte ? "active" : ""
-          }`}
-          style={{ height: `${el.height}px` }}
-        />
-      ) : (
-        <Box mb="50px">
-          {el.value ? (
-            el.value.split("\n").map((item, index) => (
-              <Text
-                textAlign={"center"}
-                style={{ color: "white" }}
-                key={index}
-                fontFamily={"inter"}
-                fontSize={"17px"}
-                marginBottom={"10px"}
-                lineHeight="16px"
-              >
-                {item === "" ? <Box h="10px" /> : item}
-              </Text>
-            ))
+          {!bearbeitenAkte ? (
+            <Box
+              display="flex"
+              gap="7px"
+              borderBottom="1px solid #454545"
+              marginBottom="29px"
+            >
+              <Box w="50%">
+                <Text
+                  color="gray"
+                  fontSize="13px"
+                  fontWeight="700"
+                  fontFamily="inter"
+                  mb="3px"
+                >
+                  <Trans>firstName</Trans>
+                </Text>
+                <textarea
+                  onChange={(e) =>
+                    changeForName(e.target.value, names.nachname)
+                  }
+                  value={
+                    names.vorname
+                      ? names.vorname
+                      : user.full_name?.split(" ")[0]
+                  }
+                  disabled={bearbeitenAkte}
+                  className={`textarea--akte ${
+                    !bearbeitenAkte ? "active" : ""
+                  }`}
+                  style={{ textAlign: "center", paddingTop: "25px" }}
+                />
+              </Box>
+              <Box w="50%">
+                <Text
+                  color="gray"
+                  fontSize="13px"
+                  fontWeight="700"
+                  fontFamily="inter"
+                  mb="3px"
+                >
+                  <Trans>lastName</Trans>
+                </Text>
+                <textarea
+                  onChange={(e) => changeForName(names.vorname, e.target.value)}
+                  defaultValue={
+                    user.full_name?.split(" ")[1]
+                      ? user.full_name?.split(" ")[1]
+                      : names.nachname
+                  }
+                  disabled={bearbeitenAkte}
+                  className={`textarea--akte ${
+                    !bearbeitenAkte ? "active" : ""
+                  }`}
+                  style={{ textAlign: "center", paddingTop: "25px" }}
+                />
+              </Box>
+            </Box>
           ) : (
-            <textarea
-              name={el.name}
-              onChange={(e) => inputChange(e, `${el.name}`)}
-              defaultValue={el.value ? el.value : ""}
-              disabled={bearbeitenAkte}
-              className={`textarea--notfall ${
-                !bearbeitenAkte ? "active" : ""
-              }`}
-              style={{ height: `${el.height}px` }}
-            />
+            <Box gap="7px" w="100%">
+              <Box
+                borderBottom="1px solid #454545"
+                marginBottom="29px"
+                mx="13px"
+              >
+                <Text
+                  color="gray"
+                  fontSize="13px"
+                  fontWeight="700"
+                  fontFamily="inter"
+                  mb="3px"
+                  textAlign="center"
+                >
+                  NAME
+                </Text>
+                <textarea
+                  name="full_name"
+                  ref={textareaRef}
+                  disabled={bearbeitenAkte}
+                  onChange={(e) => inputChange(e, `full_name`)}
+                  value={
+                    names.vorname
+                      ? `${names.vorname} ${names.nachname}`
+                      : user.full_name
+                      ? user.full_name
+                      : ""
+                  }
+                  className={`textarea--akte ${
+                    !bearbeitenAkte ? "active" : ""
+                  }`}
+                />
+              </Box>
+            </Box>
           )}
-        </Box>
-      )}
-    </Box>
-  ))}
-</Box>
 
+          <Box borderBottom="1px solid #454545" marginBottom="29px" mx={"13px"}>
+            <Text
+              color="gray"
+              fontSize="13px"
+              fontWeight="700"
+              fontFamily="inter"
+              mb="3px"
+              textAlign="center"
+            >
+              <Trans>dateOfBrith</Trans>
+            </Text>
+
+            <textarea
+              name="birth_date"
+              defaultValue={
+                dataPost.birth_date
+                  ? dataPost.birth_date
+                  : user.birth_date || ""
+              }
+              maxLength={10}
+              disabled={bearbeitenAkte}
+              className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
+              onChange={(e) => handleBirthDateChange(e)}
+              onKeyDown={(e) => BackSpaceFn(e)}
+            />
+          </Box>
+
+          {listInput.map((el, index) => (
+            <Box
+              key={index}
+              borderBottom={
+                listInput.length - 1 === index ? "0px" : "1px solid #454545"
+              }
+              marginBottom="29px"
+              mx="13px"
+            >
+              <Text
+                color="gray"
+                fontSize="13px"
+                fontWeight="700"
+                fontFamily="inter"
+                mb="15px"
+                mt="10px"
+                textAlign="center"
+              >
+                <Trans>{el.item}</Trans>
+              </Text>
+              {!bearbeitenAkte ? (
+                <textarea
+                  name={el.name}
+                  ref={textareaRef}
+                  disabled={bearbeitenAkte}
+                  onChange={(e) => inputChange(e, `${el.name}`)}
+                  defaultValue={el.value ? el.value : ""}
+                  className={`textarea--akte ${
+                    !bearbeitenAkte ? "active" : ""
+                  }`}
+                  style={{ height: `${el.height}px` }}
+                />
+              ) : (
+                <Box mb="50px">
+                  {el.value ? (
+                    el.value.split("\n").map((item, index) => (
+                      <Text
+                        textAlign={"center"}
+                        style={{ color: "white" }}
+                        key={index}
+                        fontFamily={"inter"}
+                        fontSize={"17px"}
+                        marginBottom={"10px"}
+                        lineHeight="16px"
+                      >
+                        {item === "" ? <Box h="10px" /> : item}
+                      </Text>
+                    ))
+                  ) : (
+                    <textarea
+                      name={el.name}
+                      onChange={(e) => inputChange(e, `${el.name}`)}
+                      defaultValue={el.value ? el.value : ""}
+                      disabled={bearbeitenAkte}
+                      className={`textarea--notfall ${
+                        !bearbeitenAkte ? "active" : ""
+                      }`}
+                      style={{ height: `${el.height}px` }}
+                    />
+                  )}
+                </Box>
+              )}
+            </Box>
+          ))}
+
+          <Box display="flex" flexDir="column-reverse">
+            {allGroups
+              .filter((elem) => elem.is_akte)
+              .map((el, index) => {
+                const smm = Math.ceil(el?.info_list.length / 2);
+
+                return (
+                  <Box key={index} w="100%" mx="auto">
+                    <Box>
+                      <Fancybox
+                        options={{
+                          Carousel: {
+                            infinite: false,
+                          },
+                          Fullscreen: {
+                            autoStart: false,
+                          },
+                          //@ts-ignore
+
+                          Slideshow: false,
+                          Toolbar: false,
+                        }}
+                      >
+                        <Swiper
+                          modules={[Pagination]}
+                          className="swiper"
+                          style={{
+                            // @ts-ignore
+                            "--swiper-pagination-color": "rgb(0, 183, 255)",
+                            "--swiper-pagination-bullet-inactive-color":
+                              "white",
+                            "--swiper-pagination-bottom": "190px",
+                            "--swiper-pagination-bullet-inactive-opacity": ".5",
+                            "--swiper-pagination-bullet-size": "10px",
+                          }}
+                          pagination={{
+                            clickable: true,
+                          }}
+                        >
+                          {el?.info_list
+                            .slice(0, smm + 1)
+                            .map((item, index) => {
+                              return (
+                                <SwiperSlide>
+                                  <Box
+                                    key={index}
+                                    h="620px"
+                                    position="relative"
+                                  >
+                                    <Box
+                                      maxW="426px"
+                                      mx="auto"
+                                      h="448px"
+                                      bg="#000000"
+                                      display="flex"
+                                      alignItems="center"
+                                    >
+                                      {verifay && (
+                                        <Button
+                                          position="absolute"
+                                          display="flex"
+                                          right="11px"
+                                          rounded="1px"
+                                          top="17px"
+                                          zIndex="5"
+                                          p="4px"
+                                          ml="3px"
+                                          w="50px"
+                                          h="20px"
+                                          px="0"
+                                          gap={"6px"}
+                                          onClick={() => {
+                                            handleClick(el.id, item.id, el);
+                                            setGroupId(el.id);
+                                          }}
+                                        >
+                                          {dots}
+                                        </Button>
+                                      )}
+                                      {groupId === el.id && deleteImg && (
+                                        <Box
+                                          bg="rgba(57, 57, 57, 0.5)"
+                                          w="64px"
+                                          h="190px"
+                                          alignItems="center"
+                                          pos="absolute"
+                                          display="flex"
+                                          flexDir="column"
+                                          rounded="5px"
+                                          right="5px"
+                                          top="40px"
+                                          zIndex="5"
+                                        >
+                                          <Box
+                                            justifyContent="center"
+                                            alignItems="center"
+                                            pos="absolute"
+                                            display="flex"
+                                            rounded="50%"
+                                            top="25px"
+                                            bg="black"
+                                            zIndex="5"
+                                            w="39px"
+                                            h="39px"
+                                            onClick={() =>
+                                              deletedImage(el, item.id)
+                                            }
+                                          >
+                                            <SvgRedBasket />
+                                          </Box>
+                                          <Text
+                                            fontSize="10px"
+                                            fontWeight="300"
+                                            textColor="white"
+                                            fontFamily="inter"
+                                            pos="absolute"
+                                            right="16px"
+                                            top="71px"
+                                          >
+                                            <Trans>delete</Trans>
+                                          </Text>
+                                          <Box
+                                            justifyContent="center"
+                                            alignItems="center"
+                                            pos="absolute"
+                                            display="flex"
+                                            rounded="50%"
+                                            right="11px"
+                                            top="100px"
+                                            bg="black"
+                                            zIndex="5"
+                                            w="39px"
+                                            h="39px"
+                                            onClick={() => {
+                                              ActionActiveModalMedia(true);
+                                              ActionActiveProfile(false);
+                                              ActionActiveSubtrac(true);
+                                              ActionFilesId(el.id);
+                                            }}
+                                          >
+                                            <SvgBluePluse />
+                                          </Box>
+                                          <Text
+                                            fontSize="10px"
+                                            fontWeight="300"
+                                            textColor="white"
+                                            fontFamily="inter"
+                                            pos="absolute"
+                                            top="145px"
+                                            textAlign="center"
+                                          >
+                                            <Trans>addMore</Trans>
+                                          </Text>
+                                        </Box>
+                                      )}
+                                      <Box w="100%">
+                                        <Box
+                                          w="100%"
+                                          mb="7px"
+                                          onClick={() => {
+                                            user.guest_mode
+                                              ? handleViewImage(el.id)
+                                              : console.log(
+                                                  "not active guest mode"
+                                                );
+                                          }}
+                                        >
+                                          {item.file_url
+                                            ?.slice(-1)
+                                            .toLocaleLowerCase() === "g" ||
+                                          item.file_url?.slice(-3) === "pdf" ? (
+                                            <a
+                                              data-fancybox={"gallery"}
+                                              href={`${API_ADDRESS?.substring(
+                                                0,
+                                                34
+                                              )}${item.file_url}`}
+                                              ref={ref}
+                                            >
+                                              <Card key={index} el={item} />
+                                            </a>
+                                          ) : (
+                                            <a
+                                              href={`${API_ADDRESS?.substring(
+                                                0,
+                                                34
+                                              )}${item.file_url}`}
+                                              target="_blank"
+                                            >
+                                              <Box
+                                                w="100%"
+                                                h="448px"
+                                                display="flex"
+                                                alignItems="center"
+                                                justifyContent="center"
+                                              >
+                                                <SvgPdf />
+                                              </Box>
+                                            </a>
+                                          )}
+                                        </Box>
+                                      </Box>
+                                    </Box>
+                                    <Box
+                                      mx="10px"
+                                      bg={
+                                        disabledFiles && idFiles === el.id
+                                          ? "#141414"
+                                          : "black"
+                                      }
+                                      rounded="5px"
+                                      px="4px"
+                                      mb="7px"
+                                      mt="25px"
+                                    >
+                                      <Input
+                                        borderBottom="1px solid #343434"
+                                        borderRight="transparent"
+                                        borderLeft="transparent"
+                                        defaultValue={el.title}
+                                        borderTop="transparent"
+                                        disabled={!deleteImg}
+                                        placeholder={
+                                          disabledFiles && idFiles === el.id
+                                            ? `${
+                                                language === "de"
+                                                  ? "Titel"
+                                                  : "Title"
+                                              }`
+                                            : ""
+                                        }
+                                        fontFamily="inter"
+                                        textColor="white"
+                                        fontWeight="700"
+                                        bg="transparent"
+                                        fontSize="15px"
+                                        outline="black"
+                                        rounded="0px"
+                                        name="text"
+                                        mt={"-7px"}
+                                        w="100%"
+                                        mb="5px"
+                                        h="37px"
+                                        pl="0"
+                                        onChange={(e) =>
+                                          setTitle(e.target.value)
+                                        }
+                                      />
+                                      <Input
+                                        disabled={
+                                          !disabledFiles || idFiles !== el.id
+                                        }
+                                        placeholder={
+                                          disabledFiles && idFiles === el.id
+                                            ? `${
+                                                language === "de"
+                                                  ? "Beschreibung"
+                                                  : "Description"
+                                              }`
+                                            : ""
+                                        }
+                                        value={
+                                          dataPost.id === item.id
+                                            ? text || item.text
+                                            : item.text
+                                        }
+                                        borderColor="transparent"
+                                        fontFamily="inter"
+                                        textColor="white"
+                                        bg="transparent"
+                                        fontWeight="300"
+                                        fontSize="15px"
+                                        outline="black"
+                                        rounded="0px"
+                                        name="text"
+                                        pl="0"
+                                        w="100%"
+                                        mb="7px"
+                                        h="37px"
+                                        onChange={(e) => {
+                                          setText(e.target.value);
+                                          setDataPost({
+                                            ...dataPost,
+                                            id: item.id,
+                                          });
+                                        }}
+                                      />
+                                      <Text
+                                        textColor="#fff"
+                                        fontFamily="commissioner"
+                                        fontSize="10px"
+                                        fontWeight="300"
+                                        textAlign="start"
+                                      >
+                                        {`${item.created_date
+                                          .split("-")
+                                          .reverse()
+                                          .join(".")}`}
+                                      </Text>
+                                    </Box>
+                                    {groupId === el.id && deleteImg && (
+                                      <Box display="flex" w="100%">
+                                        <Button
+                                          color="white"
+                                          fontSize="16px"
+                                          fontWeight="700"
+                                          fontFamily="inter"
+                                          bg="#0B6CFF"
+                                          w="100%"
+                                          h="35px"
+                                          ml="2px"
+                                          rounded="7px"
+                                          onClick={() => handlePutFile()}
+                                        >
+                                          <Trans>done</Trans>
+                                        </Button>
+                                      </Box>
+                                    )}
+                                  </Box>
+                                </SwiperSlide>
+                              );
+                            })}
+                        </Swiper>
+                      </Fancybox>
+                    </Box>
+                  </Box>
+                );
+              })}
+          </Box>
+        </Box>
 
         {!bearbeitenAkte && (
           <Box
