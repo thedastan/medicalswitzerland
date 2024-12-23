@@ -170,7 +170,7 @@ export default function Interface({ children }: IInterfaceProps) {
               setImageFile("");
               setResultFile(null);
               ActionGetUser(id);
-              ActionSuccess(true);
+              // ActionSuccess(true);
               ActionSuccessMessenger({
                 title: "updateAvatar",
                 desc: "",
@@ -570,6 +570,7 @@ export default function Interface({ children }: IInterfaceProps) {
                         <Trans>saveAvatar</Trans>
                       )} */}
                       <Trans>saveAvatar</Trans>
+                      {loader && "..."}
                     </Button>
                   </Box>
                 </Box>

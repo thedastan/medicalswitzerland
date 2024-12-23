@@ -70,6 +70,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/fancybox": "^3.5.3",
     "@types/react-input-mask": "^3.0.2",
     "@types/react-slick": "^0.23.10"
