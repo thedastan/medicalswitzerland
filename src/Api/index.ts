@@ -1,6 +1,5 @@
 /* External dependencies */
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-
+import axios from "axios";
 
 export const API_ADDRESS = process.env.REACT_APP_BASE_URL;
 

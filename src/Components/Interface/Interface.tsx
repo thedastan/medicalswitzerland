@@ -14,7 +14,7 @@ import Registration from "../Registration/Registration";
 import SVgContact from "../../assets/svg/SvgContact";
 import SvgAdded from "../../assets/svg/SvgAdded";
 import SvgDefaultAvatar from "../../assets/svg/SvgDefaultAvatar";
-import API, { API_ADDRESS } from "../../Api";
+import API from "../../Api";
 import PopupMore from "./popup/PopupMore";
 
 import { useAppSelector } from "../../Hooks/Hooks";
@@ -345,9 +345,7 @@ export default function Interface({ children }: IInterfaceProps) {
               </Text>
               <Box pos="relative" zIndex="1" w="100px" h="100px" mx="auto">
                 <Image
-                  src={`${API_ADDRESS?.substring(0, 35)}${user.avatar.slice(
-                    1
-                  )}`}
+                  src={user.avatar}
                   alt="avatar"
                   w="100px"
                   h="100px"

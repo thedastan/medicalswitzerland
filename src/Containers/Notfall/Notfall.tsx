@@ -737,20 +737,14 @@ export default function Notfall() {
                                         item.file_url?.slice(-3) === "pdf" ? (
                                           <a
                                             data-fancybox={"gallery"}
-                                            href={`${API_ADDRESS?.substring(
-                                              0,
-                                              34
-                                            )}${item.file_url}`}
+                                            href={item.file_url}
                                             ref={ref}
                                           >
                                             <Card key={index} el={item} />
                                           </a>
                                         ) : (
                                           <a
-                                            href={`${API_ADDRESS?.substring(
-                                              0,
-                                              34
-                                            )}${item.file_url}`}
+                                            href={item.file_url}
                                             target="_blank"
                                           >
                                             <Box
