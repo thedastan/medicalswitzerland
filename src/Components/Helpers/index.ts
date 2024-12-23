@@ -60,91 +60,93 @@ export const onChangeImage = async (
   if (!files?.length) return;
   let selectedImage: File = files[0];
 
+  if (!selectedImage) return;
   setLoad(true);
 
-  const mimeType = selectedImage.type;
-  const reduceFileSize = async (
-    file: File,
-    maxWidth: number,
-    maxHeight: number
-  ) => {
-    const reader = new FileReader();
-    return new Promise<File>((resolve) => {
-      reader.onload = () => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          let { width, height } = img;
+  // const mimeType = selectedImage.type;
+  // const reduceFileSize = async (
+  //   file: File,
+  //   maxWidth: number,
+  //   maxHeight: number
+  // ) => {
+  //   const reader = new FileReader();
+  //   return new Promise<File>((resolve) => {
+  //     reader.onload = () => {
+  //       const img = new Image();
+  //       img.onload = () => {
+  //         const canvas = document.createElement("canvas");
+  //         let { width, height } = img;
 
-          // Пропорционально изменяем размеры
-          if (width > maxWidth || height > maxHeight) {
-            const aspectRatio = width / height;
-            if (aspectRatio > 1) {
-              width = maxWidth;
-              height = maxWidth / aspectRatio;
-            } else {
-              height = maxHeight;
-              width = maxHeight * aspectRatio;
-            }
-          }
+  //         // Пропорционально изменяем размеры
+  //         if (width > maxWidth || height > maxHeight) {
+  //           const aspectRatio = width / height;
+  //           if (aspectRatio > 1) {
+  //             width = maxWidth;
+  //             height = maxWidth / aspectRatio;
+  //           } else {
+  //             height = maxHeight;
+  //             width = maxHeight * aspectRatio;
+  //           }
+  //         }
 
-          canvas.width = width;
-          canvas.height = height;
+  //         canvas.width = width;
+  //         canvas.height = height;
 
-          const ctx = canvas.getContext("2d");
-          if (ctx) {
-            ctx.drawImage(img, 0, 0, width, height);
-            canvas.toBlob(
-              (blob) => {
-                if (blob) {
-                  resolve(
-                    new File([blob], `${file.name}`, {
-                      type: "image/jpeg",
-                      lastModified: Date.now(),
-                    })
-                  );
-                }
-              },
-              "image/jpeg",
-              0.8 // Качество (от 0 до 1)
-            );
-          }
-        };
-        img.src = reader.result as string;
-      };
-      reader.readAsDataURL(file);
-    });
-  };
+  //         const ctx = canvas.getContext("2d");
+  //         if (ctx) {
+  //           ctx.drawImage(img, 0, 0, width, height);
+  //           canvas.toBlob(
+  //             (blob) => {
+  //               if (blob) {
+  //                 resolve(
+  //                   new File([blob], `${file.name}`, {
+  //                     type: "image/jpeg",
+  //                     lastModified: Date.now(),
+  //                   })
+  //                 );
+  //               }
+  //             },
+  //             "image/jpeg",
+  //             0.8 // Качество (от 0 до 1)
+  //           );
+  //         }
+  //       };
+  //       img.src = reader.result as string;
+  //     };
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
+  getResultBase64(selectedImage, setImageFile);
+  setFile(selectedImage);
+  // if (
+  //   mimeType.toLowerCase().includes("heic") ||
+  //   mimeType.toLowerCase().includes("heif") ||
+  //   !mimeType
+  // ) {
+  //   const heicBuffer = await selectedImage.arrayBuffer();
+  //   const jpegBlob = await heic2any({
+  //     blob: new Blob([heicBuffer], { type: mimeType }),
+  //     toType: "image/jpeg",
+  //   });
 
-  if (
-    mimeType.toLowerCase().includes("heic") ||
-    mimeType.toLowerCase().includes("heif") ||
-    !mimeType
-  ) {
-    const heicBuffer = await selectedImage.arrayBuffer();
-    const jpegBlob = await heic2any({
-      blob: new Blob([heicBuffer], { type: mimeType }),
-      toType: "image/jpeg",
-    });
+  //   const processedFile = Array.isArray(jpegBlob)
+  //     ? new File([jpegBlob[0]], `${selectedImage.name}.jpeg`, {
+  //         type: jpegBlob[0].type,
+  //         lastModified: Date.now(),
+  //       })
+  //     : new File([jpegBlob], `${selectedImage.name}.jpeg`, {
+  //         type: jpegBlob.type,
+  //         lastModified: Date.now(),
+  //       });
 
-    const processedFile = Array.isArray(jpegBlob)
-      ? new File([jpegBlob[0]], `${selectedImage.name}.jpeg`, {
-          type: jpegBlob[0].type,
-          lastModified: Date.now(),
-        })
-      : new File([jpegBlob], `${selectedImage.name}.jpeg`, {
-          type: jpegBlob.type,
-          lastModified: Date.now(),
-        });
-
-    const resizedFile = await reduceFileSize(processedFile, 800, 800); // Уменьшаем до 800x800
-    getResultBase64(resizedFile, setImageFile);
-    setFile(resizedFile);
-  } else {
-    const resizedFile = await reduceFileSize(selectedImage, 800, 800); // Уменьшаем до 800x800
-    getResultBase64(resizedFile, setImageFile);
-    setFile(resizedFile);
-  }
+  //   const resizedFile = await reduceFileSize(processedFile, 800, 800); // Уменьшаем до 800x800
+  //   getResultBase64(resizedFile, setImageFile);
+  //   setFile(resizedFile);
+  // } else {
+  //   const resizedFile = await reduceFileSize(selectedImage, 800, 800); // Уменьшаем до 800x800
+  //   getResultBase64(resizedFile, setImageFile);
+  //   setFile(resizedFile);
+  // }
 
   setLoad(false);
 };

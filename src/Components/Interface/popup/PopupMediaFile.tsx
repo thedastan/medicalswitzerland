@@ -466,7 +466,9 @@ export default function PopupMediaFile() {
                     textAlign="center"
                     roundedTop="7px"
                     onClick={() => {
-                      setAccept("image/png, image/gif, image/jpeg, .HEIC");
+                      setAccept(
+                        "image/png, image/gif, image/jpg, image/jpeg, .HEIF"
+                      );
                       imageRef.current?.click();
                     }}
                     fontFamily="inter"
