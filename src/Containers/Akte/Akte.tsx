@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Flex } from "@chakra-ui/react";
 import { Button, Input, Spinner } from "@chakra-ui/react";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
@@ -372,12 +372,13 @@ export default function Akte() {
           </Box>
         </Box>
 
-        <Box px="10px">
+        <Box>
           {!bearbeitenAkte ? (
-            <Box
-              display="flex"
+            <Flex
               gap="7px"
+              justifyContent="center"
               borderBottom="1px solid #454545"
+              alignItems="center"
               marginBottom="29px"
             >
               <Box w="50%">
@@ -430,7 +431,7 @@ export default function Akte() {
                   style={{ textAlign: "center", paddingTop: "25px" }}
                 />
               </Box>
-            </Box>
+            </Flex>
           ) : (
             <Box gap="7px" w="100%">
               <Box

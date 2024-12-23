@@ -331,6 +331,7 @@ export default function Notfall() {
           fontWeight="700"
           fontFamily="inter"
           mb="3px"
+          textAlign="center"
         >
           <Trans>firstName</Trans>
         </Text>
@@ -433,7 +434,6 @@ export default function Notfall() {
       )}
     </Box>
   ))}
-
   <Text
     color="gray"
     fontSize="13px"
