@@ -321,7 +321,7 @@ export default function Notfall() {
           )}
         </Flex>
         <Box>
-          <Box px="41px">
+          <Box px="10px">
             {!bearbeitenNotfall ? (
               <Box display="flex" gap="7px" justifyContent={'center'}>
                 <Box w="100%">
