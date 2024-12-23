@@ -33,6 +33,9 @@ import {
 } from "@chakra-ui/react";
 import Loading from "../Ui/Loading";
 import { Link } from "react-router-dom";
+import i18n from "../../i18n/I18n";
+import SvgMore from "../../assets/svg/SvgMore";
+import Select from "../Ui/Select/Select";
 
 interface IAuthPostData {
   email: string;
@@ -46,9 +49,9 @@ interface Inputs {
 }
 
 export default function Registration() {
-  const language = localStorage.getItem("language") as string;
+  // const language = localStorage.getItem("language") as string;
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [language, setLanguage] = useState("");
   const { t } = useTranslation();
 
   const {
@@ -117,8 +120,7 @@ export default function Registration() {
       required: true,
       errors: errors.password,
       eye: <Box>{eye.password ? <SvgEye /> : <SvgEyePassword />}</Box>,
-    }
-    
+    },
   ];
 
   const inputChange = (
@@ -214,6 +216,13 @@ export default function Registration() {
     setDataPost({ ...dataPost, confirm: e.target.value });
   };
 
+  const onChange = (event: string) => {
+    setLanguage(event);
+    i18n.changeLanguage(event);
+    localStorage.setItem("language", event);
+    ActionGetUser(window.location.pathname.slice(6));
+  };
+
   const forgotPassword = () => {
     axios
       .post(`${API_ADDRESS}users/reset_link/`, { email: user.email })
@@ -272,16 +281,19 @@ export default function Registration() {
           className="modal--content__wrapper"
           key={3}
         >
-          <Box bg="#000" h="auto" rounded="12px" w="90vw" zIndex="6">
+          <Box
+            bg="#000"
+            h="auto"
+            rounded="12px"
+            w="90vw"
+            zIndex="6"
+            position="relative"
+          >
             <Box
-              px="30px"
-              w="17px"
-              h="17px"
-              ml="auto"
-              pr="25px"
-              pt="4px"
+              position="absolute"
+              right="17px"
+              top="23px"
               cursor="pointer"
-              mb="10px"
               onClick={() => ActiveModalRegistration(false)}
             >
               <SvgClose />
@@ -289,15 +301,42 @@ export default function Registration() {
             {user.is_first_time ? (
               <>
                 <Text
+                  mt="22px"
                   color="white"
                   fontSize="15px"
                   fontWeight="400"
                   textAlign="center"
-                  mb="32px"
+                  pb="5"
                   px="42px"
+                  borderBottom="0.35px solid #585858"
                 >
                   <Trans>welcomeToYour</Trans>
                 </Text>
+
+                <Box
+                  w="118px"
+                  mt="4.49px"
+                  rounded="17px"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  h="34px"
+                  mx="auto"
+                  border="1px solid #4E4E4E"
+                  mb="79px"
+                >
+                  <Select
+                    onChange={onChange}
+                    defaultValue="Language"
+                    isTransparent={true}
+                    options={[
+                      { value: "en", name: "English" },
+                      { value: "de", name: "Deutsch" },
+                      { value: "fr", name: "French" },
+                    ]}
+                    value={language}
+                  />
+                </Box>
                 <Text
                   color="white"
                   fontSize="15px"
@@ -309,6 +348,7 @@ export default function Registration() {
                 >
                   <Trans>letsStartWith</Trans>
                 </Text>
+
                 {loading ? (
                   <Text>Loading...</Text>
                 ) : (
@@ -374,7 +414,6 @@ export default function Registration() {
                               ? "Confirmer le mot de passe"
                               : "Confirm password"
                           }`}
-                          
                           textAlign="center"
                           fontSize="15px"
                           fontWeight="200"
@@ -489,53 +528,50 @@ export default function Registration() {
 													</ModalContent>
 												</Modal> */}
 
-          <Flex
-             py={4}
-             gap={2}
-             justifyContent="start"
-             alignItems="start">
-             <input
-              style={{ width: "20px", height: "20px" }}
-              type="checkbox"
-              required
-              checked={checkboxChecked}
-              onChange={handleCheckboxChange}
-             />
+                        <Flex
+                          py={4}
+                          gap={2}
+                          justifyContent="start"
+                          alignItems="start"
+                        >
+                          <input
+                            style={{ width: "20px", height: "20px" }}
+                            type="checkbox"
+                            required
+                            checked={checkboxChecked}
+                            onChange={handleCheckboxChange}
+                          />
 
-              <Flex justifyContent="center" alignItems="center" gap={1}>
-                <Text fontSize="12px" fontWeight="400" color="white">
-                   {t("Terms1")}
-                 <Link
-                    to={"/UpdatedTermsandCondidtions.pdf"}
-                    target={"_blank"}>
-                    <Box as="span"
-                      fontSize="12px"
-                      padding="0 3px"
-                      fontWeight="400"
-                      color="#0B6CFF"
-                      borderBottom="solid 1px #0B6CFF">
-                      {t("TermsLink1")}
-                    </Box>
-                  </Link>
-                  {t("Terms2")}
-                  <Link
-                    to={"/UpdatedTermsandCondidtions.pdf"}
-                    target={"_blank"}>
-                    <Box as="span"
-                      fontSize="12px"
-                      padding="0 3px"
-                      fontWeight="400"
-                      color="#0B6CFF"
-                      borderBottom="solid 1px #0B6CFF">
-                      {t("TermsLink2")}
-                    </Box>
-                  </Link>
-                  .
-               </Text>
-              </Flex>
-            </Flex>
-          
-          </Box>
+                          <Flex
+                            justifyContent="center"
+                            alignItems="center"
+                            gap={1}
+                          >
+                            <Text
+                              fontSize="12px"
+                              fontWeight="400"
+                              color="white"
+                            >
+                              {t("Terms1")}
+                              <Link
+                                to={"/UpdatedTermsandCondidtions.pdf"}
+                                target={"_blank"}
+                              >
+                                <Box
+                                  as="span"
+                                  fontSize="12px"
+                                  padding="0 3px"
+                                  fontWeight="400"
+                                  color="#0B6CFF"
+                                  borderBottom="solid 1px #0B6CFF"
+                                >
+                                  {t("TermsLink1")}
+                                </Box>
+                              </Link>
+                            </Text>
+                          </Flex>
+                        </Flex>
+                      </Box>
 
                       {/* /// */}
                       {errors.email && (

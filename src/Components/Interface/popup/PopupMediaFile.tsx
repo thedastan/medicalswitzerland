@@ -173,7 +173,7 @@ export default function PopupMediaFile() {
                   ActionActiveModalMedia(false);
                   setTextValidate(false);
                   setPdfIncludes(false);
-                  ActionUpload(true);
+                  // ActionUpload(true);
                   setLoader(false);
                   ActionAllGroups();
                   setImageFile("");
@@ -242,7 +242,7 @@ export default function PopupMediaFile() {
               ActionActiveModalMedia(false);
               setTextValidate(false);
               setPdfIncludes(false);
-              ActionUpload(true);
+              // ActionUpload(true);
               setLoader(false);
               ActionAllGroups();
               ActionFilesId("");
