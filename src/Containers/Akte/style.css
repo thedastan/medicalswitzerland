@@ -33,8 +33,10 @@
   font-family: "inter", sans-serif;
   resize: none;
   text-align: center;
-  overflow: hidden;
+  overflow-y: hidden; /* чтобы скрыть прокрутку */
   margin-bottom: 20px;
+  transition: height 0.2s ease-in-out;
+
 }
 
 .textarea--akte.active {
