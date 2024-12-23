@@ -1,6 +1,6 @@
 /* External dependencies */
 import axios from "axios";
-import { Box,Flex, Button, Input, Spinner, Text } from "@chakra-ui/react";
+import { Box, Flex, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { Fragment, useState, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -321,167 +321,175 @@ export default function Notfall() {
           )}
         </Flex>
         <Box>
-        <Box px="10px">
-  {!bearbeitenNotfall ? (
-    <Box display="flex" gap="7px" justifyContent="center">
-      <Box w="100%">
-        <Text
-          color="gray"
-          fontSize="14px"
-          fontWeight="700"
-          fontFamily="inter"
-          mb="3px"
-          textAlign="center"
-        >
-          <Trans>firstName</Trans>
-        </Text>
+          <Box px="10px">
+            {!bearbeitenNotfall ? (
+              <Box display="flex" gap="7px" justifyContent="center">
+                <Box w="100%">
+                  <Text
+                    color="gray"
+                    fontSize="14px"
+                    fontWeight="700"
+                    fontFamily="inter"
+                    mb="3px"
+                    textAlign="center"
+                  >
+                    <Trans>firstName</Trans>
+                  </Text>
 
-        <textarea
-          onChange={(e) => changeForName(e.target.value, names.nachname)}
-          defaultValue={
-            dataPost.full_name?.split(" ")[0] ||
-            user.full_name?.split(" ")[0] ||
-            names.vorname
-          }
-          disabled={bearbeitenNotfall}
-          className={`textarea textarea--notfall ${
-            !bearbeitenNotfall ? "active" : ""
-          }`}
-          style={{ textAlign: "center", paddingTop: "17px" }}
-        />
-      </Box>
-    </Box>
-  ) : (
-    <Box gap="7px" w="100%">
-      <Text
-        color="gray"
-        fontSize="12px"
-        fontWeight="700"
-        fontFamily="inter"
-        mb="3px"
-        textAlign="center"
-      >
-        NAME
-      </Text>
-      <textarea
-        name="full_name"
-        disabled={bearbeitenNotfall}
-        onChange={(e) => inputChangeTextArea(e, "username")}
-        defaultValue={
-          dataPost.full_name?.split(" ")[0] || user.full_name?.split(" ")[0] || ""
-        }
-        className={`textarea textarea--notfall ${
-          !bearbeitenNotfall ? "active" : ""
-        }`}
-      />
-    </Box>
-  )}
+                  <textarea
+                    onChange={(e) =>
+                      changeForName(e.target.value, names.nachname)
+                    }
+                    defaultValue={
+                      dataPost.full_name?.split(" ")[0] ||
+                      user.full_name?.split(" ")[0] ||
+                      names.vorname
+                    }
+                    disabled={bearbeitenNotfall}
+                    className={`textarea textarea--notfall ${
+                      !bearbeitenNotfall ? "active" : ""
+                    }`}
+                    style={{ textAlign: "center", paddingTop: "17px" }}
+                  />
+                </Box>
+              </Box>
+            ) : (
+              <Box gap="7px" w="100%">
+                <Text
+                  color="gray"
+                  fontSize="12px"
+                  fontWeight="700"
+                  fontFamily="inter"
+                  mb="3px"
+                  textAlign="center"
+                >
+                  NAME
+                </Text>
+                <textarea
+                  name="full_name"
+                  disabled={bearbeitenNotfall}
+                  onChange={(e) => inputChangeTextArea(e, "username")}
+                  defaultValue={
+                    dataPost.full_name?.split(" ")[0] ||
+                    user.full_name?.split(" ")[0] ||
+                    ""
+                  }
+                  className={`textarea textarea--notfall ${
+                    !bearbeitenNotfall ? "active" : ""
+                  }`}
+                />
+              </Box>
+            )}
 
-  {listInput?.map((el, index) => (
-    <Box key={index} minH="82px" mb="5px">
-      <Text
-        color="gray"
-        fontSize="13px"
-        fontWeight="700"
-        fontFamily="inter"
-        mb="3px"
-        textAlign="center"
-      >
-        <Trans>{el.item}</Trans>
-      </Text>
-      {!bearbeitenNotfall ? (
-        <textarea
-          name={el.name}
-          onChange={(e) => inputChangeTextArea(e, el.name)}
-          defaultValue={el.value || ""}
-          disabled={bearbeitenNotfall}
-          className={`textarea textarea--notfall ${
-            !bearbeitenNotfall ? "active" : ""
-          }`}
-          style={{ height: `${el.height}px` }}
-        />
-      ) : (
-        <Box>
-          {el.value ? (
-            el.value.split("\n").map((item, idx) => (
-              <Text
-                style={{ color: "white" }}
-                key={idx}
-                fontFamily="inter"
-                fontSize="17px"
-                lineHeight="20px"
-                textAlign="center"
-                mb={
-                  el.value?.split("\n").length === idx + 1 ? "25px" : "0"
+            {listInput?.map((el, index) => (
+              <Box key={index} minH="82px" mb="5px">
+                <Text
+                  color="gray"
+                  fontSize="13px"
+                  fontWeight="700"
+                  fontFamily="inter"
+                  mb="3px"
+                  textAlign="center"
+                >
+                  <Trans>{el.item}</Trans>
+                </Text>
+                {!bearbeitenNotfall ? (
+                  <textarea
+                    name={el.name}
+                    onChange={(e) => inputChangeTextArea(e, el.name)}
+                    defaultValue={el.value || ""}
+                    disabled={bearbeitenNotfall}
+                    className={`textarea textarea--notfall ${
+                      !bearbeitenNotfall ? "active" : ""
+                    }`}
+                    style={{ height: `${el.height}px` }}
+                  />
+                ) : (
+                  <Box>
+                    {el.value ? (
+                      el.value.split("\n").map((item, idx) => (
+                        <Text
+                          style={{ color: "white" }}
+                          key={idx}
+                          fontFamily="inter"
+                          fontSize="17px"
+                          lineHeight="20px"
+                          textAlign="center"
+                          mb={
+                            el.value?.split("\n").length === idx + 1
+                              ? "25px"
+                              : "0"
+                          }
+                        >
+                          {item === "" ? <Box h="10px" /> : item}
+                        </Text>
+                      ))
+                    ) : (
+                      <textarea
+                        name={el.name}
+                        onChange={(e) => inputChangeTextArea(e, el.name)}
+                        defaultValue={el.value || ""}
+                        disabled={bearbeitenNotfall}
+                        className={`textarea textarea--notfall ${
+                          !bearbeitenNotfall ? "active" : ""
+                        }`}
+                        style={{ height: `${el.height}px` }}
+                      />
+                    )}
+                  </Box>
+                )}
+              </Box>
+            ))}
+            <Text
+              color="gray"
+              fontSize="13px"
+              fontWeight="700"
+              fontFamily="inter"
+              mb="10px"
+              textAlign="center"
+            >
+              <Trans>allergies</Trans>
+            </Text>
+            {!bearbeitenNotfall ? (
+              <textarea
+                name="allergies_text"
+                onChange={(e) => inputChangeTextArea(e, "allergies")}
+                defaultValue={
+                  dataPost.allergies_text || user.allergies_text || ""
                 }
-              >
-                {item === "" ? <Box h="10px" /> : item}
-              </Text>
-            ))
-          ) : (
-            <textarea
-              name={el.name}
-              onChange={(e) => inputChangeTextArea(e, el.name)}
-              defaultValue={el.value || ""}
-              disabled={bearbeitenNotfall}
-              className={`textarea textarea--notfall ${
-                !bearbeitenNotfall ? "active" : ""
-              }`}
-              style={{ height: `${el.height}px` }}
-            />
-          )}
-        </Box>
-      )}
-    </Box>
-  ))}
-  <Text
-    color="gray"
-    fontSize="13px"
-    fontWeight="700"
-    fontFamily="inter"
-    mb="10px"
-    textAlign="center"
-  >
-    <Trans>allergies</Trans>
-  </Text>
-  {!bearbeitenNotfall ? (
-    <textarea
-      name="allergies_text"
-      onChange={(e) => inputChangeTextArea(e, "allergies")}
-      defaultValue={
-        dataPost.allergies_text || user.allergies_text || ""
-      }
-      disabled={bearbeitenNotfall}
-      className={`textarea textarea--allergia ${
-        !bearbeitenNotfall ? "active" : ""
-      }`}
-      style={{ height: `${allergiesH}px` }}
-    />
-  ) : (
-    <Box marginBottom="12px">
-      {(dataPost.allergies_text || user.allergies_text)?.split("\n").map(
-        (item, idx) => (
-          <Text
-            style={{ color: "white" }}
-            key={idx}
-            fontFamily="inter"
-            fontSize="17px"
-            lineHeight="20px"
-            textAlign="center"
-            mb={
-              (dataPost.allergies_text || user.allergies_text)?.split("\n")
-                .length === idx + 1
-                ? "25px"
-                : "0"
-            }
-          >
-            {item === "" ? <Box h="10px" /> : item}
-          </Text>
-        )
-      )}
-    </Box>
-  )}
-</Box>
+                disabled={bearbeitenNotfall}
+                className={`textarea textarea--allergia ${
+                  !bearbeitenNotfall ? "active" : ""
+                }`}
+                style={{ height: `${allergiesH}px` }}
+              />
+            ) : (
+              <Box marginBottom="12px">
+                {(dataPost.allergies_text || user.allergies_text)
+                  ?.split("\n")
+                  .map((item, idx) => (
+                    <Text
+                      style={{ color: "white" }}
+                      key={idx}
+                      fontFamily="inter"
+                      fontSize="17px"
+                      lineHeight="20px"
+                      textAlign="center"
+                      mb={
+                        (dataPost.allergies_text || user.allergies_text)?.split(
+                          "\n"
+                        ).length ===
+                        idx + 1
+                          ? "25px"
+                          : "0"
+                      }
+                    >
+                      {item === "" ? <Box h="10px" /> : item}
+                    </Text>
+                  ))}
+              </Box>
+            )}
+          </Box>
 
           <Box display="flex" flexDir="column-reverse" mt="25px">
             {allGroups
@@ -760,11 +768,7 @@ export default function Notfall() {
                                     </Box>
                                     <Box
                                       mx="10px"
-                                      bg={
-                                        disabledFiles && idFiles === el.id
-                                          ? "#141414"
-                                          : "black"
-                                      }
+                                      bg="black"
                                       rounded="5px"
                                       px="4px"
                                       mb="7px"
