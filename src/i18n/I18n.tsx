@@ -92,8 +92,10 @@ i18n.use(initReactI18next).init({
         deleteSuccessFile: "Your profile has been successfully deleted",
         delete: "Delete",
 
-        Terms1: "I have read and accept the",
-        TermsLink1: "terms and conditions",
+        Terms1: "By signing up, you agree to our",
+        TermsLink1: "Terms of Use",
+        Terms2: "and",
+        TermsLink2: "Privacy Policy",
       },
     },
     de: {
@@ -181,8 +183,10 @@ i18n.use(initReactI18next).init({
         deleteSuccessFile: "Ihr Profil wurde erfolgreich gelöscht",
         delete: "Löschen",
 
-        Terms1: "Ich habe die",
-        TermsLink1: "Geschäftsbedingungen",
+        Terms1: "Mit Ihrer Anmeldung stimmen Sie unseren",
+        TermsLink1: "Nutzungsbedingungen",
+        Terms2: "und",
+        TermsLink2: "Datenschutzrichtlinie",
       },
     },
     fr: {
@@ -269,8 +273,10 @@ i18n.use(initReactI18next).init({
         deleteSuccessFile: "Votre profil a été supprimé avec succès",
         delete: "Supprimer",
 
-        Terms1: "J'ai lu et j'accepte les",
-        TermsLink1: "termes et conditions",
+        Terms1: "En vous inscrivant, vous acceptez nos",
+        TermsLink1: "Conditions d'utilisation",
+        Terms2: "et",
+        TermsLink2: "politique de confidentialité",
       },
     },
   },

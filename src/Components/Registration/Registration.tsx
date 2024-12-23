@@ -310,7 +310,7 @@ export default function Registration() {
                   px="42px"
                   borderBottom="0.35px solid #585858"
                 >
-                  <Trans>welcomeToYour</Trans>
+                  HealthCard
                 </Text>
 
                 <Box
@@ -549,7 +549,7 @@ export default function Registration() {
                           >
                             <Text
                               fontSize="12px"
-                              fontWeight="400"
+                              fontWeight="300"
                               color="white"
                             >
                               {t("Terms1")}
@@ -561,11 +561,27 @@ export default function Registration() {
                                   as="span"
                                   fontSize="12px"
                                   padding="0 3px"
-                                  fontWeight="400"
+                                  fontWeight="600"
                                   color="#0B6CFF"
                                   borderBottom="solid 1px #0B6CFF"
                                 >
                                   {t("TermsLink1")}
+                                </Box>
+                              </Link>
+                              {t("Terms2")}
+                              <Link
+                                to={"/UpdatedTermsandCondidtions.pdf"}
+                                target={"_blank"}
+                              >
+                                <Box
+                                  as="span"
+                                  fontSize="12px"
+                                  padding="0 3px"
+                                  fontWeight="600"
+                                  color="#0B6CFF"
+                                  borderBottom="solid 1px #0B6CFF"
+                                >
+                                  {t("TermsLink2")}
                                 </Box>
                               </Link>
                             </Text>

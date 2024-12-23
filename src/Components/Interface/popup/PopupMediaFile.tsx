@@ -512,10 +512,7 @@ export default function PopupMediaFile() {
                   <Box display="flex" justifyContent="center" mb="12px">
                     {user.avatar ? (
                       <Image
-                        src={`${API_ADDRESS?.substring(
-                          0,
-                          35
-                        )}${user.avatar.slice(1)}`}
+                        src={user.avatar}
                         alt="avatar"
                         w="49px"
                         h="49px"

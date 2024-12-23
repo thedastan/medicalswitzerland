@@ -5,7 +5,6 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import SvgPdf from "../../../assets/svg/SvgPdf";
 import SvgView from "../../../assets/svg/SvgView";
-import { API_ADDRESS } from "../../../Api";
 import "./style.scss";
 import { useAppSelector } from "../../../Hooks/Hooks";
 interface IElement {
@@ -33,7 +32,7 @@ export default function Card({ el }: ICardProps) {
             maxH="448px"
             alt="exemple"
             objectFit="cover"
-            src={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
+            src={el.file_url}
           />
           {user.guest_mode && !verifay && blur && (
             <Box
@@ -56,10 +55,7 @@ export default function Card({ el }: ICardProps) {
           )}
         </Box>
       ) : (
-        <a
-          href={`${API_ADDRESS?.substring(0, 34)}${el.file_url}`}
-          target="_blank"
-        >
+        <a href={el.file_url} target="_blank">
           <Box
             w="100%"
             h="448px"
