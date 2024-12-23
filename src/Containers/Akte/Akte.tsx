@@ -516,7 +516,16 @@ export default function Akte() {
               >
                 <Trans>{el.item}</Trans>
               </Text>
-              {!bearbeitenAkte ? (
+              <textarea
+                name={el.name}
+                ref={textareaRef}
+                disabled={bearbeitenAkte}
+                onChange={(e) => inputChange(e, `${el.name}`)}
+                defaultValue={el.value ? el.value : ""}
+                className={`textarea--akte ${!bearbeitenAkte ? "active" : ""}`}
+                style={{ height: `${el.height}px` }}
+              />
+              {/* {!bearbeitenAkte ? (
                 <textarea
                   name={el.name}
                   ref={textareaRef}
@@ -557,7 +566,7 @@ export default function Akte() {
                     />
                   )}
                 </Box>
-              )}
+              )} */}
             </Box>
           ))}
 
