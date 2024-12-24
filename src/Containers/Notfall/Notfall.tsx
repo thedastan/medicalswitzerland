@@ -297,7 +297,7 @@ export default function Notfall() {
         setModal={setPopup}
         idInfo={idFile}
       />
-      <Box>
+      <Box pb="50px">
         <Flex justifyContent="center" px="41px">
           {verifay && bearbeitenNotfall && (
             <Button

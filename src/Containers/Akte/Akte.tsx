@@ -372,7 +372,7 @@ export default function Akte() {
           </Box>
         </Box>
 
-        <Box>
+        <Box pb="40px">
           {!bearbeitenAkte ? (
             <Flex
               gap="7px"

@@ -265,7 +265,8 @@ export const handlePutFile = ({
 export function avatarImageFix(link: string): string {
   const base_url = "/medical-media.s3.amazonaws.com";
   const arr = link.split(base_url);
-  if (arr.length === 3) {
-    return link.replace(base_url, "");
+  if (arr.length >= 3) {
+    let current_link = link.replace(base_url, "");
+    return avatarImageFix(current_link);
   } else return link;
 }
